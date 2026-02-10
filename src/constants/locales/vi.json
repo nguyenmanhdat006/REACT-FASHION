@@ -1,0 +1,39 @@
+{
+  "common": {
+    "welcome": "Chào mừng",
+    "loading": "Đang tải...",
+    "error": "Lỗi",
+    "success": "Thành công",
+    "cancel": "Hủy",
+    "confirm": "Xác nhận",
+    "save": "Lưu",
+    "delete": "Xóa",
+    "edit": "Chỉnh sửa",
+    "back": "Quay lại",
+    "next": "Tiếp theo",
+    "previous": "Trước",
+    "submit": "Gửi"
+  },
+  "auth": {
+    "login": "Đăng nhập",
+    "logout": "Đăng xuất",
+    "signup": "Đăng ký",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "forgotPassword": "Quên mật khẩu?",
+    "resetPassword": "Đặt lại mật khẩu",
+    "rememberMe": "Ghi nhớ đăng nhập",
+    "noAccount": "Chưa có tài khoản?",
+    "hasAccount": "Đã có tài khoản?",
+    "signInWithGoogle": "Đăng nhập bằng Google",
+    "signInWithFacebook": "Đăng nhập bằng Facebook",
+    "signInWithGitHub": "Đăng nhập bằng GitHub"
+  },
+  "pages": {
+    "home": "Trang chủ",
+    "about": "Giới thiệu",
+    "dashboard": "Bảng điều khiển",
+    "notFound": "Không tìm thấy trang",
+    "notFoundDescription": "Trang bạn đang tìm kiếm không tồn tại."
+  }
+}
