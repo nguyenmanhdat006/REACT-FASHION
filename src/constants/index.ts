@@ -1,25 +1,82 @@
 export const ROUTES = {
   HOME: '/',
-  ABOUT: '/about',
+  PRODUCTS: '/products',
+  PRODUCT_DETAIL: (slug: string) => `/products/${slug}`,
+  CART: '/cart',
+  CHECKOUT: '/checkout',
+  ORDERS: '/orders',
+  ORDER_DETAIL: (id: string) => `/orders/${id}`,
+  PROFILE: '/profile',
+  ADMIN_DASHBOARD: '/admin',
   LOGIN: '/login',
   SIGNUP: '/signup',
   FORGOT_PASSWORD: '/forgot-password',
-  DASHBOARD: '/dashboard',
 } as const;
 
 export const USER_ROLES = {
-  ADMIN: 'admin',
-  USER: 'user',
-  BASIC: 'basic',
+  ADMIN: 'ADMIN',
+  USER: 'USER',
 } as const;
 
 export const API_ENDPOINTS = {
   AUTH: {
     LOGIN: '/auth/login',
-    SIGNUP: '/auth/signup',
+    REGISTER: '/auth/register',
     LOGOUT: '/auth/logout',
     REFRESH: '/auth/refresh',
-    FORGOT_PASSWORD: '/auth/forgot-password',
-    RESET_PASSWORD: '/auth/reset-password',
+  },
+  USER: {
+    PROFILE: '/users/profile',
+    ADDRESSES: '/addresses',
+    ADDRESS_DETAIL: (id: string) => `/addresses/${id}`,
+  },
+  PRODUCTS: {
+    LIST: '/products',
+    DETAIL: (id: string) => `/products/${id}`,
+    SLUG: (slug: string) => `/products/slug/${slug}`,
+    FEATURED: '/products/featured',
+    SEARCH: '/products/search',
+    CATEGORIES: '/categories',
+    CATEGORIES_TREE: '/categories/tree',
+    BRANDS: '/brands',
+  },
+  CART: {
+    ROOT: '/cart',
+    ITEMS: '/cart/items',
+    ITEM_DETAIL: (itemId: string) => `/cart/items/${itemId}`,
+    SUMMARY: '/cart/summary',
+  },
+  ORDERS: {
+    ROOT: '/orders',
+    DETAIL: (id: string) => `/orders/${id}`,
+    NUMBER: (orderNumber: string) => `/orders/number/${orderNumber}`,
+    CANCEL: (id: string) => `/orders/${id}/cancel`,
+    SEARCH: '/orders/search',
+    SUMMARY: '/orders/summary',
+  },
+  PAYMENTS: {
+    ROOT: '/payments',
+    DETAIL: (id: string) => `/payments/${id}`,
+    CONFIRM: (id: string) => `/payments/${id}/confirm`,
+    BY_ORDER: (orderId: string) => `/payments/order/${orderId}`,
+  },
+  REVIEWS: {
+    ROOT: '/reviews',
+    PRODUCT: (productId: string) => `/reviews/product/${productId}`,
+    SUMMARY: (productId: string) => `/reviews/product/${productId}/summary`,
+    VOTE: (id: string) => `/reviews/${id}/vote`,
+    MY_REVIEWS: '/reviews/user/me',
+  },
+  NOTIFICATIONS: {
+    MY: '/notifications/user/me',
+    MARK_READ: (id: string) => `/notifications/${id}/mark-read`,
+  },
+  SHIPPING: {
+    CALCULATE_FEE: '/shipping/calculate-fee',
+    BY_ORDER: (orderId: string) => `/shipping/order/${orderId}`,
+    TRACK: (trackingNumber: string) => `/shipping/track/${trackingNumber}`,
   },
 } as const;
+
+export const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api';

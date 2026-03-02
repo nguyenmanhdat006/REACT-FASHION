@@ -1,58 +1,21 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { auth } from '@/config/firebase';
-import {
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signOut,
-  GoogleAuthProvider,
-  FacebookAuthProvider,
-  GithubAuthProvider,
-  signInWithPopup,
-  sendPasswordResetEmail,
-} from 'firebase/auth';
 import { LoginCredentials, SignUpCredentials } from '@/types/auth';
-import { User } from '@/types/auth';
+import { authService } from '@/services/authService';
 
 interface AuthPayload {
-  user: User;
-  token: string;
-}
-
-// Helper function to create user data from Firebase user
-const createUserData = (
-  firebaseUser: {
-    uid: string;
-    email: string | null;
-    displayName: string | null;
-    photoURL: string | null;
-  },
-  displayName?: string
-): User => {
-  return {
-    id: firebaseUser.uid,
-    email: firebaseUser.email!,
-    displayName: displayName || firebaseUser.displayName || undefined,
-    photoURL: firebaseUser.photoURL || undefined,
-    role: 'user' as const,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
+  accessToken: string;
+  refreshToken: string;
+  expiresIn: number;
+  user: {
+    id: string;
+    email: string;
+    fullName: string;
+    phone?: string;
+    avatar?: string;
+    roles: string[];
+    createdAt: string;
   };
-};
-
-// Helper function to handle Firebase errors
-const getErrorMessage = (error: unknown, defaultMessage: string): string => {
-  const errorObj = error as { code?: string; message?: string };
-  if (errorObj?.code === 'auth/invalid-credential') {
-    return 'Invalid email or password';
-  }
-  if (errorObj?.code === 'auth/email-already-in-use') {
-    return 'Email already in use';
-  }
-  if (errorObj?.code === 'auth/user-not-found') {
-    return 'User not found';
-  }
-  return errorObj?.message || defaultMessage;
-};
+}
 
 // Login thunk
 export const loginThunk = createAsyncThunk<
@@ -60,27 +23,15 @@ export const loginThunk = createAsyncThunk<
   LoginCredentials,
   { rejectValue: string }
 >('auth/login', async (credentials, { rejectWithValue }) => {
-  if (!auth) {
-    const error =
-      'Firebase is not configured. Please set up Firebase in .env file.';
-    return rejectWithValue(error);
-  }
-
   try {
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      credentials.email,
-      credentials.password
-    );
-
-    const token = await userCredential.user.getIdToken();
-    const userData = createUserData(userCredential.user);
-
-    localStorage.setItem('token', token);
-
-    return { user: userData, token };
-  } catch (error: unknown) {
-    const errorMessage = getErrorMessage(error, 'Login failed');
+    const data = await authService.login(credentials);
+    localStorage.setItem('accessToken', data.accessToken);
+    localStorage.setItem('refreshToken', data.refreshToken);
+    return data;
+  } catch (error) {
+    const errorMessage =
+      (error as { response?: { data?: { message?: string } } })?.response?.data
+        ?.message || 'Login failed';
     return rejectWithValue(errorMessage);
   }
 });
@@ -91,30 +42,15 @@ export const signUpThunk = createAsyncThunk<
   SignUpCredentials,
   { rejectValue: string }
 >('auth/signUp', async (credentials, { rejectWithValue }) => {
-  if (!auth) {
-    const error =
-      'Firebase is not configured. Please set up Firebase in .env file.';
-    return rejectWithValue(error);
-  }
-
   try {
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      credentials.email,
-      credentials.password
-    );
-
-    const token = await userCredential.user.getIdToken();
-    const userData = createUserData(
-      userCredential.user,
-      credentials.displayName
-    );
-
-    localStorage.setItem('token', token);
-
-    return { user: userData, token };
-  } catch (error: unknown) {
-    const errorMessage = getErrorMessage(error, 'Sign up failed');
+    const data = await authService.register(credentials);
+    localStorage.setItem('accessToken', data.accessToken);
+    localStorage.setItem('refreshToken', data.refreshToken);
+    return data;
+  } catch (error) {
+    const errorMessage =
+      (error as { response?: { data?: { message?: string } } })?.response?.data
+        ?.message || 'Sign up failed';
     return rejectWithValue(errorMessage);
   }
 });
@@ -125,120 +61,47 @@ export const logoutThunk = createAsyncThunk<
   void,
   { rejectValue: string }
 >('auth/logout', async (_, { rejectWithValue }) => {
-  if (!auth) {
-    localStorage.removeItem('token');
-    return;
-  }
-
   try {
-    await signOut(auth);
-    localStorage.removeItem('token');
-  } catch (error: unknown) {
-    const errorMessage = getErrorMessage(error, 'Logout failed');
+    await authService.logout();
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+  } catch (error) {
+    const errorMessage =
+      (error as { response?: { data?: { message?: string } } })?.response?.data
+        ?.message || 'Logout failed';
     return rejectWithValue(errorMessage);
   }
 });
 
-// Google sign in thunk
-export const signInWithGoogleThunk = createAsyncThunk<
+export const refreshTokenThunk = createAsyncThunk<
   AuthPayload,
-  void,
-  { rejectValue: string }
->('auth/signInWithGoogle', async (_, { rejectWithValue }) => {
-  if (!auth) {
-    const error =
-      'Firebase is not configured. Please set up Firebase in .env file.';
-    return rejectWithValue(error);
-  }
-
-  try {
-    const provider = new GoogleAuthProvider();
-    const userCredential = await signInWithPopup(auth, provider);
-
-    const token = await userCredential.user.getIdToken();
-    const userData = createUserData(userCredential.user);
-
-    localStorage.setItem('token', token);
-
-    return { user: userData, token };
-  } catch (error: unknown) {
-    const errorMessage = getErrorMessage(error, 'Google sign in failed');
-    return rejectWithValue(errorMessage);
-  }
-});
-
-// Facebook sign in thunk
-export const signInWithFacebookThunk = createAsyncThunk<
-  AuthPayload,
-  void,
-  { rejectValue: string }
->('auth/signInWithFacebook', async (_, { rejectWithValue }) => {
-  if (!auth) {
-    const error =
-      'Firebase is not configured. Please set up Firebase in .env file.';
-    return rejectWithValue(error);
-  }
-
-  try {
-    const provider = new FacebookAuthProvider();
-    const userCredential = await signInWithPopup(auth, provider);
-
-    const token = await userCredential.user.getIdToken();
-    const userData = createUserData(userCredential.user);
-
-    localStorage.setItem('token', token);
-
-    return { user: userData, token };
-  } catch (error: unknown) {
-    const errorMessage = getErrorMessage(error, 'Facebook sign in failed');
-    return rejectWithValue(errorMessage);
-  }
-});
-
-// GitHub sign in thunk
-export const signInWithGitHubThunk = createAsyncThunk<
-  AuthPayload,
-  void,
-  { rejectValue: string }
->('auth/signInWithGitHub', async (_, { rejectWithValue }) => {
-  if (!auth) {
-    const error =
-      'Firebase is not configured. Please set up Firebase in .env file.';
-    return rejectWithValue(error);
-  }
-
-  try {
-    const provider = new GithubAuthProvider();
-    const userCredential = await signInWithPopup(auth, provider);
-
-    const token = await userCredential.user.getIdToken();
-    const userData = createUserData(userCredential.user);
-
-    localStorage.setItem('token', token);
-
-    return { user: userData, token };
-  } catch (error: unknown) {
-    const errorMessage = getErrorMessage(error, 'GitHub sign in failed');
-    return rejectWithValue(errorMessage);
-  }
-});
-
-// Forgot password thunk
-export const forgotPasswordThunk = createAsyncThunk<
-  void,
   string,
   { rejectValue: string }
->('auth/forgotPassword', async (email, { rejectWithValue }) => {
-  if (!auth) {
-    const error =
-      'Firebase is not configured. Please set up Firebase in .env file.';
-    return rejectWithValue(error);
-  }
-
+>('auth/refreshToken', async (refreshToken, { rejectWithValue }) => {
   try {
-    await sendPasswordResetEmail(auth, email);
-  } catch (error: unknown) {
-    const errorMessage = getErrorMessage(error, 'Failed to send reset email');
+    const data = await authService.refreshToken(refreshToken);
+    localStorage.setItem('accessToken', data.accessToken);
+    localStorage.setItem('refreshToken', data.refreshToken);
+    return data;
+  } catch (error) {
+    const errorMessage =
+      (error as { response?: { data?: { message?: string } } })?.response?.data
+        ?.message || 'Failed to refresh token';
+    return rejectWithValue(errorMessage);
+  }
+});
+
+export const getProfileThunk = createAsyncThunk<
+  AuthPayload['user'],
+  void,
+  { rejectValue: string }
+>('auth/getProfile', async (_, { rejectWithValue }) => {
+  try {
+    return await authService.getProfile();
+  } catch (error) {
+    const errorMessage =
+      (error as { response?: { data?: { message?: string } } })?.response?.data
+        ?.message || 'Failed to load profile';
     return rejectWithValue(errorMessage);
   }
 });

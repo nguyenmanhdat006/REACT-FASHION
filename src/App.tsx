@@ -7,11 +7,17 @@ import { useTheme } from './hooks/useTheme';
 
 // Lazy load pages
 const Home = React.lazy(() => import('@/pages/Home'));
-const About = React.lazy(() => import('@/pages/About'));
+const Products = React.lazy(() => import('@/pages/Products'));
+const ProductDetail = React.lazy(() => import('@/pages/ProductDetail'));
+const Cart = React.lazy(() => import('@/pages/Cart'));
+const Checkout = React.lazy(() => import('@/pages/Checkout'));
+const Orders = React.lazy(() => import('@/pages/Orders'));
+const OrderDetail = React.lazy(() => import('@/pages/OrderDetail'));
+const Profile = React.lazy(() => import('@/pages/Profile'));
+const AdminDashboard = React.lazy(() => import('@/pages/AdminDashboard'));
 const Login = React.lazy(() => import('@/pages/Login'));
 const SignUp = React.lazy(() => import('@/pages/SignUp'));
 const ForgotPassword = React.lazy(() => import('@/pages/ForgotPassword'));
-const Dashboard = React.lazy(() => import('@/pages/Dashboard'));
 const NotFound = React.lazy(() => import('@/pages/NotFound'));
 
 // Protected Route Component
@@ -30,17 +36,58 @@ function App() {
           {/* Public routes */}
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
-            <Route path="about" element={<About />} />
+            <Route path="products" element={<Products />} />
+            <Route path="products/:slug" element={<ProductDetail />} />
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<SignUp />} />
             <Route path="forgot-password" element={<ForgotPassword />} />
 
             {/* Protected routes */}
             <Route
-              path="dashboard"
+              path="cart"
               element={
                 <ProtectedRoute>
-                  <Dashboard />
+                  <Cart />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="checkout"
+              element={
+                <ProtectedRoute>
+                  <Checkout />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="orders"
+              element={
+                <ProtectedRoute>
+                  <Orders />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="orders/:id"
+              element={
+                <ProtectedRoute>
+                  <OrderDetail />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="admin"
+              element={
+                <ProtectedRoute requiredRole="ADMIN">
+                  <AdminDashboard />
                 </ProtectedRoute>
               }
             />

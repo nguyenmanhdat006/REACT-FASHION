@@ -1,14 +1,12 @@
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LoginCredentials, SignUpCredentials } from '@/types/auth';
 import {
   loginThunk,
   signUpThunk,
   logoutThunk,
-  signInWithGoogleThunk,
-  signInWithFacebookThunk,
-  signInWithGitHubThunk,
-  forgotPasswordThunk,
+  getProfileThunk,
 } from '@/store/thunks/authThunks';
 import toast from 'react-hot-toast';
 
@@ -19,11 +17,23 @@ export const useAuth = () => {
     state => state.auth
   );
 
+  const loadProfile = useCallback(async () => {
+    if (localStorage.getItem('accessToken')) {
+      await dispatch(getProfileThunk());
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isAuthenticated && !user) {
+      void loadProfile();
+    }
+  }, [isAuthenticated, user, loadProfile]);
+
   const login = async (credentials: LoginCredentials) => {
     const result = await dispatch(loginThunk(credentials));
     if (loginThunk.fulfilled.match(result)) {
       toast.success('Login successful!');
-      navigate('/dashboard');
+      navigate('/products');
     } else if (loginThunk.rejected.match(result)) {
       toast.error(result.payload || 'Login failed');
     }
@@ -33,7 +43,7 @@ export const useAuth = () => {
     const result = await dispatch(signUpThunk(credentials));
     if (signUpThunk.fulfilled.match(result)) {
       toast.success('Account created successfully!');
-      navigate('/dashboard');
+      navigate('/');
     } else if (signUpThunk.rejected.match(result)) {
       toast.error(result.payload || 'Sign up failed');
     }
@@ -50,45 +60,6 @@ export const useAuth = () => {
     }
   };
 
-  const signInWithGoogle = async () => {
-    const result = await dispatch(signInWithGoogleThunk());
-    if (signInWithGoogleThunk.fulfilled.match(result)) {
-      toast.success('Login successful!');
-      navigate('/dashboard');
-    } else if (signInWithGoogleThunk.rejected.match(result)) {
-      toast.error('Google sign in failed');
-    }
-  };
-
-  const signInWithFacebook = async () => {
-    const result = await dispatch(signInWithFacebookThunk());
-    if (signInWithFacebookThunk.fulfilled.match(result)) {
-      toast.success('Login successful!');
-      navigate('/dashboard');
-    } else if (signInWithFacebookThunk.rejected.match(result)) {
-      toast.error('Facebook sign in failed');
-    }
-  };
-
-  const signInWithGitHub = async () => {
-    const result = await dispatch(signInWithGitHubThunk());
-    if (signInWithGitHubThunk.fulfilled.match(result)) {
-      toast.success('Login successful!');
-      navigate('/dashboard');
-    } else if (signInWithGitHubThunk.rejected.match(result)) {
-      toast.error('GitHub sign in failed');
-    }
-  };
-
-  const forgotPassword = async (email: string) => {
-    const result = await dispatch(forgotPasswordThunk(email));
-    if (forgotPasswordThunk.fulfilled.match(result)) {
-      toast.success('Password reset email sent!');
-    } else if (forgotPasswordThunk.rejected.match(result)) {
-      toast.error(result.payload || 'Failed to send reset email');
-    }
-  };
-
   return {
     user,
     isAuthenticated,
@@ -97,9 +68,6 @@ export const useAuth = () => {
     login,
     signUp,
     logout: logoutUser,
-    signInWithGoogle,
-    signInWithFacebook,
-    signInWithGitHub,
-    forgotPassword,
+    loadProfile,
   };
 };

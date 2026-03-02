@@ -4,15 +4,14 @@ import {
   loginThunk,
   signUpThunk,
   logoutThunk,
-  signInWithGoogleThunk,
-  signInWithFacebookThunk,
-  signInWithGitHubThunk,
-  forgotPasswordThunk,
+  refreshTokenThunk,
+  getProfileThunk,
 } from '../thunks/authThunks';
 
 interface AuthState {
   user: User | null;
-  token: string | null;
+  accessToken: string | null;
+  refreshToken: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
@@ -20,8 +19,9 @@ interface AuthState {
 
 const initialState: AuthState = {
   user: null,
-  token: null,
-  isAuthenticated: false,
+  accessToken: localStorage.getItem('accessToken'),
+  refreshToken: localStorage.getItem('refreshToken'),
+  isAuthenticated: !!localStorage.getItem('accessToken'),
   isLoading: false,
   error: null,
 };
@@ -33,9 +33,13 @@ const authSlice = createSlice({
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     },
-    setAuth: (state, action: PayloadAction<{ user: User; token: string }>) => {
+    setAuth: (
+      state,
+      action: PayloadAction<{ user: User; accessToken: string; refreshToken: string }>
+    ) => {
       state.user = action.payload.user;
-      state.token = action.payload.token;
+      state.accessToken = action.payload.accessToken;
+      state.refreshToken = action.payload.refreshToken;
       state.isAuthenticated = true;
       state.error = null;
     },
@@ -45,7 +49,8 @@ const authSlice = createSlice({
     },
     logout: state => {
       state.user = null;
-      state.token = null;
+      state.accessToken = null;
+      state.refreshToken = null;
       state.isAuthenticated = false;
       state.error = null;
     },
@@ -68,7 +73,8 @@ const authSlice = createSlice({
       .addCase(loginThunk.fulfilled, (state, action) => {
         state.isLoading = false;
         state.user = action.payload.user;
-        state.token = action.payload.token;
+        state.accessToken = action.payload.accessToken;
+        state.refreshToken = action.payload.refreshToken;
         state.isAuthenticated = true;
         state.error = null;
       })
@@ -86,7 +92,8 @@ const authSlice = createSlice({
       .addCase(signUpThunk.fulfilled, (state, action) => {
         state.isLoading = false;
         state.user = action.payload.user;
-        state.token = action.payload.token;
+        state.accessToken = action.payload.accessToken;
+        state.refreshToken = action.payload.refreshToken;
         state.isAuthenticated = true;
         state.error = null;
       })
@@ -103,7 +110,8 @@ const authSlice = createSlice({
       .addCase(logoutThunk.fulfilled, state => {
         state.isLoading = false;
         state.user = null;
-        state.token = null;
+        state.accessToken = null;
+        state.refreshToken = null;
         state.isAuthenticated = false;
         state.error = null;
       })
@@ -112,73 +120,39 @@ const authSlice = createSlice({
         state.error = action.payload || 'Logout failed';
       });
 
-    // Google sign in thunk
+    // Refresh token thunk
     builder
-      .addCase(signInWithGoogleThunk.pending, state => {
+      .addCase(refreshTokenThunk.pending, state => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(signInWithGoogleThunk.fulfilled, (state, action) => {
+      .addCase(refreshTokenThunk.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.user = action.payload.user;
-        state.token = action.payload.token;
+        state.accessToken = action.payload.accessToken;
+        state.refreshToken = action.payload.refreshToken;
         state.isAuthenticated = true;
         state.error = null;
       })
-      .addCase(signInWithGoogleThunk.rejected, (state, action) => {
+      .addCase(refreshTokenThunk.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload || 'Google sign in failed';
+        state.error = action.payload || 'Token refresh failed';
       });
 
-    // Facebook sign in thunk
+    // Get profile thunk
     builder
-      .addCase(signInWithFacebookThunk.pending, state => {
+      .addCase(getProfileThunk.pending, state => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(signInWithFacebookThunk.fulfilled, (state, action) => {
+      .addCase(getProfileThunk.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.user = action.payload.user;
-        state.token = action.payload.token;
-        state.isAuthenticated = true;
+        state.user = action.payload;
+        state.isAuthenticated = !!state.accessToken;
         state.error = null;
       })
-      .addCase(signInWithFacebookThunk.rejected, (state, action) => {
+      .addCase(getProfileThunk.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload || 'Facebook sign in failed';
-      });
-
-    // GitHub sign in thunk
-    builder
-      .addCase(signInWithGitHubThunk.pending, state => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(signInWithGitHubThunk.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.user = action.payload.user;
-        state.token = action.payload.token;
-        state.isAuthenticated = true;
-        state.error = null;
-      })
-      .addCase(signInWithGitHubThunk.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload || 'GitHub sign in failed';
-      });
-
-    // Forgot password thunk
-    builder
-      .addCase(forgotPasswordThunk.pending, state => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(forgotPasswordThunk.fulfilled, state => {
-        state.isLoading = false;
-        state.error = null;
-      })
-      .addCase(forgotPasswordThunk.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload || 'Failed to send reset email';
+        state.error = action.payload || 'Failed to load profile';
       });
   },
 });

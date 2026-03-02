@@ -1,13 +1,12 @@
 import axios, {
   AxiosInstance,
+  AxiosResponse,
   AxiosError,
   AxiosRequestConfig,
   InternalAxiosRequestConfig,
 } from 'axios';
 import toast from 'react-hot-toast';
-
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
+import { API_BASE_URL } from '@/constants';
 
 class ApiClient {
   private client: AxiosInstance;
@@ -28,7 +27,7 @@ class ApiClient {
     // Request interceptor
     this.client.interceptors.request.use(
       (config: InternalAxiosRequestConfig) => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('accessToken');
         if (token && config.headers) {
           config.headers.Authorization = `Bearer ${token}`;
         }
@@ -52,7 +51,8 @@ class ApiClient {
           switch (status) {
             case 401:
               // Unauthorized - clear token and redirect to login
-              localStorage.removeItem('token');
+              localStorage.removeItem('accessToken');
+              localStorage.removeItem('refreshToken');
               window.location.href = '/login';
               toast.error('Session expired. Please login again.');
               break;
@@ -79,36 +79,46 @@ class ApiClient {
     );
   }
 
-  public get<T = unknown>(url: string, config?: AxiosRequestConfig) {
-    return this.client.get<T>(url, config);
+  public get<T = unknown>(url: string, config?: AxiosRequestConfig): Promise<T> {
+    return this.client
+      .get<T, AxiosResponse<T>>(url, config)
+      .then(response => response.data);
   }
 
   public post<T = unknown>(
     url: string,
     data?: unknown,
     config?: AxiosRequestConfig
-  ) {
-    return this.client.post<T>(url, data, config);
+  ): Promise<T> {
+    return this.client
+      .post<T, AxiosResponse<T>>(url, data, config)
+      .then(response => response.data);
   }
 
   public put<T = unknown>(
     url: string,
     data?: unknown,
     config?: AxiosRequestConfig
-  ) {
-    return this.client.put<T>(url, data, config);
+  ): Promise<T> {
+    return this.client
+      .put<T, AxiosResponse<T>>(url, data, config)
+      .then(response => response.data);
   }
 
   public patch<T = unknown>(
     url: string,
     data?: unknown,
     config?: AxiosRequestConfig
-  ) {
-    return this.client.patch<T>(url, data, config);
+  ): Promise<T> {
+    return this.client
+      .patch<T, AxiosResponse<T>>(url, data, config)
+      .then(response => response.data);
   }
 
-  public delete<T = unknown>(url: string, config?: AxiosRequestConfig) {
-    return this.client.delete<T>(url, config);
+  public delete<T = unknown>(url: string, config?: AxiosRequestConfig): Promise<T> {
+    return this.client
+      .delete<T, AxiosResponse<T>>(url, config)
+      .then(response => response.data);
   }
 }
 
