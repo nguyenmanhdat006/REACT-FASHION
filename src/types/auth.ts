@@ -1,16 +1,18 @@
 export interface User {
   id: string;
   email: string;
-  displayName?: string;
-  photoURL?: string;
-  role: 'admin' | 'user' | 'basic';
+  fullName: string;
+  phone?: string;
+  avatar?: string;
+  roles: string[];
   createdAt: string;
-  updatedAt: string;
 }
 
 export interface AuthResponse {
+  accessToken: string;
+  refreshToken: string;
+  expiresIn: number;
   user: User;
-  token: string;
 }
 
 export interface LoginCredentials {
@@ -21,7 +23,8 @@ export interface LoginCredentials {
 export interface SignUpCredentials {
   email: string;
   password: string;
-  displayName?: string;
+  fullName: string;
+  phone?: string;
 }
 
 export interface ForgotPasswordData {
@@ -29,6 +32,19 @@ export interface ForgotPasswordData {
 }
 
 export interface ResetPasswordData {
-  token: string;
+  refreshToken: string;
   password: string;
+}
+
+export interface Address {
+  id: string;
+  fullName: string;
+  phone: string;
+  addressLine1: string;
+  addressLine2?: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  country: string;
+  isDefault: boolean;
 }

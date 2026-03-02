@@ -14,9 +14,10 @@ import { ROUTES } from '@/constants';
 const signUpSchema = z
   .object({
     email: z.string().email('Invalid email address'),
-    password: z.string().min(6, 'Password must be at least 6 characters'),
+    password: z.string().min(8, 'Password must be at least 8 characters'),
     confirmPassword: z.string(),
-    displayName: z.string().optional(),
+    fullName: z.string().min(2, 'Full name is required'),
+    phone: z.string().optional(),
   })
   .refine(data => data.password === data.confirmPassword, {
     message: "Passwords don't match",
@@ -41,7 +42,8 @@ const SignUp: React.FC = () => {
     await signUp({
       email: data.email,
       password: data.password,
-      displayName: data.displayName,
+      fullName: data.fullName,
+      phone: data.phone,
     });
   };
 
@@ -55,11 +57,18 @@ const SignUp: React.FC = () => {
         <Card title={t('auth.signup')}>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <Input
-              label="Display Name (Optional)"
+              label="Full Name"
               type="text"
-              {...register('displayName')}
-              error={errors.displayName?.message}
+              {...register('fullName')}
+              error={errors.fullName?.message}
               autoComplete="name"
+            />
+            <Input
+              label="Phone (Optional)"
+              type="text"
+              {...register('phone')}
+              error={errors.phone?.message}
+              autoComplete="tel"
             />
             <Input
               label={t('auth.email')}

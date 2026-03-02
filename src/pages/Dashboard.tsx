@@ -35,7 +35,7 @@ const Dashboard: React.FC = () => {
             {t('pages.dashboard')}
           </h1>
           <p className="mt-2 text-gray-600 dark:text-gray-400">
-            Welcome back, {user?.displayName || user?.email}!
+            Welcome back, {user?.fullName || user?.email}!
           </p>
         </div>
 

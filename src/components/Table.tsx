@@ -15,7 +15,7 @@ interface TableProps<T> {
   emptyMessage?: string;
 }
 
-function Table<T extends Record<string, unknown>>({
+function Table<T>({
   data,
   columns,
   className,
@@ -68,7 +68,7 @@ function Table<T extends Record<string, unknown>>({
                 >
                   {column.render
                     ? column.render(item)
-                    : (item[column.key] as React.ReactNode)}
+                    : ((item as Record<string, unknown>)[column.key] as React.ReactNode)}
                 </td>
               ))}
             </tr>
