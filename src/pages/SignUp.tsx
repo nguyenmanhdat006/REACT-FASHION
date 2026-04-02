@@ -14,10 +14,19 @@ import { ROUTES } from '@/constants';
 const signUpSchema = z
   .object({
     email: z.string().email('Invalid email address'),
-    password: z.string().min(8, 'Password must be at least 8 characters'),
+    password: z
+      .string()
+      .min(8, 'Password must be at least 8 characters')
+      .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
+      .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
+      .regex(/[0-9]/, 'Password must contain at least one number'),
     confirmPassword: z.string(),
     fullName: z.string().min(2, 'Full name is required'),
-    phone: z.string().optional(),
+    phone: z
+      .string()
+      .regex(/^(?:\+84|0)(?:3|5|7|8|9)\d{8}$/, 'Invalid Vietnamese phone number')
+      .optional()
+      .or(z.literal('')),
   })
   .refine(data => data.password === data.confirmPassword, {
     message: "Passwords don't match",
@@ -95,7 +104,7 @@ const SignUp: React.FC = () => {
               type="submit"
               variant="primary"
               className="w-full"
-              isLoading={isLoading}
+              // isLoading={isLoading}
             >
               {t('auth.signup')}
             </Button>

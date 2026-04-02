@@ -7,43 +7,50 @@ import {
   Address,
 } from '@/types/auth';
 import { ApiResponse } from '@/types/common';
-import { API_ENDPOINTS } from '@/constants';
+import { API_ENDPOINTS, AUTH_ENDPOINTS } from '@/constants';
+
+type MaybeWrapped<T> = ApiResponse<T> | T;
+
+const unwrapApiData = <T>(response: MaybeWrapped<T>): T => {
+  if (response && typeof response === 'object' && 'data' in response) {
+    return (response as ApiResponse<T>).data;
+  }
+
+  return response as T;
+};
 
 export const authService = {
   login: async (credentials: LoginCredentials): Promise<AuthResponse> => {
-    const response = await apiClient.post<ApiResponse<AuthResponse>>(
-      API_ENDPOINTS.AUTH.LOGIN,
+    const response = await apiClient.post<MaybeWrapped<AuthResponse>>(
+      AUTH_ENDPOINTS.LOGIN,
       credentials
     );
-    return response.data;
+    return unwrapApiData(response);
   },
 
-  register: async (credentials: SignUpCredentials): Promise<AuthResponse> => {
-    const response = await apiClient.post<ApiResponse<AuthResponse>>(
-      API_ENDPOINTS.AUTH.REGISTER,
+  register: async (credentials: SignUpCredentials): Promise<User> => {
+    const response = await apiClient.post<MaybeWrapped<User>>(
+      AUTH_ENDPOINTS.REGISTER,
       credentials
     );
-    return response.data;
+    return unwrapApiData(response);
   },
 
-  logout: async (): Promise<void> => {
-    await apiClient.post(API_ENDPOINTS.AUTH.LOGOUT);
+  logout: async (refreshToken: string): Promise<void> => {
+    await apiClient.post(AUTH_ENDPOINTS.LOGOUT, { refreshToken });
   },
 
   refreshToken: async (refreshToken: string): Promise<AuthResponse> => {
-    const response = await apiClient.post<ApiResponse<AuthResponse>>(
-      API_ENDPOINTS.AUTH.REFRESH
-      ,
+    const response = await apiClient.post<MaybeWrapped<AuthResponse>>(
+      AUTH_ENDPOINTS.REFRESH,
       { refreshToken }
     );
-    return response.data;
+    return unwrapApiData(response);
   },
 
   getProfile: async (): Promise<User> => {
-    const response = await apiClient.get<ApiResponse<User>>(
-      API_ENDPOINTS.USER.PROFILE
-    );
-    return response.data;
+    const response = await apiClient.get<MaybeWrapped<User>>(AUTH_ENDPOINTS.ME);
+    return unwrapApiData(response);
   },
 
   updateProfile: async (data: Partial<User>): Promise<User> => {

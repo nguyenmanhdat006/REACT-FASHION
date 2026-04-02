@@ -1,32 +1,26 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { LoginCredentials, SignUpCredentials } from '@/types/auth';
+import {
+  LoginCredentials,
+  SignUpCredentials,
+  AuthResponse,
+  User,
+} from '@/types/auth';
 import { authService } from '@/services/authService';
-
-interface AuthPayload {
-  accessToken: string;
-  refreshToken: string;
-  expiresIn: number;
-  user: {
-    id: string;
-    email: string;
-    fullName: string;
-    phone?: string;
-    avatar?: string;
-    roles: string[];
-    createdAt: string;
-  };
-}
+import {
+  setAuthTokens,
+  clearAuthTokens,
+  getRefreshToken,
+} from '@/utils/authStorage';
 
 // Login thunk
 export const loginThunk = createAsyncThunk<
-  AuthPayload,
+  AuthResponse,
   LoginCredentials,
   { rejectValue: string }
 >('auth/login', async (credentials, { rejectWithValue }) => {
   try {
     const data = await authService.login(credentials);
-    localStorage.setItem('accessToken', data.accessToken);
-    localStorage.setItem('refreshToken', data.refreshToken);
+    setAuthTokens(data.accessToken, data.refreshToken);
     return data;
   } catch (error) {
     const errorMessage =
@@ -38,15 +32,12 @@ export const loginThunk = createAsyncThunk<
 
 // Sign up thunk
 export const signUpThunk = createAsyncThunk<
-  AuthPayload,
+  User,
   SignUpCredentials,
   { rejectValue: string }
 >('auth/signUp', async (credentials, { rejectWithValue }) => {
   try {
-    const data = await authService.register(credentials);
-    localStorage.setItem('accessToken', data.accessToken);
-    localStorage.setItem('refreshToken', data.refreshToken);
-    return data;
+    return await authService.register(credentials);
   } catch (error) {
     const errorMessage =
       (error as { response?: { data?: { message?: string } } })?.response?.data
@@ -62,9 +53,15 @@ export const logoutThunk = createAsyncThunk<
   { rejectValue: string }
 >('auth/logout', async (_, { rejectWithValue }) => {
   try {
-    await authService.logout();
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+    const refreshToken = getRefreshToken();
+
+    if (!refreshToken) {
+      clearAuthTokens();
+      return;
+    }
+
+    await authService.logout(refreshToken);
+    clearAuthTokens();
   } catch (error) {
     const errorMessage =
       (error as { response?: { data?: { message?: string } } })?.response?.data
@@ -74,14 +71,13 @@ export const logoutThunk = createAsyncThunk<
 });
 
 export const refreshTokenThunk = createAsyncThunk<
-  AuthPayload,
+  AuthResponse,
   string,
   { rejectValue: string }
 >('auth/refreshToken', async (refreshToken, { rejectWithValue }) => {
   try {
     const data = await authService.refreshToken(refreshToken);
-    localStorage.setItem('accessToken', data.accessToken);
-    localStorage.setItem('refreshToken', data.refreshToken);
+    setAuthTokens(data.accessToken, data.refreshToken);
     return data;
   } catch (error) {
     const errorMessage =
@@ -92,7 +88,7 @@ export const refreshTokenThunk = createAsyncThunk<
 });
 
 export const getProfileThunk = createAsyncThunk<
-  AuthPayload['user'],
+  User,
   void,
   { rejectValue: string }
 >('auth/getProfile', async (_, { rejectWithValue }) => {
