@@ -9,6 +9,7 @@ import {
   getProfileThunk,
 } from '@/store/thunks/authThunks';
 import toast from 'react-hot-toast';
+import { getAccessToken } from '@/utils/authStorage';
 
 export const useAuth = () => {
   const dispatch = useAppDispatch();
@@ -18,7 +19,7 @@ export const useAuth = () => {
   );
 
   const loadProfile = useCallback(async () => {
-    if (localStorage.getItem('accessToken')) {
+    if (getAccessToken()) {
       await dispatch(getProfileThunk());
     }
   }, [dispatch]);
@@ -43,7 +44,7 @@ export const useAuth = () => {
     const result = await dispatch(signUpThunk(credentials));
     if (signUpThunk.fulfilled.match(result)) {
       toast.success('Account created successfully!');
-      navigate('/');
+      navigate('/login');
     } else if (signUpThunk.rejected.match(result)) {
       toast.error(result.payload || 'Sign up failed');
     }

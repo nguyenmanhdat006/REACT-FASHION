@@ -29,7 +29,7 @@ const About: React.FC = () => {
             <li>✅ Redux Toolkit for state management</li>
             <li>✅ React Router v6 for routing</li>
             <li>✅ Tailwind CSS with dark mode</li>
-            <li>✅ Firebase Authentication</li>
+            <li>✅ Authentication with JWT</li>
             <li>✅ React Query for data fetching</li>
             <li>✅ Form handling with react-hook-form + Zod</li>
             <li>✅ i18n support (English & Vietnamese)</li>

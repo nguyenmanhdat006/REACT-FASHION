@@ -7,6 +7,10 @@ import {
   refreshTokenThunk,
   getProfileThunk,
 } from '../thunks/authThunks';
+import { getAccessToken, getRefreshToken } from '@/utils/authStorage';
+
+const initialAccessToken = getAccessToken();
+const initialRefreshToken = getRefreshToken();
 
 interface AuthState {
   user: User | null;
@@ -19,9 +23,9 @@ interface AuthState {
 
 const initialState: AuthState = {
   user: null,
-  accessToken: localStorage.getItem('accessToken'),
-  refreshToken: localStorage.getItem('refreshToken'),
-  isAuthenticated: !!localStorage.getItem('accessToken'),
+  accessToken: initialAccessToken,
+  refreshToken: initialRefreshToken,
+  isAuthenticated: !!initialAccessToken,
   isLoading: false,
   error: null,
 };
@@ -91,10 +95,10 @@ const authSlice = createSlice({
       })
       .addCase(signUpThunk.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.user = action.payload.user;
-        state.accessToken = action.payload.accessToken;
-        state.refreshToken = action.payload.refreshToken;
-        state.isAuthenticated = true;
+        state.user = action.payload;
+        state.accessToken = null;
+        state.refreshToken = null;
+        state.isAuthenticated = false;
         state.error = null;
       })
       .addCase(signUpThunk.rejected, (state, action) => {

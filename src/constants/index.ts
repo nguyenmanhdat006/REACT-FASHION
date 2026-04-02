@@ -15,16 +15,24 @@ export const ROUTES = {
 
 export const USER_ROLES = {
   ADMIN: 'ADMIN',
-  USER: 'USER',
+  USER: 'CUSTOMER',
+} as const;
+
+export const AUTH_STORAGE_KEYS = {
+  ACCESS_TOKEN: 'accessToken',
+  REFRESH_TOKEN: 'refreshToken',
+} as const;
+
+export const AUTH_ENDPOINTS = {
+  LOGIN: '/auth/login',
+  REGISTER: '/auth/register',
+  LOGOUT: '/auth/logout',
+  REFRESH: '/auth/refresh',
+  ME: '/users/me',
 } as const;
 
 export const API_ENDPOINTS = {
-  AUTH: {
-    LOGIN: '/auth/login',
-    REGISTER: '/auth/register',
-    LOGOUT: '/auth/logout',
-    REFRESH: '/auth/refresh',
-  },
+  AUTH: AUTH_ENDPOINTS,
   USER: {
     PROFILE: '/users/profile',
     ADDRESSES: '/addresses',

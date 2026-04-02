@@ -1,0 +1,904 @@
+AUTHENTICATION FLOWS - USER SERVICE
+MỤC LỤC
+Registration Flow
+Login Flow
+Access Protected Resource Flow
+Token Refresh Flow
+Logout Flow
+Token Validation Details
+Error Handling
+
+1. REGISTRATION FLOW
+📊 Sequence Diagram
+┌─────────┐         ┌──────────────┐         ┌──────────┐         ┌──────────┐
+│ Client  │         │ User Service │         │ Keycloak │         │PostgreSQL│
+└────┬────┘         └──────┬───────┘         └────┬─────┘         └────┬─────┘
+     │                     │                      │                     │
+     │ POST /api/auth/register                    │                     │
+     │ {email, password,  │                       │                     │
+     │  fullName, phone}  │                       │                     │
+     │────────────────────>│                       │                     │
+     │                     │                       │                     │
+     │                     │ 1. Check email exists │                     │
+     │                     │──────────────────────────────────────────>│
+     │                     │<──────────────────────────────────────────│
+     │                     │       exists = false                        │
+     │                     │                       │                     │
+     │                     │ 2. Create user in KC  │                     │
+     │                     │──────────────────────>│                     │
+     │                     │                       │                     │
+     │                     │                       │ 2a. Create user     │
+     │                     │                       │ 2b. Set password    │
+     │                     │                       │ 2c. Assign role     │
+     │                     │                       │    (CUSTOMER)       │
+     │                     │                       │                     │
+     │                     │<──────────────────────│                     │
+     │                     │   keycloakId: "abc123"                      │
+     │                     │                       │                     │
+     │                     │ 3. Save user to DB    │                     │
+     │                     │──────────────────────────────────────────>│
+     │                     │    (with keycloakId)  │                     │
+     │                     │                       │                     │
+     │                     │ 4. Create preferences │                     │
+     │                     │──────────────────────────────────────────>│
+     │                     │                       │                     │
+     │                     │<──────────────────────────────────────────│
+     │                     │      user created     │                     │
+     │                     │                       │                     │
+     │<────────────────────│                       │                     │
+     │ 201 Created         │                       │                     │
+     │ {success, message,  │                       │                     │
+     │  data: userInfo}    │                       │                     │
+     │                     │                       │                     │
+
+📝 Step-by-Step Details
+Step 1: Client sends registration request
+POST /api/auth/register
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "SecurePass123!",
+  "fullName": "Nguyen Van A",
+  "phone": "0912345678"
+}
+
+Step 2: User Service validates request
+Jakarta Validation checks:
+Email format valid
+Password min 8 chars, has uppercase, lowercase, number
+Phone number Vietnamese format
+Full name min 2 chars
+Step 3: Check if email already exists
+if (userService.existsByEmail(request.getEmail())) {
+    return 409 CONFLICT;
+}
+
+Step 4: Create user in Keycloak
+String keycloakId = keycloakService.createUser(request);
+// Returns: "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+
+Keycloak operations:
+Create UserRepresentation
+Set credentials (password)
+Assign default role: CUSTOMER
+Return user ID
+Step 5: Save user to PostgreSQL
+User user = userMapper.toEntity(request);
+user.setKeycloakId(keycloakId);
+user.setStatus(UserStatus.ACTIVE);
+user.setEmailVerified(false);
+User savedUser = userRepository.save(user);
+
+Step 6: Create default preferences
+UserPreference preference = UserPreference.builder()
+    .user(savedUser)
+    .language("vi")
+    .currency("VND")
+    .emailNotifications(true)
+    .build();
+userPreferenceRepository.save(preference);
+
+Step 7: Return response
+{
+  "success": true,
+  "message": "User registered successfully",
+  "data": {
+    "id": "123e4567-e89b-12d3-a456-426614174000",
+    "email": "user@example.com",
+    "fullName": "Nguyen Van A",
+    "phone": "0912345678",
+    "status": "ACTIVE",
+    "emailVerified": false,
+    "roles": ["CUSTOMER"],
+    "createdAt": "2024-01-01T10:00:00Z"
+  },
+  "timestamp": "2024-01-01T10:00:00Z"
+}
+
+
+2. LOGIN FLOW
+📊 Sequence Diagram
+┌─────────┐         ┌──────────────┐         ┌──────────┐         ┌──────────┐
+│ Client  │         │ User Service │         │ Keycloak │         │PostgreSQL│
+└────┬────┘         └──────┬───────┘         └────┬─────┘         └────┬─────┘
+     │                     │                      │                     │
+     │ POST /api/auth/login                       │                     │
+     │ {email, password}   │                      │                     │
+     │────────────────────>│                      │                     │
+     │                     │                      │                     │
+     │                     │ 1. Call token endpoint                     │
+     │                     │──────────────────────>                     │
+     │                     │  POST /token         │                     │
+     │                     │  grant_type=password │                     │
+     │                     │  username=email      │                     │
+     │                     │  password=password   │                     │
+     │                     │  client_id=...       │                     │
+     │                     │  client_secret=...   │                     │
+     │                     │                      │                     │
+     │                     │                      │ 1a. Validate creds  │
+     │                     │                      │ 1b. Check user active│
+     │                     │                      │ 1c. Get user roles   │
+     │                     │                      │ 1d. Generate tokens  │
+     │                     │                      │                     │
+     │                     │<──────────────────────                     │
+     │                     │ {access_token,       │                     │
+     │                     │  refresh_token,      │                     │
+     │                     │  expires_in: 300}    │                     │
+     │                     │                      │                     │
+     │                     │ 2. Get user from DB  │                     │
+     │                     │──────────────────────────────────────────>│
+     │                     │   WHERE email = ?    │                     │
+     │                     │<──────────────────────────────────────────│
+     │                     │   user data          │                     │
+     │                     │                      │                     │
+     │<────────────────────│                      │                     │
+     │ 200 OK              │                      │                     │
+     │ {accessToken,       │                      │                     │
+     │  refreshToken,      │                      │                     │
+     │  expiresIn,         │                      │                     │
+     │  user: {...}}       │                      │                     │
+     │                     │                      │                     │
+
+📝 Step-by-Step Details
+Step 1: Client sends login request
+POST /api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "SecurePass123!"
+}
+
+Step 2: User Service calls Keycloak token endpoint
+// Token endpoint URL
+String tokenEndpoint = "http://localhost:8180/realms/ecommerce/protocol/openid-connect/token";
+
+// Request body (form-urlencoded)
+MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+body.add("grant_type", "password");
+body.add("client_id", "ecommerce-backend");
+body.add("client_secret", "YOUR_CLIENT_SECRET");
+body.add("username", "user@example.com");
+body.add("password", "SecurePass123!");
+body.add("scope", "openid profile email");
+
+// Make request
+ResponseEntity<Map> response = restTemplate.exchange(
+    tokenEndpoint,
+    HttpMethod.POST,
+    new HttpEntity<>(body, headers),
+    Map.class
+);
+
+Step 3: Keycloak validates credentials
+Check user exists
+Verify password
+Check user is enabled
+Get user's roles
+Generate JWT tokens
+Step 4: Keycloak returns tokens
+{
+  "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "refresh_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "expires_in": 300,
+  "refresh_expires_in": 1800,
+  "token_type": "Bearer",
+  "scope": "openid profile email"
+}
+
+Step 5: User Service gets user info from DB
+User user = userService.getUserByEmail(request.getEmail());
+UserResponse userResponse = userMapper.toResponse(user);
+
+Step 6: Return combined response
+{
+  "success": true,
+  "data": {
+    "accessToken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "refreshToken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "expiresIn": 300,
+    "tokenType": "Bearer",
+    "user": {
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "email": "user@example.com",
+      "fullName": "Nguyen Van A",
+      "roles": ["CUSTOMER"]
+    }
+  }
+}
+
+
+3. ACCESS PROTECTED RESOURCE FLOW
+📊 Sequence Diagram
+┌─────────┐      ┌────────────┐      ┌──────────────┐      ┌──────────┐
+│ Client  │      │API Gateway │      │ User Service │      │ Keycloak │
+└────┬────┘      └─────┬──────┘      └──────┬───────┘      └────┬─────┘
+     │                 │                    │                    │
+     │ GET /api/users/me                    │                    │
+     │ Authorization: Bearer {token}        │                    │
+     │────────────────>│                    │                    │
+     │                 │                    │                    │
+     │                 │ 1. Forward request │                    │
+     │                 │───────────────────>│                    │
+     │                 │    + JWT token     │                    │
+     │                 │                    │                    │
+     │                 │                    │ 2. Validate JWT    │
+     │                 │                    │ - Check signature  │
+     │                 │                    │ - Check expiry     │
+     │                 │                    │ - Check issuer     │
+     │                 │                    │                    │
+     │                 │                    │ 3. Get public key  │
+     │                 │                    │───────────────────>│
+     │                 │                    │<───────────────────│
+     │                 │                    │   JWK Set          │
+     │                 │                    │                    │
+     │                 │                    │ 4. Verify signature│
+     │                 │                    │    (RSA256)        │
+     │                 │                    │                    │
+     │                 │                    │ 5. Extract claims  │
+     │                 │                    │    - sub (user ID) │
+     │                 │                    │    - roles         │
+     │                 │                    │    - email         │
+     │                 │                    │                    │
+     │                 │                    │ 6. Create Security │
+     │                 │                    │    Context         │
+     │                 │                    │                    │
+     │                 │                    │ 7. Check @PreAuth  │
+     │                 │                    │    (if any)        │
+     │                 │                    │                    │
+     │                 │                    │ 8. Execute service │
+     │                 │                    │    method          │
+     │                 │                    │                    │
+     │                 │<───────────────────│                    │
+     │                 │   User data        │                    │
+     │<────────────────│                    │                    │
+     │ 200 OK          │                    │                    │
+     │ {user data}     │                    │                    │
+     │                 │                    │                    │
+
+📝 Step-by-Step Details
+Step 1: Client sends request with token
+GET /api/users/me
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...
+
+Step 2: Spring Security intercepts request
+// SecurityFilterChain in SecurityConfig.java
+http.oauth2ResourceServer(oauth2 -> oauth2
+    .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
+);
+
+Step 3: JWT validation process
+a. Check token format
+Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+
+b. Decode JWT header
+{
+  "alg": "RS256",
+  "typ": "JWT",
+  "kid": "key-id-123"
+}
+
+c. Decode JWT payload
+{
+  "sub": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+  "email": "user@example.com",
+  "name": "Nguyen Van A",
+  "realm_access": {
+    "roles": ["CUSTOMER"]
+  },
+  "iss": "http://localhost:8180/realms/ecommerce",
+  "exp": 1705234567,
+  "iat": 1705230967,
+  "jti": "unique-token-id"
+}
+
+Step 4: Get public key from Keycloak
+// Spring Security automatically fetches from JWK Set URI
+// Configured in application.yml:
+// spring.security.oauth2.resourceserver.jwt.jwk-set-uri
+
+GET http://localhost:8180/realms/ecommerce/protocol/openid-connect/certs
+
+Response:
+{
+  "keys": [
+    {
+      "kid": "key-id-123",
+      "kty": "RSA",
+      "alg": "RS256",
+      "use": "sig",
+      "n": "modulus...",
+      "e": "AQAB"
+    }
+  ]
+}
+
+Step 5: Verify signature
+// Spring Security uses public key to verify signature
+boolean isValid = verifyRSA256Signature(token, publicKey);
+
+if (!isValid) {
+    throw new InvalidTokenException();
+}
+
+Step 6: Check expiration
+long exp = jwt.getClaim("exp");
+long now = System.currentTimeMillis() / 1000;
+
+if (now > exp) {
+    throw new TokenExpiredException();
+}
+
+Step 7: Extract authorities (roles)
+// JwtAuthenticationConverter in SecurityConfig
+public JwtAuthenticationConverter jwtAuthenticationConverter() {
+    JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
+    
+    converter.setJwtGrantedAuthoritiesConverter(jwt -> {
+        // Get roles from realm_access
+        Map<String, Object> realmAccess = jwt.getClaim("realm_access");
+        List<String> roles = (List<String>) realmAccess.get("roles");
+        
+        // Convert to GrantedAuthority
+        return roles.stream()
+            .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+            .collect(Collectors.toList());
+    });
+    
+    return converter;
+}
+
+Step 8: Create Authentication object
+// Spring Security creates Authentication
+Authentication auth = new JwtAuthenticationToken(
+    jwt,
+    authorities,  // [ROLE_CUSTOMER]
+    jwt.getSubject()  // Keycloak user ID
+);
+
+// Set in SecurityContext
+SecurityContextHolder.getContext().setAuthentication(auth);
+
+Step 9: Check @PreAuthorize (if exists)
+@PreAuthorize("hasRole('ADMIN')")
+public void adminOnlyMethod() {
+    // This will fail for CUSTOMER role
+}
+
+Step 10: Execute service method
+@GetMapping("/me")
+public ResponseEntity<ApiResponse<UserResponse>> getCurrentUser() {
+    // Get user ID from JWT
+    String keycloakId = getCurrentKeycloakUserId();
+    
+    // Query database
+    User user = userRepository.findByKeycloakId(keycloakId)
+        .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    
+    return ResponseEntity.ok(ApiResponse.success(userMapper.toResponse(user)));
+}
+
+private String getCurrentKeycloakUserId() {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    Jwt jwt = (Jwt) auth.getPrincipal();
+    return jwt.getSubject();  // Returns Keycloak user ID
+}
+
+
+4. TOKEN REFRESH FLOW
+📊 Sequence Diagram
+┌─────────┐         ┌──────────────┐         ┌──────────┐
+│ Client  │         │ User Service │         │ Keycloak │
+└────┬────┘         └──────┬───────┘         └────┬─────┘
+     │                     │                      │
+     │ POST /api/auth/refresh                     │
+     │ {refreshToken}      │                      │
+     │────────────────────>│                      │
+     │                     │                      │
+     │                     │ 1. Call token endpoint│
+     │                     │──────────────────────>│
+     │                     │  grant_type=         │
+     │                     │   refresh_token      │
+     │                     │  refresh_token=...   │
+     │                     │                      │
+     │                     │                      │ 1a. Validate refresh
+     │                     │                      │     token
+     │                     │                      │ 1b. Check not expired
+     │                     │                      │ 1c. Check not revoked
+     │                     │                      │ 1d. Generate new tokens
+     │                     │                      │
+     │                     │<──────────────────────│
+     │                     │ {new_access_token,   │
+     │                     │  new_refresh_token}  │
+     │                     │                      │
+     │<────────────────────│                      │
+     │ 200 OK              │                      │
+     │ {accessToken,       │                      │
+     │  refreshToken}      │                      │
+     │                     │                      │
+
+📝 Step-by-Step Details
+Step 1: Client detects token expired
+// Frontend code
+try {
+  const response = await api.get('/users/me');
+} catch (error) {
+  if (error.response?.status === 401) {
+    // Token expired, refresh it
+    await refreshAccessToken();
+  }
+}
+
+Step 2: Client sends refresh request
+POST /api/auth/refresh
+Content-Type: application/json
+
+{
+  "refreshToken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+
+Step 3: User Service calls Keycloak
+String tokenEndpoint = serverUrl + "/realms/" + realm + "/protocol/openid-connect/token";
+
+MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+body.add("grant_type", "refresh_token");
+body.add("client_id", clientId);
+body.add("client_secret", clientSecret);
+body.add("refresh_token", refreshToken);
+
+ResponseEntity<Map> response = restTemplate.exchange(
+    tokenEndpoint,
+    HttpMethod.POST,
+    new HttpEntity<>(body, headers),
+    Map.class
+);
+
+Step 4: Keycloak validates refresh token
+Check refresh token signature
+Check not expired (default: 30 minutes)
+Check not in revoked list
+Check user still active
+Step 5: Keycloak issues new tokens
+{
+  "access_token": "NEW_eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "refresh_token": "NEW_eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "expires_in": 300,
+  "refresh_expires_in": 1800,
+  "token_type": "Bearer"
+}
+
+Step 6: Client stores new tokens
+// Frontend code
+localStorage.setItem('accessToken', response.data.accessToken);
+localStorage.setItem('refreshToken', response.data.refreshToken);
+
+Step 7: Client retries original request
+// Retry with new token
+const response = await api.get('/users/me', {
+  headers: {
+    Authorization: `Bearer ${newAccessToken}`
+  }
+});
+
+
+5. LOGOUT FLOW
+📊 Sequence Diagram
+┌─────────┐         ┌──────────────┐         ┌──────────┐
+│ Client  │         │ User Service │         │ Keycloak │
+└────┬────┘         └──────┬───────┘         └────┬─────┘
+     │                     │                      │
+     │ POST /api/auth/logout                      │
+     │ {refreshToken}      │                      │
+     │────────────────────>│                      │
+     │                     │                      │
+     │                     │ 1. Call logout endpoint│
+     │                     │──────────────────────>│
+     │                     │                      │
+     │                     │                      │ 1a. Revoke refresh
+     │                     │                      │     token
+     │                     │                      │ 1b. Invalidate
+     │                     │                      │     session
+     │                     │                      │
+     │                     │<──────────────────────│
+     │                     │   204 No Content     │
+     │                     │                      │
+     │<────────────────────│                      │
+     │ 200 OK              │                      │
+     │ {success: true}     │                      │
+     │                     │                      │
+     │ 2. Clear local tokens                      │
+     │ (localStorage.clear)│                      │
+     │                     │                      │
+
+📝 Step-by-Step Details
+Step 1: Client sends logout request
+POST /api/auth/logout
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...
+
+{
+  "refreshToken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+
+Step 2: User Service calls Keycloak logout
+String logoutEndpoint = serverUrl + "/realms/" + realm + "/protocol/openid-connect/logout";
+
+MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+body.add("client_id", clientId);
+body.add("client_secret", clientSecret);
+body.add("refresh_token", refreshToken);
+
+restTemplate.exchange(
+    logoutEndpoint,
+    HttpMethod.POST,
+    new HttpEntity<>(body, headers),
+    Void.class
+);
+
+Step 3: Keycloak revokes tokens
+Add refresh token to revoked list
+Invalidate user session
+Clear SSO session (if any)
+Step 4: Return success response
+{
+  "success": true,
+  "message": "Logged out successfully"
+}
+
+Step 5: Client clears local storage
+localStorage.removeItem('accessToken');
+localStorage.removeItem('refreshToken');
+localStorage.removeItem('user');
+
+// Redirect to login page
+window.location.href = '/login';
+
+
+6. TOKEN VALIDATION DETAILS
+Access Token Structure
+{
+  "header": {
+    "alg": "RS256",
+    "typ": "JWT",
+    "kid": "key-id-from-keycloak"
+  },
+  "payload": {
+    "exp": 1705234567,
+    "iat": 1705230967,
+    "jti": "unique-token-id",
+    "iss": "http://localhost:8180/realms/ecommerce",
+    "aud": "account",
+    "sub": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+    "typ": "Bearer",
+    "azp": "ecommerce-backend",
+    "session_state": "session-id",
+    "acr": "1",
+    "realm_access": {
+      "roles": ["CUSTOMER", "offline_access", "uma_authorization"]
+    },
+    "resource_access": {
+      "ecommerce-backend": {
+        "roles": ["user"]
+      }
+    },
+    "scope": "openid profile email",
+    "email_verified": false,
+    "name": "Nguyen Van A",
+    "preferred_username": "user@example.com",
+    "given_name": "Nguyen",
+    "family_name": "Van A",
+    "email": "user@example.com"
+  },
+  "signature": "signature-bytes"
+}
+
+Validation Steps
+Format Check
+
+ String[] parts = token.split("\\.");
+if (parts.length != 3) {
+    throw new MalformedJwtException();
+}
+
+
+Signature Verification
+
+ // Get public key from Keycloak JWK Set
+PublicKey publicKey = getPublicKey(header.kid);
+
+// Verify signature
+boolean valid = Signature.getInstance("SHA256withRSA")
+    .verify(signature, encodedHeader + "." + encodedPayload);
+
+
+Expiration Check
+
+ long exp = payload.exp;
+long now = System.currentTimeMillis() / 1000;
+
+if (now >= exp) {
+    throw new ExpiredJwtException();
+}
+
+
+Issuer Check
+
+ String expectedIssuer = "http://localhost:8180/realms/ecommerce";
+if (!payload.iss.equals(expectedIssuer)) {
+    throw new InvalidIssuerException();
+}
+
+
+Audience Check (Optional)
+
+ // Check if token is intended for this resource server
+
+
+
+7. ERROR HANDLING
+Common Error Scenarios
+1. Invalid Credentials (Login)
+Request:
+POST /api/auth/login
+{
+  "email": "user@example.com",
+  "password": "WrongPassword"
+}
+
+Response:
+{
+  "success": false,
+  "message": "Invalid credentials",
+  "timestamp": "2024-01-01T10:00:00Z"
+}
+
+Status: 401 Unauthorized
+
+2. Expired Token
+Request:
+GET /api/users/me
+Authorization: Bearer <expired_token>
+
+Response:
+{
+  "success": false,
+  "message": "JWT token has expired",
+  "timestamp": "2024-01-01T10:00:00Z"
+}
+
+Status: 401 Unauthorized
+Client should: Refresh token or redirect to login
+
+3. Invalid Token Signature
+Request:
+GET /api/users/me
+Authorization: Bearer <tampered_token>
+
+Response:
+{
+  "success": false,
+  "message": "Invalid JWT signature",
+  "timestamp": "2024-01-01T10:00:00Z"
+}
+
+Status: 401 Unauthorized
+
+4. Missing Authorization Header
+Request:
+GET /api/users/me
+
+Response:
+{
+  "success": false,
+  "message": "Full authentication is required to access this resource",
+  "timestamp": "2024-01-01T10:00:00Z"
+}
+
+Status: 401 Unauthorized
+
+5. Insufficient Permissions
+Request:
+GET /api/users
+Authorization: Bearer <customer_token>
+
+Response:
+{
+  "success": false,
+  "message": "Access denied",
+  "timestamp": "2024-01-01T10:00:00Z"
+}
+
+Status: 403 Forbidden
+Reason: Endpoint requires ADMIN role, user has CUSTOMER role
+
+6. Refresh Token Expired
+Request:
+POST /api/auth/refresh
+{
+  "refreshToken": "<expired_refresh_token>"
+}
+
+Response:
+{
+  "success": false,
+  "message": "Refresh token has expired",
+  "timestamp": "2024-01-01T10:00:00Z"
+}
+
+Status: 401 Unauthorized
+Client should: Redirect to login page
+
+7. User Already Exists (Registration)
+Request:
+POST /api/auth/register
+{
+  "email": "existing@example.com",
+  "password": "Pass123!",
+  "fullName": "Test User"
+}
+
+Response:
+{
+  "success": false,
+  "message": "User with this email already exists",
+  "timestamp": "2024-01-01T10:00:00Z"
+}
+
+Status: 409 Conflict
+
+8. SECURITY BEST PRACTICES
+✅ Implemented
+HTTPS Only in Production
+
+
+All tokens transmitted over HTTPS
+Prevents man-in-the-middle attacks
+Short Access Token Lifetime
+
+
+Default: 5 minutes
+Reduces window for token theft
+Secure Token Storage
+
+
+Frontend: Store in memory or httpOnly cookies
+Never in localStorage for production
+JWT Signature Verification
+
+
+RSA256 algorithm
+Public/private key pair
+CORS Configuration
+
+
+Whitelist allowed origins
+Prevent unauthorized cross-origin requests
+Role-Based Access Control
+
+
+Use @PreAuthorize annotations
+Check roles in JWT
+Password Validation
+
+
+Min 8 characters
+Must contain uppercase, lowercase, number
+Stored as hash in Keycloak
+Stateless Authentication
+
+
+No server-side sessions
+Horizontal scaling friendly
+
+9. TESTING AUTHENTICATION
+Using cURL
+# 1. Register
+curl -X POST http://localhost:8081/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "test@example.com",
+    "password": "Test123!",
+    "fullName": "Test User",
+    "phone": "0912345678"
+  }'
+
+# 2. Login
+curl -X POST http://localhost:8081/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "test@example.com",
+    "password": "Test123!"
+  }'
+
+# Save access token
+TOKEN="eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9..."
+
+# 3. Access protected endpoint
+curl -X GET http://localhost:8081/api/users/me \
+  -H "Authorization: Bearer $TOKEN"
+
+# 4. Refresh token
+REFRESH_TOKEN="eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9..."
+
+curl -X POST http://localhost:8081/api/auth/refresh \
+  -H "Content-Type: application/json" \
+  -d "{\"refreshToken\": \"$REFRESH_TOKEN\"}"
+
+# 5. Logout
+curl -X POST http://localhost:8081/api/auth/logout \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -d "{\"refreshToken\": \"$REFRESH_TOKEN\"}"
+
+Using Postman
+Create Environment Variables
+
+
+baseUrl: http://localhost:8081
+accessToken: (will be set automatically)
+refreshToken: (will be set automatically)
+Set Tests for Login
+
+ // In Tests tab of Login request
+var jsonData = pm.response.json();
+pm.environment.set("accessToken", jsonData.data.accessToken);
+pm.environment.set("refreshToken", jsonData.data.refreshToken);
+
+
+Use Token in Subsequent Requests
+
+ Authorization: Bearer {{accessToken}}
+
+
+
+📝 SUMMARY
+Authentication Flow Overview
+┌──────────────┐
+│ Registration │ → Create in Keycloak → Save to PostgreSQL
+└──────────────┘
+
+┌──────────────┐
+│    Login     │ → Validate credentials → Return JWT tokens
+└──────────────┘
+
+┌──────────────┐
+│ API Request  │ → Validate JWT → Extract user → Execute
+└──────────────┘
+
+┌──────────────┐
+│   Refresh    │ → Validate refresh token → Issue new tokens
+└──────────────┘
+
+┌──────────────┐
+│   Logout     │ → Revoke tokens → Clear session
+└──────────────┘
+
+Key Points
+Keycloak handles authentication & token generation
+User Service stores user data & business logic
+JWT contains user ID & roles
+Spring Security validates tokens automatically
+Refresh tokens extend session without re-login
+Stateless architecture for scalability
+

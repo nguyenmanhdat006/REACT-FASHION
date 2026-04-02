@@ -6,7 +6,26 @@ import axios, {
   InternalAxiosRequestConfig,
 } from 'axios';
 import toast from 'react-hot-toast';
-import { API_BASE_URL } from '@/constants';
+import { API_BASE_URL, AUTH_ENDPOINTS } from '@/constants';
+import type { ApiResponse } from '@/types/common';
+import type { AuthResponse } from '@/types/auth';
+import {
+  getAccessToken,
+  getRefreshToken,
+  setAuthTokens,
+  clearAuthTokens,
+} from './authStorage';
+
+type RetryConfig = InternalAxiosRequestConfig & { _retry?: boolean };
+type MaybeWrapped<T> = ApiResponse<T> | T;
+
+const unwrapApiData = <T>(response: MaybeWrapped<T>): T => {
+  if (response && typeof response === 'object' && 'data' in response) {
+    return (response as ApiResponse<T>).data;
+  }
+
+  return response as T;
+};
 
 class ApiClient {
   private client: AxiosInstance;
@@ -27,8 +46,10 @@ class ApiClient {
     // Request interceptor
     this.client.interceptors.request.use(
       (config: InternalAxiosRequestConfig) => {
-        const token = localStorage.getItem('accessToken');
-        if (token && config.headers) {
+        const token = getAccessToken();
+        const isAuthRequest = config.url?.includes('/auth');
+
+        if (token && config.headers && !isAuthRequest) {
           config.headers.Authorization = `Bearer ${token}`;
         }
         return config;
@@ -41,7 +62,7 @@ class ApiClient {
     // Response interceptor
     this.client.interceptors.response.use(
       response => response,
-      (error: AxiosError) => {
+      async (error: AxiosError) => {
         if (error.response) {
           const status = error.response.status;
           const message =
@@ -50,9 +71,45 @@ class ApiClient {
 
           switch (status) {
             case 401:
-              // Unauthorized - clear token and redirect to login
-              localStorage.removeItem('accessToken');
-              localStorage.removeItem('refreshToken');
+              {
+                const originalRequest = error.config as RetryConfig | undefined;
+                const refreshToken = getRefreshToken();
+
+                if (
+                  refreshToken &&
+                  originalRequest &&
+                  !originalRequest._retry &&
+                  !originalRequest.url?.includes(AUTH_ENDPOINTS.REFRESH)
+                ) {
+                  originalRequest._retry = true;
+
+                  try {
+                    const refreshResponse = await this.client.post<
+                      MaybeWrapped<AuthResponse>
+                    >(AUTH_ENDPOINTS.REFRESH, { refreshToken });
+                    const refreshData = unwrapApiData(refreshResponse.data);
+
+                    setAuthTokens(
+                      refreshData.accessToken,
+                      refreshData.refreshToken
+                    );
+
+                    if (originalRequest.headers) {
+                      originalRequest.headers.Authorization =
+                        `Bearer ${refreshData.accessToken}`;
+                    }
+
+                    return this.client(originalRequest);
+                  } catch {
+                    clearAuthTokens();
+                    window.location.href = '/login';
+                    toast.error('Session expired. Please login again.');
+                    break;
+                  }
+                }
+
+                clearAuthTokens();
+              }
               window.location.href = '/login';
               toast.error('Session expired. Please login again.');
               break;
