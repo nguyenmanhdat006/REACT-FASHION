@@ -25,7 +25,9 @@ export const loginThunk = createAsyncThunk<
   } catch (error) {
     const errorMessage =
       (error as { response?: { data?: { message?: string } } })?.response?.data
-        ?.message || 'Login failed';
+        ?.message ||
+      (error as { message?: string })?.message ||
+      'Login failed';
     return rejectWithValue(errorMessage);
   }
 });
