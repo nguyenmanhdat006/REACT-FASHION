@@ -42,7 +42,7 @@ const Layout: React.FC = () => {
               <span className="hidden md:inline">Flash Sale mỗi ngày 12:00</span>
             </div>
             <div className="hidden md:flex items-center gap-4">
-              <Link to={ROUTES.HOME} className="hover:underline">
+              <Link to={ROUTES.ADMIN_DASHBOARD} className="hover:underline">
                 Kênh người bán
               </Link>
               <Link to={ROUTES.PRODUCTS} className="hover:underline">
