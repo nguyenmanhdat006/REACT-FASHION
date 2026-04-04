@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { Brand, Category, Product, ProductFilters } from '@/types/product';
+import type { Brand, Category, Product, ProductFilters } from '@/types/product/product';
 import {
   fetchProductsThunk,
   fetchFeaturedProductsThunk,

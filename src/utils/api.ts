@@ -7,8 +7,8 @@ import axios, {
 } from 'axios';
 import toast from 'react-hot-toast';
 import { API_BASE_URL, AUTH_ENDPOINTS } from '@/constants';
-import type { ApiResponse } from '@/types/common';
-import type { AuthResponse } from '@/types/auth';
+import type { ApiResponse } from '@/types/common/common';
+import type { AuthResponse } from '@/types/auth/auth';
 import {
   getAccessToken,
   getRefreshToken,

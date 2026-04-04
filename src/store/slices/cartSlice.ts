@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { Cart } from '@/types/cart';
+import type { Cart } from '@/types/cart/cart';
 import {
   addToCartThunk,
   clearCartThunk,

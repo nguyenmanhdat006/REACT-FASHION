@@ -4,8 +4,8 @@ import {
   SignUpCredentials,
   AuthResponse,
   User,
-} from '@/types/auth';
-import { authService } from '@/services/authService';
+} from '@/types/auth/auth';
+import { authService } from '@/services/auth/authService';
 import {
   setAuthTokens,
   clearAuthTokens,

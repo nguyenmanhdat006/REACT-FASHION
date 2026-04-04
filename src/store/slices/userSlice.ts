@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { Address, User } from '@/types/auth';
+import type { Address, User } from '@/types/auth/auth';
 import {
   fetchAddressesThunk,
   fetchProfileThunk,
