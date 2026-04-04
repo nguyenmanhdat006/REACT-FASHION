@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { orderService } from '@/services/orderService';
-import type { CreateOrderRequest } from '@/types/order';
-import type { PaginationParams } from '@/types/common';
+import { orderService } from '@/services/order/orderService';
+import type { CreateOrderRequest } from '@/types/order/order';
+import type { PaginationParams } from '@/types/common/common';
 
 const getErrorMessage = (error: unknown, fallback: string) =>
   (error as { response?: { data?: { message?: string } } })?.response?.data

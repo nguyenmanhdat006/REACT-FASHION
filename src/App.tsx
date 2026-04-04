@@ -1,27 +1,27 @@
 import React, { Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import Layout from './components/Layout';
-import LoadingSpinner from './components/LoadingSpinner';
-import { useTheme } from './hooks/useTheme';
+import Layout from './components/layout/Layout';
+import LoadingSpinner from './components/feedback/LoadingSpinner';
+import { useTheme } from './hooks/theme/useTheme';
 
 // Lazy load pages
-const Home = React.lazy(() => import('@/pages/Home'));
-const Products = React.lazy(() => import('@/pages/Products'));
-const ProductDetail = React.lazy(() => import('@/pages/ProductDetail'));
-const Cart = React.lazy(() => import('@/pages/Cart'));
-const Checkout = React.lazy(() => import('@/pages/Checkout'));
-const Orders = React.lazy(() => import('@/pages/Orders'));
-const OrderDetail = React.lazy(() => import('@/pages/OrderDetail'));
-const Profile = React.lazy(() => import('@/pages/Profile'));
-const AdminDashboard = React.lazy(() => import('@/pages/AdminDashboard'));
-const Login = React.lazy(() => import('@/pages/Login'));
-const SignUp = React.lazy(() => import('@/pages/SignUp'));
-const ForgotPassword = React.lazy(() => import('@/pages/ForgotPassword'));
-const NotFound = React.lazy(() => import('@/pages/NotFound'));
+const Home = React.lazy(() => import('@/pages/public/Home'));
+const Products = React.lazy(() => import('@/pages/product/Products'));
+const ProductDetail = React.lazy(() => import('@/pages/product/ProductDetail'));
+const Cart = React.lazy(() => import('@/pages/cart/Cart'));
+const Checkout = React.lazy(() => import('@/pages/cart/Checkout'));
+const Orders = React.lazy(() => import('@/pages/order/Orders'));
+const OrderDetail = React.lazy(() => import('@/pages/order/OrderDetail'));
+const Profile = React.lazy(() => import('@/pages/user/Profile'));
+const AdminDashboard = React.lazy(() => import('@/pages/admin/AdminDashboard'));
+const Login = React.lazy(() => import('@/pages/auth/Login'));
+const SignUp = React.lazy(() => import('@/pages/auth/SignUp'));
+const ForgotPassword = React.lazy(() => import('@/pages/auth/ForgotPassword'));
+const NotFound = React.lazy(() => import('@/pages/public/NotFound'));
 
 // Protected Route Component
-import ProtectedRoute from './components/ProtectedRoute';
+import ProtectedRoute from './components/navigation/ProtectedRoute';
 
 function App() {
   const { theme } = useTheme();

@@ -8,7 +8,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import App from './App';
 import { store, persistor } from './store';
-import ErrorBoundary from './components/ErrorBoundary';
+import ErrorBoundary from './components/feedback/ErrorBoundary';
 import './index.css';
 import './config/i18n';
 

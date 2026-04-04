@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { cartService } from '@/services/cartService';
-import type { AddToCartRequest } from '@/types/cart';
+import { cartService } from '@/services/cart/cartService';
+import type { AddToCartRequest } from '@/types/cart/cart';
 
 const getErrorMessage = (error: unknown, fallback: string) =>
   (error as { response?: { data?: { message?: string } } })?.response?.data

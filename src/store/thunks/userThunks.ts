@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { userService } from '@/services/userService';
-import type { User } from '@/types/auth';
+import { userService } from '@/services/user/userService';
+import type { User } from '@/types/auth/auth';
 
 const getErrorMessage = (error: unknown, fallback: string) =>
   (error as { response?: { data?: { message?: string } } })?.response?.data

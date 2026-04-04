@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { Order } from '@/types/order';
+import type { Order } from '@/types/order/order';
 import {
   cancelOrderThunk,
   createOrderThunk,
