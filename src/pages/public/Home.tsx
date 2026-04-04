@@ -1,33 +1,27 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
 import { ROUTES } from '@/constants';
 import { MOCK_PRODUCTS } from '@/mocks/ecommerce/ecommerceMockData';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { fetchFeaturedProductsThunk } from '@/store/thunks';
+import { fetchFeaturedProductsThunk, fetchCategoriesThunk } from '@/store/thunks';
 
 const Home: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { featured } = useAppSelector(state => state.products);
+  const navigate = useNavigate();
+  const { featured, categories } = useAppSelector(state => state.products);
 
   useEffect(() => {
     void dispatch(fetchFeaturedProductsThunk());
+    void dispatch(fetchCategoriesThunk());
   }, [dispatch]);
 
   const featuredProducts =
     featured.length > 0 ? featured : MOCK_PRODUCTS.filter(product => product.featured);
   const flashSaleProducts = MOCK_PRODUCTS.filter(product => product.salePrice).slice(0, 4);
-  const topCategories = [
-    { label: 'Women', search: 'women' },
-    { label: 'Men', search: 'men' },
-    { label: 'Shoes', search: 'shoes' },
-    { label: 'Bags', search: 'bags' },
-    { label: 'Accessories', search: 'accessories' },
-    { label: 'Streetwear', search: 'streetwear' },
-  ];
 
   const trustHighlights = [
     { title: 'Miễn phí vận chuyển', description: 'Cho đơn từ 199K toàn quốc' },
@@ -60,7 +54,11 @@ const Home: React.FC = () => {
               </Button>
             </Link>
             <Link to={ROUTES.CART}>
-              <Button variant="outline" size="lg">
+              <Button
+                variant="outline"
+                size="lg"
+                className="border-white text-white hover:bg-white hover:text-primary-700 dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-primary-700"
+              >
                 View Cart
               </Button>
             </Link>
@@ -112,17 +110,21 @@ const Home: React.FC = () => {
         </section>
 
         <section className="space-y-3">
-          <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Top Categories</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Categories</h2>
           <div className="flex flex-wrap gap-3">
-            {topCategories.map(category => (
-              <Link
-                key={category.search}
-                to={`${ROUTES.PRODUCTS}?search=${encodeURIComponent(category.search)}`}
-                className="px-4 py-2 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm font-medium text-gray-700 dark:text-gray-200 hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-300 transition-colors"
-              >
-                {category.label}
-              </Link>
-            ))}
+            {categories.length > 0 ? (
+              categories.slice(0, 6).map(category => (
+                <button
+                  key={category.id}
+                  onClick={() => navigate(`${ROUTES.PRODUCTS}?categoryId=${category.id}`)}
+                  className="px-4 py-2 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm font-medium text-gray-700 dark:text-gray-200 hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-300 transition-colors"
+                >
+                  {category.name}
+                </button>
+              ))
+            ) : (
+              <p className="text-gray-600">Loading categories...</p>
+            )}
           </div>
         </section>
 

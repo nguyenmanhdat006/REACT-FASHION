@@ -53,7 +53,7 @@ export const logoutThunk = createAsyncThunk<
   void,
   void,
   { rejectValue: string }
->('auth/logout', async (_, { rejectWithValue }) => {
+>('auth/logout', async () => {
   try {
     const refreshToken = getRefreshToken();
 
@@ -63,12 +63,10 @@ export const logoutThunk = createAsyncThunk<
     }
 
     await authService.logout(refreshToken);
+  } catch {
+    // Always clear local session even if backend logout endpoint fails.
+  } finally {
     clearAuthTokens();
-  } catch (error) {
-    const errorMessage =
-      (error as { response?: { data?: { message?: string } } })?.response?.data
-        ?.message || 'Logout failed';
-    return rejectWithValue(errorMessage);
   }
 });
 
