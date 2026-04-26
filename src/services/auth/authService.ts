@@ -135,6 +135,7 @@ export const authService = {
         AUTH_ENDPOINTS.LOGIN,
         credentials
       );
+
       const authData = unwrapApiData(response);
 
       if (!authData?.accessToken || !authData?.refreshToken) {

@@ -9,6 +9,8 @@ import toast from 'react-hot-toast';
 import { API_BASE_URL, AUTH_ENDPOINTS } from '@/constants';
 import type { ApiResponse } from '@/types/common/common';
 import type { AuthResponse } from '@/types/auth/auth';
+import { IS_MOCK_ENABLED } from '@/config/env';
+import { handleMockApiRequest } from '@/mocks/handlers/mockApiHandlers';
 import {
   getAccessToken,
   getRefreshToken,
@@ -136,43 +138,78 @@ class ApiClient {
     );
   }
 
-  public get<T = unknown>(url: string, config?: AxiosRequestConfig): Promise<T> {
+  public async get<T = unknown>(url: string, config?: AxiosRequestConfig): Promise<T> {
+    if (IS_MOCK_ENABLED) {
+      const mockResponse = await handleMockApiRequest<T>('get', url, undefined, config);
+      if (mockResponse !== undefined) {
+        return mockResponse;
+      }
+    }
+
     return this.client
       .get<T, AxiosResponse<T>>(url, config)
       .then(response => response.data);
   }
 
-  public post<T = unknown>(
+  public async post<T = unknown>(
     url: string,
     data?: unknown,
     config?: AxiosRequestConfig
   ): Promise<T> {
+    if (IS_MOCK_ENABLED) {
+      const mockResponse = await handleMockApiRequest<T>('post', url, data, config);
+      if (mockResponse !== undefined) {
+        return mockResponse;
+      }
+    }
+
     return this.client
       .post<T, AxiosResponse<T>>(url, data, config)
       .then(response => response.data);
   }
 
-  public put<T = unknown>(
+  public async put<T = unknown>(
     url: string,
     data?: unknown,
     config?: AxiosRequestConfig
   ): Promise<T> {
+    if (IS_MOCK_ENABLED) {
+      const mockResponse = await handleMockApiRequest<T>('put', url, data, config);
+      if (mockResponse !== undefined) {
+        return mockResponse;
+      }
+    }
+
     return this.client
       .put<T, AxiosResponse<T>>(url, data, config)
       .then(response => response.data);
   }
 
-  public patch<T = unknown>(
+  public async patch<T = unknown>(
     url: string,
     data?: unknown,
     config?: AxiosRequestConfig
   ): Promise<T> {
+    if (IS_MOCK_ENABLED) {
+      const mockResponse = await handleMockApiRequest<T>('patch', url, data, config);
+      if (mockResponse !== undefined) {
+        return mockResponse;
+      }
+    }
+
     return this.client
       .patch<T, AxiosResponse<T>>(url, data, config)
       .then(response => response.data);
   }
 
-  public delete<T = unknown>(url: string, config?: AxiosRequestConfig): Promise<T> {
+  public async delete<T = unknown>(url: string, config?: AxiosRequestConfig): Promise<T> {
+    if (IS_MOCK_ENABLED) {
+      const mockResponse = await handleMockApiRequest<T>('delete', url, undefined, config);
+      if (mockResponse !== undefined) {
+        return mockResponse;
+      }
+    }
+
     return this.client
       .delete<T, AxiosResponse<T>>(url, config)
       .then(response => response.data);
