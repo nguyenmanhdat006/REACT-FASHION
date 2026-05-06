@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
-import Card from '@/components/ui/Card';
+import { Card } from '@/components/ui/card';
 
 const About: React.FC = () => {
   const { t } = useTranslation();

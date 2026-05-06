@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import Button from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/constants';
 import { MOCK_PRODUCTS } from '@/mocks/ecommerce/ecommerceMockData';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';

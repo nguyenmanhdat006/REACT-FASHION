@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import Button from '@/components/ui/Button';
-import Card from '@/components/ui/Card';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import Input from '@/components/form/Input';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchProfileThunk, updateProfileThunk } from '@/store/thunks';

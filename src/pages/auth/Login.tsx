@@ -6,9 +6,9 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useAuth } from '@/hooks/auth/useAuth';
-import Button from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import Input from '@/components/form/Input';
-import Card from '@/components/ui/Card';
+import { Card } from '@/components/ui/card';
 import { ROUTES } from '@/constants';
 
 const loginSchema = z.object({

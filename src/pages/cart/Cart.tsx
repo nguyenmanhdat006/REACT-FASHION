@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import Button from '@/components/ui/Button';
-import Card from '@/components/ui/Card';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { ROUTES } from '@/constants';
 import { useCart } from '@/hooks/cart/useCart';
 import { MOCK_CART } from '@/mocks/ecommerce/ecommerceMockData';

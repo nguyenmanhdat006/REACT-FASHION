@@ -2,7 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import Button from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/constants';
 
 const NotFound: React.FC = () => {

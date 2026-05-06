@@ -2,7 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/hooks/auth/useAuth';
-import Card from '@/components/ui/Card';
+import { Card } from '@/components/ui/card';
 import Table from '@/components/data-display/Table';
 
 // Mock data for demonstration

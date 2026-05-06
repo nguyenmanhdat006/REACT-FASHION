@@ -2,7 +2,7 @@ import React from 'react';
 import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/auth/useAuth';
 import { useTheme } from '@/hooks/theme/useTheme';
-import Button from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/constants';
 
 const Layout: React.FC = () => {
@@ -68,7 +68,7 @@ const Layout: React.FC = () => {
                   placeholder="Tìm sản phẩm, thương hiệu và shop"
                   className="w-full h-10 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-4 text-sm text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
                 />
-                <Button type="submit" variant="primary" size="sm" className="h-10 px-5">
+                  <Button type="submit" variant="default" size="sm" className="h-10 px-5">
                   Tìm
                 </Button>
               </form>
@@ -122,8 +122,8 @@ const Layout: React.FC = () => {
                     >
                       Login
                     </Button>
-                    <Button
-                      variant="primary"
+                      <Button
+                        variant="default"
                       size="sm"
                       onClick={() => navigate(ROUTES.SIGNUP)}
                     >
@@ -223,7 +223,7 @@ const Layout: React.FC = () => {
                       Login
                     </Button>
                     <Button
-                      variant="primary"
+                      variant="default"
                       size="sm"
                       onClick={() => navigate(ROUTES.SIGNUP)}
                     >

@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
-import Button from '@/components/ui/Button';
-import Card from '@/components/ui/Card';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import Input from '@/components/form/Input';
 import { ROUTES } from '@/constants';
 import { MOCK_PRODUCTS } from '@/mocks/ecommerce/ecommerceMockData';

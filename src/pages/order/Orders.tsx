@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import Card from '@/components/ui/Card';
+import { Card } from '@/components/ui/card';
 import { ROUTES } from '@/constants';
 import { MOCK_ORDERS } from '@/mocks/ecommerce/ecommerceMockData';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';

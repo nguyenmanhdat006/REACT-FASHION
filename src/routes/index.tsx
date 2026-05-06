@@ -17,6 +17,8 @@ const SignUp = React.lazy(() => import('@/pages/auth/SignUp'));
 const ForgotPassword = React.lazy(() => import('@/pages/auth/ForgotPassword'));
 const NotFound = React.lazy(() => import('@/pages/public/NotFound'));
 
+const LoginV2 = React.lazy(() => import('@/pages/authV2/LoginV2'));
+
 export const routes: RouteObject[] = [
   {
     path: '/',
@@ -55,12 +57,12 @@ export const routes: RouteObject[] = [
   },
   {
     path: '/v2',
-    element: <Layout />,
+    // element: <Layout />,
     children: [
+      { path: 'login', element: <LoginV2 /> },
       { index: true, element: <Home /> },
       { path: 'products', element: <Products /> },
       { path: 'products/:slug', element: <ProductDetail /> },
-      { path: 'login', element: <Login /> },
       { path: 'signup', element: <SignUp /> },
       { path: 'forgot-password', element: <ForgotPassword /> },
       {

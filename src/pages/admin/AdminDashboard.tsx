@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import toast from 'react-hot-toast';
-import Card from '@/components/ui/Card';
+import { Card } from '@/components/ui/card';
 import Table from '@/components/data-display/Table';
-import Button from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import Input from '@/components/form/Input';
 import Modal from '@/components/overlay/Modal';
 import { productService } from '@/services/product/productService';
