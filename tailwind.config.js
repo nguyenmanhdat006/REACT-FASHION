@@ -28,21 +28,17 @@ export default {
           white: '#FFFFFF',
         },
         primary: {
-          900: '#5F33E1',
-          800: '#AB94FF', // hover
-          700: '#EEE9FF',
+          900: '#C8A8E9',
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',
         },
         secondary: {
-          900: '#F478B8',
-          700: '#FAD1E4',
+          900: '#C3C7F4',
           DEFAULT: 'hsl(var(--secondary))',
           foreground: 'hsl(var(--secondary-foreground))',
         },
         accent: {
           900: '#FF7D53',
-          700: '#FFE9E1',
           DEFAULT: 'hsl(var(--accent))',
           foreground: 'hsl(var(--accent-foreground))',
         },

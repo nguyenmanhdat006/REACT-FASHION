@@ -9,8 +9,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 
-const sectionClass = 'flex flex-col flex-1 items-center justify-center gap-10 py-12 px-6 sm:px-12 md:px-20 lg:px-[120px] relative self-stretch bg-[url(/frame-2.png)] bg-cover bg-center max-w-full md:max-w-[728px]';
-const formWrapper = 'flex flex-col items-center justify-center gap-6 relative self-stretch w-full';
+const sectionClass = 'flex flex-1 flex-col items-center h-full justify-center gap-10 py-12 px-6 sm:px-12 md:px-20 lg:px-[120px] bg-cover bg-center overflow-y-auto';
+const formWrapper = 'flex flex-col items-center justify-center gap-6 relative w-full max-w-xl';
 const inputsWrapper = 'flex flex-col items-center gap-5 relative self-stretch w-full';
 const labelClass = 'text-black text-base font-normal';
 const inputClass = 'h-14 rounded-2xl border-secondary-900 px-4 text-base placeholder:text-gray-500 w-full';
@@ -54,13 +54,13 @@ export default function FormSection(): JSX.Element {
           </div>
         </div>
 
-        <Button type="submit" className="w-full h-12 rounded-[32px] bg-primary-900 hover:bg-primary-900/90 text-white text-base font-medium">Login</Button>
+        <Button type="submit" className="w-full h-12 rounded-[32px] bg-primary hover:bg-primary-900/90 text-white text-base font-medium">Login</Button>
       </form>
 
       <div className="flex items-center justify-center gap-2 relative self-stretch w-full" aria-label="Alternative login methods">
-        <div className="flex-1 h-px bg-gray-300" />
-        <span className="text-black text-sm font-medium px-2">OR</span>
-        <div className="flex-1 h-px bg-gray-300" />
+        <div className="flex-1 h-px bg-gray-300 max-w-[200px]" />
+        <span className="text-black text-body-regular px-2">OR</span>
+        <div className="flex-1 h-px bg-gray-300 max-w-[200px]" />
       </div>
 
       <SocialProviders>
@@ -70,8 +70,8 @@ export default function FormSection(): JSX.Element {
       </SocialProviders>
 
       <div className="flex items-center justify-center gap-1 relative mt-2 text-base">
-        <span className="text-black font-normal">Don&apos;t have account?</span>
-        <button type="button" className="text-primary-900 font-medium hover:underline">Register now</button>
+        <span className="text-body-regular">Don&apos;t have account?</span>
+        <button type="button" className="text-primary-900 text-body-regular hover:underline">Register now</button>
       </div>
     </section>
   );
