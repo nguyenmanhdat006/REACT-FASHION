@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+import { primary, secondary, accent, gray } from './src/constants/colors';
+
 export default {
   darkMode: ['class'],
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
@@ -12,33 +14,19 @@ export default {
     },
     extend: {
       colors: {
-        gray: {
-          black: '#000000',
-          900: '#121315',
-          800: '#1C1D1F',
-          700: '#232426',
-          600: '#323335',
-          500: '#545556',
-          400: '#858586',
-          300: '#B6B6B7',
-          200: '#CECECF',
-          100: '#E7E7E7',
-          50: '#F3F3F3',
-
-          white: '#FFFFFF',
-        },
+        gray: gray,
         primary: {
-          900: '#C8A8E9',
+          ...primary,
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',
         },
         secondary: {
-          900: '#C3C7F4',
+          ...secondary,
           DEFAULT: 'hsl(var(--secondary))',
           foreground: 'hsl(var(--secondary-foreground))',
         },
         accent: {
-          900: '#FF7D53',
+          ...accent,
           DEFAULT: 'hsl(var(--accent))',
           foreground: 'hsl(var(--accent-foreground))',
         },
