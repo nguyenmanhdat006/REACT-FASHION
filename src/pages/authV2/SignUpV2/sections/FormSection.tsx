@@ -11,6 +11,7 @@ import SocialProviders from '../../components/SocialProviders';
 import TermsAgreement from '../../components/TermsAgreement';
 import { FormField } from '../../../../components/FormField';
 import { Button } from '@/components/ui/button';
+import { ROUTESV2 } from '@/constants';
 
 const signUpSchema = z
   .object({
@@ -105,7 +106,7 @@ export default function FormSection(): JSX.Element {
 
       <div className="flex items-center justify-center gap-1 relative mt-2 text-base">
         <span className="text-body-regular">Already a member?</span>
-        <Link to="/v2/login" className="text-primary text-body-regular hover:underline">Login</Link>
+        <Link to={ROUTESV2.LOGIN} className="text-primary text-body-regular hover:underline">Login</Link>
       </div>
     </section>
   );

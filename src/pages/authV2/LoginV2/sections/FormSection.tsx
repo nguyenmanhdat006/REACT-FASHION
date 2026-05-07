@@ -10,6 +10,7 @@ import HeaderSection from './HeaderSection';
 import SocialProviders from '../../components/SocialProviders';
 import { FormField } from '../../../../components/FormField';
 import { Button } from '@/components/ui/button';
+import { ROUTESV2 } from '@/constants';
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -97,7 +98,7 @@ export default function FormSection(): JSX.Element {
 
       <div className="flex items-center justify-center gap-1 relative mt-2 text-base">
         <span className="text-body-regular">Don&apos;t have account?</span>
-        <Link to="/v2/signup" className="text-primary text-body-regular hover:underline">Register now</Link>
+        <Link to={ROUTESV2.SIGNUP} className="text-primary text-body-regular hover:underline">Register now</Link>
       </div>
     </section>
   );

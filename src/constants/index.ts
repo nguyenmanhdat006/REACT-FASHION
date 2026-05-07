@@ -13,6 +13,11 @@ export const ROUTES = {
   FORGOT_PASSWORD: '/forgot-password',
 } as const;
 
+export const ROUTESV2 = {
+  ...ROUTES,
+  LOGIN: '/v2/login',
+} as const;
+
 export const USER_ROLES = {
   ADMIN: 'ADMIN',
   USER: 'CUSTOMER',
