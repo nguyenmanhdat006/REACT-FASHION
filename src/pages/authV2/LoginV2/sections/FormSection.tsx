@@ -54,7 +54,7 @@ export default function FormSection(): JSX.Element {
           </div>
         </div>
 
-        <Button type="submit" className="w-full h-12 rounded-[32px] bg-primary hover:bg-primary-900/90 text-white text-base font-medium">Login</Button>
+        <Button type="submit" className="w-full h-12 rounded-[32px] bg-primary hover:bg-primary/90 text-white text-base font-medium">Login</Button>
       </form>
 
       <div className="flex items-center justify-center gap-2 relative self-stretch w-full" aria-label="Alternative login methods">
