@@ -1,4 +1,5 @@
 import { useId, useState, type JSX } from 'react';
+import { Link } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
 import { FaFacebook, FaApple } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
@@ -6,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useAuth } from '@/hooks/auth/useAuth';
 import HeaderSection from './HeaderSection';
-import SocialProviders from './SocialProviders';
+import SocialProviders from '../../components/SocialProviders';
 import { FormField } from '../../../../components/FormField';
 import { Button } from '@/components/ui/button';
 
@@ -69,7 +70,7 @@ export default function FormSection(): JSX.Element {
           />
 
           <div className="relative self-stretch text-right">
-            <button type="button" className="text-black text-sm font-medium hover:underline hover:text-primary transition-all">Forgot your password?</button>
+            <button type="button" className="text-black text-sm font-medium hover:underline hover:text-primary">Forgot your password?</button>
           </div>
         </div>
 
@@ -96,7 +97,7 @@ export default function FormSection(): JSX.Element {
 
       <div className="flex items-center justify-center gap-1 relative mt-2 text-base">
         <span className="text-body-regular">Don&apos;t have account?</span>
-        <button type="button" className="text-primary text-body-regular hover:underline">Register now</button>
+        <Link to="/v2/signup" className="text-primary text-body-regular hover:underline">Register now</Link>
       </div>
     </section>
   );
