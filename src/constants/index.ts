@@ -16,6 +16,7 @@ export const ROUTES = {
 export const ROUTESV2 = {
   ...ROUTES,
   LOGIN: '/v2/login',
+  SIGNUP: '/v2/signup',
 } as const;
 
 export const USER_ROLES = {

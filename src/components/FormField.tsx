@@ -17,8 +17,8 @@ interface FormFieldProps {
   onPasswordToggle?: () => void;
 }
 
-const labelClass = 'text-black text-base font-normal';
-const inputClass = 'h-14 rounded-2xl border-secondary-900 px-4 text-base placeholder:text-gray-500 w-full';
+const labelClass = 'text-black text-body-regular font-normal';
+const inputClass = 'h-14 rounded-2xl border-secondary-900 px-4 text-body-regular placeholder:text-gray-500 w-full';
 
 export function FormField({
   id,

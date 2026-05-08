@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 const bannerWrapper = 'hidden md:flex flex-1 flex-col items-center justify-center p-9';
-const bannerInner = 'flex flex-col items-center justify-center h-full w-full bg-slate-50 rounded-2xl p-12 gap-8 overflow-hidden';
+const bannerInner = 'flex flex-col items-center justify-center h-full w-full bg-primary/10 rounded-2xl p-12 gap-8 overflow-hidden';
 const heroImg = 'w-full max-w-[540px] aspect-square object-contain';
 
 const slides = [
