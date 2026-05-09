@@ -19,6 +19,7 @@ const NotFound = React.lazy(() => import('@/pages/public/NotFound'));
 
 const LoginV2 = React.lazy(() => import('@/pages/authV2/LoginV2'));
 const SignUpV2 = React.lazy(() => import('@/pages/authV2/SignUpV2'));
+const OrderListV2 = React.lazy(() => import('@/pages/orderV2'));
 
 
 export const routes: RouteObject[] = [
@@ -76,7 +77,7 @@ export const routes: RouteObject[] = [
         children: [
           { path: 'cart', element: <Cart /> },
           { path: 'checkout', element: <Checkout /> },
-          { path: 'orders', element: <Orders /> },
+          { path: 'orders', element: <OrderListV2 /> },
           { path: 'orders/:id', element: <OrderDetail /> },
           { path: 'profile', element: <Profile /> },
           {
