@@ -1,0 +1,364 @@
+{
+  "communities": {
+    "0": [
+      "Brand",
+      "CODING_GUIDE.md",
+      "Category",
+      "CreateOrderRequest",
+      "CreateReviewRequest",
+      "Order",
+      "OrderDetail",
+      "OrderItem",
+      "OrderStatus",
+      "PageResponse",
+      "PaginationParams",
+      "PaymentMethod",
+      "PaymentStatus",
+      "Product",
+      "ProductDetail",
+      "ProductVariant",
+      "README.md",
+      "Review",
+      "apicontract.MD",
+      "common.ts",
+      "order-service",
+      "order.ts",
+      "product-service",
+      "product.ts",
+      "redux-store",
+      "review-service",
+      "review.ts"
+    ],
+    "1": [
+      "button_test",
+      "button_ui",
+      "card_comp",
+      "class_variance",
+      "ecommerce_api",
+      "error_boundary",
+      "eslint",
+      "eslint_config",
+      "formfield_comp",
+      "input_form_comp",
+      "input_ui",
+      "label_ui",
+      "lucide_react",
+      "modal_comp",
+      "radix_ui",
+      "react",
+      "react_hook_form",
+      "table_comp",
+      "typescript",
+      "vite",
+      "vite_config",
+      "vitest",
+      "vitest_config"
+    ],
+    "2": [
+      "AddToCartRequest",
+      "Address",
+      "Button_comp",
+      "Card_comp",
+      "Home_page",
+      "Input_comp",
+      "ProductDetail_page",
+      "Products_page",
+      "Profile_page",
+      "addToCartThunk",
+      "fetchAddressesThunk",
+      "fetchBrandsThunk",
+      "fetchCartThunk",
+      "fetchCategoriesThunk",
+      "fetchFeaturedProductsThunk",
+      "fetchProductBySlugThunk",
+      "fetchProductsThunk",
+      "fetchProfileThunk",
+      "productService",
+      "productsSlice",
+      "updateProfileThunk",
+      "userService",
+      "userSlice"
+    ],
+    "3": [
+      "AdminDashboard",
+      "Checkout",
+      "ForgotPassword",
+      "Home",
+      "Layout",
+      "Login",
+      "LoginV2",
+      "NotFound",
+      "Orders",
+      "PaymentIntent",
+      "ProtectedRoute",
+      "SignUp",
+      "SignUpV2",
+      "TAILWIND_DESIGN_SYSTEM.md",
+      "cn",
+      "debounce",
+      "helpers.ts",
+      "payment-service",
+      "payment.ts",
+      "routes.tsx",
+      "throttle"
+    ],
+    "4": [
+      "AuthHeader_comp",
+      "AuthLayout_comp",
+      "AuthSwitchPrompt_comp",
+      "BannerSection_comp",
+      "Dashboard_page",
+      "FormField_comp",
+      "LoginFormSection_comp",
+      "LoginV2_page",
+      "SignUpFormSection_comp",
+      "SignUpV2_page",
+      "SocialAuthSection_comp",
+      "SocialProviders_comp",
+      "Table_comp",
+      "TermsAgreement_comp",
+      "authService",
+      "keycloakAuthService",
+      "useAuth_hook"
+    ],
+    "5": [
+      "app_tsx",
+      "i18n_config",
+      "i18next",
+      "layout_comp",
+      "loading_spinner",
+      "main_tsx",
+      "postcss_config",
+      "protected_route",
+      "react_helmet",
+      "react_hot_toast",
+      "react_query",
+      "react_router",
+      "redux",
+      "redux_persist",
+      "tailwind_config",
+      "tailwindcss"
+    ],
+    "6": [
+      "AuthResponse",
+      "Orders_page",
+      "User",
+      "authSlice",
+      "cancelOrderThunk",
+      "createOrderThunk",
+      "fetchOrderByIdThunk",
+      "fetchOrdersThunk",
+      "getProfileThunk",
+      "loginThunk",
+      "logoutThunk",
+      "ordersSlice",
+      "refreshTokenThunk",
+      "signUpThunk",
+      "store",
+      "themeSlice"
+    ],
+    "7": [
+      "ApiClient",
+      "ApiResponse",
+      "Profile",
+      "api.ts",
+      "auth-service",
+      "authStorage.ts",
+      "axios",
+      "clearAuthTokens",
+      "getAccessToken",
+      "response.ts",
+      "setAuthTokens",
+      "unwrapApiData"
+    ],
+    "8": [
+      "Cart",
+      "CartItem",
+      "CartStatus",
+      "UpdateCartItemRequest",
+      "cart-service",
+      "cartSlice",
+      "clearCartThunk",
+      "removeCartItemThunk",
+      "updateCartItemThunk"
+    ],
+    "9": [
+      "Shipment",
+      "ShippingFeeRequest",
+      "ShippingFeeResponse",
+      "shippingService"
+    ],
+    "10": [
+      "e2e_spec",
+      "playwright",
+      "playwright_config"
+    ],
+    "11": [
+      "date.ts",
+      "dayjs",
+      "formatDate"
+    ],
+    "12": [
+      "jwt.ts",
+      "parseJwtPayload"
+    ],
+    "13": [
+      "vite_env"
+    ],
+    "14": [
+      "lib.utils.ts"
+    ],
+    "15": [
+      "index.html"
+    ],
+    "16": [
+      "About_page"
+    ],
+    "17": [
+      "NotFound_page"
+    ],
+    "18": [
+      "cartService"
+    ],
+    "19": [
+      "orderService"
+    ],
+    "20": [
+      "notificationService"
+    ],
+    "21": [
+      "paymentService"
+    ],
+    "22": [
+      "reviewService"
+    ],
+    "23": [
+      "useAppDispatch"
+    ],
+    "24": [
+      "useAppSelector"
+    ],
+    "25": [
+      "LoginCredentials"
+    ],
+    "26": [
+      "SignUpCredentials"
+    ],
+    "27": [
+      "JwtProfilePayload"
+    ],
+    "28": [
+      "KeycloakAuthSession"
+    ]
+  },
+  "cohesion": {},
+  "god_nodes": [
+    {
+      "id": "routes.tsx",
+      "label": "Route Definitions",
+      "degree": 16
+    },
+    {
+      "id": "react",
+      "label": "React",
+      "degree": 14
+    },
+    {
+      "id": "main_tsx",
+      "label": "src/main.tsx",
+      "degree": 10
+    },
+    {
+      "id": "order.ts",
+      "label": "Order Types",
+      "degree": 8
+    },
+    {
+      "id": "Cart",
+      "label": "Cart",
+      "degree": 8
+    },
+    {
+      "id": "button_ui",
+      "label": "Button UI Component",
+      "degree": 7
+    },
+    {
+      "id": "Products_page",
+      "label": "Products",
+      "degree": 7
+    },
+    {
+      "id": "addToCartThunk",
+      "label": "addToCartThunk",
+      "degree": 6
+    },
+    {
+      "id": "Button_comp",
+      "label": "Button",
+      "degree": 6
+    },
+    {
+      "id": "store",
+      "label": "Redux Store",
+      "degree": 6
+    }
+  ],
+  "surprises": [
+    {
+      "source": "Cart",
+      "target": "Cart Service",
+      "source_files": [
+        "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+        "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt"
+      ],
+      "confidence": "INFERRED",
+      "relation": "uses",
+      "why": "inferred connection - not explicitly stated in source; peripheral node `Cart Service` unexpectedly reaches hub `Cart`"
+    },
+    {
+      "source": "Route Definitions",
+      "target": "Cart",
+      "source_files": [
+        "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+        "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "renders",
+      "why": "bridges separate communities"
+    },
+    {
+      "source": "Orders",
+      "target": "fetchOrdersThunk",
+      "source_files": [
+        "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+        "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "dispatches",
+      "why": "cross-file semantic connection"
+    },
+    {
+      "source": "ProductDetail",
+      "target": "fetchProductBySlugThunk",
+      "source_files": [
+        "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+        "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "dispatches",
+      "why": "cross-file semantic connection"
+    },
+    {
+      "source": "ProductDetail",
+      "target": "addToCartThunk",
+      "source_files": [
+        "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+        "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "dispatches",
+      "why": "cross-file semantic connection"
+    }
+  ]
+}

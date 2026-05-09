@@ -1,0 +1,3475 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {
+    "hyperedges": [
+      {
+        "id": "ui_component_group",
+        "label": "UI Components",
+        "members": [
+          "button_ui",
+          "input_ui",
+          "label_ui",
+          "card_comp",
+          "modal_comp"
+        ],
+        "relation": "form coherent UI library",
+        "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt"
+      },
+      {
+        "id": "component_group",
+        "label": "React Components",
+        "members": [
+          "formfield_comp",
+          "table_comp",
+          "error_boundary",
+          "loading_spinner",
+          "layout_comp",
+          "protected_route"
+        ],
+        "relation": "form application component hierarchy",
+        "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt"
+      },
+      {
+        "id": "config_group",
+        "label": "Build & Development Configuration",
+        "members": [
+          "vite_config",
+          "vitest_config",
+          "eslint_config",
+          "tailwind_config",
+          "postcss_config"
+        ],
+        "relation": "form development environment setup",
+        "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt"
+      },
+      {
+        "id": "testing_group",
+        "label": "Testing Stack",
+        "members": [
+          "vitest",
+          "playwright",
+          "button_test",
+          "e2e_spec"
+        ],
+        "relation": "form testing infrastructure",
+        "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt"
+      },
+      {
+        "id": "auth-flow",
+        "label": "Authentication Flow",
+        "nodes": [
+          "Login",
+          "auth-service",
+          "getAccessToken",
+          "setAuthTokens",
+          "ApiClient",
+          "ProtectedRoute"
+        ],
+        "description": "Complete authentication flow from login through token management to route protection",
+        "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt"
+      },
+      {
+        "id": "order-management",
+        "label": "Order Management",
+        "nodes": [
+          "Order",
+          "OrderItem",
+          "OrderStatus",
+          "order-service",
+          "Orders",
+          "OrderDetail",
+          "Checkout"
+        ],
+        "description": "Order creation, tracking, and detail viewing workflow",
+        "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt"
+      },
+      {
+        "id": "product-catalog",
+        "label": "Product Catalog",
+        "nodes": [
+          "Product",
+          "Category",
+          "Brand",
+          "ProductVariant",
+          "product-service",
+          "ProductDetail",
+          "Cart"
+        ],
+        "description": "Product management and display system",
+        "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt"
+      },
+      {
+        "id": "payment-processing",
+        "label": "Payment Processing",
+        "nodes": [
+          "PaymentIntent",
+          "PaymentStatus",
+          "PaymentMethod",
+          "payment-service",
+          "Checkout",
+          "Order"
+        ],
+        "description": "Payment flow from checkout to order completion",
+        "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt"
+      },
+      {
+        "id": "utilities-layer",
+        "label": "Utilities Layer",
+        "nodes": [
+          "authStorage.ts",
+          "date.ts",
+          "helpers.ts",
+          "jwt.ts",
+          "response.ts",
+          "api.ts"
+        ],
+        "description": "Cross-cutting utility functions supporting the application",
+        "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt"
+      },
+      {
+        "id": "auth_flow",
+        "nodes": [
+          "LoginV2_page",
+          "SignUpV2_page",
+          "LoginFormSection_comp",
+          "SignUpFormSection_comp",
+          "useAuth_hook",
+          "authService"
+        ],
+        "relation": "authentication_module",
+        "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt"
+      },
+      {
+        "id": "product_browsing_flow",
+        "nodes": [
+          "Home_page",
+          "Products_page",
+          "ProductDetail_page",
+          "fetchProductsThunk",
+          "fetchProductBySlugThunk",
+          "fetchCategoriesThunk",
+          "fetchBrandsThunk"
+        ],
+        "relation": "product_discovery_module",
+        "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt"
+      },
+      {
+        "id": "cart_order_flow",
+        "nodes": [
+          "ProductDetail_page",
+          "Products_page",
+          "Orders_page",
+          "addToCartThunk",
+          "fetchOrdersThunk",
+          "cartService",
+          "orderService"
+        ],
+        "relation": "shopping_transaction_module",
+        "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt"
+      },
+      {
+        "id": "user_profile_flow",
+        "nodes": [
+          "Profile_page",
+          "Dashboard_page",
+          "fetchProfileThunk",
+          "updateProfileThunk",
+          "authService"
+        ],
+        "relation": "user_account_management_module",
+        "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt"
+      },
+      {
+        "id": "auth_flow",
+        "label": "Authentication Flow",
+        "nodes": [
+          "authSlice",
+          "loginThunk",
+          "signUpThunk",
+          "logoutThunk",
+          "refreshTokenThunk",
+          "User",
+          "AuthResponse"
+        ],
+        "type": "workflow",
+        "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt"
+      },
+      {
+        "id": "cart_operations",
+        "label": "Cart Management",
+        "nodes": [
+          "cartSlice",
+          "fetchCartThunk",
+          "addToCartThunk",
+          "updateCartItemThunk",
+          "removeCartItemThunk",
+          "clearCartThunk",
+          "Cart",
+          "CartItem"
+        ],
+        "type": "workflow",
+        "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt"
+      },
+      {
+        "id": "product_catalog",
+        "label": "Product Catalog",
+        "nodes": [
+          "productsSlice",
+          "fetchProductsThunk",
+          "fetchFeaturedProductsThunk",
+          "fetchProductBySlugThunk",
+          "fetchCategoriesThunk",
+          "fetchBrandsThunk",
+          "productService"
+        ],
+        "type": "workflow",
+        "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt"
+      },
+      {
+        "id": "order_management",
+        "label": "Order Management",
+        "nodes": [
+          "ordersSlice",
+          "fetchOrdersThunk",
+          "fetchOrderByIdThunk",
+          "createOrderThunk",
+          "cancelOrderThunk"
+        ],
+        "type": "workflow",
+        "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt"
+      },
+      {
+        "id": "user_profile",
+        "label": "User Profile Management",
+        "nodes": [
+          "userSlice",
+          "fetchProfileThunk",
+          "updateProfileThunk",
+          "fetchAddressesThunk",
+          "User",
+          "Address"
+        ],
+        "type": "workflow",
+        "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt"
+      }
+    ]
+  },
+  "nodes": [
+    {
+      "label": "vite.config.ts",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "vite_config"
+    },
+    {
+      "label": "vitest.config.ts",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "vitest_config"
+    },
+    {
+      "label": "eslint.config.js",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "eslint_config"
+    },
+    {
+      "label": "playwright.config.ts",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "playwright_config"
+    },
+    {
+      "label": "postcss.config.js",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "postcss_config"
+    },
+    {
+      "label": "tailwind.config.js",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "tailwind_config"
+    },
+    {
+      "label": "src/App.tsx",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "app_tsx"
+    },
+    {
+      "label": "src/main.tsx",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "main_tsx"
+    },
+    {
+      "label": "src/vite-env.d.ts",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "vite_env"
+    },
+    {
+      "label": "FormField Component",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "formfield_comp"
+    },
+    {
+      "label": "Button Test",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "button_test"
+    },
+    {
+      "label": "Table Component",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "table_comp"
+    },
+    {
+      "label": "ErrorBoundary Component",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "error_boundary"
+    },
+    {
+      "label": "LoadingSpinner Component",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "loading_spinner"
+    },
+    {
+      "label": "Input Form Component",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "input_form_comp"
+    },
+    {
+      "label": "Layout Component",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "layout_comp"
+    },
+    {
+      "label": "ProtectedRoute Component",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "protected_route"
+    },
+    {
+      "label": "Modal Component",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "modal_comp"
+    },
+    {
+      "label": "Card UI Component",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "card_comp"
+    },
+    {
+      "label": "Button UI Component",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "button_ui"
+    },
+    {
+      "label": "Input UI Component",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "input_ui"
+    },
+    {
+      "label": "Label UI Component",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "label_ui"
+    },
+    {
+      "label": "i18n Configuration",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "i18n_config"
+    },
+    {
+      "label": "e2e/example.spec.ts",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "e2e_spec"
+    },
+    {
+      "label": "React",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "react"
+    },
+    {
+      "label": "React Router",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "react_router"
+    },
+    {
+      "label": "Redux",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "redux"
+    },
+    {
+      "label": "React Query",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "react_query"
+    },
+    {
+      "label": "Tailwind CSS",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "tailwindcss"
+    },
+    {
+      "label": "Vite",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "vite"
+    },
+    {
+      "label": "Vitest",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "vitest"
+    },
+    {
+      "label": "Playwright",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "playwright"
+    },
+    {
+      "label": "TypeScript",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "typescript"
+    },
+    {
+      "label": "ESLint",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "eslint"
+    },
+    {
+      "label": "React Hook Form",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "react_hook_form"
+    },
+    {
+      "label": "Radix UI",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "radix_ui"
+    },
+    {
+      "label": "Lucide React",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "lucide_react"
+    },
+    {
+      "label": "i18next",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "i18next"
+    },
+    {
+      "label": "React Helmet",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "react_helmet"
+    },
+    {
+      "label": "React Hot Toast",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "react_hot_toast"
+    },
+    {
+      "label": "Class Variance Authority",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "class_variance"
+    },
+    {
+      "label": "Redux Persist",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "redux_persist"
+    },
+    {
+      "label": "Ecommerce API Gateway",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "id": "ecommerce_api"
+    },
+    {
+      "label": "Common Types",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "common.ts"
+    },
+    {
+      "label": "Order Types",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "order.ts"
+    },
+    {
+      "label": "Payment Types",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "payment.ts"
+    },
+    {
+      "label": "Product Types",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "product.ts"
+    },
+    {
+      "label": "Review Types",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "review.ts"
+    },
+    {
+      "label": "API Client",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "api.ts"
+    },
+    {
+      "label": "Auth Storage Utils",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "authStorage.ts"
+    },
+    {
+      "label": "Date Utilities",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "date.ts"
+    },
+    {
+      "label": "Helper Functions",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "helpers.ts"
+    },
+    {
+      "label": "JWT Utilities",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "jwt.ts"
+    },
+    {
+      "label": "Response Utils",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "response.ts"
+    },
+    {
+      "label": "Library Utils",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "lib.utils.ts"
+    },
+    {
+      "label": "Route Definitions",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "routes.tsx"
+    },
+    {
+      "label": "Project Overview",
+      "file_type": "document",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "README.md"
+    },
+    {
+      "label": "Feature Development Workflow",
+      "file_type": "document",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "CODING_GUIDE.md"
+    },
+    {
+      "label": "API Contracts",
+      "file_type": "document",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "apicontract.MD"
+    },
+    {
+      "label": "Design System",
+      "file_type": "document",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "TAILWIND_DESIGN_SYSTEM.md"
+    },
+    {
+      "label": "HTML Entry Point",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "index.html"
+    },
+    {
+      "label": "Protected Route Component",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "ProtectedRoute"
+    },
+    {
+      "label": "Layout Component",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "Layout"
+    },
+    {
+      "label": "Home Page",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "Home"
+    },
+    {
+      "label": "Product Detail Page",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "ProductDetail"
+    },
+    {
+      "label": "Cart",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "Cart"
+    },
+    {
+      "label": "Checkout Page",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "Checkout"
+    },
+    {
+      "label": "Orders Page",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "Orders"
+    },
+    {
+      "label": "Order Detail Page",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "OrderDetail"
+    },
+    {
+      "label": "User Profile Page",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "Profile"
+    },
+    {
+      "label": "Admin Dashboard Page",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "AdminDashboard"
+    },
+    {
+      "label": "Login Page",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "Login"
+    },
+    {
+      "label": "Sign Up Page",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "SignUp"
+    },
+    {
+      "label": "Forgot Password Page",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "ForgotPassword"
+    },
+    {
+      "label": "LoginV2 Page",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "LoginV2"
+    },
+    {
+      "label": "SignUpV2 Page",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "SignUpV2"
+    },
+    {
+      "label": "Not Found Page",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "NotFound"
+    },
+    {
+      "label": "Authentication Service",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "auth-service"
+    },
+    {
+      "label": "Product Service",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "product-service"
+    },
+    {
+      "label": "Order Service",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "order-service"
+    },
+    {
+      "label": "Payment Service",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "payment-service"
+    },
+    {
+      "label": "Review Service",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "review-service"
+    },
+    {
+      "label": "Cart Service",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "cart-service"
+    },
+    {
+      "label": "Redux Store",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "redux-store"
+    },
+    {
+      "label": "ApiResponse Interface",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "ApiResponse"
+    },
+    {
+      "label": "PageResponse Interface",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "PageResponse"
+    },
+    {
+      "label": "PaginationParams Interface",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "PaginationParams"
+    },
+    {
+      "label": "Order Interface",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "Order"
+    },
+    {
+      "label": "OrderItem Interface",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "OrderItem"
+    },
+    {
+      "label": "OrderStatus Enum",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "OrderStatus"
+    },
+    {
+      "label": "PaymentStatus Enum",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "PaymentStatus"
+    },
+    {
+      "label": "PaymentMethod Enum",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "PaymentMethod"
+    },
+    {
+      "label": "CreateOrderRequest Interface",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "CreateOrderRequest"
+    },
+    {
+      "label": "Product Interface",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "Product"
+    },
+    {
+      "label": "ProductVariant Interface",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "ProductVariant"
+    },
+    {
+      "label": "Category Interface",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "Category"
+    },
+    {
+      "label": "Brand Interface",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "Brand"
+    },
+    {
+      "label": "Review Interface",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "Review"
+    },
+    {
+      "label": "CreateReviewRequest Interface",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "CreateReviewRequest"
+    },
+    {
+      "label": "PaymentIntent Interface",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "PaymentIntent"
+    },
+    {
+      "label": "ApiClient Class",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "ApiClient"
+    },
+    {
+      "label": "getAccessToken Function",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "getAccessToken"
+    },
+    {
+      "label": "setAuthTokens Function",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "setAuthTokens"
+    },
+    {
+      "label": "clearAuthTokens Function",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "clearAuthTokens"
+    },
+    {
+      "label": "parseJwtPayload Function",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "parseJwtPayload"
+    },
+    {
+      "label": "unwrapApiData Function",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "unwrapApiData"
+    },
+    {
+      "label": "cn Class Merger Function",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "cn"
+    },
+    {
+      "label": "debounce Function",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "debounce"
+    },
+    {
+      "label": "throttle Function",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "throttle"
+    },
+    {
+      "label": "formatDate Function",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "formatDate"
+    },
+    {
+      "label": "Axios Library",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "axios"
+    },
+    {
+      "label": "Dayjs Library",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "id": "dayjs"
+    },
+    {
+      "label": "Orders",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "id": "Orders_page"
+    },
+    {
+      "label": "ProductDetail",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "id": "ProductDetail_page"
+    },
+    {
+      "label": "Products",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "id": "Products_page"
+    },
+    {
+      "label": "About",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "id": "About_page"
+    },
+    {
+      "label": "Home",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "id": "Home_page"
+    },
+    {
+      "label": "NotFound",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "id": "NotFound_page"
+    },
+    {
+      "label": "Dashboard",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "id": "Dashboard_page"
+    },
+    {
+      "label": "Profile",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "id": "Profile_page"
+    },
+    {
+      "label": "LoginV2",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "id": "LoginV2_page"
+    },
+    {
+      "label": "LoginFormSection",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "id": "LoginFormSection_comp"
+    },
+    {
+      "label": "SignUpV2",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "id": "SignUpV2_page"
+    },
+    {
+      "label": "SignUpFormSection",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "id": "SignUpFormSection_comp"
+    },
+    {
+      "label": "AuthLayout",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "id": "AuthLayout_comp"
+    },
+    {
+      "label": "BannerSection",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "id": "BannerSection_comp"
+    },
+    {
+      "label": "AuthHeader",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "id": "AuthHeader_comp"
+    },
+    {
+      "label": "SocialAuthSection",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "id": "SocialAuthSection_comp"
+    },
+    {
+      "label": "SocialProviders",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "id": "SocialProviders_comp"
+    },
+    {
+      "label": "TermsAgreement",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "id": "TermsAgreement_comp"
+    },
+    {
+      "label": "AuthSwitchPrompt",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "id": "AuthSwitchPrompt_comp"
+    },
+    {
+      "label": "authService",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "id": "authService"
+    },
+    {
+      "label": "keycloakAuthService",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "id": "keycloakAuthService"
+    },
+    {
+      "label": "cartService",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "id": "cartService"
+    },
+    {
+      "label": "orderService",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "id": "orderService"
+    },
+    {
+      "label": "notificationService",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "id": "notificationService"
+    },
+    {
+      "label": "useAuth",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "id": "useAuth_hook"
+    },
+    {
+      "label": "fetchOrdersThunk",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "fetchOrdersThunk"
+    },
+    {
+      "label": "fetchProductBySlugThunk",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "fetchProductBySlugThunk"
+    },
+    {
+      "label": "addToCartThunk",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "addToCartThunk"
+    },
+    {
+      "label": "fetchProductsThunk",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "fetchProductsThunk"
+    },
+    {
+      "label": "fetchCategoriesThunk",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "fetchCategoriesThunk"
+    },
+    {
+      "label": "fetchBrandsThunk",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "fetchBrandsThunk"
+    },
+    {
+      "label": "fetchFeaturedProductsThunk",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "fetchFeaturedProductsThunk"
+    },
+    {
+      "label": "fetchProfileThunk",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "fetchProfileThunk"
+    },
+    {
+      "label": "updateProfileThunk",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "updateProfileThunk"
+    },
+    {
+      "label": "Card",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "id": "Card_comp"
+    },
+    {
+      "label": "Button",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "id": "Button_comp"
+    },
+    {
+      "label": "Input",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "id": "Input_comp"
+    },
+    {
+      "label": "FormField",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "id": "FormField_comp"
+    },
+    {
+      "label": "Table",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "id": "Table_comp"
+    },
+    {
+      "label": "paymentService",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "paymentService"
+    },
+    {
+      "label": "productService",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "productService"
+    },
+    {
+      "label": "reviewService",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "reviewService"
+    },
+    {
+      "label": "shippingService",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "shippingService"
+    },
+    {
+      "label": "userService",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "userService"
+    },
+    {
+      "label": "Redux Store",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "store"
+    },
+    {
+      "label": "useAppDispatch",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "useAppDispatch"
+    },
+    {
+      "label": "useAppSelector",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "useAppSelector"
+    },
+    {
+      "label": "authSlice",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "authSlice"
+    },
+    {
+      "label": "cartSlice",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "cartSlice"
+    },
+    {
+      "label": "ordersSlice",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "ordersSlice"
+    },
+    {
+      "label": "productsSlice",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "productsSlice"
+    },
+    {
+      "label": "themeSlice",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "themeSlice"
+    },
+    {
+      "label": "userSlice",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "userSlice"
+    },
+    {
+      "label": "loginThunk",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "loginThunk"
+    },
+    {
+      "label": "signUpThunk",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "signUpThunk"
+    },
+    {
+      "label": "logoutThunk",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "logoutThunk"
+    },
+    {
+      "label": "refreshTokenThunk",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "refreshTokenThunk"
+    },
+    {
+      "label": "getProfileThunk",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "getProfileThunk"
+    },
+    {
+      "label": "fetchCartThunk",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "fetchCartThunk"
+    },
+    {
+      "label": "updateCartItemThunk",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "updateCartItemThunk"
+    },
+    {
+      "label": "removeCartItemThunk",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "removeCartItemThunk"
+    },
+    {
+      "label": "clearCartThunk",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "clearCartThunk"
+    },
+    {
+      "label": "fetchOrderByIdThunk",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "fetchOrderByIdThunk"
+    },
+    {
+      "label": "createOrderThunk",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "createOrderThunk"
+    },
+    {
+      "label": "cancelOrderThunk",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "cancelOrderThunk"
+    },
+    {
+      "label": "fetchAddressesThunk",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "fetchAddressesThunk"
+    },
+    {
+      "label": "User",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "User"
+    },
+    {
+      "label": "AuthResponse",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "AuthResponse"
+    },
+    {
+      "label": "LoginCredentials",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "LoginCredentials"
+    },
+    {
+      "label": "SignUpCredentials",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "SignUpCredentials"
+    },
+    {
+      "label": "Address",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "Address"
+    },
+    {
+      "label": "CartItem",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "CartItem"
+    },
+    {
+      "label": "CartStatus",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "CartStatus"
+    },
+    {
+      "label": "ShippingFeeRequest",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "ShippingFeeRequest"
+    },
+    {
+      "label": "ShippingFeeResponse",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "ShippingFeeResponse"
+    },
+    {
+      "label": "Shipment",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "Shipment"
+    },
+    {
+      "label": "JwtProfilePayload",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "JwtProfilePayload"
+    },
+    {
+      "label": "KeycloakAuthSession",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "KeycloakAuthSession"
+    },
+    {
+      "label": "AddToCartRequest",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "AddToCartRequest"
+    },
+    {
+      "label": "UpdateCartItemRequest",
+      "file_type": "code",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "id": "UpdateCartItemRequest"
+    }
+  ],
+  "edges": [
+    {
+      "relation": "uses plugin from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "vite_config",
+      "_tgt": "vite",
+      "source": "vite_config",
+      "target": "vite"
+    },
+    {
+      "relation": "configures plugin for",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "vite_config",
+      "_tgt": "react",
+      "source": "vite_config",
+      "target": "react"
+    },
+    {
+      "relation": "proxies to",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "vite_config",
+      "_tgt": "ecommerce_api",
+      "source": "vite_config",
+      "target": "ecommerce_api"
+    },
+    {
+      "relation": "configures",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "vitest_config",
+      "_tgt": "vitest",
+      "source": "vitest_config",
+      "target": "vitest"
+    },
+    {
+      "relation": "uses plugin for",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "vitest_config",
+      "_tgt": "react",
+      "source": "vitest_config",
+      "target": "react"
+    },
+    {
+      "relation": "configures parser for",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "eslint_config",
+      "_tgt": "typescript",
+      "source": "eslint_config",
+      "target": "typescript"
+    },
+    {
+      "relation": "extends rules from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "eslint_config",
+      "_tgt": "eslint",
+      "source": "eslint_config",
+      "target": "eslint"
+    },
+    {
+      "relation": "configures hooks plugin for",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "eslint_config",
+      "_tgt": "react",
+      "source": "eslint_config",
+      "target": "react"
+    },
+    {
+      "relation": "configures",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "playwright_config",
+      "_tgt": "playwright",
+      "source": "playwright_config",
+      "target": "playwright"
+    },
+    {
+      "relation": "runs tests from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "playwright_config",
+      "_tgt": "e2e_spec",
+      "source": "playwright_config",
+      "target": "e2e_spec"
+    },
+    {
+      "relation": "uses plugin",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "postcss_config",
+      "_tgt": "tailwindcss",
+      "source": "postcss_config",
+      "target": "tailwindcss"
+    },
+    {
+      "relation": "configured in",
+      "confidence": "INFERRED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "tailwind_config",
+      "_tgt": "postcss_config",
+      "source": "postcss_config",
+      "target": "tailwind_config"
+    },
+    {
+      "relation": "configures",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "tailwind_config",
+      "_tgt": "tailwindcss",
+      "source": "tailwind_config",
+      "target": "tailwindcss"
+    },
+    {
+      "relation": "imports from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "app_tsx",
+      "_tgt": "react",
+      "source": "app_tsx",
+      "target": "react"
+    },
+    {
+      "relation": "uses useRoutes from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "app_tsx",
+      "_tgt": "react_router",
+      "source": "app_tsx",
+      "target": "react_router"
+    },
+    {
+      "relation": "uses HelmetProvider from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "app_tsx",
+      "_tgt": "react_helmet",
+      "source": "app_tsx",
+      "target": "react_helmet"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "app_tsx",
+      "_tgt": "loading_spinner",
+      "source": "app_tsx",
+      "target": "loading_spinner"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "main_tsx",
+      "_tgt": "app_tsx",
+      "source": "app_tsx",
+      "target": "main_tsx"
+    },
+    {
+      "relation": "imports from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "main_tsx",
+      "_tgt": "react",
+      "source": "main_tsx",
+      "target": "react"
+    },
+    {
+      "relation": "uses Provider from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "main_tsx",
+      "_tgt": "redux",
+      "source": "main_tsx",
+      "target": "redux"
+    },
+    {
+      "relation": "uses PersistGate from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "main_tsx",
+      "_tgt": "redux_persist",
+      "source": "main_tsx",
+      "target": "redux_persist"
+    },
+    {
+      "relation": "uses QueryClient from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "main_tsx",
+      "_tgt": "react_query",
+      "source": "main_tsx",
+      "target": "react_query"
+    },
+    {
+      "relation": "uses HelmetProvider from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "main_tsx",
+      "_tgt": "react_helmet",
+      "source": "main_tsx",
+      "target": "react_helmet"
+    },
+    {
+      "relation": "uses BrowserRouter from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "main_tsx",
+      "_tgt": "react_router",
+      "source": "main_tsx",
+      "target": "react_router"
+    },
+    {
+      "relation": "uses Toaster from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "main_tsx",
+      "_tgt": "react_hot_toast",
+      "source": "main_tsx",
+      "target": "react_hot_toast"
+    },
+    {
+      "relation": "wraps with",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "main_tsx",
+      "_tgt": "error_boundary",
+      "source": "main_tsx",
+      "target": "error_boundary"
+    },
+    {
+      "relation": "imports configuration",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "main_tsx",
+      "_tgt": "i18n_config",
+      "source": "main_tsx",
+      "target": "i18n_config"
+    },
+    {
+      "relation": "uses icons from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "formfield_comp",
+      "_tgt": "lucide_react",
+      "source": "formfield_comp",
+      "target": "lucide_react"
+    },
+    {
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "formfield_comp",
+      "_tgt": "button_ui",
+      "source": "formfield_comp",
+      "target": "button_ui"
+    },
+    {
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "formfield_comp",
+      "_tgt": "input_ui",
+      "source": "formfield_comp",
+      "target": "input_ui"
+    },
+    {
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "formfield_comp",
+      "_tgt": "label_ui",
+      "source": "formfield_comp",
+      "target": "label_ui"
+    },
+    {
+      "relation": "integrates with",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "formfield_comp",
+      "_tgt": "react_hook_form",
+      "source": "formfield_comp",
+      "target": "react_hook_form"
+    },
+    {
+      "relation": "uses for testing",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "button_test",
+      "_tgt": "vitest",
+      "source": "button_test",
+      "target": "vitest"
+    },
+    {
+      "relation": "tests",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "button_test",
+      "_tgt": "button_ui",
+      "source": "button_test",
+      "target": "button_ui"
+    },
+    {
+      "relation": "imports from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "table_comp",
+      "_tgt": "react",
+      "source": "table_comp",
+      "target": "react"
+    },
+    {
+      "relation": "extends Component from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "error_boundary",
+      "_tgt": "react",
+      "source": "error_boundary",
+      "target": "react"
+    },
+    {
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "error_boundary",
+      "_tgt": "button_ui",
+      "source": "error_boundary",
+      "target": "button_ui"
+    },
+    {
+      "relation": "uses utilities from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "loading_spinner",
+      "_tgt": "tailwindcss",
+      "source": "loading_spinner",
+      "target": "tailwindcss"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "protected_route",
+      "_tgt": "loading_spinner",
+      "source": "loading_spinner",
+      "target": "protected_route"
+    },
+    {
+      "relation": "uses from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "input_form_comp",
+      "_tgt": "react",
+      "source": "input_form_comp",
+      "target": "react"
+    },
+    {
+      "relation": "uses Outlet, Link, useNavigate from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "layout_comp",
+      "_tgt": "react_router",
+      "source": "layout_comp",
+      "target": "react_router"
+    },
+    {
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "layout_comp",
+      "_tgt": "button_ui",
+      "source": "layout_comp",
+      "target": "button_ui"
+    },
+    {
+      "relation": "uses Navigate from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "protected_route",
+      "_tgt": "react_router",
+      "source": "protected_route",
+      "target": "react_router"
+    },
+    {
+      "relation": "imports from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "modal_comp",
+      "_tgt": "react",
+      "source": "modal_comp",
+      "target": "react"
+    },
+    {
+      "relation": "uses from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "card_comp",
+      "_tgt": "react",
+      "source": "card_comp",
+      "target": "react"
+    },
+    {
+      "relation": "imports from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "button_ui",
+      "_tgt": "react",
+      "source": "button_ui",
+      "target": "react"
+    },
+    {
+      "relation": "uses cva from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "button_ui",
+      "_tgt": "class_variance",
+      "source": "button_ui",
+      "target": "class_variance"
+    },
+    {
+      "relation": "uses Slot from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "button_ui",
+      "_tgt": "radix_ui",
+      "source": "button_ui",
+      "target": "radix_ui"
+    },
+    {
+      "relation": "imports from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "input_ui",
+      "_tgt": "react",
+      "source": "input_ui",
+      "target": "react"
+    },
+    {
+      "relation": "imports from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "label_ui",
+      "_tgt": "react",
+      "source": "label_ui",
+      "target": "react"
+    },
+    {
+      "relation": "uses LabelPrimitive from",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "label_ui",
+      "_tgt": "radix_ui",
+      "source": "label_ui",
+      "target": "radix_ui"
+    },
+    {
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "i18n_config",
+      "_tgt": "i18next",
+      "source": "i18n_config",
+      "target": "i18next"
+    },
+    {
+      "relation": "integrates with via initReactI18next",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "i18n_config",
+      "_tgt": "react",
+      "source": "i18n_config",
+      "target": "react"
+    },
+    {
+      "relation": "uses for testing",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_i2clOXF3FVx3yUcMSCnYHbWC__vscode-1778320141717/content.txt",
+      "_src": "e2e_spec",
+      "_tgt": "playwright",
+      "source": "e2e_spec",
+      "target": "playwright"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "common.ts",
+      "_tgt": "ApiResponse",
+      "source": "common.ts",
+      "target": "ApiResponse"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "common.ts",
+      "_tgt": "PageResponse",
+      "source": "common.ts",
+      "target": "PageResponse"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "common.ts",
+      "_tgt": "PaginationParams",
+      "source": "common.ts",
+      "target": "PaginationParams"
+    },
+    {
+      "relation": "prescribes",
+      "confidence": "INFERRED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "CODING_GUIDE.md",
+      "_tgt": "common.ts",
+      "source": "common.ts",
+      "target": "CODING_GUIDE.md"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "order.ts",
+      "_tgt": "Order",
+      "source": "order.ts",
+      "target": "Order"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "order.ts",
+      "_tgt": "OrderItem",
+      "source": "order.ts",
+      "target": "OrderItem"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "order.ts",
+      "_tgt": "OrderStatus",
+      "source": "order.ts",
+      "target": "OrderStatus"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "order.ts",
+      "_tgt": "PaymentStatus",
+      "source": "order.ts",
+      "target": "PaymentStatus"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "order.ts",
+      "_tgt": "PaymentMethod",
+      "source": "order.ts",
+      "target": "PaymentMethod"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "order.ts",
+      "_tgt": "CreateOrderRequest",
+      "source": "order.ts",
+      "target": "CreateOrderRequest"
+    },
+    {
+      "relation": "depends_on",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "order.ts",
+      "_tgt": "PageResponse",
+      "source": "order.ts",
+      "target": "PageResponse"
+    },
+    {
+      "relation": "prescribes",
+      "confidence": "INFERRED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "CODING_GUIDE.md",
+      "_tgt": "order.ts",
+      "source": "order.ts",
+      "target": "CODING_GUIDE.md"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "payment.ts",
+      "_tgt": "PaymentIntent",
+      "source": "payment.ts",
+      "target": "PaymentIntent"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "product.ts",
+      "_tgt": "Product",
+      "source": "product.ts",
+      "target": "Product"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "product.ts",
+      "_tgt": "ProductVariant",
+      "source": "product.ts",
+      "target": "ProductVariant"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "product.ts",
+      "_tgt": "Category",
+      "source": "product.ts",
+      "target": "Category"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "product.ts",
+      "_tgt": "Brand",
+      "source": "product.ts",
+      "target": "Brand"
+    },
+    {
+      "relation": "depends_on",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "product.ts",
+      "_tgt": "PageResponse",
+      "source": "product.ts",
+      "target": "PageResponse"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "review.ts",
+      "_tgt": "Review",
+      "source": "review.ts",
+      "target": "Review"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "review.ts",
+      "_tgt": "CreateReviewRequest",
+      "source": "review.ts",
+      "target": "CreateReviewRequest"
+    },
+    {
+      "relation": "depends_on",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "review.ts",
+      "_tgt": "PageResponse",
+      "source": "review.ts",
+      "target": "PageResponse"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "api.ts",
+      "_tgt": "ApiClient",
+      "source": "api.ts",
+      "target": "ApiClient"
+    },
+    {
+      "relation": "uses_for_token_management",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "ApiClient",
+      "_tgt": "authStorage.ts",
+      "source": "authStorage.ts",
+      "target": "ApiClient"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "authStorage.ts",
+      "_tgt": "getAccessToken",
+      "source": "authStorage.ts",
+      "target": "getAccessToken"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "authStorage.ts",
+      "_tgt": "setAuthTokens",
+      "source": "authStorage.ts",
+      "target": "setAuthTokens"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "authStorage.ts",
+      "_tgt": "clearAuthTokens",
+      "source": "authStorage.ts",
+      "target": "clearAuthTokens"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "date.ts",
+      "_tgt": "formatDate",
+      "source": "date.ts",
+      "target": "formatDate"
+    },
+    {
+      "relation": "depends_on",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "date.ts",
+      "_tgt": "dayjs",
+      "source": "date.ts",
+      "target": "dayjs"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "helpers.ts",
+      "_tgt": "cn",
+      "source": "helpers.ts",
+      "target": "cn"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "helpers.ts",
+      "_tgt": "debounce",
+      "source": "helpers.ts",
+      "target": "debounce"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "helpers.ts",
+      "_tgt": "throttle",
+      "source": "helpers.ts",
+      "target": "throttle"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "jwt.ts",
+      "_tgt": "parseJwtPayload",
+      "source": "jwt.ts",
+      "target": "parseJwtPayload"
+    },
+    {
+      "relation": "uses_for_data_unwrapping",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "ApiClient",
+      "_tgt": "response.ts",
+      "source": "response.ts",
+      "target": "ApiClient"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "response.ts",
+      "_tgt": "unwrapApiData",
+      "source": "response.ts",
+      "target": "unwrapApiData"
+    },
+    {
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "response.ts",
+      "_tgt": "ApiResponse",
+      "source": "response.ts",
+      "target": "ApiResponse"
+    },
+    {
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "routes.tsx",
+      "_tgt": "ProtectedRoute",
+      "source": "routes.tsx",
+      "target": "ProtectedRoute"
+    },
+    {
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "routes.tsx",
+      "_tgt": "Layout",
+      "source": "routes.tsx",
+      "target": "Layout"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "routes.tsx",
+      "_tgt": "Home",
+      "source": "routes.tsx",
+      "target": "Home"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "routes.tsx",
+      "_tgt": "ProductDetail",
+      "source": "routes.tsx",
+      "target": "ProductDetail"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "routes.tsx",
+      "_tgt": "Cart",
+      "source": "routes.tsx",
+      "target": "Cart"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "routes.tsx",
+      "_tgt": "Checkout",
+      "source": "routes.tsx",
+      "target": "Checkout"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "routes.tsx",
+      "_tgt": "Orders",
+      "source": "routes.tsx",
+      "target": "Orders"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "routes.tsx",
+      "_tgt": "OrderDetail",
+      "source": "routes.tsx",
+      "target": "OrderDetail"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "routes.tsx",
+      "_tgt": "Profile",
+      "source": "routes.tsx",
+      "target": "Profile"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "routes.tsx",
+      "_tgt": "AdminDashboard",
+      "source": "routes.tsx",
+      "target": "AdminDashboard"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "routes.tsx",
+      "_tgt": "Login",
+      "source": "routes.tsx",
+      "target": "Login"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "routes.tsx",
+      "_tgt": "SignUp",
+      "source": "routes.tsx",
+      "target": "SignUp"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "routes.tsx",
+      "_tgt": "ForgotPassword",
+      "source": "routes.tsx",
+      "target": "ForgotPassword"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "routes.tsx",
+      "_tgt": "LoginV2",
+      "source": "routes.tsx",
+      "target": "LoginV2"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "routes.tsx",
+      "_tgt": "SignUpV2",
+      "source": "routes.tsx",
+      "target": "SignUpV2"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "routes.tsx",
+      "_tgt": "NotFound",
+      "source": "routes.tsx",
+      "target": "NotFound"
+    },
+    {
+      "relation": "describes",
+      "confidence": "INFERRED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "README.md",
+      "_tgt": "redux-store",
+      "source": "README.md",
+      "target": "redux-store"
+    },
+    {
+      "relation": "describes",
+      "confidence": "INFERRED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "README.md",
+      "_tgt": "auth-service",
+      "source": "README.md",
+      "target": "auth-service"
+    },
+    {
+      "relation": "prescribes",
+      "confidence": "INFERRED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "CODING_GUIDE.md",
+      "_tgt": "redux-store",
+      "source": "CODING_GUIDE.md",
+      "target": "redux-store"
+    },
+    {
+      "relation": "documents",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "apicontract.MD",
+      "_tgt": "auth-service",
+      "source": "apicontract.MD",
+      "target": "auth-service"
+    },
+    {
+      "relation": "documents",
+      "confidence": "INFERRED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "apicontract.MD",
+      "_tgt": "product-service",
+      "source": "apicontract.MD",
+      "target": "product-service"
+    },
+    {
+      "relation": "documents",
+      "confidence": "INFERRED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "apicontract.MD",
+      "_tgt": "order-service",
+      "source": "apicontract.MD",
+      "target": "order-service"
+    },
+    {
+      "relation": "documents",
+      "confidence": "INFERRED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "apicontract.MD",
+      "_tgt": "payment-service",
+      "source": "apicontract.MD",
+      "target": "payment-service"
+    },
+    {
+      "relation": "documents",
+      "confidence": "INFERRED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "apicontract.MD",
+      "_tgt": "review-service",
+      "source": "apicontract.MD",
+      "target": "review-service"
+    },
+    {
+      "relation": "documents_styling_for",
+      "confidence": "INFERRED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "TAILWIND_DESIGN_SYSTEM.md",
+      "_tgt": "Layout",
+      "source": "TAILWIND_DESIGN_SYSTEM.md",
+      "target": "Layout"
+    },
+    {
+      "relation": "applies_to",
+      "confidence": "INFERRED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "TAILWIND_DESIGN_SYSTEM.md",
+      "_tgt": "cn",
+      "source": "TAILWIND_DESIGN_SYSTEM.md",
+      "target": "cn"
+    },
+    {
+      "relation": "redirects_to_on_unauthorized",
+      "confidence": "INFERRED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "ProtectedRoute",
+      "_tgt": "Login",
+      "source": "ProtectedRoute",
+      "target": "Login"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "ProductDetail",
+      "_tgt": "review-service",
+      "source": "ProductDetail",
+      "target": "review-service"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "Cart",
+      "_tgt": "cart-service",
+      "source": "Cart",
+      "target": "cart-service"
+    },
+    {
+      "relation": "returns",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "fetchCartThunk",
+      "_tgt": "Cart",
+      "source": "Cart",
+      "target": "fetchCartThunk"
+    },
+    {
+      "relation": "returns",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "addToCartThunk",
+      "_tgt": "Cart",
+      "source": "Cart",
+      "target": "addToCartThunk"
+    },
+    {
+      "relation": "returns",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "updateCartItemThunk",
+      "_tgt": "Cart",
+      "source": "Cart",
+      "target": "updateCartItemThunk"
+    },
+    {
+      "relation": "returns",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "removeCartItemThunk",
+      "_tgt": "Cart",
+      "source": "Cart",
+      "target": "removeCartItemThunk"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "Cart",
+      "_tgt": "CartItem",
+      "source": "Cart",
+      "target": "CartItem"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "Cart",
+      "_tgt": "CartStatus",
+      "source": "Cart",
+      "target": "CartStatus"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "Checkout",
+      "_tgt": "payment-service",
+      "source": "Checkout",
+      "target": "payment-service"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "OrderDetail",
+      "_tgt": "order-service",
+      "source": "OrderDetail",
+      "target": "order-service"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "Profile",
+      "_tgt": "auth-service",
+      "source": "Profile",
+      "target": "auth-service"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "auth-service",
+      "_tgt": "getAccessToken",
+      "source": "auth-service",
+      "target": "getAccessToken"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "auth-service",
+      "_tgt": "setAuthTokens",
+      "source": "auth-service",
+      "target": "setAuthTokens"
+    },
+    {
+      "relation": "returns_type",
+      "confidence": "INFERRED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "product-service",
+      "_tgt": "Product",
+      "source": "product-service",
+      "target": "Product"
+    },
+    {
+      "relation": "returns_type",
+      "confidence": "INFERRED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "order-service",
+      "_tgt": "Order",
+      "source": "order-service",
+      "target": "Order"
+    },
+    {
+      "relation": "returns_type",
+      "confidence": "INFERRED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "payment-service",
+      "_tgt": "PaymentIntent",
+      "source": "payment-service",
+      "target": "PaymentIntent"
+    },
+    {
+      "relation": "returns_type",
+      "confidence": "INFERRED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "review-service",
+      "_tgt": "Review",
+      "source": "review-service",
+      "target": "Review"
+    },
+    {
+      "relation": "depends_on",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
+      "_src": "ApiClient",
+      "_tgt": "axios",
+      "source": "ApiClient",
+      "target": "axios"
+    },
+    {
+      "relation": "dispatches",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "Orders_page",
+      "_tgt": "fetchOrdersThunk",
+      "source": "Orders_page",
+      "target": "fetchOrdersThunk"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "Orders_page",
+      "_tgt": "Card_comp",
+      "source": "Orders_page",
+      "target": "Card_comp"
+    },
+    {
+      "relation": "dispatches",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "ProductDetail_page",
+      "_tgt": "fetchProductBySlugThunk",
+      "source": "ProductDetail_page",
+      "target": "fetchProductBySlugThunk"
+    },
+    {
+      "relation": "dispatches",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "ProductDetail_page",
+      "_tgt": "addToCartThunk",
+      "source": "ProductDetail_page",
+      "target": "addToCartThunk"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "ProductDetail_page",
+      "_tgt": "Button_comp",
+      "source": "ProductDetail_page",
+      "target": "Button_comp"
+    },
+    {
+      "relation": "dispatches",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "Products_page",
+      "_tgt": "fetchProductsThunk",
+      "source": "Products_page",
+      "target": "fetchProductsThunk"
+    },
+    {
+      "relation": "dispatches",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "Products_page",
+      "_tgt": "fetchCategoriesThunk",
+      "source": "Products_page",
+      "target": "fetchCategoriesThunk"
+    },
+    {
+      "relation": "dispatches",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "Products_page",
+      "_tgt": "fetchBrandsThunk",
+      "source": "Products_page",
+      "target": "fetchBrandsThunk"
+    },
+    {
+      "relation": "dispatches",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "Products_page",
+      "_tgt": "addToCartThunk",
+      "source": "Products_page",
+      "target": "addToCartThunk"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "Products_page",
+      "_tgt": "Card_comp",
+      "source": "Products_page",
+      "target": "Card_comp"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "Products_page",
+      "_tgt": "Input_comp",
+      "source": "Products_page",
+      "target": "Input_comp"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "Products_page",
+      "_tgt": "Button_comp",
+      "source": "Products_page",
+      "target": "Button_comp"
+    },
+    {
+      "relation": "dispatches",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "Home_page",
+      "_tgt": "fetchFeaturedProductsThunk",
+      "source": "Home_page",
+      "target": "fetchFeaturedProductsThunk"
+    },
+    {
+      "relation": "dispatches",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "Home_page",
+      "_tgt": "fetchCategoriesThunk",
+      "source": "Home_page",
+      "target": "fetchCategoriesThunk"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "Home_page",
+      "_tgt": "Card_comp",
+      "source": "Home_page",
+      "target": "Card_comp"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "Home_page",
+      "_tgt": "Button_comp",
+      "source": "Home_page",
+      "target": "Button_comp"
+    },
+    {
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "Dashboard_page",
+      "_tgt": "useAuth_hook",
+      "source": "Dashboard_page",
+      "target": "useAuth_hook"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "Dashboard_page",
+      "_tgt": "Card_comp",
+      "source": "Dashboard_page",
+      "target": "Card_comp"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "Dashboard_page",
+      "_tgt": "Table_comp",
+      "source": "Dashboard_page",
+      "target": "Table_comp"
+    },
+    {
+      "relation": "dispatches",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "Profile_page",
+      "_tgt": "fetchProfileThunk",
+      "source": "Profile_page",
+      "target": "fetchProfileThunk"
+    },
+    {
+      "relation": "dispatches",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "Profile_page",
+      "_tgt": "updateProfileThunk",
+      "source": "Profile_page",
+      "target": "updateProfileThunk"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "Profile_page",
+      "_tgt": "Card_comp",
+      "source": "Profile_page",
+      "target": "Card_comp"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "Profile_page",
+      "_tgt": "Input_comp",
+      "source": "Profile_page",
+      "target": "Input_comp"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "Profile_page",
+      "_tgt": "Button_comp",
+      "source": "Profile_page",
+      "target": "Button_comp"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "LoginV2_page",
+      "_tgt": "AuthLayout_comp",
+      "source": "LoginV2_page",
+      "target": "AuthLayout_comp"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "LoginV2_page",
+      "_tgt": "LoginFormSection_comp",
+      "source": "LoginV2_page",
+      "target": "LoginFormSection_comp"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "LoginV2_page",
+      "_tgt": "SocialAuthSection_comp",
+      "source": "LoginV2_page",
+      "target": "SocialAuthSection_comp"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "LoginV2_page",
+      "_tgt": "AuthSwitchPrompt_comp",
+      "source": "LoginV2_page",
+      "target": "AuthSwitchPrompt_comp"
+    },
+    {
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "LoginFormSection_comp",
+      "_tgt": "useAuth_hook",
+      "source": "LoginFormSection_comp",
+      "target": "useAuth_hook"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "LoginFormSection_comp",
+      "_tgt": "FormField_comp",
+      "source": "LoginFormSection_comp",
+      "target": "FormField_comp"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "LoginFormSection_comp",
+      "_tgt": "Button_comp",
+      "source": "LoginFormSection_comp",
+      "target": "Button_comp"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "SignUpV2_page",
+      "_tgt": "AuthLayout_comp",
+      "source": "SignUpV2_page",
+      "target": "AuthLayout_comp"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "SignUpV2_page",
+      "_tgt": "SignUpFormSection_comp",
+      "source": "SignUpV2_page",
+      "target": "SignUpFormSection_comp"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "SignUpV2_page",
+      "_tgt": "SocialAuthSection_comp",
+      "source": "SignUpV2_page",
+      "target": "SocialAuthSection_comp"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "SignUpV2_page",
+      "_tgt": "AuthSwitchPrompt_comp",
+      "source": "SignUpV2_page",
+      "target": "AuthSwitchPrompt_comp"
+    },
+    {
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "SignUpFormSection_comp",
+      "_tgt": "useAuth_hook",
+      "source": "SignUpFormSection_comp",
+      "target": "useAuth_hook"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "SignUpFormSection_comp",
+      "_tgt": "TermsAgreement_comp",
+      "source": "SignUpFormSection_comp",
+      "target": "TermsAgreement_comp"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "SignUpFormSection_comp",
+      "_tgt": "FormField_comp",
+      "source": "SignUpFormSection_comp",
+      "target": "FormField_comp"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "SignUpFormSection_comp",
+      "_tgt": "Button_comp",
+      "source": "SignUpFormSection_comp",
+      "target": "Button_comp"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "AuthLayout_comp",
+      "_tgt": "BannerSection_comp",
+      "source": "AuthLayout_comp",
+      "target": "BannerSection_comp"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "AuthLayout_comp",
+      "_tgt": "AuthHeader_comp",
+      "source": "AuthLayout_comp",
+      "target": "AuthHeader_comp"
+    },
+    {
+      "relation": "renders",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "SocialAuthSection_comp",
+      "_tgt": "SocialProviders_comp",
+      "source": "SocialAuthSection_comp",
+      "target": "SocialProviders_comp"
+    },
+    {
+      "relation": "integrates_with",
+      "confidence": "INFERRED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "useAuth_hook",
+      "_tgt": "authService",
+      "source": "authService",
+      "target": "useAuth_hook"
+    },
+    {
+      "relation": "can_delegate_to",
+      "confidence": "INFERRED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
+      "_src": "authService",
+      "_tgt": "keycloakAuthService",
+      "source": "authService",
+      "target": "keycloakAuthService"
+    },
+    {
+      "relation": "handles",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "ordersSlice",
+      "_tgt": "fetchOrdersThunk",
+      "source": "fetchOrdersThunk",
+      "target": "ordersSlice"
+    },
+    {
+      "relation": "handles",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "productsSlice",
+      "_tgt": "fetchProductBySlugThunk",
+      "source": "fetchProductBySlugThunk",
+      "target": "productsSlice"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "fetchProductBySlugThunk",
+      "_tgt": "productService",
+      "source": "fetchProductBySlugThunk",
+      "target": "productService"
+    },
+    {
+      "relation": "handles",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "cartSlice",
+      "_tgt": "addToCartThunk",
+      "source": "addToCartThunk",
+      "target": "cartSlice"
+    },
+    {
+      "relation": "accepts",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "addToCartThunk",
+      "_tgt": "AddToCartRequest",
+      "source": "addToCartThunk",
+      "target": "AddToCartRequest"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "addToCartThunk",
+      "_tgt": "userService",
+      "source": "addToCartThunk",
+      "target": "userService"
+    },
+    {
+      "relation": "handles",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "productsSlice",
+      "_tgt": "fetchProductsThunk",
+      "source": "fetchProductsThunk",
+      "target": "productsSlice"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "fetchProductsThunk",
+      "_tgt": "productService",
+      "source": "fetchProductsThunk",
+      "target": "productService"
+    },
+    {
+      "relation": "handles",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "productsSlice",
+      "_tgt": "fetchCategoriesThunk",
+      "source": "fetchCategoriesThunk",
+      "target": "productsSlice"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "fetchCategoriesThunk",
+      "_tgt": "productService",
+      "source": "fetchCategoriesThunk",
+      "target": "productService"
+    },
+    {
+      "relation": "handles",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "productsSlice",
+      "_tgt": "fetchBrandsThunk",
+      "source": "fetchBrandsThunk",
+      "target": "productsSlice"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "fetchBrandsThunk",
+      "_tgt": "productService",
+      "source": "fetchBrandsThunk",
+      "target": "productService"
+    },
+    {
+      "relation": "handles",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "productsSlice",
+      "_tgt": "fetchFeaturedProductsThunk",
+      "source": "fetchFeaturedProductsThunk",
+      "target": "productsSlice"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "fetchFeaturedProductsThunk",
+      "_tgt": "productService",
+      "source": "fetchFeaturedProductsThunk",
+      "target": "productService"
+    },
+    {
+      "relation": "handles",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "userSlice",
+      "_tgt": "fetchProfileThunk",
+      "source": "fetchProfileThunk",
+      "target": "userSlice"
+    },
+    {
+      "relation": "returns",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "fetchProfileThunk",
+      "_tgt": "User",
+      "source": "fetchProfileThunk",
+      "target": "User"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "fetchProfileThunk",
+      "_tgt": "userService",
+      "source": "fetchProfileThunk",
+      "target": "userService"
+    },
+    {
+      "relation": "handles",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "userSlice",
+      "_tgt": "updateProfileThunk",
+      "source": "updateProfileThunk",
+      "target": "userSlice"
+    },
+    {
+      "relation": "returns",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "updateProfileThunk",
+      "_tgt": "User",
+      "source": "updateProfileThunk",
+      "target": "User"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "updateProfileThunk",
+      "_tgt": "userService",
+      "source": "updateProfileThunk",
+      "target": "userService"
+    },
+    {
+      "relation": "accepts",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "shippingService",
+      "_tgt": "ShippingFeeRequest",
+      "source": "shippingService",
+      "target": "ShippingFeeRequest"
+    },
+    {
+      "relation": "returns",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "shippingService",
+      "_tgt": "ShippingFeeResponse",
+      "source": "shippingService",
+      "target": "ShippingFeeResponse"
+    },
+    {
+      "relation": "returns",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "shippingService",
+      "_tgt": "Shipment",
+      "source": "shippingService",
+      "target": "Shipment"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "fetchCartThunk",
+      "_tgt": "userService",
+      "source": "userService",
+      "target": "fetchCartThunk"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "fetchAddressesThunk",
+      "_tgt": "userService",
+      "source": "userService",
+      "target": "fetchAddressesThunk"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "store",
+      "_tgt": "authSlice",
+      "source": "store",
+      "target": "authSlice"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "store",
+      "_tgt": "cartSlice",
+      "source": "store",
+      "target": "cartSlice"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "store",
+      "_tgt": "ordersSlice",
+      "source": "store",
+      "target": "ordersSlice"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "store",
+      "_tgt": "productsSlice",
+      "source": "store",
+      "target": "productsSlice"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "store",
+      "_tgt": "themeSlice",
+      "source": "store",
+      "target": "themeSlice"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "store",
+      "_tgt": "userSlice",
+      "source": "store",
+      "target": "userSlice"
+    },
+    {
+      "relation": "handles",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "authSlice",
+      "_tgt": "loginThunk",
+      "source": "authSlice",
+      "target": "loginThunk"
+    },
+    {
+      "relation": "handles",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "authSlice",
+      "_tgt": "signUpThunk",
+      "source": "authSlice",
+      "target": "signUpThunk"
+    },
+    {
+      "relation": "handles",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "authSlice",
+      "_tgt": "logoutThunk",
+      "source": "authSlice",
+      "target": "logoutThunk"
+    },
+    {
+      "relation": "handles",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "authSlice",
+      "_tgt": "refreshTokenThunk",
+      "source": "authSlice",
+      "target": "refreshTokenThunk"
+    },
+    {
+      "relation": "handles",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "authSlice",
+      "_tgt": "getProfileThunk",
+      "source": "authSlice",
+      "target": "getProfileThunk"
+    },
+    {
+      "relation": "handles",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "cartSlice",
+      "_tgt": "fetchCartThunk",
+      "source": "cartSlice",
+      "target": "fetchCartThunk"
+    },
+    {
+      "relation": "handles",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "cartSlice",
+      "_tgt": "updateCartItemThunk",
+      "source": "cartSlice",
+      "target": "updateCartItemThunk"
+    },
+    {
+      "relation": "handles",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "cartSlice",
+      "_tgt": "removeCartItemThunk",
+      "source": "cartSlice",
+      "target": "removeCartItemThunk"
+    },
+    {
+      "relation": "handles",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "cartSlice",
+      "_tgt": "clearCartThunk",
+      "source": "cartSlice",
+      "target": "clearCartThunk"
+    },
+    {
+      "relation": "handles",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "ordersSlice",
+      "_tgt": "fetchOrderByIdThunk",
+      "source": "ordersSlice",
+      "target": "fetchOrderByIdThunk"
+    },
+    {
+      "relation": "handles",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "ordersSlice",
+      "_tgt": "createOrderThunk",
+      "source": "ordersSlice",
+      "target": "createOrderThunk"
+    },
+    {
+      "relation": "handles",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "ordersSlice",
+      "_tgt": "cancelOrderThunk",
+      "source": "ordersSlice",
+      "target": "cancelOrderThunk"
+    },
+    {
+      "relation": "handles",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "userSlice",
+      "_tgt": "fetchAddressesThunk",
+      "source": "userSlice",
+      "target": "fetchAddressesThunk"
+    },
+    {
+      "relation": "returns",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "loginThunk",
+      "_tgt": "AuthResponse",
+      "source": "loginThunk",
+      "target": "AuthResponse"
+    },
+    {
+      "relation": "returns",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "signUpThunk",
+      "_tgt": "User",
+      "source": "signUpThunk",
+      "target": "User"
+    },
+    {
+      "relation": "returns",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "refreshTokenThunk",
+      "_tgt": "AuthResponse",
+      "source": "refreshTokenThunk",
+      "target": "AuthResponse"
+    },
+    {
+      "relation": "returns",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "getProfileThunk",
+      "_tgt": "User",
+      "source": "getProfileThunk",
+      "target": "User"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "updateCartItemThunk",
+      "_tgt": "UpdateCartItemRequest",
+      "source": "updateCartItemThunk",
+      "target": "UpdateCartItemRequest"
+    },
+    {
+      "relation": "returns",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "fetchAddressesThunk",
+      "_tgt": "Address",
+      "source": "fetchAddressesThunk",
+      "target": "Address"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
+      "_src": "AuthResponse",
+      "_tgt": "User",
+      "source": "User",
+      "target": "AuthResponse"
+    }
+  ]
+}

@@ -7,10 +7,10 @@ import axios, {
 } from 'axios';
 import toast from 'react-hot-toast';
 import { API_BASE_URL, AUTH_ENDPOINTS } from '@/constants';
-import type { ApiResponse } from '@/types/common/common';
 import type { AuthResponse } from '@/types/auth/auth';
 import { IS_MOCK_ENABLED } from '@/config/env';
 import { handleMockApiRequest } from '@/mocks/handlers/mockApiHandlers';
+import { MaybeWrapped, unwrapApiData } from './response';
 import {
   getAccessToken,
   getRefreshToken,
@@ -19,15 +19,6 @@ import {
 } from './authStorage';
 
 type RetryConfig = InternalAxiosRequestConfig & { _retry?: boolean };
-type MaybeWrapped<T> = ApiResponse<T> | T;
-
-const unwrapApiData = <T>(response: MaybeWrapped<T>): T => {
-  if (response && typeof response === 'object' && 'data' in response) {
-    return (response as ApiResponse<T>).data;
-  }
-
-  return response as T;
-};
 
 class ApiClient {
   private client: AxiosInstance;

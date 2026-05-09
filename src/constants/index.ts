@@ -108,3 +108,16 @@ export const API_ENDPOINTS = {
 
 export const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api';
+
+export const KEYCLOAK_CONFIG = {
+  REALM_URL: import.meta.env.VITE_KEYCLOAK_REALM_URL || 'https://keycloak.kruzetech.dev/realms/ecommerce',
+  CLIENT_ID: import.meta.env.VITE_KEYCLOAK_CLIENT_ID || 'ecommerce-backend',
+  GRANT_TYPE: 'password',
+} as const;
+
+export const KEYCLOAK_AUTH_ENDPOINTS = {
+  TOKEN: `${KEYCLOAK_CONFIG.REALM_URL}/protocol/openid-connect/token`,
+  USERINFO: `${KEYCLOAK_CONFIG.REALM_URL}/protocol/openid-connect/userinfo`,
+  LOGOUT: `${KEYCLOAK_CONFIG.REALM_URL}/protocol/openid-connect/logout`,
+  CERTS: `${KEYCLOAK_CONFIG.REALM_URL}/protocol/openid-connect/certs`,
+} as const;
