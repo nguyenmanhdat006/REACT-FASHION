@@ -6,6 +6,7 @@ import {
   logoutThunk,
   refreshTokenThunk,
   getProfileThunk,
+  forgotPasswordThunk,
 } from '../thunks/authThunks';
 import { getAccessToken, getRefreshToken } from '@/utils/authStorage';
 
@@ -161,6 +162,20 @@ const authSlice = createSlice({
       .addCase(getProfileThunk.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload || 'Failed to load profile';
+      });
+
+    builder
+      .addCase(forgotPasswordThunk.pending, state => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(forgotPasswordThunk.fulfilled, state => {
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(forgotPasswordThunk.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload || 'Password reset request failed';
       });
   },
 });

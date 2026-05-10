@@ -4,6 +4,7 @@ import {
   SignUpCredentials,
   AuthResponse,
   User,
+  ForgotPasswordData,
 } from '@/types/auth/auth';
 import { authService } from '@/services/auth/authService';
 import {
@@ -98,6 +99,23 @@ export const getProfileThunk = createAsyncThunk<
     const errorMessage =
       (error as { response?: { data?: { message?: string } } })?.response?.data
         ?.message || 'Failed to load profile';
+    return rejectWithValue(errorMessage);
+  }
+});
+
+export const forgotPasswordThunk = createAsyncThunk<
+  void,
+  ForgotPasswordData,
+  { rejectValue: string }
+>('auth/forgotPassword', async (data, { rejectWithValue }) => {
+  try {
+    await authService.forgotPassword(data);
+  } catch (error) {
+    const errorMessage =
+      (error as { response?: { data?: { message?: string } } })?.response?.data
+        ?.message ||
+      (error as { message?: string })?.message ||
+      'Unable to send reset email';
     return rejectWithValue(errorMessage);
   }
 });

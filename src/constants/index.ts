@@ -19,6 +19,8 @@ export const ROUTESV2 = {
   ...ROUTES,
   LOGIN: '/v2/login',
   SIGNUP: '/v2/signup',
+  FORGOT_PASSWORD: '/v2/forgot-password',
+  FORGOT_PASSWORD_SENT: '/v2/forgot-password/sent',
 } as const;
 
 export const USER_ROLES = {
@@ -36,6 +38,7 @@ export const AUTH_ENDPOINTS = {
   REGISTER: '/auth/register',
   LOGOUT: '/auth/logout',
   REFRESH: '/auth/refresh',
+  FORGOT_PASSWORD: '/auth/forgot-password',
   OAUTH2: (provider: SocialProvider) => `/auth/oauth2/${provider}`,
   ME: '/users/me',
 } as const;

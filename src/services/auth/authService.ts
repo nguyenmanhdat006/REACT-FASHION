@@ -17,9 +17,8 @@ import {
 import { getAccessToken } from '@/utils/authStorage';
 import { getRolesFromJwtToken } from '@/utils/jwt';
 import { MaybeWrapped, unwrapApiData } from '@/utils/response';
-import { OAuthExchangeRequest, SocialProvider } from '@/types/auth/auth';
+import { ForgotPasswordData, OAuthExchangeRequest, SocialProvider } from '@/types/auth/auth';
 
-/** Must match the `redirect_uri` sent when starting the Keycloak authorization request. */
 export const getSocialLoginRedirectUri = (provider: SocialProvider): string =>
   `${window.location.origin}/auth/callback?provider=${provider}`;
 
@@ -65,6 +64,17 @@ export const authService = {
     return unwrapApiData(response);
   },
 
+  forgotPassword: async (data: ForgotPasswordData): Promise<void> => {
+    await apiClient.post<MaybeWrapped<null>>(AUTH_ENDPOINTS.FORGOT_PASSWORD, data);
+  },
+
+  socialLogin: (provider: SocialProvider): void => {
+    window.location.assign(
+      buildSocialLoginUrl(provider, getSocialLoginRedirectUri(provider))
+    );
+  },
+
+  // Backward-compatible alias for older pages
   startSocialLogin: (provider: SocialProvider): void => {
     window.location.assign(
       buildSocialLoginUrl(provider, getSocialLoginRedirectUri(provider))

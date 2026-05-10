@@ -7,9 +7,12 @@ import {
   signUpThunk,
   logoutThunk,
   getProfileThunk,
+  forgotPasswordThunk,
 } from '@/store/thunks/authThunks';
 import toast from 'react-hot-toast';
 import { getAccessToken } from '@/utils/authStorage';
+import { ROUTESV2 } from '@/constants';
+import type { ForgotPasswordData } from '@/types/auth/auth';
 
 export const useAuth = () => {
   const dispatch = useAppDispatch();
@@ -69,6 +72,31 @@ export const useAuth = () => {
     }
   };
 
+  const forgotPassword = async (data: ForgotPasswordData) => {
+    const result = await dispatch(forgotPasswordThunk(data));
+    if (forgotPasswordThunk.fulfilled.match(result)) {
+      toast.success('If the email exists, a reset link has been sent.');
+      navigate(`${ROUTESV2.FORGOT_PASSWORD_SENT}?email=${encodeURIComponent(data.email)}`);
+    } else if (forgotPasswordThunk.rejected.match(result)) {
+      toast.error(result.payload || 'Unable to send reset email');
+    }
+  };
+
+  const resendForgotPassword = async (emailFromQuery: string | null | undefined) => {
+    const trimmed = emailFromQuery?.trim();
+    if (!trimmed) {
+      toast.error('Missing email. Go back and enter your email to resend.');
+      return;
+    }
+
+    const result = await dispatch(forgotPasswordThunk({ email: trimmed }));
+    if (forgotPasswordThunk.fulfilled.match(result)) {
+      toast.success('If the email exists, another reset link has been sent.');
+    } else if (forgotPasswordThunk.rejected.match(result)) {
+      toast.error(result.payload || 'Unable to resend reset email');
+    }
+  };
+
   return {
     user,
     isAuthenticated,
@@ -78,5 +106,7 @@ export const useAuth = () => {
     signUp,
     logout: logoutUser,
     loadProfile,
+    forgotPassword,
+    resendForgotPassword,
   };
 };

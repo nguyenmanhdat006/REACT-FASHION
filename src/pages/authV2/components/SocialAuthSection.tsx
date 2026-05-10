@@ -1,27 +1,23 @@
-import { JSX } from 'react';
+import { useState, type JSX } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { FaFacebook, FaApple } from 'react-icons/fa';
+import toast from 'react-hot-toast';
 import SocialProviders from './SocialProviders';
+import { authService } from '@/services/auth/authService';
+import { SocialProvider } from '@/types/auth/auth';
 
 export default function SocialAuthSection(): JSX.Element {
+  const [isRedirecting, setIsRedirecting] = useState<SocialProvider | null>(null);
 
-  // const handleSocialLogin = async (provider: 'google' | 'facebook'): Promise<void> => {
-  //   try {
-  //     setIsRedirecting(provider);
-
-  //     const redirectUri = `${window.location.origin}/auth/callback`;
-
-  //     if (provider === 'google') {
-  //       await keycloakAuthService.loginWithGoogle(redirectUri);
-  //       return;
-  //     }
-
-  //     await keycloakAuthService.loginWithFacebook(redirectUri);
-  //   } catch (error) {
-  //     setIsRedirecting(null);
-  //     toast.error(error instanceof Error ? error.message : 'Unable to start social login');
-  //   }
-  // };
+  const handleSocialLogin = (provider: SocialProvider): void => {
+    try {
+      setIsRedirecting(provider);
+      authService.socialLogin(provider);
+    } catch (error) {
+      setIsRedirecting(null);
+      toast.error(error instanceof Error ? error.message : 'Unable to start social login');
+    }
+  };
 
   return (
     <>
@@ -35,8 +31,8 @@ export default function SocialAuthSection(): JSX.Element {
         <button
           type="button"
           aria-label="Continue with Google"
-          // onClick={() => handleSocialLogin('google')}
-          // disabled={isRedirecting !== null}
+          onClick={() => handleSocialLogin('google')}
+          disabled={isRedirecting !== null}
           className="flex items-center justify-center p-4 bg-slate-50 hover:bg-slate-100 transition-colors rounded-2xl border border-gray-100 disabled:cursor-not-allowed disabled:opacity-70"
         >
           <FcGoogle className="w-6 h-6" />
@@ -44,8 +40,8 @@ export default function SocialAuthSection(): JSX.Element {
         <button
           type="button"
           aria-label="Continue with Facebook"
-          // onClick={() => handleSocialLogin('facebook')}
-          // disabled={isRedirecting !== null}
+          onClick={() => handleSocialLogin('facebook')}
+          disabled={isRedirecting !== null}
           className="flex items-center justify-center p-4 bg-slate-50 hover:bg-slate-100 transition-colors rounded-2xl border border-gray-100 disabled:cursor-not-allowed disabled:opacity-70"
         >
           <FaFacebook className="w-6 h-6 text-[#1877F2]" />
