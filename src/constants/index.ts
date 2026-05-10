@@ -1,3 +1,5 @@
+import type { SocialProvider } from '@/types/auth/auth';
+
 export const ROUTES = {
   HOME: '/',
   PRODUCTS: '/products',
@@ -34,7 +36,7 @@ export const AUTH_ENDPOINTS = {
   REGISTER: '/auth/register',
   LOGOUT: '/auth/logout',
   REFRESH: '/auth/refresh',
-  KEYCLOAK_LOGIN: '/auth/keycloak-login',
+  OAUTH2: (provider: SocialProvider) => `/auth/oauth2/${provider}`,
   ME: '/users/me',
 } as const;
 
@@ -112,15 +114,20 @@ export const API_BASE_URL =
 
 export const KEYCLOAK_CONFIG = {
   REALM_URL: import.meta.env.VITE_KEYCLOAK_REALM_URL || 'https://keycloak.kruzetech.dev/realms/ecommerce',
-  CLIENT_ID: import.meta.env.VITE_KEYCLOAK_CLIENT_ID || 'ecommerce-backend',
-  GRANT_TYPE: 'password',
+  CLIENT_ID: import.meta.env.VITE_KEYCLOAK_CLIENT_ID || 'ecommerce-app',
   SOCIAL_PROVIDERS: {
     GOOGLE: import.meta.env.VITE_KEYCLOAK_GOOGLE_IDP_ALIAS || 'google',
     FACEBOOK: import.meta.env.VITE_KEYCLOAK_FACEBOOK_IDP_ALIAS || 'facebook',
   },
 } as const;
 
+export const SOCIAL_PROVIDER_HINTS: Record<SocialProvider, string> = {
+  google: KEYCLOAK_CONFIG.SOCIAL_PROVIDERS.GOOGLE,
+  facebook: KEYCLOAK_CONFIG.SOCIAL_PROVIDERS.FACEBOOK,
+} as const;
+
 export const KEYCLOAK_AUTH_ENDPOINTS = {
+  AUTH: `${KEYCLOAK_CONFIG.REALM_URL}/protocol/openid-connect/auth`,
   TOKEN: `${KEYCLOAK_CONFIG.REALM_URL}/protocol/openid-connect/token`,
   USERINFO: `${KEYCLOAK_CONFIG.REALM_URL}/protocol/openid-connect/userinfo`,
   LOGOUT: `${KEYCLOAK_CONFIG.REALM_URL}/protocol/openid-connect/logout`,

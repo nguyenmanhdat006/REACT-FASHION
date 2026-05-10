@@ -27,6 +27,13 @@ export interface SignUpCredentials {
   phone?: string;
 }
 
+export type SocialProvider = 'google' | 'facebook';
+
+export interface OAuthExchangeRequest {
+  code: string;
+  redirectUri: string;
+}
+
 export interface ForgotPasswordData {
   email: string;
 }
