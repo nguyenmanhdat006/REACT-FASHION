@@ -51,7 +51,7 @@ export default function ForgotPasswordSentV2(): JSX.Element {
         </Link>
 
         <p className="text-center text-sm text-gray-600">
-          Didn’t receive the email?{' '}
+          Didn&apos;t receive the email?{' '}
           <button
             type="button"
             onClick={() => void handleResend()}
