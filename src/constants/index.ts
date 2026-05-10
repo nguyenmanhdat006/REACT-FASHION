@@ -34,6 +34,7 @@ export const AUTH_ENDPOINTS = {
   REGISTER: '/auth/register',
   LOGOUT: '/auth/logout',
   REFRESH: '/auth/refresh',
+  KEYCLOAK_LOGIN: '/auth/keycloak-login',
   ME: '/users/me',
 } as const;
 
@@ -113,6 +114,10 @@ export const KEYCLOAK_CONFIG = {
   REALM_URL: import.meta.env.VITE_KEYCLOAK_REALM_URL || 'https://keycloak.kruzetech.dev/realms/ecommerce',
   CLIENT_ID: import.meta.env.VITE_KEYCLOAK_CLIENT_ID || 'ecommerce-backend',
   GRANT_TYPE: 'password',
+  SOCIAL_PROVIDERS: {
+    GOOGLE: import.meta.env.VITE_KEYCLOAK_GOOGLE_IDP_ALIAS || 'google',
+    FACEBOOK: import.meta.env.VITE_KEYCLOAK_FACEBOOK_IDP_ALIAS || 'facebook',
+  },
 } as const;
 
 export const KEYCLOAK_AUTH_ENDPOINTS = {

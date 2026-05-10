@@ -7,70 +7,71 @@ import {
   User,
   Address,
 } from '@/types/auth/auth';
+import { KeycloakLoginExchangeRequest } from '@/types/auth/keycloakAuth';
 import { ApiResponse } from '@/types/common/common';
 import { API_ENDPOINTS, AUTH_ENDPOINTS } from '@/constants';
 import { getAccessToken } from '@/utils/authStorage';
-import { getProfileFieldsFromJwtToken, getRolesFromJwtToken } from '@/utils/jwt';
+import { getRolesFromJwtToken } from '@/utils/jwt';
 import { MaybeWrapped, unwrapApiData } from '@/utils/response';
+import { keycloakAuthService } from './keycloakService';
 
-type LoginApiUser = User & {
-  avatarUrl?: string | null;
-  roles?: string[] | null;
-};
-
-type LoginApiAuthResponse = Omit<AuthResponse, 'user'> & {
-  tokenType?: string;
-  user?: LoginApiUser | null;
-};
-
-const normalizeAuthResponse = (
-  payload: LoginApiAuthResponse,
-  fallbackEmail: string
-): AuthResponse => {
-  const tokenRoles = getRolesFromJwtToken(payload.accessToken);
-  const tokenProfile = getProfileFieldsFromJwtToken(payload.accessToken);
-
-  const normalizedUser: User = payload.user
-    ? {
-        ...payload.user,
-        avatar: payload.user.avatar ?? payload.user.avatarUrl ?? undefined,
-        email: payload.user.email || tokenProfile.email || fallbackEmail,
-        fullName:
-          payload.user.fullName || tokenProfile.fullName || payload.user.email || fallbackEmail,
-        roles: Array.isArray(payload.user.roles) && payload.user.roles.length > 0
-          ? payload.user.roles
-          : tokenRoles,
-        createdAt: payload.user.createdAt || new Date().toISOString(),
-      }
-    : {
-        id: '',
-        email: tokenProfile.email || fallbackEmail,
-        fullName: tokenProfile.fullName || fallbackEmail,
-        roles: tokenRoles,
-        createdAt: new Date().toISOString(),
-      };
-
-  return {
-    ...payload,
-    user: normalizedUser,
-  };
-};
+type KeycloakExchangeResponse = MaybeWrapped<AuthResponse>;
 
 export const authService = {
   login: async (credentials: LoginCredentials): Promise<AuthResponse> => {
     try {
-      const response = await apiClient.post<MaybeWrapped<LoginApiAuthResponse>>(
-        AUTH_ENDPOINTS.LOGIN,
-        credentials
-      );
+      const kcSession = await keycloakAuthService.login(credentials);
 
-      const authData = unwrapApiData(response);
+      return authService.loginWithKeycloakToken({
+        accessToken: kcSession.accessToken,
+      });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const serverMessage = (error.response?.data as { message?: string })?.message;
 
-      if (!authData?.accessToken || !authData?.refreshToken) {
-        throw new Error('Invalid login response: missing auth tokens.');
+        if (serverMessage) {
+          error.message = serverMessage;
+        } else if (!error.response) {
+          error.message = 'Unable to connect to authentication gateway.';
+        }
       }
 
-      return normalizeAuthResponse(authData, credentials.email);
+      throw error;
+    }
+  },
+
+  handleSocialCallback: async (): Promise<AuthResponse> => {
+    try {
+      const kcSession = await keycloakAuthService.exchangeAuthorizationCode();
+
+      return authService.loginWithKeycloakToken({
+        accessToken: kcSession.accessToken,
+      });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const serverMessage = (error.response?.data as { message?: string })?.message;
+
+        if (serverMessage) {
+          error.message = serverMessage;
+        } else if (!error.response) {
+          error.message = 'Unable to connect to authentication gateway.';
+        }
+      }
+
+      throw error;
+    }
+  },
+
+  loginWithKeycloakToken: async (
+    payload: KeycloakLoginExchangeRequest
+  ): Promise<AuthResponse> => {
+    try {
+      const response = await apiClient.post<KeycloakExchangeResponse>(
+        AUTH_ENDPOINTS.KEYCLOAK_LOGIN,
+        payload
+      );
+
+      return unwrapApiData(response);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const serverMessage = (error.response?.data as { message?: string })?.message;

@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from 'axios';
+import axios from 'axios';
 import {
   KeycloakAuthSession,
   KeycloakLoginCredentials,
@@ -7,82 +7,69 @@ import {
   KeycloakJwtPayload,
   KeycloakErrorResponse,
 } from '@/types/auth/keycloakAuth';
-import { parseJwtPayload, extractRolesFromJwtPayload } from '@/utils/jwt';
 import apiClient from '@/utils/api';
+import { AUTH_ENDPOINTS, KEYCLOAK_AUTH_ENDPOINTS } from '@/constants';
 import {
-  AUTH_ENDPOINTS,
-  KEYCLOAK_CONFIG,
-  KEYCLOAK_AUTH_ENDPOINTS,
-} from '@/constants';
-
-const parseJwt = (token: string): KeycloakJwtPayload | null =>
-  parseJwtPayload<KeycloakJwtPayload>(token);
-
-const isTokenExpired = (token: string): boolean => {
-  const payload = parseJwt(token);
-  if (!payload) return true;
-
-  const now = Math.floor(Date.now() / 1000);
-  const expirationTime = payload.exp;
-
-  return now >= expirationTime - 60;
-};
-
-const extractRolesFromToken = (payload: KeycloakJwtPayload): string[] => {
-  return extractRolesFromJwtPayload(payload);
-};
-
-const buildTokenParams = (credentials: KeycloakLoginCredentials): URLSearchParams => {
-  const params = new URLSearchParams();
-  params.append('client_id', KEYCLOAK_CONFIG.CLIENT_ID);
-  params.append('grant_type', KEYCLOAK_CONFIG.GRANT_TYPE);
-  params.append('username', credentials.email);
-  params.append('password', credentials.password);
-  return params;
-};
-
-const buildRefreshTokenParams = (refreshToken: string): URLSearchParams => {
-  const params = new URLSearchParams();
-  params.append('client_id', KEYCLOAK_CONFIG.CLIENT_ID);
-  params.append('grant_type', 'refresh_token');
-  params.append('refresh_token', refreshToken);
-  return params;
-};
-
-const createKeycloakClient = (): AxiosInstance => {
-  return axios.create({
-    timeout: 10000,
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-  });
-};
+  SocialProvider,
+  SOCIAL_PROVIDER_HINTS,
+  getBrowserKeycloakClient,
+  getCurrentRedirectUri,
+  buildPasswordGrantTokenParams,
+  createKeycloakHttpClient,
+  parseKeycloakJwt,
+  initBrowserKeycloakSession,
+  getSessionFromBrowserKeycloakClient,
+} from '@/utils/keycloak';
 
 export const keycloakAuthService = {
+  loginWithProvider: async (
+    provider: SocialProvider,
+    redirectUri?: string
+  ): Promise<void> => {
+    const initSuccess = await initBrowserKeycloakSession();
+    if (!initSuccess) {
+      throw new Error('Unable to initialize Keycloak');
+    }
+
+    const keycloakClient = getBrowserKeycloakClient();
+
+    console.log('keycloakClient', keycloakClient);
+    console.log('redirectUri', redirectUri);
+
+    await keycloakClient.login({
+      idpHint: SOCIAL_PROVIDER_HINTS[provider],
+      redirectUri: redirectUri ?? getCurrentRedirectUri(),
+    });
+  },
+
+  loginWithGoogle: async (redirectUri?: string): Promise<void> => {
+    return keycloakAuthService.loginWithProvider('google', redirectUri);
+  },
+
+  loginWithFacebook: async (redirectUri?: string): Promise<void> => {
+    return keycloakAuthService.loginWithProvider('facebook', redirectUri);
+  },
+
+  exchangeAuthorizationCode: async (): Promise<KeycloakAuthSession> => {
+    const authenticated = await initBrowserKeycloakSession();
+    if (!authenticated) {
+      throw new Error('Failed to exchange authorization code: Not authenticated');
+    }
+    
+    const session = getSessionFromBrowserKeycloakClient();
+    if (!session) {
+      throw new Error('No Keycloak session found after initialization');
+    }
+    
+    return session;
+  },
 
   login: async (
     credentials: KeycloakLoginCredentials
   ): Promise<KeycloakAuthSession> => {
-    return keycloakAuthService.exchangeCredentials(credentials);
-  },
-
-  register: async (
-    credentials: KeycloakRegisterCredentials
-  ): Promise<KeycloakAuthSession> => {
-    await apiClient.post<void>(AUTH_ENDPOINTS.REGISTER, credentials);
-
-    return keycloakAuthService.login({
-      email: credentials.email,
-      password: credentials.password,
-    });
-  },
-
-  exchangeCredentials: async (
-    credentials: KeycloakLoginCredentials
-  ): Promise<KeycloakAuthSession> => {
     try {
-      const keycloakClient = createKeycloakClient();
-      const params = buildTokenParams(credentials);
+      const keycloakClient = createKeycloakHttpClient();
+      const params = buildPasswordGrantTokenParams(credentials.email, credentials.password);
 
       const tokenResponse = await keycloakClient.post<KeycloakTokenResponse>(
         KEYCLOAK_AUTH_ENDPOINTS.TOKEN,
@@ -92,7 +79,7 @@ export const keycloakAuthService = {
       const keycloakTokens = tokenResponse.data;
       const keycloakAccessToken = keycloakTokens.access_token;
 
-      const jwtPayload = parseJwt(keycloakAccessToken);
+      const jwtPayload = parseKeycloakJwt(keycloakAccessToken);
       if (!jwtPayload || !jwtPayload.sub) {
         throw new Error('Invalid Keycloak token: missing sub claim');
       }
@@ -137,64 +124,41 @@ export const keycloakAuthService = {
     }
   },
 
-  refreshTokens: async (
-    refreshToken: string
-  ): Promise<{ accessToken: string; refreshToken: string; expiresIn: number }> => {
-    try {
-      const keycloakClient = createKeycloakClient();
-      const params = buildRefreshTokenParams(refreshToken);
+register: async (
+  credentials: KeycloakRegisterCredentials
+): Promise<KeycloakAuthSession> => {
+  try {
+    const keycloakClient = createKeycloakHttpClient();
+    const params = buildPasswordGrantTokenParams(credentials.email, credentials.password);
 
-      const response = await keycloakClient.post<KeycloakTokenResponse>(
-        KEYCLOAK_AUTH_ENDPOINTS.TOKEN,
-        params
-      );
+    await keycloakClient.post(KEYCLOAK_AUTH_ENDPOINTS.TOKEN, params);
 
-      const data = response.data;
-      return {
-        accessToken: data.access_token,
-        refreshToken: data.refresh_token,
-        expiresIn: data.expires_in,
-      };
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const errorData = error.response?.data as KeycloakErrorResponse | undefined;
-        
-        if (errorData && 'error' in errorData) {
-          const message = errorData.error_description || errorData.error;
-          throw new Error(message);
-        }
-
-        if (!error.response) {
-          throw new Error('Unable to connect to Keycloak server');
-        }
-
-        // Refresh token likely expired or invalid
-        if (error.response.status === 400 || error.response.status === 401) {
-          throw new Error('Refresh token expired or invalid');
-        }
+    // Đăng nhập luôn sau khi register thành công
+    return keycloakAuthService.login({
+      email: credentials.email,
+      password: credentials.password,
+    });
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const responseData = error.response?.data as any;
+      if (responseData?.errorMessage) {
+        throw new Error(responseData.errorMessage);
       }
-
-      const errorMessage = error instanceof Error ? error.message : 'Token refresh failed';
-      throw new Error(errorMessage);
+      if (error.response?.status === 409) {
+        throw new Error('User already exists');
+      }
     }
-  },
-
-  isAccessTokenExpired: (token: string): boolean => {
-    return isTokenExpired(token);
-  },
+    throw new Error('Registration failed. Please try again.');
+  }
+},
 
   parseToken: (token: string): KeycloakJwtPayload | null => {
-    return parseJwt(token);
-  },
-
-  getRolesFromToken: (token: string): string[] => {
-    const payload = parseJwt(token);
-    if (!payload) return [];
-    return extractRolesFromToken(payload);
+    return parseKeycloakJwt(token);
   },
 
   getKeycloakIdFromToken: (token: string): string | null => {
-    const payload = parseJwt(token);
+    const payload = parseKeycloakJwt(token);
     return payload?.sub ?? null;
   },
 };
+

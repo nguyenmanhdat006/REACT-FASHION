@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LoginCredentials, SignUpCredentials } from '@/types/auth/auth';
 import {
@@ -17,6 +17,7 @@ export const useAuth = () => {
   const { user, isAuthenticated, isLoading, error } = useAppSelector(
     state => state.auth
   );
+  const profileRequestedRef = useRef<string | null>(null);
 
   const loadProfile = useCallback(async () => {
     if (getAccessToken()) {
@@ -25,8 +26,15 @@ export const useAuth = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (isAuthenticated && !user) {
+    const accessToken = getAccessToken();
+
+    if (isAuthenticated && !user && accessToken && profileRequestedRef.current !== accessToken) {
+      profileRequestedRef.current = accessToken;
       void loadProfile();
+    }
+
+    if (!isAuthenticated) {
+      profileRequestedRef.current = null;
     }
   }, [isAuthenticated, user, loadProfile]);
 
