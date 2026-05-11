@@ -1,5 +1,5 @@
 import type { LucideIcon } from 'lucide-react';
-import { Compass, Home, Lightbulb, Shirt, Tag } from 'lucide-react';
+import { Compass, Home, Lightbulb, Shirt, Tag, User } from 'lucide-react';
 
 export type AppShellRoute = {
   to: string;
@@ -60,6 +60,16 @@ export const APP_SHELL_ROUTES: AppShellRoute[] = [
     icon: Lightbulb,
     showInSidebar: true,
     sidebarOrder: 4,
+    showHeaderFiltersRow: false,
+    showQuickFilter: false,
+  },
+  {
+    to: '/v2/profile',
+    label: 'Profile',
+    headerTitle: 'Profile',
+    icon: User,
+    showInSidebar: false,
+    sidebarOrder: 99,
     showHeaderFiltersRow: false,
     showQuickFilter: false,
   },
