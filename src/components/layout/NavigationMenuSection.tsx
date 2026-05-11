@@ -8,7 +8,7 @@ import {
   LAST_ORDERS,
   SIDEBAR_LOGOUT_ICON,
 } from '@/pages/productV2/HomeV2/homeDemoData';
-import { PRIMARY_NAV_ITEMS } from './navigationMenuData';
+import { SIDEBAR_NAV_ITEMS } from './navigationMenuData';
 
 import { LastOrderButton } from './components/LastOrderButton';
 import { NavButton } from './components/NavButton';
@@ -17,25 +17,6 @@ export function NavigationMenuSection(): JSX.Element {
   const LogOutIcon = SIDEBAR_LOGOUT_ICON;
   const navigate = useNavigate();
   const location = useLocation();
-
-  const isActiveItem = (to: string): boolean => {
-    const [pathname, hashPart] = to.split('#');
-    if (location.pathname !== pathname) return false;
-
-    const hash = location.hash ?? '';
-
-    if (pathname === '/v2/products') {
-      if (!hashPart) {
-        return hash === '' || hash === '#explore';
-      }
-      return hash === `#${hashPart}`;
-    }
-
-    if (!hashPart) {
-      return hash === '';
-    }
-    return hash === `#${hashPart}`;
-  };
 
   return (
     <aside
@@ -51,12 +32,12 @@ export function NavigationMenuSection(): JSX.Element {
             aria-label="Primary"
             className="relative flex flex-col items-start gap-2 self-stretch"
           >
-            {PRIMARY_NAV_ITEMS.map((item) => (
+            {SIDEBAR_NAV_ITEMS.map((item) => (
               <NavButton
-                key={item.label}
+                key={item.to}
                 icon={item.icon}
                 label={item.label}
-                active={isActiveItem(item.to)}
+                active={location.pathname === item.to}
                 onClick={() => navigate(item.to)}
               />
             ))}

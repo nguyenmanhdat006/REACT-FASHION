@@ -22,7 +22,7 @@ export default function LayoutV2({
       <div className="relative flex h-screen min-h-0 flex-1 min-w-0 flex-col items-start overflow-hidden">
         <HomeHeaderSection />
 
-        <div className="relative flex min-h-0 w-full flex-1 flex-col overflow-y-auto">
+        <div className="relative flex min-h-0 w-full flex-1 flex-col overflow-y-auto p-8">
           {children}
         </div>
       </div>

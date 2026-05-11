@@ -24,6 +24,9 @@ export const userRoute: RouteObject = {
   children: [
     { index: true, element: <HomeV2 /> },
     { path: 'products', element: <Products /> },
+    { path: 'products/clothing', element: <Products /> },
+    { path: 'products/deal', element: <Products /> },
+    { path: 'products/inspirations', element: <Products /> },
     { path: 'products/:slug', element: <ProductDetail /> },
     {
       element: (
