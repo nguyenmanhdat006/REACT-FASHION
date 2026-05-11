@@ -36,7 +36,7 @@ export function PromoCard({ model }: PromoCardProps): JSX.Element {
       >
         <div className="relative flex flex-col items-center justify-center gap-2.5">
           {model.titleAsParagraph ? (
-            <p className="text-h6-medium text-white relative self-stretch">{model.title}</p>
+            <p className="text-h5-medium text-white relative self-stretch">{model.title}</p>
           ) : (
             <div className="text-h6-medium text-white relative self-stretch">{model.title}</div>
           )}
@@ -81,7 +81,7 @@ export function PromoCard({ model }: PromoCardProps): JSX.Element {
       >
         <div className="relative flex grow w-fit max-w-[50%] items-center justify-center">
           <div className="relative flex w-full flex-col items-start justify-center">
-            <p className="text-h6-medium text-white max-w-[50%] relative whitespace-pre-line">
+            <p className="text-h5-medium text-white max-w-[50%] relative whitespace-pre-line">
               {model.title}
             </p>
           </div>
@@ -107,7 +107,7 @@ export function PromoCard({ model }: PromoCardProps): JSX.Element {
     >
       <div className="relative flex flex-1 grow items-center justify-center gap-2.5">
         <div className="relative flex w-full flex-col items-start justify-center self-stretch">
-          <div className="text-h6-medium text-white relative self-stretch">{model.title}</div>
+          <div className="text-h5-medium text-white relative self-stretch">{model.title}</div>
           <div className="text-body-regular text-white relative self-stretch">
             {model.subtitle}
           </div>

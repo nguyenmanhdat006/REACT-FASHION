@@ -19,10 +19,12 @@ export default function LayoutV2({
     >
       <NavigationMenuSection />
 
-      <div className="relative flex w-screen h-screen overflow-hidden flex-col items-start">
+      <div className="relative flex h-screen min-h-0 flex-1 min-w-0 flex-col items-start overflow-hidden">
         <HomeHeaderSection />
 
-        {children}
+        <div className="relative flex min-h-0 w-full flex-1 flex-col overflow-y-auto">
+          {children}
+        </div>
       </div>
     </main>
   );

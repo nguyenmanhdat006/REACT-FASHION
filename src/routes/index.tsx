@@ -2,6 +2,8 @@ import React from 'react';
 import { Outlet, type RouteObject } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
 import ProtectedRoute from '@/components/navigation/ProtectedRoute';
+import { authV2Routes } from './v2/authV2Routes';
+import { userRoute } from './v2/userRoute';
 
 const Home = React.lazy(() => import('@/pages/public/Home'));
 const Products = React.lazy(() => import('@/pages/product/Products'));
@@ -17,12 +19,7 @@ const SignUp = React.lazy(() => import('@/pages/auth/SignUp'));
 const ForgotPassword = React.lazy(() => import('@/pages/auth/ForgotPassword'));
 const NotFound = React.lazy(() => import('@/pages/public/NotFound'));
 
-const LoginV2 = React.lazy(() => import('@/pages/authV2/LoginV2/index'));
-const SignUpV2 = React.lazy(() => import('@/pages/authV2/SignUpV2/index'));
-const ForgotPasswordV2 = React.lazy(() => import('@/pages/authV2/ForgotPasswordV2/index'));
-const ForgotPasswordSentV2 = React.lazy(() => import('@/pages/authV2/ForgotPasswordSentV2/index'));
 const AuthCallback = React.lazy(() => import('@/pages/auth/AuthCallback'));
-import HomeV2 from '@/pages/productV2';
 
 export const routes: RouteObject[] = [
   {
@@ -66,38 +63,6 @@ export const routes: RouteObject[] = [
   },
   {
     path: '/v2',
-    // element: <Layout />,
-    children: [
-      { path: 'login', element: <LoginV2 /> },
-      { index: true, element: <HomeV2 /> },
-      { path: 'products', element: <Products /> },
-      { path: 'products/:slug', element: <ProductDetail /> },
-      { path: 'signup', element: <SignUpV2 /> },
-      { path: 'forgot-password', element: <ForgotPasswordV2 /> },
-      { path: 'forgot-password/sent', element: <ForgotPasswordSentV2 /> },
-      {
-        element: (
-          <ProtectedRoute>
-            <Outlet />
-          </ProtectedRoute>
-        ),
-        children: [
-          { path: 'cart', element: <Cart /> },
-          { path: 'checkout', element: <Checkout /> },
-          { path: 'orders', element: <Orders /> },
-          { path: 'orders/:id', element: <OrderDetail /> },
-          { path: 'profile', element: <Profile /> },
-          {
-            element: (
-              <ProtectedRoute requiredRole="ADMIN">
-                <Outlet />
-              </ProtectedRoute>
-            ),
-            children: [{ path: 'admin', element: <AdminDashboard /> }],
-          },
-        ],
-      },
-      { path: '*', element: <NotFound /> },
-    ],
+    children: [...authV2Routes, userRoute, { path: '*', element: <NotFound /> }],
   },
 ];
