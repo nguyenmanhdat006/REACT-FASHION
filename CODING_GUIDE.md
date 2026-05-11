@@ -34,7 +34,7 @@ Khi implement một feature mới, hãy làm theo thứ tự sau:
    ↓
 8. Pages (Page Components)
    ↓
-9. Routes (Routing)
+9. Routes (Routing) — `src/routes/index.tsx`; riêng `/v2` thêm `src/routes/v2/userRoute.tsx` và khi cần shell UI thì `src/routes/v2/appShellRoutes.ts`
    ↓
 10. i18n Translations (Optional)
 ```
@@ -589,7 +589,7 @@ export default UserList;
 
 ### BƯỚC 8: Tạo Page Component
 
-**📍 Location:** `src/pages/[PageName].tsx`
+**📍 Location:** `src/pages/[PageName].tsx` hoặc theo module con, ví dụ `src/pages/productV2/[Feature]/index.tsx` (đặt page gần feature, export default cho `React.lazy`).
 
 **Mục đích:** Tạo page component chính cho feature
 
@@ -682,32 +682,62 @@ export default Users;
 
 ### BƯỚC 9: Thêm Route
 
-**📍 Location:** `src/App.tsx`
+**Mục đích:** Đăng ký URL cho page mới.
 
-**Mục đích:** Đăng ký route cho page mới
+**📍 Cây route thật trong repo:** `src/routes/index.tsx` — export `routes` (mảng `RouteObject[]`). `App.tsx` **không** khai báo từng `Route`; chỉ gọi `useRoutes(routes)`.
 
-**Cấu trúc:**
+#### 9a. Trang gốc (`/`, `Layout` cũ)
+
+Thêm `RouteObject` vào nhánh `path: '/'` trong `src/routes/index.tsx` (lazy import, `ProtectedRoute` / `Outlet` giống pattern sẵn có).
 
 ```typescript
 // Lazy load page
 const Users = React.lazy(() => import('@/pages/Users'));
 
-// Trong Routes:
-<Route
-  path="users"
-  element={
-    <ProtectedRoute>
-      <Users />
-    </ProtectedRoute>
-  }
-/>
+// Trong routes: children của layout '/', ví dụ
+{ path: 'users', element: <Users /> }
+// hoặc bọc ProtectedRoute + Outlet theo nhóm route hiện tại
 ```
 
 **⚠️ Lưu ý:**
 
-- Sử dụng lazy loading cho performance
-- Sử dụng `ProtectedRoute` nếu cần authentication
-- Route path nên match với constant trong `ROUTES`
+- Lazy loading cho page components
+- `ProtectedRoute` khi cần đăng nhập / role
+- Path string nên thống nhất với constants trong `src/constants/index.ts` (`ROUTES`, …) nếu có
+
+#### 9b. Trang trong App Shell V2 (`/v2`, `LayoutV2`)
+
+Luồng product / UI mới dùng **`LayoutV2`** (sidebar `NavigationMenuSection` + `HomeHeaderSection` + vùng scroll nội dung).
+
+1. **`src/routes/v2/userRoute.tsx`** — Thêm `children` (path **relative** tới `/v2`, không ghi tiền tố `/v2`):
+
+```typescript
+const MyPage = React.lazy(() => import('@/pages/productV2/MyFeature'));
+
+// trong userRoute.children, cùng cấp các route 'products', …
+{ path: 'my-feature', element: <MyPage /> },
+```
+
+URL đầy đủ sẽ là `/v2/my-feature`. Các route được bọc bởi `element: <LayoutV2><Outlet /></LayoutV2>` như đã cấu hình trong `userRoute`.
+
+2. **`src/routes/v2/appShellRoutes.ts`** — Khi page cần **hiện trên sidebar**, **tiêu đề header**, và/hoặc hàng **Filters / Search** hoặc **quick filter** giữa header:
+
+- Thêm một object vào `APP_SHELL_ROUTES` kiểu `AppShellRoute`:
+
+| Field | Ý nghĩa |
+| ----- | ------- |
+| `to` | **Full path** khớp `location.pathname` (ví dụ `'/v2/my-feature'`) |
+| `label` | Chữ trên sidebar |
+| `headerTitle` | Tiêu đề trong `HomeHeaderSection` |
+| `icon` | Icon Lucide (import từ `lucide-react`) |
+| `showInSidebar` | `true` nếu mục xuất hiện trong menu |
+| `sidebarOrder` | Thứ tự sort (số nhỏ lên trước) |
+| `showHeaderFiltersRow` | Hiện nút Filters + Search bên phải header |
+| `showQuickFilter` | Hiện nhóm quick filter (All / Men / Women) giữa header |
+
+- `getCurrentRoute(pathname)` đang **match đúng** chuỗi `to` (không prefix). `to` phải trùng URL thực tế khi user vào page.
+
+3. **Re-export:** `src/components/layout/navigationMenuData.ts` re-export `APP_SHELL_ROUTES` / `SIDEBAR_NAV_ITEMS` — có thể import từ `@/routes/v2/appShellRoutes` hoặc từ `navigationMenuData` tùy chỗ dùng trong codebase.
 
 ---
 
@@ -1253,20 +1283,23 @@ const Users: React.FC = () => {
 export default Users;
 ```
 
-### 9. Route (`src/App.tsx`)
+### 9. Route (`src/routes/index.tsx` và khi cần `src/routes/v2/*`)
+
+**Trang gốc (`/`):** thêm `RouteObject` vào mảng `routes` / children của layout (xem file thật).
 
 ```typescript
 const Users = React.lazy(() => import('@/pages/Users'));
 
-// Trong Routes:
-<Route
-  path="users"
-  element={
-    <ProtectedRoute>
-      <Users />
-    </ProtectedRoute>
-  }
-/>
+// Ví dụ trong children của path: '/'
+{ path: 'users', element: <Users /> }
+```
+
+**Trang `/v2` (LayoutV2):** khai báo trong `src/routes/v2/userRoute.tsx`; nếu cần sidebar + header đúng metadata, thêm entry tương ứng trong `src/routes/v2/appShellRoutes.ts` (full `to`, `showInSidebar`, `showHeaderFiltersRow`, `showQuickFilter`, …). Chi tiết xem **BƯỚC 9b** trong mục *BƯỚC 9: Thêm Route* ở trên.
+
+```typescript
+// src/routes/v2/userRoute.tsx — path relative tới /v2
+const MyPage = React.lazy(() => import('@/pages/productV2/MyFeature'));
+{ path: 'my-feature', element: <MyPage /> },
 ```
 
 ### 10. i18n (`src/constants/locales/en.json` và `vi.json`)
@@ -1356,8 +1389,9 @@ Khi implement một feature mới, đảm bảo:
 - [ ] ✅ Đã đăng ký slice trong `src/store/index.ts`
 - [ ] ✅ Đã tạo custom hook (nếu cần) trong `src/hooks/`
 - [ ] ✅ Đã tạo components trong `src/components/`
-- [ ] ✅ Đã tạo page trong `src/pages/`
-- [ ] ✅ Đã thêm route trong `src/App.tsx`
+- [ ] ✅ Đã tạo page trong `src/pages/` (hoặc module con như `src/pages/productV2/...`)
+- [ ] ✅ Đã đăng ký route: `src/routes/index.tsx` (trang `/`) và/hoặc `src/routes/v2/userRoute.tsx` (trang `/v2/...`)
+- [ ] ✅ Với trang trong shell V2: nếu cần sidebar / tiêu đề header / Filters / quick filter — đã thêm (hoặc cập nhật) entry trong `src/routes/v2/appShellRoutes.ts` với `to` khớp chính xác URL
 - [ ] ✅ Đã thêm i18n translations
 - [ ] ✅ Đã test feature hoạt động đúng
 - [ ] ✅ Đã handle loading và error states
