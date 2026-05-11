@@ -11,9 +11,7 @@ import {
 import { cn } from '@/lib/utils';
 
 export interface ProductSwatch {
-  /** Tailwind background color class, e.g. 'bg-yellow-300' or 'bg-gray-black' */
   colorClass: string;
-  /** Optional border class to make light swatches visible */
   borderClass?: string;
 }
 
