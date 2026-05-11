@@ -6,7 +6,7 @@ import { EXPLORE_PRODUCTS } from './productsExploreData';
 
 export default function Products(): JSX.Element {
   return (
-    <main className="relative mx-auto flex w-full max-w-[1212px] flex-col gap-6 self-stretch px-8 pb-12 pt-2">
+    <main className="relative flex w-full flex-col gap-6 self-stretch pb-12">
       <div className="relative grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {EXPLORE_PRODUCTS.map((product) => (
           <ProductCard
