@@ -1,17 +1,13 @@
 import { type JSX } from 'react';
 
-import { productV2Layout } from './productV2Classes';
+import LayoutV2 from '@/components/layout/LayoutV2';
+
 import { HomeMainSection } from './sections/HomeMainSection';
-import { NavigationMenuSection } from './sections/NavigationMenuSection';
 
 export default function HomeV2(): JSX.Element {
   return (
-    <main
-      className={productV2Layout.pageRoot}
-      aria-label="Home"
-    >
-      <NavigationMenuSection />
+    <LayoutV2 aria-label="Home">
       <HomeMainSection />
-    </main>
+    </LayoutV2>
   );
 }

@@ -9,24 +9,28 @@ import {
 } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
-import { productV2Product, productV2Promo } from '../productV2Classes';
 import { ActionIconButton } from './ActionIconButton';
 import { PRODUCT_TILES } from './homeDemoData';
 
 export function HomeProductCardsSection(): JSX.Element {
   return (
-    <div className={productV2Product.gridRow}>
+    <div className="relative flex h-[522px] w-full items-center justify-center gap-4 self-stretch">
       {PRODUCT_TILES.map((product) => (
-        <Card key={product.id} className={productV2Product.card}>
+        <Card
+          key={product.id}
+          className={cn(
+            'relative flex flex-1 grow flex-col items-center justify-center gap-0 self-stretch overflow-hidden rounded-2xl border border-solid border-gray-50 bg-card p-0 py-0 text-card-foreground shadow-none ring-0',
+          )}
+        >
           <div
-            className={cn(productV2Product.cardImageWrap, productV2Promo.baseCover)}
+            className="relative flex flex-1 grow flex-col items-center gap-2.5 self-stretch bg-cover bg-center"
             style={{
               backgroundImage: `url(${product.imageUrl})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
             }}
           >
-            <div className={productV2Product.cardImageInner}>
+            <div className="relative flex flex-1 grow flex-col items-center gap-2.5 p-4 self-stretch">
               <div className="relative flex w-full flex-[0_0_auto] items-center justify-between self-stretch">
                 <div className="relative inline-flex flex-[0_0_auto] items-center justify-center gap-1">
                   <div className="relative flex h-6 w-6 items-center justify-center gap-2.5 overflow-hidden rounded-3xl bg-yellow-300">
@@ -40,7 +44,7 @@ export function HomeProductCardsSection(): JSX.Element {
               </div>
             </div>
           </div>
-          <CardContent className={cn(productV2Product.metaRow, 'border-0 p-4 pb-4 pt-4')}>
+          <CardContent className="relative flex flex-col gap-2.5 border-0 p-4">
             <div className="relative flex w-full flex-[0_0_auto] items-center justify-between self-stretch">
               <div className="relative flex max-w-[140px] w-[140px] flex-col items-center justify-center gap-1">
                 <CardDescription className="text-caption-lg-regular text-gray-500">
@@ -55,8 +59,8 @@ export function HomeProductCardsSection(): JSX.Element {
                 variant="default"
                 aria-label={`View product price ${product.price}`}
                 className={cn(
-                  'h-auto flex-[0_0_auto] shrink-0 rounded-[32px] border-0 bg-gray-black px-8 py-3 text-body-regular shadow-none hover:bg-gray-900',
-                  'text-white hover:text-white [&_svg]:text-white',
+                  'h-auto flex-[0_0_auto] shrink-0 rounded-[32px] border-0 bg-gray-black px-8 py-3 text-body-regular shadow-none',
+                  'text-white hover:bg-gray-900 hover:text-white [&_svg]:text-white',
                 )}
               >
                 {product.price}

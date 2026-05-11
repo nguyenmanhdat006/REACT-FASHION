@@ -1,18 +1,13 @@
-import { type JSX } from 'react';
+import type { JSX } from 'react';
 
+import { Divider } from '@/components/Divider';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-
-import {
-  navItemClasses,
-  productV2Controls,
-  productV2Layout,
-} from '../productV2Classes';
 import {
   LAST_ORDERS,
   PRIMARY_NAV_ITEMS,
   SIDEBAR_LOGOUT_ICON,
-} from './homeDemoData';
+} from '@/pages/productV2/ProductV2/sections/homeDemoData';
 
 export function NavigationMenuSection(): JSX.Element {
   const LogOutIcon = SIDEBAR_LOGOUT_ICON;
@@ -20,16 +15,16 @@ export function NavigationMenuSection(): JSX.Element {
   return (
     <aside
       aria-label="Sidebar navigation"
-      className={productV2Layout.navAside}
+      className="relative flex h-screen w-[300px] flex-col items-center justify-between border-r border-solid border-gray-100 bg-white px-8 py-12"
     >
-      <div className="relative flex w-full flex-[0_0_auto] flex-col items-start gap-8 self-stretch">
-        <div className="relative mt-[-1px] self-stretch text-h4-semi leading-tight text-gray-black">
+      <div className="relative flex flex-col items-start gap-8 self-stretch">
+        <div className="self-stretch text-h4-semi leading-tight text-gray-black">
           Cartify
         </div>
-        <div className="relative flex w-full flex-[0_0_auto] flex-col items-center justify-center gap-[22px] self-stretch">
+        <div className="relative flex w-full flex-col items-center justify-center gap-5 self-stretch">
           <nav
             aria-label="Primary"
-            className="relative flex w-full flex-[0_0_auto] flex-col items-start gap-2 self-stretch"
+            className="relative flex flex-col items-start gap-2 self-stretch"
           >
             {PRIMARY_NAV_ITEMS.map((item) => {
               const Icon = item.icon;
@@ -43,11 +38,10 @@ export function NavigationMenuSection(): JSX.Element {
                   size="lg"
                   aria-current={active ? 'page' : undefined}
                   className={cn(
-                    navItemClasses(active),
-                    'h-auto justify-start gap-2 rounded-2xl p-4 shadow-none focus-visible:ring-offset-0',
-                    active
-                      ? 'hover:bg-gray-900 hover:text-gray-white [&_svg]:text-gray-white'
-                      : 'hover:bg-gray-50',
+                    'relative flex self-stretch items-center gap-2 overflow-hidden rounded-2xl p-4 text-left',
+                    active ? 'bg-primary' : '',
+                    'h-auto justify-start focus-visible:ring-offset-0',
+                    active ? ' hover:bg-primary' : 'hover:bg-gray-50',
                   )}
                 >
                   <span className="relative flex shrink-0 items-center justify-center p-0.5">
@@ -71,39 +65,39 @@ export function NavigationMenuSection(): JSX.Element {
             })}
           </nav>
 
-          <div className="h-px w-full shrink-0 self-stretch bg-border" />
+          <Divider orientation="horizontal" />
 
           <section
             aria-labelledby="last-orders-heading"
-            className="relative flex w-full flex-[0_0_auto] flex-col items-center self-stretch"
+            className="relative flex flex-col items-center self-stretch"
           >
-            <div className="relative mb-[-1px] flex w-full flex-[0_0_auto] items-center gap-0.5 self-stretch">
+            <div className="relative flex items-center gap-1 self-stretch">
               <h2
                 id="last-orders-heading"
                 className="relative w-fit whitespace-nowrap text-caption-lg-regular text-gray-500"
               >
                 Last Orders
               </h2>
-              <div className="relative w-fit whitespace-nowrap text-body-regular text-gray-black">
+              <div className="relative w-fit whitespace-nowrap text-body-regular">
                 37
               </div>
             </div>
-            <div className="relative flex w-full flex-[0_0_auto] flex-col items-start self-stretch">
+            <div className="relative flex flex-col items-start self-stretch">
               {LAST_ORDERS.map((order) => (
                 <Button
                   key={order.label}
                   type="button"
                   variant="ghost"
                   className={cn(
-                    productV2Controls.orderRow,
-                    'h-auto justify-start hover:bg-muted/80',
+                    'relative flex self-stretch items-center gap-2 overflow-hidden rounded-2xl bg-white px-4 py-2 text-left',
+                    'h-auto justify-start hover:bg-gray-50',
                   )}
                 >
                   <span
-                    className={productV2Controls.orderThumb}
+                    className="relative h-7 w-7 rounded-md bg-cover bg-center"
                     style={{ backgroundImage: `url(${order.imageUrl})` }}
                   />
-                  <span className="relative w-fit whitespace-nowrap text-body-regular text-gray-black">
+                  <span className="relative w-fit whitespace-nowrap text-body-regular">
                     {order.label}
                   </span>
                 </Button>
@@ -117,14 +111,14 @@ export function NavigationMenuSection(): JSX.Element {
         type="button"
         variant="ghost"
         className={cn(
-          productV2Controls.logoutRow,
-          'h-auto justify-start shadow-none hover:bg-muted/80 focus-visible:ring-offset-0',
+          'relative flex self-stretch items-center gap-2 overflow-hidden rounded-2xl bg-white p-4 text-left',
+          'h-auto justify-start shadow-none hover:bg-gray-50 focus-visible:ring-offset-0 hover:text-red-500',
         )}
       >
         <span className="relative flex shrink-0 items-center justify-center p-0.5">
-          <LogOutIcon className="h-6 w-6 text-gray-black" aria-hidden />
+          <LogOutIcon className="h-6 w-6" aria-hidden />
         </span>
-        <span className="relative w-fit whitespace-nowrap text-body-regular text-gray-black">
+        <span className="relative w-fit whitespace-nowrap text-body-regular">
           Logout
         </span>
       </Button>
