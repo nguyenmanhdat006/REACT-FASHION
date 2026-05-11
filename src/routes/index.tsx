@@ -22,6 +22,7 @@ const SignUpV2 = React.lazy(() => import('@/pages/authV2/SignUpV2/index'));
 const ForgotPasswordV2 = React.lazy(() => import('@/pages/authV2/ForgotPasswordV2/index'));
 const ForgotPasswordSentV2 = React.lazy(() => import('@/pages/authV2/ForgotPasswordSentV2/index'));
 const AuthCallback = React.lazy(() => import('@/pages/auth/AuthCallback'));
+import HomeV2 from '@/pages/productV2';
 
 export const routes: RouteObject[] = [
   {
@@ -68,7 +69,7 @@ export const routes: RouteObject[] = [
     // element: <Layout />,
     children: [
       { path: 'login', element: <LoginV2 /> },
-      { index: true, element: <Home /> },
+      { index: true, element: <HomeV2 /> },
       { path: 'products', element: <Products /> },
       { path: 'products/:slug', element: <ProductDetail /> },
       { path: 'signup', element: <SignUpV2 /> },
