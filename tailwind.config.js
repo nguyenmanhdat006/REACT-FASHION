@@ -121,5 +121,5 @@ export default {
       'caption-xs-bold': ['9px', { lineHeight: '12px', fontWeight: '700' }],
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [require('tailwindcss-animate'), require('tailwind-scrollbar-hide')],
 };
