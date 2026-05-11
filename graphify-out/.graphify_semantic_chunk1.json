@@ -1,0 +1,284 @@
+
+{
+  "nodes": [
+    {
+      "id": "coding_guide",
+      "label": "Coding Guide - Feature Development Workflow",
+      "file_type": "document"
+    },
+    {
+      "id": "types_layer",
+      "label": "Types/TypeScript Interfaces",
+      "file_type": "code"
+    },
+    {
+      "id": "constants_layer",
+      "label": "Constants (API Endpoints, Routes)",
+      "file_type": "code"
+    },
+    {
+      "id": "service_layer",
+      "label": "Service Layer (API Calls)",
+      "file_type": "code"
+    },
+    {
+      "id": "redux_thunks",
+      "label": "Redux Thunks (Async Actions)",
+      "file_type": "code"
+    },
+    {
+      "id": "redux_slice",
+      "label": "Redux Slice (State Management)",
+      "file_type": "code"
+    },
+    {
+      "id": "custom_hooks",
+      "label": "Custom Hooks",
+      "file_type": "code"
+    },
+    {
+      "id": "components",
+      "label": "Reusable Components",
+      "file_type": "code"
+    },
+    {
+      "id": "page_components",
+      "label": "Page Components",
+      "file_type": "code"
+    },
+    {
+      "id": "routing",
+      "label": "Routes Configuration",
+      "file_type": "code"
+    },
+    {
+      "id": "i18n_translations",
+      "label": "i18n Translations",
+      "file_type": "code"
+    },
+    {
+      "id": "readme",
+      "label": "Ecommerce Frontend - Complete Package",
+      "file_type": "document"
+    },
+    {
+      "id": "react_stack",
+      "label": "React 18 + TypeScript + Vite",
+      "file_type": "code"
+    },
+    {
+      "id": "redux_state_management",
+      "label": "Redux Toolkit State Management",
+      "file_type": "code"
+    },
+    {
+      "id": "tailwind_styling",
+      "label": "Tailwind CSS Styling",
+      "file_type": "code"
+    },
+    {
+      "id": "api_contract",
+      "label": "Complete API Contracts",
+      "file_type": "document"
+    },
+    {
+      "id": "auth_service",
+      "label": "Authentication Service (Port 8081)",
+      "file_type": "code"
+    },
+    {
+      "id": "user_service",
+      "label": "User Service (Port 8081)",
+      "file_type": "code"
+    },
+    {
+      "id": "product_service",
+      "label": "Product Service (Port 8082)",
+      "file_type": "code"
+    },
+    {
+      "id": "cart_service",
+      "label": "Cart Service (Port 8083)",
+      "file_type": "code"
+    },
+    {
+      "id": "order_service",
+      "label": "Order Service (Port 8084)",
+      "file_type": "code"
+    },
+    {
+      "id": "payment_service",
+      "label": "Payment Service (Port 8085)",
+      "file_type": "code"
+    },
+    {
+      "id": "review_service",
+      "label": "Review Service (Port 8086)",
+      "file_type": "code"
+    },
+    {
+      "id": "notification_service",
+      "label": "Notification Service (Port 8087)",
+      "file_type": "code"
+    },
+    {
+      "id": "shipping_service",
+      "label": "Shipping Service (Port 8088)",
+      "file_type": "code"
+    },
+    {
+      "id": "api_gateway",
+      "label": "API Gateway (Port 8080)",
+      "file_type": "code"
+    },
+    {
+      "id": "authentication_feature",
+      "label": "User Authentication (Login, Register, JWT)",
+      "file_type": "code"
+    },
+    {
+      "id": "product_browsing",
+      "label": "Product Browsing (List, Detail, Search, Filters)",
+      "file_type": "code"
+    },
+    {
+      "id": "shopping_cart",
+      "label": "Shopping Cart Management",
+      "file_type": "code"
+    },
+    {
+      "id": "checkout_flow",
+      "label": "Checkout (3-step flow)",
+      "file_type": "code"
+    },
+    {
+      "id": "order_management",
+      "label": "Order Management (History, Detail, Tracking)",
+      "file_type": "code"
+    },
+    {
+      "id": "stripe_payment",
+      "label": "Stripe Payment Integration",
+      "file_type": "code"
+    },
+    {
+      "id": "user_profile",
+      "label": "User Profile (Edit, Addresses)",
+      "file_type": "code"
+    },
+    {
+      "id": "admin_dashboard",
+      "label": "Admin Dashboard (Products, Orders, Users)",
+      "file_type": "code"
+    },
+    {
+      "id": "design_system",
+      "label": "Tailwind Design System",
+      "file_type": "document"
+    },
+    {
+      "id": "color_palette",
+      "label": "Color Palette (Primary, Secondary, Accent, Gray)",
+      "file_type": "code"
+    },
+    {
+      "id": "typography_system",
+      "label": "Typography System (H1-H6, Body, Captions)",
+      "file_type": "code"
+    },
+    {
+      "id": "dark_mode",
+      "label": "Dark Mode Support",
+      "file_type": "code"
+    },
+    {
+      "id": "responsive_design",
+      "label": "Responsive Design (Mobile-first)",
+      "file_type": "code"
+    },
+    {
+      "id": "icon_group",
+      "label": "Group/People Icon",
+      "file_type": "image"
+    },
+    {
+      "id": "icon_buy",
+      "label": "Shopping/Buy Icon",
+      "file_type": "image"
+    },
+    {
+      "id": "icon_deal",
+      "label": "Deal/Offer Icon",
+      "file_type": "image"
+    },
+    {
+      "id": "user_management_example",
+      "label": "User Management Feature (Complete Example)",
+      "file_type": "code"
+    },
+    {
+      "id": "form_handling",
+      "label": "Form Handling (React Hook Form + Zod)",
+      "file_type": "code"
+    },
+    {
+      "id": "api_client",
+      "label": "API Client (Axios)",
+      "file_type": "code"
+    },
+    {
+      "id": "error_handling",
+      "label": "Error Handling & Validation",
+      "file_type": "code"
+    },
+    {
+      "id": "protected_routes",
+      "label": "Protected Routes & Auth",
+      "file_type": "code"
+    },
+    {
+      "id": "role_based_access",
+      "label": "Role-based Access Control",
+      "file_type": "code"
+    },
+    {
+      "id": "notifications",
+      "label": "Toast Notifications (React Hot Toast)",
+      "file_type": "code"
+    },
+    {
+      "id": "wishlist_feature",
+      "label": "Wishlist (Nice to Have)",
+      "file_type": "code"
+    },
+    {
+      "id": "product_reviews",
+      "label": "Product Reviews & Ratings",
+      "file_type": "code"
+    },
+    {
+      "id": "shipping_tracking",
+      "label": "Shipping Tracking",
+      "file_type": "code"
+    },
+    {
+      "id": "advanced_search",
+      "label": "Advanced Search & Filters",
+      "file_type": "code"
+    }
+  ],
+  "edges": [
+    {"source": "coding_guide", "target": "types_layer", "relation": "defines workflow step for", "confidence": "EXTRACTED"},
+    {"source": "types_layer", "target": "constants_layer", "relation": "precedes in development workflow", "confidence": "EXTRACTED"},
+    {"source": "constants_layer", "target": "service_layer", "relation": "provides API endpoints to", "confidence": "EXTRACTED"},
+    {"source": "service_layer", "target": "redux_thunks", "relation": "is called by", "confidence": "EXTRACTED"},
+    {"source": "redux_thunks", "target": "redux_slice", "relation": "dispatches actions to", "confidence": "EXTRACTED"},
+    {"source": "redux_slice", "target": "custom_hooks", "relation": "is consumed by", "confidence": "EXTRACTED"},
+    {"source": "custom_hooks", "target": "components", "relation": "provides state to", "confidence": "EXTRACTED"},
+    {"source": "components", "target": "page_components", "relation": "are composed into", "confidence": "EXTRACTED"},
+    {"source": "page_components", "target": "routing", "relation": "are registered in", "confidence": "EXTRACTED"},
+    {"source": "routing", "target": "protected_routes", "relation": "implements", "confidence": "EXTRACTED"},
+    {"source": "page_components", "target": "i18n_translations", "relation": "uses for localization", "confidence": "EXTRACTED"}
+  ],
+  "hyperedges": []
+}
