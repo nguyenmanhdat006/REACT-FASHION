@@ -55,7 +55,7 @@ export function ProductCard({
       )}
     >
       <div
-        className="relative flex h-full flex-col items-center gap-2.5 self-stretch bg-cover bg-center"
+        className="relative flex h-full min-h-[400px] flex-col items-center gap-2.5 self-stretch bg-cover bg-center"
         style={{
           backgroundImage: `url(${imageUrl})`,
           backgroundSize: 'cover',

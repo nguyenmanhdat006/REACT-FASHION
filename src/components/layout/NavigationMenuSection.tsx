@@ -1,19 +1,41 @@
 import type { JSX } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Divider } from '@/components/Divider';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import {
   LAST_ORDERS,
-  PRIMARY_NAV_ITEMS,
   SIDEBAR_LOGOUT_ICON,
-} from '@/pages/productV2/ProductV2/homeDemoData';
+} from '@/pages/productV2/HomeV2/homeDemoData';
+import { PRIMARY_NAV_ITEMS } from './navigationMenuData';
 
 import { LastOrderButton } from './components/LastOrderButton';
 import { NavButton } from './components/NavButton';
 
 export function NavigationMenuSection(): JSX.Element {
   const LogOutIcon = SIDEBAR_LOGOUT_ICON;
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const isActiveItem = (to: string): boolean => {
+    const [pathname, hashPart] = to.split('#');
+    if (location.pathname !== pathname) return false;
+
+    const hash = location.hash ?? '';
+
+    if (pathname === '/v2/products') {
+      if (!hashPart) {
+        return hash === '' || hash === '#explore';
+      }
+      return hash === `#${hashPart}`;
+    }
+
+    if (!hashPart) {
+      return hash === '';
+    }
+    return hash === `#${hashPart}`;
+  };
 
   return (
     <aside
@@ -34,7 +56,8 @@ export function NavigationMenuSection(): JSX.Element {
                 key={item.label}
                 icon={item.icon}
                 label={item.label}
-                active={item.active}
+                active={isActiveItem(item.to)}
+                onClick={() => navigate(item.to)}
               />
             ))}
           </nav>

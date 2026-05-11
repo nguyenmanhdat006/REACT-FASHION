@@ -1,22 +1,8 @@
-import type { LucideIcon } from 'lucide-react';
-import {
-  Compass,
-  Home,
-  Lightbulb,
-  LogOut,
-  Shirt,
-  Tag,
-} from 'lucide-react';
+import { LogOut } from 'lucide-react';
 
 import { IMAGES } from '@/constants/images';
 
 import type { ActionIconVariant } from '@/components/buttons/ActionIconButton';
-
-export type PrimaryNavItem = {
-  label: string;
-  icon: LucideIcon;
-  active: boolean;
-};
 
 export type LastOrderItem = {
   label: string;
@@ -63,14 +49,6 @@ export type ProductTile = {
   title: string;
   price: string;
 };
-
-export const PRIMARY_NAV_ITEMS: PrimaryNavItem[] = [
-  { label: 'Home', icon: Home, active: true },
-  { label: 'Explore New', icon: Compass, active: false },
-  { label: 'Clothing', icon: Shirt, active: false },
-  { label: 'Deal', icon: Tag, active: false },
-  { label: 'Inspirations', icon: Lightbulb, active: false },
-];
 
 export const LAST_ORDERS: LastOrderItem[] = [
   { label: 'Thang dep c...', imageUrl: IMAGES.PRODUCT_DEMO_1 },
