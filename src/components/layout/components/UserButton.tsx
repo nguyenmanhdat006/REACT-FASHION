@@ -21,7 +21,7 @@ export const UserButton = ({
       aria-label={`Open profile for ${userName}`}
       className={cn(
         'relative inline-flex h-auto items-center justify-center gap-2.5 overflow-hidden rounded-[64px] bg-white p-2',
-        'hover:bg-primary/80 hover:text-white',
+        'hover:bg-gray-50',
         className
       )}
     >

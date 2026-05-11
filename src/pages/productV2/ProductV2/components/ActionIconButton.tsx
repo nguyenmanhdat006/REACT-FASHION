@@ -22,7 +22,7 @@ export function ActionIconButton({
       variant="secondary"
       size="sm"
       className={cn(
-        'h-auto flex-[0_0_auto] shrink-0 gap-0 rounded-2xl p-2',
+        'h-auto gap-0 rounded-2xl p-2 bg-gray-50 hover:bg-gray-100',
         '[&_svg]:size-6',
       )}
     >

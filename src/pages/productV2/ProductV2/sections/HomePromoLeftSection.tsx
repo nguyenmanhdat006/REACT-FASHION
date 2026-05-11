@@ -1,12 +1,12 @@
 import { type JSX } from 'react';
 
-import { PromoCard } from './PromoCard';
-import { LEFT_BOTTOM_PROMOS, LEFT_TOP_PROMOS } from './homeDemoData';
+import { PromoCard } from '../components/PromoCard';
+import { LEFT_BOTTOM_PROMOS, LEFT_TOP_PROMOS } from '../homeDemoData';
 
 export function HomePromoLeftSection(): JSX.Element {
   return (
     <div className="relative flex flex-1 grow flex-col items-center justify-center gap-4 self-stretch">
-      <div className="relative flex h-[417px] w-full flex-col items-start gap-4 self-stretch">
+      <div className="relative flex w-full flex-1 flex-col items-start gap-4 self-stretch">
         {LEFT_TOP_PROMOS.map((model) => (
           <PromoCard key={model.id} model={model} />
         ))}

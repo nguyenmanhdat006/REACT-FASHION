@@ -7,7 +7,7 @@ import {
   LAST_ORDERS,
   PRIMARY_NAV_ITEMS,
   SIDEBAR_LOGOUT_ICON,
-} from '@/pages/productV2/ProductV2/sections/homeDemoData';
+} from '@/pages/productV2/ProductV2/homeDemoData';
 
 export function NavigationMenuSection(): JSX.Element {
   const LogOutIcon = SIDEBAR_LOGOUT_ICON;

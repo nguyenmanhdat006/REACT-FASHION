@@ -10,7 +10,7 @@ import {
 
 import { IMAGES } from '@/constants/images';
 
-import type { ActionIconVariant } from './ActionIconButton';
+import type { ActionIconVariant } from './components/ActionIconButton';
 
 export type PrimaryNavItem = {
   label: string;
