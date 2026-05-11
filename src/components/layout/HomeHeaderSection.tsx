@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import type { JSX } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { IconButton } from '@/components/buttons/IconButton';
 import { IconLabelButton } from '@/components/buttons/IconLabelButton';
@@ -35,6 +35,7 @@ const QUICK_FILTERS: {
 
 export function HomeHeaderSection(): JSX.Element {
   const location = useLocation();
+  const navigate = useNavigate();
   const route = getCurrentRoute(location.pathname);
   const title = route?.headerTitle ?? 'Unknown';
   const [quickFilter, setQuickFilter] = useState<QuickFilterId>('all');
@@ -59,7 +60,7 @@ export function HomeHeaderSection(): JSX.Element {
               label="Cart"
               ariaLabel="Open cart"
             />
-            <UserButton userName="Tường" avatarUrl={IMAGES.USER_AVATAR} />
+            <UserButton onClick={() => navigate('/v2/profile')} userName="Tường" avatarUrl={IMAGES.USER_AVATAR} />
           </div>
         </div>
 
