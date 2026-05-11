@@ -33,6 +33,12 @@ const DEFAULT_SWATCHES: ProductSwatch[] = [
   { colorClass: 'bg-gray-black' },
 ];
 
+const CARD_HOVER =
+  'transition-[transform,box-shadow,border-color] duration-300 ease-out will-change-transform hover:-translate-y-1 hover:border-gray-100 hover:shadow-[0_18px_50px_-14px_rgba(15,23,42,0.14)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none';
+
+const MEDIA_HOVER =
+  'pointer-events-none absolute inset-0 bg-cover bg-top transition-[transform] duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/card:scale-[1.045] motion-reduce:transition-none motion-reduce:group-hover/card:scale-100';
+
 export function ProductCard({
   imageUrl,
   title,
@@ -49,18 +55,21 @@ export function ProductCard({
     <Card
       className={cn(
         'relative flex flex-1 grow flex-col items-center justify-center gap-0 self-stretch overflow-hidden rounded-2xl border border-solid border-gray-50 bg-white p-0',
+        CARD_HOVER,
         className,
       )}
     >
-      <div
-        className="relative flex h-full min-h-[400px] flex-col items-center gap-2.5 self-stretch bg-cover bg-center"
-        style={{
-          backgroundImage: `url(${imageUrl})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'top',
-        }}
-      >
-        <div className="relative flex flex-1 grow flex-col items-center gap-2.5 self-stretch p-4">
+      <div className="relative flex min-h-[400px] flex-1 flex-col items-center gap-2.5 self-stretch overflow-hidden">
+        <div
+          aria-hidden
+          className={MEDIA_HOVER}
+          style={{
+            backgroundImage: `url(${imageUrl})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'top',
+          }}
+        />
+        <div className="relative z-10 flex min-h-[400px] flex-1 grow flex-col items-center gap-2.5 self-stretch p-4">
           <div className="relative flex w-full items-center justify-between self-stretch">
             <div className="relative inline-flex items-center justify-center gap-1">
               {swatches.map((swatch, index) => (
@@ -90,7 +99,7 @@ export function ProductCard({
         </div>
       </div>
 
-      <CardContent className="relative flex flex-col gap-2.5 border-0 p-4">
+      <CardContent className="relative z-10 flex flex-col gap-2.5 border-0 border-t border-transparent bg-white p-4 transition-colors duration-300 group-hover/card:border-gray-50">
         <div className="relative flex w-full items-center justify-between self-stretch">
           <div className="relative flex flex-col items-start justify-center gap-1">
             <CardDescription className="text-caption-lg-regular text-gray-500">

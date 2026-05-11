@@ -1,16 +1,16 @@
 # Graph Report - REACT-FASHION  (2026-05-11)
 
 ## Corpus Check
-- 148 files · ~72,894 words
+- 148 files · ~72,970 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 816 nodes · 1313 edges · 90 communities (43 shown, 47 thin omitted)
+- 816 nodes · 1313 edges · 92 communities (45 shown, 47 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 1 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `a25886e8`
+- Built from commit: `77b59a22`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -47,14 +47,14 @@
 - [[_COMMUNITY_Community 29|Community 29]]
 - [[_COMMUNITY_Community 30|Community 30]]
 - [[_COMMUNITY_Community 31|Community 31]]
+- [[_COMMUNITY_Community 32|Community 32]]
 - [[_COMMUNITY_Community 33|Community 33]]
-- [[_COMMUNITY_Community 34|Community 34]]
 - [[_COMMUNITY_Community 35|Community 35]]
 - [[_COMMUNITY_Community 36|Community 36]]
 - [[_COMMUNITY_Community 37|Community 37]]
 - [[_COMMUNITY_Community 38|Community 38]]
-- [[_COMMUNITY_Community 49|Community 49]]
-- [[_COMMUNITY_Community 50|Community 50]]
+- [[_COMMUNITY_Community 39|Community 39]]
+- [[_COMMUNITY_Community 40|Community 40]]
 - [[_COMMUNITY_Community 51|Community 51]]
 - [[_COMMUNITY_Community 52|Community 52]]
 - [[_COMMUNITY_Community 53|Community 53]]
@@ -94,6 +94,8 @@
 - [[_COMMUNITY_Community 87|Community 87]]
 - [[_COMMUNITY_Community 88|Community 88]]
 - [[_COMMUNITY_Community 89|Community 89]]
+- [[_COMMUNITY_Community 90|Community 90]]
+- [[_COMMUNITY_Community 91|Community 91]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `Button()` - 28 edges
@@ -119,7 +121,7 @@
 - `useAuth()` --calls--> `Dashboard()`  [EXTRACTED]
   src/hooks/auth/useAuth.ts → /home/thang/Workspace/REACT-FASHION/src/pages/user/Dashboard.tsx
 
-## Communities (90 total, 47 thin omitted)
+## Communities (92 total, 47 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.06
@@ -142,12 +144,12 @@ Cohesion: 0.06
 Nodes (20): SignUp(), useAuth(), AuthHeaderProps, AuthLayoutProps, AuthSwitchPromptProps, FormField(), TermsAgreementProps, ROUTESV2 (+12 more)
 
 ### Community 5 - "Community 5"
-Cohesion: 0.06
-Nodes (30): ButtonBaseProps, IconButton(), IconButtonProps, ButtonBaseProps, IconLabelButton(), IconLabelButtonPillVariant, IconLabelButtonProps, PILL_VARIANT_STYLES (+22 more)
-
-### Community 6 - "Community 6"
 Cohesion: 0.05
 Nodes (40): 10. i18n (`src/constants/locales/en.json` và `vi.json`), 1. **Type Safety**, 1. Types (`src/types/user.ts`), 2. Constants (`src/constants/index.ts`), 2. **Error Handling**, 3. **Code Organization**, 3. Service (`src/services/userService.ts`), 4. **Performance** (+32 more)
+
+### Community 6 - "Community 6"
+Cohesion: 0.07
+Nodes (28): ButtonBaseProps, IconLabelButton(), IconLabelButtonPillVariant, IconLabelButtonProps, PILL_VARIANT_STYLES, OrderStats(), OrderStatsProps, UserButton() (+20 more)
 
 ### Community 7 - "Community 7"
 Cohesion: 0.05
@@ -166,44 +168,44 @@ Cohesion: 0.08
 Nodes (24): BƯỚC 10: Thêm i18n Translations (Optional), BƯỚC 1: Định nghĩa Types (TypeScript Interfaces), BƯỚC 2: Thêm API Endpoints vào Constants, BƯỚC 3: Tạo Service Layer (API Calls), BƯỚC 4: Tạo Redux Thunks (Async Actions), BƯỚC 5: Tạo Redux Slice (State Management), BƯỚC 6: Tạo Custom Hook (Optional), BƯỚC 7: Tạo Components (Reusable UI) (+16 more)
 
 ### Community 11 - "Community 11"
-Cohesion: 0.15
-Nodes (16): ApiResponse, PageResponse, PaginationParams, MOCK_NOTIFICATION_PAGE, MOCK_NOTIFICATIONS, NotificationItem, notificationService, CreateOrderRequest (+8 more)
+Cohesion: 0.12
+Nodes (22): asRecord(), clone(), createOrderFromCart(), delay(), findProductById(), handleMockApiRequest(), mockAddresses, mockCart (+14 more)
 
 ### Community 12 - "Community 12"
 Cohesion: 0.11
 Nodes (16): Layout(), routes, initialState, Theme, themeSlice, ThemeState, App(), queryClient (+8 more)
 
 ### Community 13 - "Community 13"
-Cohesion: 0.14
-Nodes (20): asRecord(), clone(), createOrderFromCart(), delay(), findProductById(), handleMockApiRequest(), mockAddresses, mockCart (+12 more)
-
-### Community 14 - "Community 14"
 Cohesion: 0.11
 Nodes (19): Body Text - 16px, Caption Extra Small - 9px, Caption Large - 13px, Caption Small - 11px, code:jsx (<span className="text-caption-xs-regular text-gray-400">), code:jsx (// Mặc định đã áp dụng cho toàn bộ app), code:jsx (<h1 className="text-h1-bold text-gray-900">), code:jsx (<p className="text-body-regular text-gray-600">) (+11 more)
 
+### Community 14 - "Community 14"
+Cohesion: 0.18
+Nodes (12): ActionIconButton(), ActionIconButtonProps, ActionIconVariant, PromoCardProps, FEATURED_PROMO, LAST_ORDERS, LastOrderItem, LEFT_BOTTOM_PROMOS (+4 more)
+
 ### Community 15 - "Community 15"
-Cohesion: 0.15
-Nodes (11): DEFAULT_SWATCHES, ProductCard(), ProductCardProps, ProductSwatch, PRODUCT_TILES, PRODUCT_TILES, HomeProductCardsSection(), CardContent() (+3 more)
+Cohesion: 0.16
+Nodes (11): Divider(), DividerProps, LastOrderButton(), LastOrderButtonProps, NavButton(), NavButtonProps, PRIMARY_NAV_ITEMS, PrimaryNavigationItem (+3 more)
 
 ### Community 16 - "Community 16"
 Cohesion: 0.15
-Nodes (12): Divider(), DividerProps, LastOrderButton(), LastOrderButtonProps, NavButton(), NavButtonProps, LAST_ORDERS, PRIMARY_NAV_ITEMS (+4 more)
+Nodes (4): Column, TableProps, ModalProps, cn()
 
 ### Community 17 - "Community 17"
-Cohesion: 0.16
-Nodes (10): ButtonBaseProps, LabelButton(), LabelButtonProps, LabelButtonTone, TONE_STYLES, CATEGORY_FILTERS, CategoryFilter, EXPLORE_PRODUCTS (+2 more)
-
-### Community 18 - "Community 18"
 Cohesion: 0.24
 Nodes (10): promoBg(), PromoCard(), FEATURED_PROMO, LastOrderItem, LEFT_BOTTOM_PROMOS, LEFT_TOP_PROMOS, PrimaryNavItem, ProductTile (+2 more)
 
+### Community 18 - "Community 18"
+Cohesion: 0.19
+Nodes (8): ButtonBaseProps, IconButton(), IconButtonProps, CATEGORY_FILTERS, CategoryFilter, EXPLORE_PRODUCTS, ExploreCategoryId, ExploreProductTile
+
 ### Community 19 - "Community 19"
 Cohesion: 0.21
-Nodes (10): ActionIconButton(), ActionIconButtonProps, ActionIconVariant, PromoCardProps, IMAGES, LastOrderItem, LEFT_BOTTOM_PROMOS, LEFT_TOP_PROMOS (+2 more)
+Nodes (7): DEFAULT_SWATCHES, ProductCardProps, ProductSwatch, CardContent(), CardDescription(), CardProps, CardTitle()
 
 ### Community 20 - "Community 20"
-Cohesion: 0.15
-Nodes (4): Column, TableProps, ModalProps, cn()
+Cohesion: 0.23
+Nodes (9): CreateOrderRequest, orderService, initialState, ordersSlice, OrdersState, cancelOrderThunk, createOrderThunk, fetchOrderByIdThunk (+1 more)
 
 ### Community 21 - "Community 21"
 Cohesion: 0.29
@@ -214,38 +216,46 @@ Cohesion: 0.17
 Nodes (12): Coding Guide - Feature Development Workflow, Reusable Components, Constants (API Endpoints, Routes), Custom Hooks, i18n Translations, Page Components, Protected Routes & Auth, Redux Slice (State Management) (+4 more)
 
 ### Community 23 - "Community 23"
+Cohesion: 0.27
+Nodes (5): ProductCard(), PRODUCT_TILES, PRODUCT_TILES, HomeMainSection(), HomeProductCardsSection()
+
+### Community 24 - "Community 24"
 Cohesion: 0.29
 Nodes (8): ConfirmPaymentRequest, CreatePaymentRequest, PaymentIntent, MOCK_CONFIRM_PAYMENT_REQUEST, MOCK_CONFIRMED_PAYMENT_INTENT, MOCK_CREATE_PAYMENT_REQUEST, MOCK_PAYMENT_INTENT, paymentService
 
-### Community 24 - "Community 24"
+### Community 25 - "Community 25"
 Cohesion: 0.31
 Nodes (7): MOCK_SHIPMENT, MOCK_SHIPPING_FEE_REQUEST, MOCK_SHIPPING_FEE_RESPONSE, Shipment, ShippingFeeRequest, ShippingFeeResponse, shippingService
 
-### Community 25 - "Community 25"
+### Community 26 - "Community 26"
+Cohesion: 0.47
+Nodes (5): ApiResponse, PageResponse, PaginationParams, NotificationItem, notificationService
+
+### Community 27 - "Community 27"
 Cohesion: 0.22
 Nodes (8): KeycloakAuthSession, KeycloakErrorResponse, KeycloakJwtPayload, KeycloakLoginCredentials, KeycloakLoginExchangeRequest, KeycloakRegisterCredentials, KeycloakTokenResponse, KeycloakUserInfo
 
-### Community 26 - "Community 26"
+### Community 28 - "Community 28"
 Cohesion: 0.39
 Nodes (7): JwtProfilePayload, JwtRolePayload, decodeBase64Url(), extractRolesFromJwtPayload(), getProfileFieldsFromJwtToken(), getRolesFromJwtToken(), parseJwtPayload()
 
-### Community 27 - "Community 27"
+### Community 29 - "Community 29"
 Cohesion: 0.5
 Nodes (4): FormFieldProps, cn(), Input, Label()
 
-### Community 29 - "Community 29"
+### Community 31 - "Community 31"
 Cohesion: 0.29
 Nodes (3): ErrorBoundary, Props, State
 
-### Community 30 - "Community 30"
-Cohesion: 0.38
-Nodes (3): FEATURED_PROMO, HomeFeaturedPromoSection(), HomeMainSection()
-
-### Community 31 - "Community 31"
+### Community 32 - "Community 32"
 Cohesion: 0.6
 Nodes (4): accent, gray, primary, secondary
 
 ### Community 33 - "Community 33"
+Cohesion: 0.33
+Nodes (5): ButtonBaseProps, LabelButton(), LabelButtonProps, LabelButtonTone, TONE_STYLES
+
+### Community 35 - "Community 35"
 Cohesion: 0.5
 Nodes (3): MOCK_ADDRESSES, MOCK_USER_PROFILE, MOCK_USER_UPDATE_PAYLOAD
 
@@ -257,9 +267,9 @@ Nodes (3): MOCK_ADDRESSES, MOCK_USER_PROFILE, MOCK_USER_UPDATE_PAYLOAD
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Button()` connect `Community 2` to `Community 0`, `Community 1`, `Community 4`, `Community 5`, `Community 12`, `Community 16`, `Community 17`, `Community 19`, `Community 27`, `Community 29`?**
+- **Why does `Button()` connect `Community 2` to `Community 0`, `Community 33`, `Community 1`, `Community 4`, `Community 6`, `Community 12`, `Community 14`, `Community 15`, `Community 18`, `Community 29`, `Community 31`?**
   _High betweenness centrality (0.121) - this node is a cross-community bridge._
-- **Why does `Card()` connect `Community 2` to `Community 0`, `Community 1`, `Community 4`, `Community 15`, `Community 18`, `Community 19`?**
+- **Why does `Card()` connect `Community 2` to `Community 0`, `Community 1`, `Community 4`, `Community 14`, `Community 17`, `Community 19`?**
   _High betweenness centrality (0.037) - this node is a cross-community bridge._
 - **Why does `getAccessToken()` connect `Community 0` to `Community 12`?**
   _High betweenness centrality (0.024) - this node is a cross-community bridge._
