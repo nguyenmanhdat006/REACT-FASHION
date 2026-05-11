@@ -9,11 +9,15 @@ export type ActionIconVariant = 'external' | 'favorite';
 type ActionIconButtonProps = {
   type: ActionIconVariant;
   label: string;
+  onClick?: () => void;
+  className?: string;
 };
 
 export function ActionIconButton({
   type,
   label,
+  onClick,
+  className,
 }: ActionIconButtonProps): JSX.Element {
   return (
     <Button
@@ -21,9 +25,11 @@ export function ActionIconButton({
       aria-label={label}
       variant="secondary"
       size="sm"
+      onClick={onClick}
       className={cn(
         'h-auto gap-0 rounded-2xl p-2 bg-gray-50 hover:bg-gray-100',
         '[&_svg]:size-6',
+        className,
       )}
     >
       <span className="relative flex items-center justify-center rounded-md p-0.5">

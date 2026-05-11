@@ -1,10 +1,10 @@
 import { type JSX } from 'react';
 
-import { Button } from '@/components/ui/button';
+import { ActionIconButton } from '@/components/buttons/ActionIconButton';
+import { LabelButton } from '@/components/buttons/LabelButton';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
-import { ActionIconButton } from './ActionIconButton';
 import type { PromoCardModel } from '../homeDemoData';
 
 type PromoCardProps = {
@@ -41,16 +41,10 @@ export function PromoCard({ model }: PromoCardProps): JSX.Element {
             <div className="text-h6-medium text-white relative self-stretch">{model.title}</div>
           )}
         </div>
-        <Button
-          type="button"
-          variant="secondary"
-          aria-label={model.buttonText}
-          className="relative flex h-auto items-center justify-center overflow-hidden rounded-[32px] bg-gray-50/70 hover:bg-gray-100/80 px-8 py-2"
-        >
-          <span className="relative whitespace-nowrap text-body-regular text-gray-500">
-            {model.buttonText}
-          </span>
-        </Button>
+        <LabelButton
+          tone="muted"
+          label={model.buttonText}
+        />
       </Card>
     );
   }
@@ -66,19 +60,10 @@ export function PromoCard({ model }: PromoCardProps): JSX.Element {
         )}
         style={{...imageStyle, backgroundPosition: 'top'}}
       >
-        <div className="flex flex-[0_0_auto] w-full items-start justify-end gap-2.5 self-stretch">
+        <div className="flex w-full items-start justify-end gap-2.5 self-stretch">
           <ActionIconButton type="favorite" label="Add to favorites" />
         </div>
-        <Button
-          type="button"
-          variant="secondary"
-          aria-label={model.buttonText}
-          className="relative flex h-auto items-center justify-center gap-2.5 overflow-hidden rounded-[32px] bg-gray-50/70 hover:bg-gray-100/80 px-8 py-3"
-        >
-          <span className="relative w-fit whitespace-nowrap text-body-regular text-gray-500">
-            {model.buttonText}
-          </span>
-        </Button>
+        <LabelButton tone="muted" label={model.buttonText} />
       </Card>
     );
   }
@@ -101,7 +86,7 @@ export function PromoCard({ model }: PromoCardProps): JSX.Element {
             </p>
           </div>
         </div>
-        <div className="inline-flex flex-[0_0_auto] items-start justify-end gap-2.5 self-stretch">
+        <div className="inline-flex items-start justify-end gap-2.5 self-stretch">
           <ActionIconButton type="external" label="Open promotion" />
         </div>
       </Card>
@@ -121,7 +106,7 @@ export function PromoCard({ model }: PromoCardProps): JSX.Element {
       style={{...imageStyle, backgroundPosition: 'center 30%'}}
     >
       <div className="relative flex flex-1 grow items-center justify-center gap-2.5">
-        <div className="relative flex w-full flex-[0_0_auto] flex-col items-start justify-center self-stretch">
+        <div className="relative flex w-full flex-col items-start justify-center self-stretch">
           <div className="text-h6-medium text-white relative self-stretch">{model.title}</div>
           <div className="text-body-regular text-white relative self-stretch">
             {model.subtitle}
