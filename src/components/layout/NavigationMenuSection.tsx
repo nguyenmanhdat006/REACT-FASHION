@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils';
 import {
   LAST_ORDERS,
   SIDEBAR_LOGOUT_ICON,
-} from '@/pages/productV2/HomeV2/homeDemoData';
+} from '@/pages/productV2/homeDemoData';
 import { SIDEBAR_NAV_ITEMS } from './navigationMenuData';
 
 import { LastOrderButton } from './components/LastOrderButton';

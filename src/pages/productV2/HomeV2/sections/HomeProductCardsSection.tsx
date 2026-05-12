@@ -2,7 +2,7 @@ import { type JSX } from 'react';
 
 import { ProductCard } from '@/components/cards/ProductCard';
 
-import { PRODUCT_TILES } from '../homeDemoData';
+import { PRODUCT_TILES } from '../../homeDemoData';
 
 export function HomeProductCardsSection(): JSX.Element {
   return (
