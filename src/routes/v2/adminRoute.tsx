@@ -5,7 +5,7 @@ import { Outlet, type RouteObject } from 'react-router-dom';
 
 const AdminDashboard = React.lazy(() => import('@/pages/admin/AdminDashboard'));
 const AdminProductListPage = React.lazy(
-  () => import('@/pages/admin/AdminProductListPage'),
+  () => import('@/pages/productV2/AdminProductList/AdminProductListPage'),
 );
 
 export const adminRoute: RouteObject = {
