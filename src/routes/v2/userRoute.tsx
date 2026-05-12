@@ -13,7 +13,6 @@ const Checkout = React.lazy(() => import('@/pages/cart/Checkout'));
 const Orders = React.lazy(() => import('@/pages/order/Orders'));
 const OrderDetail = React.lazy(() => import('@/pages/order/OrderDetail'));
 const ProfileV2 = React.lazy(() => import('@/pages/user/ProfileV2'));
-const ProductDetail = React.lazy(() => import('@/pages/productV2/ProductDetailsV2'));
 
 export const userRoute: RouteObject = {
   element: (
@@ -27,7 +26,6 @@ export const userRoute: RouteObject = {
     { path: 'products/clothing', element: <Products /> },
     { path: 'products/deal', element: <Products /> },
     { path: 'products/inspirations', element: <Products /> },
-    { path: 'products/:slug', element: <ProductDetail /> },
     {
       element: (
         <ProtectedRoute>

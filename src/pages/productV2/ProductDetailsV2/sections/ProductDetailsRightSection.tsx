@@ -3,13 +3,10 @@ import { Heart } from "lucide-react";
 
 import { IconButton } from "@/components/buttons/IconButton";
 import { LabelButton } from "@/components/buttons/LabelButton";
+import { useHorizontalDragScroll } from "@/hooks/useHorizontalDragScroll";
 import { cn } from "@/lib/utils";
 
-import {
-  SHIPPING_GRID_AREAS,
-  SHIPPING_ITEMS,
-  SIZE_OPTIONS,
-} from "../constants";
+import { SHIPPING_ITEMS, SIZE_OPTIONS } from "../constants";
 import { ProductDetailsAccordion } from "../../components/ProductDetailsAccordion";
 import { ProductDetailsShippingItem } from "../../components/ProductDetailsShippingItem";
 
@@ -19,25 +16,40 @@ export default function ProductDetailsRightSection(): JSX.Element {
   const [isShippingOpen, setIsShippingOpen] = useState(true);
   const [isWishlisted, setIsWishlisted] = useState(false);
 
+  const sizeStripDrag = useHorizontalDragScroll<HTMLDivElement>({
+    ignoreDragFromSelector: "button",
+  });
+
   return (
     <div className="flex min-w-0 flex-1 flex-col items-start gap-2 self-stretch">
       <div className="flex w-full shrink-0 flex-col items-start gap-2">
-        <h1 className="m-0 whitespace-nowrap text-h5-medium leading-7 text-black">
+        <h1
+          id="product-details-title"
+          className="m-0 whitespace-nowrap text-h5-medium text-black"
+        >
           Supper Skinny jogger in brown
         </h1>
-        <p className="m-0 whitespace-nowrap text-h5-medium leading-7 text-black">
+        <p className="m-0 whitespace-nowrap text-h5-medium text-black">
           $36
         </p>
       </div>
 
-      <div className="whitespace-nowrap text-caption-lg-regular leading-5 text-[#666666]">
+      <div className="whitespace-nowrap text-caption-lg-regular leading-5 text-gray-500">
         Select Size
       </div>
 
       <div
+        ref={sizeStripDrag.ref}
         role="group"
         aria-label="Select product size"
-        className="flex min-w-0 w-full shrink-0 items-center gap-2 overflow-x-auto"
+        className={cn(
+          "flex min-w-0 w-full shrink-0 cursor-grab items-center gap-2 overflow-x-auto overscroll-x-contain scrollbar-hide active:cursor-grabbing",
+          "touch-pan-x select-none"
+        )}
+        onPointerDown={sizeStripDrag.onPointerDown}
+        onPointerMove={sizeStripDrag.onPointerMove}
+        onPointerUp={sizeStripDrag.onPointerUp}
+        onPointerCancel={sizeStripDrag.onPointerCancel}
       >
         {SIZE_OPTIONS.map((size) => {
           const selected = selectedSize === size.label;
@@ -111,19 +123,13 @@ export default function ProductDetailsRightSection(): JSX.Element {
         isOpen={isShippingOpen}
         onToggle={() => setIsShippingOpen((prev) => !prev)}
       >
-        <div
-          className="box-border grid w-full grid-cols-2 gap-x-auto gap-y-2 px-2"
-          style={{
-            gridTemplateRows: "auto auto",
-          }}
-        >
-          {SHIPPING_ITEMS.map((item, index) => (
+        <div className="box-border grid w-full grid-cols-2 gap-x-8 gap-y-2 px-2">
+          {SHIPPING_ITEMS.map((item) => (
             <ProductDetailsShippingItem
               key={item.title}
               title={item.title}
               value={item.value}
               Icon={item.Icon}
-              gridArea={SHIPPING_GRID_AREAS[index] ?? SHIPPING_GRID_AREAS[0]}
             />
           ))}
         </div>

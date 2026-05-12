@@ -2,6 +2,7 @@ import type { JSX, ReactNode } from 'react';
 
 import { HomeHeaderSection } from './HomeHeaderSection';
 import { NavigationMenuSection } from './NavigationMenuSection';
+import { ProductDetailsModalProvider } from '@/pages/productV2/ProductDetailsModalContext';
 
 export type LayoutV2Props = {
   children: ReactNode;
@@ -23,7 +24,7 @@ export default function LayoutV2({
         <HomeHeaderSection />
 
         <div className="relative flex min-h-0 w-full max-w-[1212px] mx-auto flex-1 flex-col overflow-y-auto p-8 scrollbar-hide">
-          {children}
+          <ProductDetailsModalProvider>{children}</ProductDetailsModalProvider>
         </div>
       </div>
     </main>

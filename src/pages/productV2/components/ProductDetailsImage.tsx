@@ -1,6 +1,7 @@
-import { useCallback, useRef, type JSX, type PointerEvent } from "react";
+import { type JSX } from "react";
 
 import { IMAGES } from "@/constants/images";
+import { useHorizontalDragScroll } from "@/hooks/useHorizontalDragScroll";
 import { cn } from "@/lib/utils";
 
 const HERO_IMAGE = IMAGES.PRODUCT_DEMO_1;
@@ -15,45 +16,7 @@ const THUMB_IMAGES = [
 ] as const;
 
 export function ProductDetailsImage(): JSX.Element {
-  const stripRef = useRef<HTMLDivElement>(null);
-  const dragRef = useRef<{
-    pointerId: number;
-    startX: number;
-    startScroll: number;
-  } | null>(null);
-
-  const endDrag = useCallback((e: PointerEvent<HTMLDivElement>) => {
-    const el = stripRef.current;
-    const drag = dragRef.current;
-    if (!el || !drag || drag.pointerId !== e.pointerId) return;
-    dragRef.current = null;
-    try {
-      if (el.hasPointerCapture(e.pointerId)) {
-        el.releasePointerCapture(e.pointerId);
-      }
-    } catch {
-      /* releasePointerCapture can throw if already released */
-    }
-  }, []);
-
-  const onPointerDown = useCallback((e: PointerEvent<HTMLDivElement>) => {
-    if (e.button !== 0) return;
-    const el = stripRef.current;
-    if (!el) return;
-    dragRef.current = {
-      pointerId: e.pointerId,
-      startX: e.clientX,
-      startScroll: el.scrollLeft,
-    };
-    el.setPointerCapture(e.pointerId);
-  }, []);
-
-  const onPointerMove = useCallback((e: PointerEvent<HTMLDivElement>) => {
-    const el = stripRef.current;
-    const drag = dragRef.current;
-    if (!el || !drag || drag.pointerId !== e.pointerId) return;
-    el.scrollLeft = drag.startScroll - (e.clientX - drag.startX);
-  }, []);
+  const stripDrag = useHorizontalDragScroll<HTMLDivElement>();
 
   return (
     <div
@@ -64,17 +27,17 @@ export function ProductDetailsImage(): JSX.Element {
       aria-label="Supper Skinny jogger in brown — product gallery"
     >
       <div
-        ref={stripRef}
+        ref={stripDrag.ref}
         className={cn(
           "flex w-full min-w-0 cursor-grab gap-2 overflow-x-auto overscroll-x-contain scrollbar-hide active:cursor-grabbing",
           "touch-pan-x select-none"
         )}
         role="list"
         aria-label="Product image thumbnails, drag horizontally to scroll"
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={endDrag}
-        onPointerCancel={endDrag}
+        onPointerDown={stripDrag.onPointerDown}
+        onPointerMove={stripDrag.onPointerMove}
+        onPointerUp={stripDrag.onPointerUp}
+        onPointerCancel={stripDrag.onPointerCancel}
       >
         {THUMB_IMAGES.map((src, index) => (
           <div
