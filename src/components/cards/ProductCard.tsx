@@ -35,7 +35,7 @@ const DEFAULT_SWATCHES: ProductSwatch[] = [
 ];
 
 const CARD_HOVER =
-  'transition-[transform,box-shadow,border-color] duration-300 ease-out will-change-transform hover:-translate-y-1 hover:border-gray-100 hover:shadow-[0_18px_50px_-14px_rgba(15,23,42,0.14)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none';
+  'transition-[transform,border-color] duration-300 ease-out will-change-transform hover:-translate-y-1 hover:border-gray-100 motion-reduce:transition-none motion-reduce:hover:translate-y-0';
 
 const MEDIA_HOVER =
   'pointer-events-none absolute inset-0 bg-cover bg-top transition-[transform] duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/card:scale-[1.045] motion-reduce:transition-none motion-reduce:group-hover/card:scale-100';

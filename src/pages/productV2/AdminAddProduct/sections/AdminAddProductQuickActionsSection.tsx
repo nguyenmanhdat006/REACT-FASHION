@@ -23,7 +23,7 @@ export default function AdminAddProductQuickActionsSection({
 }: AdminAddProductQuickActionsSectionProps) {
   return (
     <>
-      <Card className="gap-0 overflow-hidden rounded-2xl border border-gray-200 bg-white py-0 shadow-md dark:border-gray-700 dark:bg-gray-800">
+      <Card className="gap-0 overflow-hidden rounded-2xl bg-white py-0 dark:bg-gray-800">
         <CardHeader className="px-5 py-4">
           <CardTitle className="text-h6-medium text-foreground">Visibility</CardTitle>
           <CardDescription className="text-body-regular text-gray-500">
@@ -56,7 +56,7 @@ export default function AdminAddProductQuickActionsSection({
         </CardContent>
       </Card>
 
-      <Card className="gap-0 overflow-hidden rounded-2xl border border-gray-200 bg-white py-0 shadow-md dark:border-gray-700 dark:bg-gray-800">
+      <Card className="gap-0 overflow-hidden rounded-2xl bg-white py-0 dark:bg-gray-800">
         <CardHeader className="px-5 py-4">
           <CardTitle className="text-h6-medium">Preview</CardTitle>
           <CardDescription className="text-body-regular text-gray-500">Want to see how your product will look like?</CardDescription>

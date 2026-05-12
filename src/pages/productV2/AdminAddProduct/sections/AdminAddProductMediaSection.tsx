@@ -8,7 +8,7 @@ import { COVER_IMAGE, GALLERY_IMAGES } from '../constants';
 
 export default function AdminAddProductMediaSection() {
   return (
-    <Card className="flex flex-1 gap-0 overflow-hidden rounded-2xl border border-gray-200 bg-white py-0 shadow-md dark:border-gray-700 dark:bg-gray-800 self-stretch">
+    <Card className="flex flex-1 gap-0 self-stretch overflow-hidden rounded-2xl bg-white py-0 dark:bg-gray-800">
       <CardContent className="p-5 flex-1">
         <div className="flex h-full flex-col gap-4 sm:flex-row">
           <div className="relative aspect-square h-full w-full shrink-0 overflow-hidden rounded-2xl bg-muted sm:max-w-[48%]">

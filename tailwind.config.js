@@ -32,7 +32,7 @@ export default {
         },
         border: 'var(--border)',
         input: 'var(--input)',
-        ring: 'var(--ring)',
+        ring: 'hsl(var(--ring))',
         background: 'var(--background)',
         foreground: 'var(--foreground)',
         destructive: {

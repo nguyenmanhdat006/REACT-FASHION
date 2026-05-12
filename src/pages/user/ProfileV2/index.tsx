@@ -45,7 +45,7 @@ export default function ProfileV2(): JSX.Element {
 
       <div className="relative mx-auto flex w-full max-w-[1212px] flex-col gap-6 self-stretch">
 
-        <Card className="overflow-hidden rounded-xl border border-gray-100 bg-gray-white pb-8 pt-0 shadow-md ring-0">
+        <Card className="overflow-hidden rounded-xl bg-gray-white pb-8 pt-0">
           <ProfileCoverSummarySection
             coverSrc={coverSrc}
             avatarSrc={avatarSrc}
