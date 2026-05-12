@@ -27,7 +27,7 @@ export default function ProfileV2(): JSX.Element {
   const displayName = profile?.fullName?.trim() || 'Vũ Cát Tường';
   const email = profile?.email ?? 'thang2k6adu@gmail.com';
   const phone = profile?.phone?.trim() || '0979632788';
-  const avatarSrc = profile?.avatar ?? IMAGES.USER_AVATAR;
+  const avatarSrc = profile?.avatarUrl ?? IMAGES.USER_AVATAR;
   const coverSrc = IMAGES.OFFER_BANNER;
 
   const initials = displayName

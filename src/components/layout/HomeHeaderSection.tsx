@@ -14,7 +14,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { IconButton } from '@/components/buttons/IconButton';
 import { IconLabelButton } from '@/components/buttons/IconLabelButton';
 import { LabelButton } from '@/components/buttons/LabelButton';
-import { IMAGES } from '@/constants/images';
+import { ROUTESV2 } from '@/constants';
+import { useAuth } from '@/hooks/auth/useAuth';
 
 import { getCurrentRoute } from '@/routes/v2/appShellRoutes';
 
@@ -36,6 +37,7 @@ const QUICK_FILTERS: {
 export function HomeHeaderSection(): JSX.Element {
   const location = useLocation();
   const navigate = useNavigate();
+  const { user, isAuthenticated } = useAuth();
   const route = getCurrentRoute(location.pathname);
   const title = route?.headerTitle ?? 'Unknown';
   const [quickFilter, setQuickFilter] = useState<QuickFilterId>('all');
@@ -43,6 +45,14 @@ export function HomeHeaderSection(): JSX.Element {
   useEffect(() => {
     setQuickFilter('all');
   }, [location.pathname]);
+
+  const headerDisplayName = user
+    ? user.fullName?.trim() || user.email?.split('@')[0] || 'Account'
+    : isAuthenticated
+      ? 'Account'
+      : 'Sign in';
+
+  const resolvedAvatar = user?.avatarUrl ?? null;
 
   const showFiltersRow = Boolean(route?.showHeaderFiltersRow);
   const showQuickFilter = Boolean(route?.showQuickFilter);
@@ -60,7 +70,13 @@ export function HomeHeaderSection(): JSX.Element {
               label="Cart"
               ariaLabel="Open cart"
             />
-            <UserButton onClick={() => navigate('/v2/profile')} userName="Tường" avatarUrl={IMAGES.USER_AVATAR} />
+            <UserButton
+              onClick={() =>
+                navigate(isAuthenticated ? ROUTESV2.PROFILE : ROUTESV2.LOGIN)
+              }
+              userName={headerDisplayName}
+              avatarUrl={resolvedAvatar}
+            />
           </div>
         </div>
 

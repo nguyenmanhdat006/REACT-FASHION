@@ -11,7 +11,7 @@ export const MOCK_AUTH_USER: User = {
   email: 'dat@example.com',
   fullName: 'Nguyen Dat',
   phone: '0901234567',
-  avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=400&auto=format&fit=crop',
+  avatarUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=400&auto=format&fit=crop',
   roles: ['USER'],
   createdAt: '2026-01-10T08:00:00Z',
 };

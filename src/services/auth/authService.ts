@@ -5,6 +5,9 @@ import {
   AuthResponse,
   User,
   Address,
+  ForgotPasswordData,
+  OAuthExchangeRequest,
+  SocialProvider,
 } from '@/types/auth/auth';
 import { ApiResponse } from '@/types/common/common';
 import {
@@ -17,7 +20,18 @@ import {
 import { getAccessToken } from '@/utils/authStorage';
 import { getRolesFromJwtToken } from '@/utils/jwt';
 import { MaybeWrapped, unwrapApiData } from '@/utils/response';
-import { ForgotPasswordData, OAuthExchangeRequest, SocialProvider } from '@/types/auth/auth';
+
+export type UserInbound = User & { roles?: string[] | null; avatar?: string | null };
+
+export function normalizeUser(raw: UserInbound): User {
+  const { avatar: legacyAvatar, roles: rawRoles, ...rest } = raw;
+  const avatarUrl = rest.avatarUrl ?? legacyAvatar ?? undefined;
+  return {
+    ...rest,
+    roles: Array.isArray(rawRoles) ? rawRoles : [],
+    avatarUrl: avatarUrl ?? undefined,
+  };
+}
 
 export const getSocialLoginRedirectUri = (provider: SocialProvider): string =>
   `${window.location.origin}/auth/callback?provider=${provider}`;
@@ -41,7 +55,11 @@ export const authService = {
       AUTH_ENDPOINTS.LOGIN,
       credentials
     );
-    return unwrapApiData(response);
+    const data = unwrapApiData(response);
+    return {
+      ...data,
+      user: normalizeUser(data.user as UserInbound),
+    };
   },
 
   register: async (credentials: SignUpCredentials): Promise<User> => {
@@ -49,7 +67,8 @@ export const authService = {
       AUTH_ENDPOINTS.REGISTER,
       credentials
     );
-    return unwrapApiData(response);
+    const user = unwrapApiData(response);
+    return normalizeUser(user as UserInbound);
   },
 
   logout: async (refreshToken: string): Promise<void> => {
@@ -61,7 +80,11 @@ export const authService = {
       AUTH_ENDPOINTS.REFRESH,
       { refreshToken }
     );
-    return unwrapApiData(response);
+    const data = unwrapApiData(response);
+    return {
+      ...data,
+      user: normalizeUser(data.user as UserInbound),
+    };
   },
 
   forgotPassword: async (data: ForgotPasswordData): Promise<void> => {
@@ -69,13 +92,6 @@ export const authService = {
   },
 
   socialLogin: (provider: SocialProvider): void => {
-    window.location.assign(
-      buildSocialLoginUrl(provider, getSocialLoginRedirectUri(provider))
-    );
-  },
-
-  // Backward-compatible alias for older pages
-  startSocialLogin: (provider: SocialProvider): void => {
     window.location.assign(
       buildSocialLoginUrl(provider, getSocialLoginRedirectUri(provider))
     );
@@ -94,7 +110,11 @@ export const authService = {
       body
     );
 
-    return unwrapApiData(response);
+    const data = unwrapApiData(response);
+    return {
+      ...data,
+      user: normalizeUser(data.user as UserInbound),
+    };
   },
 
   getProfile: async (): Promise<User> => {
@@ -103,13 +123,15 @@ export const authService = {
     const token = getAccessToken() || undefined;
     const tokenRoles = getRolesFromJwtToken(token);
 
-    return {
-      ...profile,
-      roles:
-        Array.isArray(profile.roles) && profile.roles.length > 0
-          ? profile.roles
-          : tokenRoles,
-    };
+    const roles =
+      Array.isArray(profile.roles) && profile.roles.length > 0
+        ? profile.roles
+        : tokenRoles;
+
+    return normalizeUser({
+      ...(profile as UserInbound),
+      roles,
+    });
   },
 
   updateProfile: async (data: Partial<User>): Promise<User> => {
@@ -117,7 +139,7 @@ export const authService = {
       API_ENDPOINTS.USER.PROFILE,
       data
     );
-    return response.data;
+    return normalizeUser(response.data as UserInbound);
   },
 
   getAddresses: async (): Promise<Address[]> => {

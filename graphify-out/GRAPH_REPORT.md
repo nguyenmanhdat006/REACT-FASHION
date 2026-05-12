@@ -1,16 +1,16 @@
 # Graph Report - REACT-FASHION  (2026-05-12)
 
 ## Corpus Check
-- 179 files · ~80,113 words
+- 179 files · ~80,402 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1018 nodes · 1856 edges · 101 communities (54 shown, 47 thin omitted)
+- 1027 nodes · 1904 edges · 106 communities (59 shown, 47 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 3 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `29bee203`
+- Built from commit: `c91a2063`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -56,19 +56,19 @@
 - [[_COMMUNITY_Community 38|Community 38]]
 - [[_COMMUNITY_Community 39|Community 39]]
 - [[_COMMUNITY_Community 40|Community 40]]
+- [[_COMMUNITY_Community 41|Community 41]]
 - [[_COMMUNITY_Community 42|Community 42]]
 - [[_COMMUNITY_Community 43|Community 43]]
 - [[_COMMUNITY_Community 44|Community 44]]
-- [[_COMMUNITY_Community 45|Community 45]]
 - [[_COMMUNITY_Community 46|Community 46]]
 - [[_COMMUNITY_Community 47|Community 47]]
 - [[_COMMUNITY_Community 48|Community 48]]
 - [[_COMMUNITY_Community 49|Community 49]]
-- [[_COMMUNITY_Community 60|Community 60]]
-- [[_COMMUNITY_Community 61|Community 61]]
-- [[_COMMUNITY_Community 62|Community 62]]
-- [[_COMMUNITY_Community 63|Community 63]]
-- [[_COMMUNITY_Community 64|Community 64]]
+- [[_COMMUNITY_Community 50|Community 50]]
+- [[_COMMUNITY_Community 51|Community 51]]
+- [[_COMMUNITY_Community 52|Community 52]]
+- [[_COMMUNITY_Community 53|Community 53]]
+- [[_COMMUNITY_Community 54|Community 54]]
 - [[_COMMUNITY_Community 65|Community 65]]
 - [[_COMMUNITY_Community 66|Community 66]]
 - [[_COMMUNITY_Community 67|Community 67]]
@@ -105,224 +105,249 @@
 - [[_COMMUNITY_Community 98|Community 98]]
 - [[_COMMUNITY_Community 99|Community 99]]
 - [[_COMMUNITY_Community 100|Community 100]]
+- [[_COMMUNITY_Community 101|Community 101]]
+- [[_COMMUNITY_Community 102|Community 102]]
+- [[_COMMUNITY_Community 103|Community 103]]
+- [[_COMMUNITY_Community 104|Community 104]]
+- [[_COMMUNITY_Community 105|Community 105]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `cn()` - 48 edges
 2. `Button()` - 40 edges
 3. `Card()` - 23 edges
-4. `useAuth()` - 17 edges
+4. `useAuth()` - 19 edges
 5. `ECOMMERCE FRONTEND - COMPLETE PACKAGE` - 17 edges
 6. `ROUTES` - 13 edges
 7. `IMAGES` - 13 edges
-8. `ApiResponse` - 12 edges
-9. `🎯 Ví Dụ Cụ Thể: User Management Feature` - 12 edges
-10. `API_ENDPOINTS` - 11 edges
+8. `ApiResponse` - 13 edges
+9. `API_ENDPOINTS` - 12 edges
+10. `User` - 12 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `cn()` --calls--> `twMerge`  [INFERRED]
-  /home/thang/Workspace/REACT-FASHION/src/utils/helpers.ts → src/lib/utils.ts
 - `App()` --calls--> `useTheme()`  [EXTRACTED]
   src/App.tsx → /home/thang/Workspace/REACT-FASHION/src/hooks/theme/useTheme.ts
-- `Layout()` --calls--> `useAuth()`  [EXTRACTED]
-  /home/thang/Workspace/REACT-FASHION/src/components/layout/Layout.tsx → src/hooks/auth/useAuth.ts
-- `ProtectedRoute()` --calls--> `useAuth()`  [EXTRACTED]
-  /home/thang/Workspace/REACT-FASHION/src/components/navigation/ProtectedRoute.tsx → src/hooks/auth/useAuth.ts
 - `useAuth()` --calls--> `SignUp()`  [EXTRACTED]
   src/hooks/auth/useAuth.ts → /home/thang/Workspace/REACT-FASHION/src/pages/auth/SignUp.tsx
+- `cn()` --calls--> `twMerge`  [INFERRED]
+  /home/thang/Workspace/REACT-FASHION/src/utils/helpers.ts → src/lib/utils.ts
+- `ProtectedRoute()` --calls--> `useAuth()`  [EXTRACTED]
+  /home/thang/Workspace/REACT-FASHION/src/components/navigation/ProtectedRoute.tsx → src/hooks/auth/useAuth.ts
+- `useAuth()` --calls--> `Dashboard()`  [EXTRACTED]
+  src/hooks/auth/useAuth.ts → /home/thang/Workspace/REACT-FASHION/src/pages/user/Dashboard.tsx
 
-## Communities (101 total, 47 thin omitted)
+## Communities (106 total, 47 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.05
-Nodes (51): ButtonBaseProps, IconButton(), IconButtonProps, ButtonBaseProps, IconLabelButton(), IconLabelButtonPillVariant, IconLabelButtonProps, PILL_VARIANT_STYLES (+43 more)
+Nodes (59): Address, AuthResponse, ForgotPasswordData, LoginCredentials, OAuthExchangeRequest, ResetPasswordData, SignUpCredentials, SocialProvider (+51 more)
 
 ### Community 1 - "Community 1"
-Cohesion: 0.05
-Nodes (50): Address, AuthResponse, ForgotPasswordData, LoginCredentials, OAuthExchangeRequest, ResetPasswordData, SignUpCredentials, SocialProvider (+42 more)
+Cohesion: 0.06
+Nodes (54): ActionIconButton(), ActionIconButtonProps, ActionIconVariant, ButtonBaseProps, LabelButton(), LabelButtonProps, LabelButtonTone, TONE_STYLES (+46 more)
 
 ### Community 2 - "Community 2"
-Cohesion: 0.07
-Nodes (46): ActionIconButton(), ActionIconButtonProps, ActionIconVariant, LabelButton(), DEFAULT_SWATCHES, ProductCard(), ProductCardProps, ProductSwatch (+38 more)
+Cohesion: 0.06
+Nodes (35): SignUp(), SignUpFormData, signUpSchema, AddToCartRequest, Cart, CartItem, CartStatus, CartSummary (+27 more)
 
 ### Community 3 - "Community 3"
 Cohesion: 0.06
-Nodes (35): AddToCartRequest, Cart, CartItem, CartStatus, CartSummary, UpdateCartItemRequest, MOCK_ADD_TO_CART_REQUEST, MOCK_CART_DATA (+27 more)
-
-### Community 4 - "Community 4"
-Cohesion: 0.06
 Nodes (24): AdminProductListProps, AdminProductRow, ADMIN_PRODUCT_LIST_DEMO, ADMIN_PRODUCT_LIST_MOCK, AdminTableColumn, AdminTableRowBase, AdminTableViewProps, ADMIN_PRODUCT_LIST_MOCK (+16 more)
 
+### Community 4 - "Community 4"
+Cohesion: 0.1
+Nodes (28): ButtonBaseProps, IconButton(), IconButtonProps, ProductDetailsAccordion(), ProductDetailsAccordionProps, ProductDetailsCloseButton(), ProductDetailsImage(), THUMB_IMAGES (+20 more)
+
 ### Community 5 - "Community 5"
-Cohesion: 0.05
-Nodes (39): Divider(), DividerProps, LastOrderButton(), NavButton(), NavButtonCompactProps, NavButtonDefaultProps, NavButtonIconProps, NavButtonProps (+31 more)
+Cohesion: 0.07
+Nodes (40): AdminTab, BrandFormState, CategoryFormState, DEFAULT_BRAND_FORM, DEFAULT_CATEGORY_FORM, DEFAULT_PRODUCT_FORM, ProductFormState, Brand (+32 more)
 
 ### Community 6 - "Community 6"
-Cohesion: 0.07
-Nodes (38): AdminTab, BrandFormState, CategoryFormState, DEFAULT_BRAND_FORM, DEFAULT_CATEGORY_FORM, DEFAULT_PRODUCT_FORM, ProductFormState, Brand (+30 more)
+Cohesion: 0.06
+Nodes (19): Login(), useAuth(), AuthHeaderProps, AuthLayoutProps, Column, TableProps, ForgotPasswordSentV2(), Layout() (+11 more)
 
 ### Community 7 - "Community 7"
-Cohesion: 0.08
-Nodes (24): BRAND_OPTIONS, CATEGORY_OPTIONS, GALLERY_IMAGES, STATUS_OPTIONS, SUBCATEGORY_OPTIONS, AdminAddProductFormValues, SelectOption, AdminAddProductFormValues (+16 more)
+Cohesion: 0.07
+Nodes (29): OrderStats(), OrderStatsProps, initialsFromDisplayName(), UserButton(), UserButtonProps, HomeHeaderSection(), QUICK_FILTERS, QuickFilterId (+21 more)
 
 ### Community 8 - "Community 8"
-Cohesion: 0.06
-Nodes (27): SignUp(), SignUpFormData, signUpSchema, useAuth(), FormField(), FormFieldBase, FormFieldInputProps, FormFieldParagraphProps (+19 more)
+Cohesion: 0.09
+Nodes (20): BRAND_OPTIONS, CATEGORY_OPTIONS, GALLERY_IMAGES, STATUS_OPTIONS, SUBCATEGORY_OPTIONS, AdminAddProductFormValues, SelectOption, AdminAddProductFormValues (+12 more)
 
 ### Community 9 - "Community 9"
 Cohesion: 0.06
 Nodes (33): 1. **PROJECT-STRUCTURE.md** (Complete project structure), 2. **API-CONTRACTS.md** (All API documentation), 3. **GITHUB-COPILOT-COMPLETE-GUIDE.md** ⭐ (MOST IMPORTANT!), 🔗 API INTEGRATION, Code Organization:, code:bash (# 1. Create project), code:block2 (Frontend:), code:block3 (src/) (+25 more)
 
 ### Community 10 - "Community 10"
-Cohesion: 0.12
-Nodes (23): asRecord(), clone(), createOrderFromCart(), delay(), findProductById(), handleMockApiRequest(), mockAddresses, mockCart (+15 more)
+Cohesion: 0.11
+Nodes (24): MOCK_ADD_TO_CART_REQUEST, MOCK_CART_DATA, MOCK_CART_SUMMARY, MOCK_UPDATE_CART_ITEM_REQUEST, asRecord(), clone(), createOrderFromCart(), delay() (+16 more)
 
 ### Community 11 - "Community 11"
 Cohesion: 0.09
 Nodes (21): AdminDashboard, adminRoute, AuthCallback, authV2Routes, Cart, Checkout, ForgotPassword, ForgotPasswordSentV2 (+13 more)
 
 ### Community 12 - "Community 12"
-Cohesion: 0.14
-Nodes (17): CreateOrderRequest, Order, OrderItem, OrderPage, OrderStatus, PaymentStatus, MOCK_CREATE_ORDER_REQUEST, MOCK_ORDERS_DATA (+9 more)
+Cohesion: 0.19
+Nodes (14): PageResponse, PaginationParams, MOCK_NOTIFICATION_PAGE, MOCK_NOTIFICATIONS, NotificationItem, notificationService, CreateOrderRequest, Order (+6 more)
 
 ### Community 13 - "Community 13"
-Cohesion: 0.15
-Nodes (19): 1. Types (`src/types/user.ts`), 2. Constants (`src/constants/index.ts`), 3. Service (`src/services/userService.ts`), 4. Thunks (`src/store/thunks/userThunks.ts`), 5. Slice (`src/store/slices/userSlice.ts`), 6. Hook (`src/hooks/useUsers.ts`), 7. Components (`src/components/UserList.tsx`), 8. Page (`src/pages/Users.tsx`) (+11 more)
+Cohesion: 0.14
+Nodes (11): FormFieldBase, FormFieldInputProps, FormFieldParagraphProps, FormFieldProps, FormFieldSelectionProps, Select(), SelectContent(), SelectItem() (+3 more)
 
 ### Community 14 - "Community 14"
 Cohesion: 0.12
-Nodes (17): BƯỚC 1: Định nghĩa Types (TypeScript Interfaces), BƯỚC 2: Thêm API Endpoints vào Constants, BƯỚC 3: Tạo Service Layer (API Calls), BƯỚC 4: Tạo Redux Thunks (Async Actions), BƯỚC 6: Tạo Custom Hook (Optional), BƯỚC 7: Tạo Components (Reusable UI), BƯỚC 8: Tạo Page Component, 📝 Chi Tiết Từng Bước (+9 more)
+Nodes (17): BƯỚC 2: Thêm API Endpoints vào Constants, BƯỚC 3: Tạo Service Layer (API Calls), BƯỚC 4: Tạo Redux Thunks (Async Actions), BƯỚC 5: Tạo Redux Slice (State Management), BƯỚC 6: Tạo Custom Hook (Optional), BƯỚC 7: Tạo Components (Reusable UI), BƯỚC 8: Tạo Page Component, 📝 Chi Tiết Từng Bước (+9 more)
 
 ### Community 15 - "Community 15"
-Cohesion: 0.13
-Nodes (13): AdminAddProduct, AdminDashboard, AdminProductListPage, adminRoute, Cart, Checkout, OrderDetail, Orders (+5 more)
+Cohesion: 0.16
+Nodes (9): FormField(), TermsAgreementProps, ForgotPasswordFormData, forgotPasswordSchema, FormSection(), LoginFormData, loginSchema, SignUpFormData (+1 more)
 
 ### Community 16 - "Community 16"
-Cohesion: 0.15
-Nodes (4): Column, TableProps, ModalProps, cn()
+Cohesion: 0.21
+Nodes (14): 3. Service (`src/services/userService.ts`), 4. Thunks (`src/store/thunks/userThunks.ts`), 5. Slice (`src/store/slices/userSlice.ts`), 6. Hook (`src/hooks/useUsers.ts`), 7. Components (`src/components/UserList.tsx`), 8. Page (`src/pages/Users.tsx`), 9. Route (`src/App.tsx`), code:typescript (import apiClient from '@/utils/api';) (+6 more)
 
 ### Community 17 - "Community 17"
-Cohesion: 0.29
-Nodes (9): CreateReviewRequest, Review, ReviewPage, ReviewSummary, MOCK_CREATE_REVIEW_REQUEST, MOCK_REVIEW_PAGE, MOCK_REVIEW_SUMMARY, MOCK_REVIEWS (+1 more)
+Cohesion: 0.19
+Nodes (6): LastOrderButton(), LastOrderButtonProps, handleClick, user, Button(), buttonVariants
 
 ### Community 18 - "Community 18"
-Cohesion: 0.17
-Nodes (12): Coding Guide - Feature Development Workflow, Reusable Components, Constants (API Endpoints, Routes), Custom Hooks, i18n Translations, Page Components, Protected Routes & Auth, Redux Slice (State Management) (+4 more)
+Cohesion: 0.26
+Nodes (6): ProfileReadOnlyField(), ProfileReadOnlyFieldProps, ProfileDetailsSection(), ProfileDetailsSectionProps, Input, Label()
 
 ### Community 19 - "Community 19"
 Cohesion: 0.29
-Nodes (8): ConfirmPaymentRequest, CreatePaymentRequest, PaymentIntent, MOCK_CONFIRM_PAYMENT_REQUEST, MOCK_CONFIRMED_PAYMENT_INTENT, MOCK_CREATE_PAYMENT_REQUEST, MOCK_PAYMENT_INTENT, paymentService
+Nodes (9): CreateReviewRequest, Review, ReviewPage, ReviewSummary, MOCK_CREATE_REVIEW_REQUEST, MOCK_REVIEW_PAGE, MOCK_REVIEW_SUMMARY, MOCK_REVIEWS (+1 more)
 
 ### Community 20 - "Community 20"
-Cohesion: 0.4
-Nodes (6): ApiResponse, PageResponse, PaginationParams, API_ENDPOINTS, NotificationItem, notificationService
+Cohesion: 0.17
+Nodes (12): Coding Guide - Feature Development Workflow, Reusable Components, Constants (API Endpoints, Routes), Custom Hooks, i18n Translations, Page Components, Protected Routes & Auth, Redux Slice (State Management) (+4 more)
 
 ### Community 21 - "Community 21"
+Cohesion: 0.29
+Nodes (8): ConfirmPaymentRequest, CreatePaymentRequest, PaymentIntent, MOCK_CONFIRM_PAYMENT_REQUEST, MOCK_CONFIRMED_PAYMENT_INTENT, MOCK_CREATE_PAYMENT_REQUEST, MOCK_PAYMENT_INTENT, paymentService
+
+### Community 22 - "Community 22"
+Cohesion: 0.25
+Nodes (8): orderService, initialState, ordersSlice, OrdersState, cancelOrderThunk, createOrderThunk, fetchOrderByIdThunk, fetchOrdersThunk
+
+### Community 23 - "Community 23"
+Cohesion: 0.18
+Nodes (9): Cart, Checkout, OrderDetail, Orders, ProductDetail, Products, Profile, ProfileV2 (+1 more)
+
+### Community 24 - "Community 24"
 Cohesion: 0.18
 Nodes (10): 📋 Checklist, code:block1 (1. Types (TypeScript Interfaces)), Coding Guide - Workflow cho Feature Development, ⚠️ Lưu ý file `tailwind.config.js`, 📋 Mục Lục, Quy tắc cụ thể, 🔗 Tài Liệu Tham Khảo, 🎯 Tổng Quan Workflow (+2 more)
 
-### Community 22 - "Community 22"
+### Community 25 - "Community 25"
 Cohesion: 0.18
 Nodes (11): Body Text - 16px, Caption Extra Small - 9px, Caption Large - 13px, Caption Small - 11px, code:jsx (<span className="text-caption-xs-regular text-gray-400">), code:jsx (// Mặc định đã áp dụng cho toàn bộ app), code:jsx (<p className="text-body-regular text-gray-600">), code:jsx (<span className="text-caption-lg-regular text-gray-500">) (+3 more)
 
-### Community 23 - "Community 23"
-Cohesion: 0.27
-Nodes (7): initialState, userSlice, UserState, fetchAddressesThunk, fetchProfileThunk, updateProfileThunk, userService
+### Community 26 - "Community 26"
+Cohesion: 0.38
+Nodes (5): ProfileCoverSummarySection(), ProfileCoverSummarySectionProps, Avatar, AvatarFallback, AvatarImage
 
-### Community 24 - "Community 24"
+### Community 27 - "Community 27"
 Cohesion: 0.2
 Nodes (10): Accent Colors (Màu Nhấn), code:jsx (// Background màu xám đậm với text trắng), code:jsx (// Button primary), code:jsx (// Badge hoặc tag), code:jsx (// Warning hoặc notification), Gray Scale, 🎨 Màu Sắc (Colors), Primary Colors (Màu Chính) (+2 more)
 
-### Community 25 - "Community 25"
-Cohesion: 0.22
-Nodes (8): KeycloakAuthSession, KeycloakErrorResponse, KeycloakJwtPayload, KeycloakLoginCredentials, KeycloakLoginExchangeRequest, KeycloakRegisterCredentials, KeycloakTokenResponse, KeycloakUserInfo
-
-### Community 26 - "Community 26"
+### Community 28 - "Community 28"
 Cohesion: 0.31
 Nodes (7): MOCK_SHIPMENT, MOCK_SHIPPING_FEE_REQUEST, MOCK_SHIPPING_FEE_RESPONSE, Shipment, ShippingFeeRequest, ShippingFeeResponse, shippingService
 
-### Community 27 - "Community 27"
+### Community 29 - "Community 29"
+Cohesion: 0.22
+Nodes (8): KeycloakAuthSession, KeycloakErrorResponse, KeycloakJwtPayload, KeycloakLoginCredentials, KeycloakLoginExchangeRequest, KeycloakRegisterCredentials, KeycloakTokenResponse, KeycloakUserInfo
+
+### Community 30 - "Community 30"
 Cohesion: 0.39
 Nodes (7): JwtProfilePayload, JwtRolePayload, decodeBase64Url(), extractRolesFromJwtPayload(), getProfileFieldsFromJwtToken(), getRolesFromJwtToken(), parseJwtPayload()
 
-### Community 28 - "Community 28"
+### Community 31 - "Community 31"
 Cohesion: 0.22
 Nodes (9): 1. **Type Safety**, 2. **Error Handling**, 3. **Code Organization**, 4. **Performance**, 5. **Testing**, 6. **Accessibility**, 7. **i18n**, 8. **Tailwind & Design System** (+1 more)
 
-### Community 29 - "Community 29"
+### Community 32 - "Community 32"
 Cohesion: 0.5
 Nodes (5): accent, gray, primary, secondary, outlineRingOpacityPlugin
 
-### Community 31 - "Community 31"
-Cohesion: 0.25
-Nodes (8): code:jsx (<h1 className="text-h1-bold text-gray-900">), H1 - 48px, H2 - 40px, H3 - 33px, H4 - 28px, H5 - 23px, H6 - 19px, Heading Styles (H1 - H6)
-
-### Community 32 - "Community 32"
+### Community 34 - "Community 34"
 Cohesion: 0.25
 Nodes (8): 1. Sử dụng màu nhất quán, 2. Sử dụng typography scale, 3. Hierarchy màu sắc, 4. Text colors, 📋 Best Practices, code:jsx (// ✅ Tốt - Sử dụng các màu đã định nghĩa), code:jsx (// ✅ Tốt - Sử dụng các class text đã định nghĩa), code:jsx (// Hierarchy của text)
 
-### Community 33 - "Community 33"
-Cohesion: 0.29
-Nodes (3): ErrorBoundary, Props, State
-
-### Community 34 - "Community 34"
-Cohesion: 0.43
-Nodes (4): Layout(), routes, App(), useTheme()
-
 ### Community 35 - "Community 35"
-Cohesion: 0.29
-Nodes (6): code:jsx (// Element thay đổi màu theo dark mode), code:jsx (<h1 className="text-h4-bold md:text-h3-bold lg:text-h2-bold"), 🎯 Dark Mode, Hướng Dẫn Sử Dụng Design System - Tailwind CSS, 📚 Resources, 🔧 Responsive Design
+Cohesion: 0.25
+Nodes (8): code:jsx (<h1 className="text-h1-bold text-gray-900">), H1 - 48px, H2 - 40px, H3 - 33px, H4 - 28px, H5 - 23px, H6 - 19px, Heading Styles (H1 - H6)
 
 ### Community 36 - "Community 36"
 Cohesion: 0.29
-Nodes (7): Alert Component, Card Component, code:jsx (<div className="bg-white dark:bg-gray-800 shadow-md rounded-), code:jsx (<div className="space-y-2">), code:jsx (<div className="bg-accent-700 border-l-4 border-accent-900 p), 📦 Component Examples, Form Input
+Nodes (3): ErrorBoundary, Props, State
 
 ### Community 37 - "Community 37"
-Cohesion: 0.33
-Nodes (5): authV2Routes, ForgotPasswordSentV2, ForgotPasswordV2, LoginV2, SignUpV2
+Cohesion: 0.29
+Nodes (6): NavButton(), NavButtonCompactProps, NavButtonDefaultProps, NavButtonIconProps, NavButtonProps, NavButtonThumbnailProps
 
 ### Community 38 - "Community 38"
+Cohesion: 0.29
+Nodes (7): Alert Component, Card Component, code:jsx (<div className="bg-white dark:bg-gray-800 shadow-md rounded-), code:jsx (<div className="space-y-2">), code:jsx (<div className="bg-accent-700 border-l-4 border-accent-900 p), 📦 Component Examples, Form Input
+
+### Community 39 - "Community 39"
+Cohesion: 0.29
+Nodes (6): code:jsx (// Element thay đổi màu theo dark mode), code:jsx (<h1 className="text-h4-bold md:text-h3-bold lg:text-h2-bold"), 🎯 Dark Mode, Hướng Dẫn Sử Dụng Design System - Tailwind CSS, 📚 Resources, 🔧 Responsive Design
+
+### Community 40 - "Community 40"
+Cohesion: 0.33
+Nodes (5): ButtonBaseProps, IconLabelButton(), IconLabelButtonPillVariant, IconLabelButtonProps, PILL_VARIANT_STYLES
+
+### Community 41 - "Community 41"
 Cohesion: 0.33
 Nodes (5): authV2Routes, ForgotPasswordSentV2, ForgotPasswordV2, LoginV2, SignUpV2
 
-### Community 39 - "Community 39"
-Cohesion: 0.4
-Nodes (6): 9a. Trang gốc (`/`, `Layout` cũ), 9b. Trang trong App Shell V2 (`/v2`, `LayoutV2`), BƯỚC 10: Thêm i18n Translations (Optional), BƯỚC 9: Thêm Route, code:typescript (// Lazy load page), code:typescript (const MyPage = React.lazy(() => import('@/pages/productV2/My)
-
-### Community 40 - "Community 40"
-Cohesion: 0.4
-Nodes (4): initialState, Theme, themeSlice, ThemeState
-
 ### Community 42 - "Community 42"
-Cohesion: 0.4
-Nodes (5): 10. i18n (`src/constants/locales/en.json` và `vi.json`), 9. Route (`src/routes/index.tsx` và khi cần `src/routes/v2/*`), code:typescript (const Users = React.lazy(() => import('@/pages/Users'));), code:typescript (// src/routes/v2/userRoute.tsx — path relative tới /v2), code:json (// en.json)
+Cohesion: 0.33
+Nodes (5): authV2Routes, ForgotPasswordSentV2, ForgotPasswordV2, LoginV2, SignUpV2
 
 ### Community 43 - "Community 43"
 Cohesion: 0.4
-Nodes (5): Border Radius, Box Shadow, code:jsx (<div className="bg-white shadow-md rounded-lg p-4">Card with), code:jsx (// Button với bo góc medium), 🎭 Effects
+Nodes (6): 9a. Trang gốc (`/`, `Layout` cũ), 9b. Trang trong App Shell V2 (`/v2`, `LayoutV2`), BƯỚC 10: Thêm i18n Translations (Optional), BƯỚC 9: Thêm Route, code:typescript (// Lazy load page), code:typescript (const MyPage = React.lazy(() => import('@/pages/productV2/My)
+
+### Community 44 - "Community 44"
+Cohesion: 0.4
+Nodes (4): AdminAddProduct, AdminDashboard, AdminProductListPage, adminRoute
+
+### Community 46 - "Community 46"
+Cohesion: 0.4
+Nodes (5): 10. i18n (`src/constants/locales/en.json` và `vi.json`), 9. Route (`src/routes/index.tsx` và khi cần `src/routes/v2/*`), code:typescript (const Users = React.lazy(() => import('@/pages/Users'));), code:typescript (// src/routes/v2/userRoute.tsx — path relative tới /v2), code:json (// en.json)
 
 ### Community 47 - "Community 47"
+Cohesion: 0.4
+Nodes (5): 1. Types (`src/types/user.ts`), 2. Constants (`src/constants/index.ts`), code:json (// en.json), code:typescript (export interface User {), code:typescript (export const API_ENDPOINTS = {)
+
+### Community 48 - "Community 48"
+Cohesion: 0.4
+Nodes (5): Border Radius, Box Shadow, code:jsx (<div className="bg-white shadow-md rounded-lg p-4">Card with), code:jsx (// Button với bo góc medium), 🎭 Effects
+
+### Community 52 - "Community 52"
 Cohesion: 0.67
-Nodes (3): BƯỚC 5: Tạo Redux Slice (State Management), code:typescript (import { createSlice, PayloadAction } from '@reduxjs/toolkit), code:typescript (import userReducer from './slices/userSlice';)
+Nodes (3): BƯỚC 1: Định nghĩa Types (TypeScript Interfaces), code:typescript (// src/types/user.ts), code:typescript (export * from './auth';)
 
 ## Knowledge Gaps
-- **302 isolated node(s):** `themeButton`, `queryClient`, `ImportMetaEnv`, `ImportMeta`, `DividerProps` (+297 more)
+- **299 isolated node(s):** `themeButton`, `queryClient`, `ImportMetaEnv`, `ImportMeta`, `DividerProps` (+294 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **47 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Button()` connect `Community 0` to `Community 33`, `Community 34`, `Community 2`, `Community 4`, `Community 5`, `Community 6`, `Community 1`, `Community 8`, `Community 3`, `Community 7`?**
-  _High betweenness centrality (0.156) - this node is a cross-community bridge._
-- **Why does `cn()` connect `Community 0` to `Community 2`, `Community 4`, `Community 5`, `Community 7`, `Community 8`?**
-  _High betweenness centrality (0.058) - this node is a cross-community bridge._
-- **Why does `Card()` connect `Community 2` to `Community 0`, `Community 1`, `Community 3`, `Community 6`, `Community 7`, `Community 8`?**
-  _High betweenness centrality (0.036) - this node is a cross-community bridge._
+- **Why does `Button()` connect `Community 17` to `Community 0`, `Community 1`, `Community 2`, `Community 3`, `Community 36`, `Community 37`, `Community 6`, `Community 4`, `Community 40`, `Community 5`, `Community 8`, `Community 13`, `Community 15`, `Community 18`, `Community 26`?**
+  _High betweenness centrality (0.139) - this node is a cross-community bridge._
+- **Why does `cn()` connect `Community 4` to `Community 1`, `Community 3`, `Community 37`, `Community 7`, `Community 8`, `Community 40`, `Community 13`, `Community 17`, `Community 18`, `Community 26`?**
+  _High betweenness centrality (0.043) - this node is a cross-community bridge._
+- **Why does `Card()` connect `Community 2` to `Community 0`, `Community 1`, `Community 5`, `Community 6`, `Community 8`, `Community 17`, `Community 26`?**
+  _High betweenness centrality (0.030) - this node is a cross-community bridge._
 - **What connects `themeButton`, `queryClient`, `ImportMetaEnv` to the rest of the system?**
-  _302 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _299 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
   _Cohesion score 0.05 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**
-  _Cohesion score 0.05 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06 - nodes in this community are weakly interconnected._
 - **Should `Community 2` be split into smaller, more focused modules?**
-  _Cohesion score 0.07 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06 - nodes in this community are weakly interconnected._
