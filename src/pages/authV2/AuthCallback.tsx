@@ -7,6 +7,7 @@ import { useAppDispatch } from '@/store/hooks';
 import { setAuth } from '@/store/slices/authSlice';
 import { setAuthTokens } from '@/utils/authStorage';
 import { SocialProvider } from '@/types/auth/auth';
+import { ROUTESV2 } from '@/constants';
 
 const isSocialProvider = (value: string | null): value is SocialProvider =>
   value === 'google' || value === 'facebook';
@@ -23,7 +24,7 @@ export default function AuthCallbackPage() {
 
       if (!code || !isSocialProvider(provider)) {
         toast.error('Missing social login context. Please try again.');
-        navigate('/login', { replace: true });
+        navigate(ROUTESV2.LOGIN, { replace: true });
         return;
       }
 
@@ -33,11 +34,11 @@ export default function AuthCallbackPage() {
         setAuthTokens(appAuth.accessToken, appAuth.refreshToken);
         dispatch(setAuth(appAuth));
 
-        navigate('/', { replace: true });
+        navigate(ROUTESV2.HOME, { replace: true });
       } catch (error) {
         console.error('Authentication callback error:', error);
         toast.error('Authentication failed. Please try again.');
-        navigate('/login', { replace: true });
+        navigate(ROUTESV2.LOGIN, { replace: true });
       }
     };
 

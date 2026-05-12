@@ -45,7 +45,7 @@ export const useAuth = () => {
     const result = await dispatch(loginThunk(credentials));
     if (loginThunk.fulfilled.match(result)) {
       toast.success('Login successful!');
-      navigate('/products');
+      navigate(ROUTESV2.HOME);
     } else if (loginThunk.rejected.match(result)) {
       toast.error(result.payload || 'Login failed');
     }
@@ -55,7 +55,7 @@ export const useAuth = () => {
     const result = await dispatch(signUpThunk(credentials));
     if (signUpThunk.fulfilled.match(result)) {
       toast.success('Account created successfully!');
-      navigate('/login');
+      navigate(ROUTESV2.LOGIN);
     } else if (signUpThunk.rejected.match(result)) {
       toast.error(result.payload || 'Sign up failed');
     }
@@ -65,10 +65,10 @@ export const useAuth = () => {
     const result = await dispatch(logoutThunk());
     if (logoutThunk.fulfilled.match(result)) {
       toast.success('Logged out successfully');
-      navigate('/');
+      navigate(ROUTESV2.HOME);
     } else if (logoutThunk.rejected.match(result)) {
       toast.error('Logout failed');
-      navigate('/');
+      navigate(ROUTESV2.HOME);
     }
   };
 

@@ -21,7 +21,7 @@ export function ProductDetailsImage(): JSX.Element {
   return (
     <div
       className={cn(
-        "flex min-w-0 flex-1 flex-col justify-end self-stretch overflow-hidden rounded-2xl bg-cover bg-top p-4"
+        "flex min-w-0 border border-gray-200 flex-1 flex-col justify-end self-stretch overflow-hidden rounded-2xl bg-cover bg-top p-4"
       )}
       style={{ backgroundImage: `url(${HERO_IMAGE})` }}
       aria-label="Supper Skinny jogger in brown — product gallery"

@@ -19,7 +19,7 @@ const SignUp = React.lazy(() => import('@/pages/auth/SignUp'));
 const ForgotPassword = React.lazy(() => import('@/pages/auth/ForgotPassword'));
 const NotFound = React.lazy(() => import('@/pages/public/NotFound'));
 
-const AuthCallback = React.lazy(() => import('@/pages/auth/AuthCallback'));
+const AuthCallback = React.lazy(() => import('@/pages/authV2/AuthCallback'));
 
 export const routes: RouteObject[] = [
   {

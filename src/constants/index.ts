@@ -16,11 +16,27 @@ export const ROUTES = {
 } as const;
 
 export const ROUTESV2 = {
-  ...ROUTES,
+  HOME: '/v2',
+  PRODUCTS: '/v2/products',
+  PRODUCTS_CLOTHING: '/v2/products/clothing',
+  PRODUCTS_DEAL: '/v2/products/deal',
+  PRODUCTS_INSPIRATIONS: '/v2/products/inspirations',
+  CART: '/v2/cart',
+  CHECKOUT: '/v2/checkout',
+  ORDERS: '/v2/orders',
+  ORDER_DETAIL: (id: string) => `/v2/orders/${id}`,
+  PROFILE: '/v2/profile',
   LOGIN: '/v2/login',
   SIGNUP: '/v2/signup',
   FORGOT_PASSWORD: '/v2/forgot-password',
   FORGOT_PASSWORD_SENT: '/v2/forgot-password/sent',
+  ADMIN_DASHBOARD: '/v2/admin',
+  ADMIN_PRODUCTS: '/v2/admin/products',
+  ADMIN_PRODUCT_ADD: '/v2/admin/products/add',
+  ADMIN_CATEGORY: '/v2/admin/category',
+  ADMIN_ORDERS: '/v2/admin/orders',
+  ADMIN_BRAND: '/v2/admin/brand',
+  ADMIN_USERS: '/v2/admin/users',
 } as const;
 
 export const USER_ROLES = {
