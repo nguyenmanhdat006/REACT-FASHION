@@ -4,6 +4,9 @@ import { Outlet, type RouteObject } from 'react-router-dom';
 // import ProtectedRoute from '@/components/navigation/ProtectedRoute';
 
 const AdminDashboard = React.lazy(() => import('@/pages/admin/AdminDashboard'));
+const AdminProductListPage = React.lazy(
+  () => import('@/pages/admin/AdminProductListPage'),
+);
 
 export const adminRoute: RouteObject = {
   // element: (
@@ -17,7 +20,7 @@ export const adminRoute: RouteObject = {
       element: <Outlet />,
       children: [
         { index: true, element: <AdminDashboard /> },
-        { path: 'products', element: <AdminDashboard /> },
+        { path: 'products', element: <AdminProductListPage /> },
         { path: 'category', element: <AdminDashboard /> },
         { path: 'orders', element: <AdminDashboard /> },
         { path: 'brand', element: <AdminDashboard /> },
