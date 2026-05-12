@@ -2,7 +2,7 @@ import React from 'react';
 import { Outlet, type RouteObject } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
 import ProtectedRoute from '@/components/navigation/ProtectedRoute';
-import { authV2Routes } from './v2/authV2Routes';
+import { authV2Routes } from './v2/authRoutes';
 import { userRoute } from './v2/userRoute';
 
 const Home = React.lazy(() => import('@/pages/public/Home'));

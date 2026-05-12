@@ -8,12 +8,12 @@ import HomeV2 from '@/pages/productV2';
 import { adminRoute } from './adminRoute';
 
 const Products = React.lazy(() => import('@/pages/productV2/ProductV2'));
-const ProductDetail = React.lazy(() => import('@/pages/product/ProductDetail'));
 const Cart = React.lazy(() => import('@/pages/cart/Cart'));
 const Checkout = React.lazy(() => import('@/pages/cart/Checkout'));
 const Orders = React.lazy(() => import('@/pages/order/Orders'));
 const OrderDetail = React.lazy(() => import('@/pages/order/OrderDetail'));
 const ProfileV2 = React.lazy(() => import('@/pages/user/ProfileV2'));
+const ProductDetail = React.lazy(() => import('@/pages/productV2/ProductDetailsV2/ProductDetails'));
 
 export const userRoute: RouteObject = {
   element: (
