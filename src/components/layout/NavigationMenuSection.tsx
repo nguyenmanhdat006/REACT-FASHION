@@ -1,4 +1,5 @@
 import type { JSX } from 'react';
+import { MessageCirclePlus, Plus } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Divider } from '@/components/Divider';
@@ -6,17 +7,19 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import {
   LAST_ORDERS,
+  RECENTS_CHAT,
   SIDEBAR_LOGOUT_ICON,
 } from '@/pages/productV2/homeDemoData';
-import { SIDEBAR_NAV_ITEMS } from './navigationMenuData';
+import { getSidebarNavItems } from '@/routes/v2/appShellRoutes';
 
-import { LastOrderButton } from './components/LastOrderButton';
 import { NavButton } from './components/NavButton';
 
 export function NavigationMenuSection(): JSX.Element {
   const LogOutIcon = SIDEBAR_LOGOUT_ICON;
   const navigate = useNavigate();
   const location = useLocation();
+  const isAdminShell = location.pathname.includes('/admin');
+  const sidebarNavItems = getSidebarNavItems(location.pathname);
 
   return (
     <aside
@@ -25,14 +28,14 @@ export function NavigationMenuSection(): JSX.Element {
     >
       <div className="relative flex flex-col items-start gap-8 self-stretch">
         <div className="self-stretch text-h4-semi leading-tight text-gray-black">
-          Cartify
+          {isAdminShell ? 'Cartify Admin' : 'Cartify'}
         </div>
         <div className="relative flex w-full flex-col items-center justify-center gap-5 self-stretch">
           <nav
             aria-label="Primary"
-            className="relative flex flex-col items-start gap-2 self-stretch"
+            className="relative flex flex-col items-start gap-1 self-stretch"
           >
-            {SIDEBAR_NAV_ITEMS.map((item) => (
+            {sidebarNavItems.map((item) => (
               <NavButton
                 key={item.to}
                 icon={item.icon}
@@ -43,27 +46,60 @@ export function NavigationMenuSection(): JSX.Element {
             ))}
           </nav>
 
+          {isAdminShell ? (
+            <>
+              <Divider orientation="horizontal" />
+
+              <section
+                aria-labelledby="quick-actions-heading"
+                className="relative flex flex-col items-start self-stretch"
+              >
+                <h2
+                  id="quick-actions-heading"
+                  className="relative w-fit whitespace-nowrap text-caption-lg-regular text-gray-500"
+                >
+                  Quick Actions
+                </h2>
+                <NavButton
+                  variant="compact"
+                  icon={Plus}
+                  label="Add Products"
+                  onClick={() => navigate('/v2/admin/products')}
+                />
+                <NavButton
+                  variant="compact"
+                  icon={MessageCirclePlus}
+                  label="Chat"
+                  onClick={() => navigate('/v2')}
+                />
+              </section>
+            </>
+          ) : null}
+
           <Divider orientation="horizontal" />
 
           <section
-            aria-labelledby="last-orders-heading"
+            aria-labelledby={isAdminShell ? 'recents-chat-heading' : 'last-orders-heading'}
             className="relative flex flex-col items-center self-stretch"
           >
             <div className="relative flex items-center gap-1 self-stretch">
               <h2
-                id="last-orders-heading"
+                id={isAdminShell ? 'recents-chat-heading' : 'last-orders-heading'}
                 className="relative w-fit whitespace-nowrap text-caption-lg-regular text-gray-500"
               >
-                Last Orders
+                {isAdminShell ? 'Recents Chat 2' : 'Last Orders'}
               </h2>
-              <div className="relative w-fit whitespace-nowrap text-body-regular">
-                37
-              </div>
+              {!isAdminShell ? (
+                <div className="relative w-fit whitespace-nowrap text-body-regular">
+                  37
+                </div>
+              ) : null}
             </div>
             <div className="relative flex flex-col items-start self-stretch">
-              {LAST_ORDERS.map((order) => (
-                <LastOrderButton
+              {(isAdminShell ? RECENTS_CHAT : LAST_ORDERS).map((order) => (
+                <NavButton
                   key={order.label}
+                  variant="compact"
                   label={order.label}
                   imageUrl={order.imageUrl}
                 />
