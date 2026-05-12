@@ -85,16 +85,9 @@ export default function AdminAddProduct() {
       </Helmet>
 
       <div className="w-full text-foreground">
-        <div className="mb-8">
-          <h1 className="text-h5-bold text-gray-900 dark:text-white">Add product</h1>
-          <p className="mt-1 text-body-regular text-gray-600 dark:text-gray-400">
-            Fill in product details and media. Changes can be saved as draft.
-          </p>
-        </div>
 
         <form
           onSubmit={handleSubmit(() => {
-            // Wire to product API when available
           })}
           className="grid grid-cols-12 gap-6 lg:gap-8"
         >
@@ -190,14 +183,14 @@ export default function AdminAddProduct() {
           </div>
 
           <div className="col-span-12 lg:col-span-7">
-            <Card className="gap-0 overflow-hidden rounded-2xl border border-gray-200 bg-white py-0 shadow-md dark:border-gray-700 dark:bg-gray-800">
-              <CardHeader className="border-b border-gray-200 px-5 py-4 lg:px-6 lg:py-5 dark:border-gray-700">
-                <CardTitle className="text-h6-bold text-foreground">Product Details</CardTitle>
-                <CardDescription className="text-body-regular">
+            <Card className="gap-4 overflow-hidden rounded-2xl bg-white p-4">
+              <CardHeader className="p-0">
+                <CardTitle className="text-h6-medium">Product Details</CardTitle>
+                <CardDescription className="text-body-regular text-gray-500">
                   Key info to describe & display your product.
                 </CardDescription>
               </CardHeader>
-              <CardContent className="flex flex-col gap-5 px-5 py-6 lg:px-6">
+              <CardContent className="flex flex-col gap-4 p-0">
                 <FormField
                   id="product-name"
                   label="Product Name"
@@ -310,7 +303,7 @@ export default function AdminAddProduct() {
                     type="submit"
                     className="h-12 rounded-2xl px-8 text-body-regular"
                   >
-                    Save product
+                    Publish
                   </Button>
                 </div>
               </CardContent>

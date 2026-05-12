@@ -1,7 +1,7 @@
 # Graph Report - REACT-FASHION  (2026-05-12)
 
 ## Corpus Check
-- 173 files · ~79,879 words
+- 173 files · ~79,885 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `fe6d0156`
+- Built from commit: `d28557cd`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -180,7 +180,7 @@ Nodes (20): asRecord(), clone(), createOrderFromCart(), delay(), findProductById
 
 ### Community 12 - "Community 12"
 Cohesion: 0.12
-Nodes (17): BƯỚC 1: Định nghĩa Types (TypeScript Interfaces), BƯỚC 2: Thêm API Endpoints vào Constants, BƯỚC 3: Tạo Service Layer (API Calls), BƯỚC 5: Tạo Redux Slice (State Management), BƯỚC 6: Tạo Custom Hook (Optional), BƯỚC 7: Tạo Components (Reusable UI), BƯỚC 8: Tạo Page Component, 📝 Chi Tiết Từng Bước (+9 more)
+Nodes (17): BƯỚC 2: Thêm API Endpoints vào Constants, BƯỚC 3: Tạo Service Layer (API Calls), BƯỚC 4: Tạo Redux Thunks (Async Actions), BƯỚC 5: Tạo Redux Slice (State Management), BƯỚC 6: Tạo Custom Hook (Optional), BƯỚC 7: Tạo Components (Reusable UI), BƯỚC 8: Tạo Page Component, 📝 Chi Tiết Từng Bước (+9 more)
 
 ### Community 13 - "Community 13"
 Cohesion: 0.18
@@ -207,12 +207,12 @@ Cohesion: 0.18
 Nodes (9): Cart, Checkout, OrderDetail, Orders, ProductDetail, Products, Profile, ProfileV2 (+1 more)
 
 ### Community 19 - "Community 19"
-Cohesion: 0.29
-Nodes (8): ConfirmPaymentRequest, CreatePaymentRequest, PaymentIntent, MOCK_CONFIRM_PAYMENT_REQUEST, MOCK_CONFIRMED_PAYMENT_INTENT, MOCK_CREATE_PAYMENT_REQUEST, MOCK_PAYMENT_INTENT, paymentService
-
-### Community 20 - "Community 20"
 Cohesion: 0.18
 Nodes (9): Address, MOCK_AUTH_RESPONSE, MOCK_AUTH_USER, MOCK_LOGIN_CREDENTIALS, MOCK_SIGN_UP_CREDENTIALS, MOCK_USER_ADDRESSES, MOCK_ADDRESSES, MOCK_USER_PROFILE (+1 more)
+
+### Community 20 - "Community 20"
+Cohesion: 0.29
+Nodes (8): ConfirmPaymentRequest, CreatePaymentRequest, PaymentIntent, MOCK_CONFIRM_PAYMENT_REQUEST, MOCK_CONFIRMED_PAYMENT_INTENT, MOCK_CREATE_PAYMENT_REQUEST, MOCK_PAYMENT_INTENT, paymentService
 
 ### Community 21 - "Community 21"
 Cohesion: 0.18
@@ -244,11 +244,11 @@ Nodes (9): 1. **Type Safety**, 2. **Error Handling**, 3. **Code Organization**, 
 
 ### Community 29 - "Community 29"
 Cohesion: 0.25
-Nodes (8): 1. Sử dụng màu nhất quán, 2. Sử dụng typography scale, 3. Hierarchy màu sắc, 4. Text colors, 📋 Best Practices, code:jsx (// ✅ Tốt - Sử dụng các màu đã định nghĩa), code:jsx (// ✅ Tốt - Sử dụng các class text đã định nghĩa), code:jsx (// Hierarchy của text)
+Nodes (8): code:jsx (<h1 className="text-h1-bold text-gray-900">), H1 - 48px, H2 - 40px, H3 - 33px, H4 - 28px, H5 - 23px, H6 - 19px, Heading Styles (H1 - H6)
 
 ### Community 30 - "Community 30"
 Cohesion: 0.25
-Nodes (8): code:jsx (<h1 className="text-h1-bold text-gray-900">), H1 - 48px, H2 - 40px, H3 - 33px, H4 - 28px, H5 - 23px, H6 - 19px, Heading Styles (H1 - H6)
+Nodes (8): 1. Sử dụng màu nhất quán, 2. Sử dụng typography scale, 3. Hierarchy màu sắc, 4. Text colors, 📋 Best Practices, code:jsx (// ✅ Tốt - Sử dụng các màu đã định nghĩa), code:jsx (// ✅ Tốt - Sử dụng các class text đã định nghĩa), code:jsx (// Hierarchy của text)
 
 ### Community 31 - "Community 31"
 Cohesion: 0.62
@@ -256,11 +256,11 @@ Nodes (4): accent, gray, primary, secondary
 
 ### Community 32 - "Community 32"
 Cohesion: 0.29
-Nodes (6): code:jsx (// Element thay đổi màu theo dark mode), code:jsx (<h1 className="text-h4-bold md:text-h3-bold lg:text-h2-bold"), 🎯 Dark Mode, Hướng Dẫn Sử Dụng Design System - Tailwind CSS, 📚 Resources, 🔧 Responsive Design
+Nodes (7): Alert Component, Card Component, code:jsx (<div className="bg-white dark:bg-gray-800 shadow-md rounded-), code:jsx (<div className="space-y-2">), code:jsx (<div className="bg-accent-700 border-l-4 border-accent-900 p), 📦 Component Examples, Form Input
 
 ### Community 33 - "Community 33"
 Cohesion: 0.29
-Nodes (7): Alert Component, Card Component, code:jsx (<div className="bg-white dark:bg-gray-800 shadow-md rounded-), code:jsx (<div className="space-y-2">), code:jsx (<div className="bg-accent-700 border-l-4 border-accent-900 p), 📦 Component Examples, Form Input
+Nodes (6): code:jsx (// Element thay đổi màu theo dark mode), code:jsx (<h1 className="text-h4-bold md:text-h3-bold lg:text-h2-bold"), 🎯 Dark Mode, Hướng Dẫn Sử Dụng Design System - Tailwind CSS, 📚 Resources, 🔧 Responsive Design
 
 ### Community 34 - "Community 34"
 Cohesion: 0.33
@@ -292,7 +292,7 @@ Nodes (5): Border Radius, Box Shadow, code:jsx (<div className="bg-white shadow-
 
 ### Community 45 - "Community 45"
 Cohesion: 0.67
-Nodes (3): BƯỚC 4: Tạo Redux Thunks (Async Actions), code:typescript (import { createAsyncThunk } from '@reduxjs/toolkit';), code:typescript (export * from './authThunks';)
+Nodes (3): BƯỚC 1: Định nghĩa Types (TypeScript Interfaces), code:typescript (// src/types/user.ts), code:typescript (export * from './auth';)
 
 ## Knowledge Gaps
 - **298 isolated node(s):** `themeButton`, `queryClient`, `ImportMetaEnv`, `ImportMeta`, `FormFieldBase` (+293 more)

@@ -15,7 +15,13 @@ import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 
 const labelClass = 'text-body-regular font-normal text-foreground';
 const inputClass =
-  'h-14 rounded-2xl border-secondary-900 px-4 text-body-regular placeholder:text-gray-500 w-full dark:border-secondary-700 dark:bg-input/30';
+  'h-14 rounded-2xl border border-secondary-500 px-4 text-body-regular placeholder:text-gray-500 w-full dark:bg-input/30 focus-visible:border-secondary-500 focus-visible:ring-2 focus-visible:ring-secondary-500/30';
+
+const selectTriggerFieldClass =
+  'flex h-14 min-h-14 w-full min-w-0 items-center justify-between gap-2 border bg-transparent py-0 shadow-none outline-none transition-colors focus-visible:border-secondary-500 focus-visible:ring-2 focus-visible:ring-secondary-500/30 disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-14 data-[size=default]:min-h-14 data-placeholder:text-gray-500 [&_svg]:size-5 [&_svg]:text-gray-500';
+
+const inputErrorClass =
+  'border-red-500 ring-1 ring-red-500 focus-visible:border-red-500 focus-visible:ring-2 focus-visible:ring-red-500/35';
 
 export type SelectOption = { value: string; label: string };
 
@@ -69,7 +75,7 @@ export function FormField(props: FormFieldProps) {
           className={cn(
             inputClass,
             'min-h-[140px] resize-y py-3',
-            hasError && 'border-red-500 ring-1 ring-red-500'
+            hasError && inputErrorClass
           )}
           {...register}
         />
@@ -97,15 +103,30 @@ export function FormField(props: FormFieldProps) {
             id={id}
             aria-invalid={hasError}
             className={cn(
-              'h-14 w-full min-w-0 rounded-2xl border-secondary-900 px-4 text-body-regular data-placeholder:text-gray-500 dark:border-secondary-700',
-              hasError && 'border-red-500 ring-1 ring-red-500'
+              inputClass,
+              selectTriggerFieldClass,
+              hasError && inputErrorClass
             )}
           >
             <SelectValue placeholder={placeholder} />
           </SelectTrigger>
-          <SelectContent position="popper" className="z-[100]">
+          <SelectContent
+            position="popper"
+            align="start"
+            sideOffset={6}
+            className="z-[100] rounded-2xl border border-secondary-500 shadow-lg ring-border dark:border-secondary-500"
+          >
             {options.map((opt) => (
-              <SelectItem key={opt.value} value={opt.value}>
+              <SelectItem
+                key={opt.value}
+                value={opt.value}
+                className={cn(
+                  'rounded-lg py-2 pl-2 text-body-regular',
+                  'focus:bg-secondary-100 focus:text-gray-900',
+                  'data-[highlighted]:bg-secondary-100 data-[highlighted]:text-gray-900',
+                  'dark:focus:bg-secondary-900/35 dark:data-[highlighted]:bg-secondary-900/35 dark:focus:text-gray-100 dark:data-[highlighted]:text-gray-100'
+                )}
+              >
                 {opt.label}
               </SelectItem>
             ))}
@@ -148,7 +169,7 @@ export function FormField(props: FormFieldProps) {
             className={cn(
               inputClass,
               'pl-4 pr-12',
-              hasError && 'border-red-500 ring-1 ring-red-500'
+              hasError && inputErrorClass
             )}
             {...register}
           />
@@ -173,7 +194,7 @@ export function FormField(props: FormFieldProps) {
           placeholder={placeholder}
           className={cn(
             inputClass,
-            hasError && 'border-red-500 ring-1 ring-red-500'
+            hasError && inputErrorClass
           )}
           {...register}
         />
