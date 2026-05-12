@@ -117,7 +117,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/vite-env.d.ts",
       "source_location": "L1",
       "id": "home_thang_workspace_react_fashion_src_vite_env_d_ts",
-      "community": 46,
+      "community": 47,
       "norm_label": "vite-env.d.ts"
     },
     {
@@ -126,7 +126,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/vite-env.d.ts",
       "source_location": "L3",
       "id": "src_vite_env_d_importmetaenv",
-      "community": 46,
+      "community": 47,
       "norm_label": "importmetaenv"
     },
     {
@@ -135,7 +135,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/vite-env.d.ts",
       "source_location": "L11",
       "id": "src_vite_env_d_importmeta",
-      "community": 46,
+      "community": 47,
       "norm_label": "importmeta"
     },
     {
@@ -198,7 +198,7 @@
       "source_file": "src/components/FormField.tsx",
       "source_location": "L60",
       "id": "components_formfield_formfieldprops",
-      "community": 25,
+      "community": 26,
       "norm_label": "formfieldprops"
     },
     {
@@ -288,7 +288,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/components/__tests__/Button.test.tsx",
       "source_location": "L1",
       "id": "home_thang_workspace_react_fashion_src_components_tests_button_test_tsx",
-      "community": 19,
+      "community": 24,
       "norm_label": "button.test.tsx"
     },
     {
@@ -297,7 +297,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/components/__tests__/Button.test.tsx",
       "source_location": "L14",
       "id": "tests_button_test_handleclick",
-      "community": 19,
+      "community": 24,
       "norm_label": "handleclick"
     },
     {
@@ -306,7 +306,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/components/__tests__/Button.test.tsx",
       "source_location": "L15",
       "id": "tests_button_test_user",
-      "community": 19,
+      "community": 24,
       "norm_label": "user"
     },
     {
@@ -315,7 +315,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/components/data-display/Table.tsx",
       "source_location": "L1",
       "id": "home_thang_workspace_react_fashion_src_components_data_display_table_tsx",
-      "community": 17,
+      "community": 16,
       "norm_label": "table.tsx"
     },
     {
@@ -324,7 +324,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/components/data-display/Table.tsx",
       "source_location": "L4",
       "id": "data_display_table_column",
-      "community": 17,
+      "community": 16,
       "norm_label": "column"
     },
     {
@@ -333,7 +333,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/components/data-display/Table.tsx",
       "source_location": "L11",
       "id": "data_display_table_tableprops",
-      "community": 17,
+      "community": 16,
       "norm_label": "tableprops"
     },
     {
@@ -342,7 +342,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/components/data-display/Table.tsx",
       "source_location": "L18",
       "id": "data_display_table_table",
-      "community": 17,
+      "community": 16,
       "norm_label": "table()"
     },
     {
@@ -414,7 +414,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/components/feedback/LoadingSpinner.tsx",
       "source_location": "L1",
       "id": "home_thang_workspace_react_fashion_src_components_feedback_loadingspinner_tsx",
-      "community": 18,
+      "community": 17,
       "norm_label": "loadingspinner.tsx"
     },
     {
@@ -423,7 +423,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/components/feedback/LoadingSpinner.tsx",
       "source_location": "L1",
       "id": "feedback_loadingspinner_loadingspinner",
-      "community": 18,
+      "community": 17,
       "norm_label": "loadingspinner()"
     },
     {
@@ -657,7 +657,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/components/navigation/ProtectedRoute.tsx",
       "source_location": "L1",
       "id": "home_thang_workspace_react_fashion_src_components_navigation_protectedroute_tsx",
-      "community": 18,
+      "community": 17,
       "norm_label": "protectedroute.tsx"
     },
     {
@@ -666,7 +666,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/components/navigation/ProtectedRoute.tsx",
       "source_location": "L7",
       "id": "navigation_protectedroute_protectedrouteprops",
-      "community": 18,
+      "community": 17,
       "norm_label": "protectedrouteprops"
     },
     {
@@ -675,7 +675,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/components/navigation/ProtectedRoute.tsx",
       "source_location": "L12",
       "id": "navigation_protectedroute_protectedroute",
-      "community": 18,
+      "community": 17,
       "norm_label": "protectedroute()"
     },
     {
@@ -684,7 +684,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/components/overlay/Modal.tsx",
       "source_location": "L1",
       "id": "home_thang_workspace_react_fashion_src_components_overlay_modal_tsx",
-      "community": 17,
+      "community": 16,
       "norm_label": "modal.tsx"
     },
     {
@@ -693,7 +693,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/components/overlay/Modal.tsx",
       "source_location": "L4",
       "id": "overlay_modal_modalprops",
-      "community": 17,
+      "community": 16,
       "norm_label": "modalprops"
     },
     {
@@ -702,7 +702,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/components/overlay/Modal.tsx",
       "source_location": "L14",
       "id": "overlay_modal_modal",
-      "community": 17,
+      "community": 16,
       "norm_label": "modal()"
     },
     {
@@ -711,7 +711,7 @@
       "source_file": "src/components/ui/button.tsx",
       "source_location": "L1",
       "id": "src_components_ui_button_tsx",
-      "community": 19,
+      "community": 24,
       "norm_label": "button.tsx"
     },
     {
@@ -720,7 +720,7 @@
       "source_file": "src/components/ui/button.tsx",
       "source_location": "L7",
       "id": "ui_button_buttonvariants",
-      "community": 19,
+      "community": 24,
       "norm_label": "buttonvariants"
     },
     {
@@ -729,7 +729,7 @@
       "source_file": "src/components/ui/button.tsx",
       "source_location": "L47",
       "id": "ui_button_button",
-      "community": 19,
+      "community": 24,
       "norm_label": "button()"
     },
     {
@@ -819,7 +819,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/components/ui/input.tsx",
       "source_location": "L1",
       "id": "home_thang_workspace_react_fashion_src_components_ui_input_tsx",
-      "community": 25,
+      "community": 26,
       "norm_label": "input.tsx"
     },
     {
@@ -828,7 +828,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/components/ui/input.tsx",
       "source_location": "L5",
       "id": "ui_input_input",
-      "community": 25,
+      "community": 26,
       "norm_label": "input"
     },
     {
@@ -837,7 +837,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/components/ui/label.tsx",
       "source_location": "L1",
       "id": "home_thang_workspace_react_fashion_src_components_ui_label_tsx",
-      "community": 25,
+      "community": 26,
       "norm_label": "label.tsx"
     },
     {
@@ -846,7 +846,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/components/ui/label.tsx",
       "source_location": "L6",
       "id": "ui_label_label",
-      "community": 25,
+      "community": 26,
       "norm_label": "label()"
     },
     {
@@ -1602,7 +1602,7 @@
       "source_file": "src/constants/index.ts",
       "source_location": "L18",
       "id": "constants_index_routesv2",
-      "community": 29,
+      "community": 30,
       "norm_label": "routesv2"
     },
     {
@@ -1764,7 +1764,7 @@
       "source_file": "src/hooks/auth/useAuth.ts",
       "source_location": "L17",
       "id": "auth_useauth_useauth",
-      "community": 18,
+      "community": 17,
       "norm_label": "useauth()"
     },
     {
@@ -2574,7 +2574,7 @@
       "source_file": "src/pages/auth/ForgotPassword.tsx",
       "source_location": "L1",
       "id": "src_pages_auth_forgotpassword_tsx",
-      "community": 19,
+      "community": 24,
       "norm_label": "forgotpassword.tsx"
     },
     {
@@ -2583,7 +2583,7 @@
       "source_file": "src/pages/auth/ForgotPassword.tsx",
       "source_location": "L9",
       "id": "auth_forgotpassword_forgotpassword",
-      "community": 19,
+      "community": 24,
       "norm_label": "forgotpassword()"
     },
     {
@@ -2628,7 +2628,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/pages/auth/SignUp.tsx",
       "source_location": "L1",
       "id": "home_thang_workspace_react_fashion_src_pages_auth_signup_tsx",
-      "community": 18,
+      "community": 17,
       "norm_label": "signup.tsx"
     },
     {
@@ -2637,7 +2637,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/pages/auth/SignUp.tsx",
       "source_location": "L14",
       "id": "auth_signup_signupschema",
-      "community": 18,
+      "community": 17,
       "norm_label": "signupschema"
     },
     {
@@ -2646,7 +2646,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/pages/auth/SignUp.tsx",
       "source_location": "L36",
       "id": "auth_signup_signupformdata",
-      "community": 18,
+      "community": 17,
       "norm_label": "signupformdata"
     },
     {
@@ -2655,7 +2655,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/pages/auth/SignUp.tsx",
       "source_location": "L38",
       "id": "auth_signup_signup",
-      "community": 18,
+      "community": 17,
       "norm_label": "signup()"
     },
     {
@@ -2664,7 +2664,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/pages/authV2/LoginV2/index.tsx",
       "source_location": "L1",
       "id": "home_thang_workspace_react_fashion_src_pages_authv2_loginv2_index_tsx",
-      "community": 29,
+      "community": 30,
       "norm_label": "index.tsx"
     },
     {
@@ -2673,7 +2673,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/pages/authV2/LoginV2/index.tsx",
       "source_location": "L8",
       "id": "loginv2_index_loginv2",
-      "community": 29,
+      "community": 30,
       "norm_label": "loginv2()"
     },
     {
@@ -2718,7 +2718,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/pages/authV2/SignUpV2/index.tsx",
       "source_location": "L1",
       "id": "home_thang_workspace_react_fashion_src_pages_authv2_signupv2_index_tsx",
-      "community": 29,
+      "community": 30,
       "norm_label": "index.tsx"
     },
     {
@@ -2727,7 +2727,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/pages/authV2/SignUpV2/index.tsx",
       "source_location": "L8",
       "id": "signupv2_index_signupv2",
-      "community": 29,
+      "community": 30,
       "norm_label": "signupv2()"
     },
     {
@@ -2763,7 +2763,7 @@
       "source_file": "src/pages/authV2/components/AuthHeader.tsx",
       "source_location": "L1",
       "id": "src_pages_authv2_components_authheader_tsx",
-      "community": 30,
+      "community": 20,
       "norm_label": "authheader.tsx"
     },
     {
@@ -2772,7 +2772,7 @@
       "source_file": "src/pages/authV2/components/AuthHeader.tsx",
       "source_location": "L3",
       "id": "components_authheader_authheaderprops",
-      "community": 30,
+      "community": 20,
       "norm_label": "authheaderprops"
     },
     {
@@ -2781,7 +2781,7 @@
       "source_file": "src/pages/authV2/components/AuthHeader.tsx",
       "source_location": "L14",
       "id": "components_authheader_authheader",
-      "community": 30,
+      "community": 20,
       "norm_label": "authheader()"
     },
     {
@@ -2790,7 +2790,7 @@
       "source_file": "src/pages/authV2/components/AuthLayout.tsx",
       "source_location": "L1",
       "id": "src_pages_authv2_components_authlayout_tsx",
-      "community": 30,
+      "community": 20,
       "norm_label": "authlayout.tsx"
     },
     {
@@ -2799,7 +2799,7 @@
       "source_file": "src/pages/authV2/components/AuthLayout.tsx",
       "source_location": "L5",
       "id": "components_authlayout_authlayoutprops",
-      "community": 30,
+      "community": 20,
       "norm_label": "authlayoutprops"
     },
     {
@@ -2808,7 +2808,7 @@
       "source_file": "src/pages/authV2/components/AuthLayout.tsx",
       "source_location": "L16",
       "id": "components_authlayout_authlayout",
-      "community": 30,
+      "community": 20,
       "norm_label": "authlayout()"
     },
     {
@@ -2817,7 +2817,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/pages/authV2/components/AuthSwitchPrompt.tsx",
       "source_location": "L1",
       "id": "home_thang_workspace_react_fashion_src_pages_authv2_components_authswitchprompt_tsx",
-      "community": 29,
+      "community": 30,
       "norm_label": "authswitchprompt.tsx"
     },
     {
@@ -2826,7 +2826,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/pages/authV2/components/AuthSwitchPrompt.tsx",
       "source_location": "L4",
       "id": "components_authswitchprompt_authswitchpromptprops",
-      "community": 29,
+      "community": 30,
       "norm_label": "authswitchpromptprops"
     },
     {
@@ -2835,7 +2835,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/pages/authV2/components/AuthSwitchPrompt.tsx",
       "source_location": "L10",
       "id": "components_authswitchprompt_authswitchprompt",
-      "community": 29,
+      "community": 30,
       "norm_label": "authswitchprompt()"
     },
     {
@@ -2844,7 +2844,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/pages/authV2/components/BannerSection.tsx",
       "source_location": "L1",
       "id": "home_thang_workspace_react_fashion_src_pages_authv2_components_bannersection_tsx",
-      "community": 47,
+      "community": 48,
       "norm_label": "bannersection.tsx"
     },
     {
@@ -2853,7 +2853,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/pages/authV2/components/BannerSection.tsx",
       "source_location": "L7",
       "id": "components_bannersection_slides",
-      "community": 47,
+      "community": 48,
       "norm_label": "slides"
     },
     {
@@ -2862,7 +2862,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/pages/authV2/components/BannerSection.tsx",
       "source_location": "L25",
       "id": "components_bannersection_bannersection",
-      "community": 47,
+      "community": 48,
       "norm_label": "bannersection()"
     },
     {
@@ -2889,7 +2889,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/pages/authV2/components/SocialProviders.tsx",
       "source_location": "L1",
       "id": "home_thang_workspace_react_fashion_src_pages_authv2_components_socialproviders_tsx",
-      "community": 45,
+      "community": 46,
       "norm_label": "socialproviders.tsx"
     },
     {
@@ -2898,7 +2898,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/pages/authV2/components/SocialProviders.tsx",
       "source_location": "L3",
       "id": "components_socialproviders_provider",
-      "community": 45,
+      "community": 46,
       "norm_label": "provider"
     },
     {
@@ -2907,7 +2907,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/pages/authV2/components/SocialProviders.tsx",
       "source_location": "L5",
       "id": "components_socialproviders_providers",
-      "community": 45,
+      "community": 46,
       "norm_label": "providers"
     },
     {
@@ -2916,7 +2916,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/pages/authV2/components/SocialProviders.tsx",
       "source_location": "L14",
       "id": "components_socialproviders_socialproviders",
-      "community": 45,
+      "community": 46,
       "norm_label": "socialproviders()"
     },
     {
@@ -2952,7 +2952,7 @@
       "source_file": "src/pages/authV2/ForgotPasswordV2/index.tsx",
       "source_location": "L1",
       "id": "src_pages_authv2_forgotpasswordv2_index_tsx",
-      "community": 30,
+      "community": 20,
       "norm_label": "index.tsx"
     },
     {
@@ -2961,7 +2961,7 @@
       "source_file": "src/pages/authV2/ForgotPasswordV2/index.tsx",
       "source_location": "L7",
       "id": "forgotpasswordv2_index_forgotpasswordv2",
-      "community": 30,
+      "community": 20,
       "norm_label": "forgotpasswordv2()"
     },
     {
@@ -2970,7 +2970,7 @@
       "source_file": "src/pages/authV2/ForgotPasswordV2/sections/FormSection.tsx",
       "source_location": "L1",
       "id": "src_pages_authv2_forgotpasswordv2_sections_formsection_tsx",
-      "community": 19,
+      "community": 20,
       "norm_label": "formsection.tsx"
     },
     {
@@ -2979,7 +2979,7 @@
       "source_file": "src/pages/authV2/ForgotPasswordV2/sections/FormSection.tsx",
       "source_location": "L9",
       "id": "sections_formsection_forgotpasswordschema",
-      "community": 19,
+      "community": 20,
       "norm_label": "forgotpasswordschema"
     },
     {
@@ -2988,7 +2988,7 @@
       "source_file": "src/pages/authV2/ForgotPasswordV2/sections/FormSection.tsx",
       "source_location": "L13",
       "id": "sections_formsection_forgotpasswordformdata",
-      "community": 19,
+      "community": 20,
       "norm_label": "forgotpasswordformdata"
     },
     {
@@ -2997,7 +2997,7 @@
       "source_file": "src/pages/authV2/ForgotPasswordSentV2/index.tsx",
       "source_location": "L1",
       "id": "src_pages_authv2_forgotpasswordsentv2_index_tsx",
-      "community": 18,
+      "community": 17,
       "norm_label": "index.tsx"
     },
     {
@@ -3006,7 +3006,7 @@
       "source_file": "src/pages/authV2/ForgotPasswordSentV2/index.tsx",
       "source_location": "L11",
       "id": "forgotpasswordsentv2_index_forgotpasswordsentv2",
-      "community": 18,
+      "community": 17,
       "norm_label": "forgotpasswordsentv2()"
     },
     {
@@ -3159,7 +3159,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/pages/public/NotFound.tsx",
       "source_location": "L1",
       "id": "home_thang_workspace_react_fashion_src_pages_public_notfound_tsx",
-      "community": 19,
+      "community": 24,
       "norm_label": "notfound.tsx"
     },
     {
@@ -3168,7 +3168,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/pages/public/NotFound.tsx",
       "source_location": "L8",
       "id": "public_notfound_notfound",
-      "community": 19,
+      "community": 24,
       "norm_label": "notfound()"
     },
     {
@@ -3177,7 +3177,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/pages/user/Dashboard.tsx",
       "source_location": "L1",
       "id": "home_thang_workspace_react_fashion_src_pages_user_dashboard_tsx",
-      "community": 18,
+      "community": 17,
       "norm_label": "dashboard.tsx"
     },
     {
@@ -3186,7 +3186,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/pages/user/Dashboard.tsx",
       "source_location": "L9",
       "id": "user_dashboard_mocktabledata",
-      "community": 18,
+      "community": 17,
       "norm_label": "mocktabledata"
     },
     {
@@ -3195,7 +3195,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/pages/user/Dashboard.tsx",
       "source_location": "L15",
       "id": "user_dashboard_dashboard",
-      "community": 18,
+      "community": 17,
       "norm_label": "dashboard()"
     },
     {
@@ -3240,7 +3240,7 @@
       "source_file": "src/pages/user/ProfileV2/components/ProfileReadOnlyField.tsx",
       "source_location": "L1",
       "id": "src_pages_user_profilev2_components_profilereadonlyfield_tsx",
-      "community": 25,
+      "community": 26,
       "norm_label": "profilereadonlyfield.tsx"
     },
     {
@@ -3249,7 +3249,7 @@
       "source_file": "src/pages/user/ProfileV2/components/ProfileReadOnlyField.tsx",
       "source_location": "L8",
       "id": "components_profilereadonlyfield_profilereadonlyfieldprops",
-      "community": 25,
+      "community": 26,
       "norm_label": "profilereadonlyfieldprops"
     },
     {
@@ -3321,7 +3321,7 @@
       "source_file": "src/pages/productV2/index.tsx",
       "source_location": "L1",
       "id": "src_pages_productv2_index_tsx",
-      "community": 16,
+      "community": 15,
       "norm_label": "index.tsx"
     },
     {
@@ -4311,7 +4311,7 @@
       "source_file": "src/routes/v2/userRoute.tsx",
       "source_location": "L1",
       "id": "src_routes_v2_userroute_tsx",
-      "community": 16,
+      "community": 15,
       "norm_label": "userroute.tsx"
     },
     {
@@ -4320,7 +4320,7 @@
       "source_file": "src/routes/v2/userRoute.tsx",
       "source_location": "L10",
       "id": "v2_userroute_products",
-      "community": 16,
+      "community": 15,
       "norm_label": "products"
     },
     {
@@ -4329,7 +4329,7 @@
       "source_file": "src/routes/v2/userRoute.tsx",
       "source_location": "L11",
       "id": "v2_userroute_cart",
-      "community": 16,
+      "community": 15,
       "norm_label": "cart"
     },
     {
@@ -4338,7 +4338,7 @@
       "source_file": "src/routes/v2/userRoute.tsx",
       "source_location": "L12",
       "id": "v2_userroute_checkout",
-      "community": 16,
+      "community": 15,
       "norm_label": "checkout"
     },
     {
@@ -4347,7 +4347,7 @@
       "source_file": "src/routes/v2/userRoute.tsx",
       "source_location": "L13",
       "id": "v2_userroute_orders",
-      "community": 16,
+      "community": 15,
       "norm_label": "orders"
     },
     {
@@ -4356,7 +4356,7 @@
       "source_file": "src/routes/v2/userRoute.tsx",
       "source_location": "L14",
       "id": "v2_userroute_orderdetail",
-      "community": 16,
+      "community": 15,
       "norm_label": "orderdetail"
     },
     {
@@ -4365,7 +4365,7 @@
       "source_file": "src/routes/v2/userRoute.tsx",
       "source_location": "L15",
       "id": "v2_userroute_profilev2",
-      "community": 16,
+      "community": 15,
       "norm_label": "profilev2"
     },
     {
@@ -4374,7 +4374,7 @@
       "source_file": "src/routes/v2/userRoute.tsx",
       "source_location": "L17",
       "id": "v2_userroute_userroute",
-      "community": 16,
+      "community": 15,
       "norm_label": "userroute"
     },
     {
@@ -4383,7 +4383,7 @@
       "source_file": "src/routes/v2/adminRoute.tsx",
       "source_location": "L1",
       "id": "src_routes_v2_adminroute_tsx",
-      "community": 16,
+      "community": 15,
       "norm_label": "adminroute.tsx"
     },
     {
@@ -4392,7 +4392,7 @@
       "source_file": "src/routes/v2/adminRoute.tsx",
       "source_location": "L6",
       "id": "v2_adminroute_admindashboard",
-      "community": 16,
+      "community": 15,
       "norm_label": "admindashboard"
     },
     {
@@ -4401,7 +4401,7 @@
       "source_file": "src/routes/v2/adminRoute.tsx",
       "source_location": "L7",
       "id": "v2_adminroute_adminproductlistpage",
-      "community": 16,
+      "community": 15,
       "norm_label": "adminproductlistpage"
     },
     {
@@ -4410,7 +4410,7 @@
       "source_file": "src/routes/v2/adminRoute.tsx",
       "source_location": "L10",
       "id": "v2_adminroute_adminaddproduct",
-      "community": 16,
+      "community": 15,
       "norm_label": "adminaddproduct"
     },
     {
@@ -4419,7 +4419,7 @@
       "source_file": "src/routes/v2/adminRoute.tsx",
       "source_location": "L12",
       "id": "v2_adminroute_adminroute",
-      "community": 16,
+      "community": 15,
       "norm_label": "adminroute"
     },
     {
@@ -5463,7 +5463,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/types/auth/jwt.ts",
       "source_location": "L1",
       "id": "home_thang_workspace_react_fashion_src_types_auth_jwt_ts",
-      "community": 27,
+      "community": 28,
       "norm_label": "jwt.ts"
     },
     {
@@ -5472,7 +5472,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/types/auth/jwt.ts",
       "source_location": "L1",
       "id": "auth_jwt_jwtrolepayload",
-      "community": 27,
+      "community": 28,
       "norm_label": "jwtrolepayload"
     },
     {
@@ -5481,7 +5481,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/types/auth/jwt.ts",
       "source_location": "L8",
       "id": "auth_jwt_jwtprofilepayload",
-      "community": 27,
+      "community": 28,
       "norm_label": "jwtprofilepayload"
     },
     {
@@ -5490,7 +5490,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/types/auth/keycloakAuth.ts",
       "source_location": "L1",
       "id": "home_thang_workspace_react_fashion_src_types_auth_keycloakauth_ts",
-      "community": 26,
+      "community": 27,
       "norm_label": "keycloakauth.ts"
     },
     {
@@ -5499,7 +5499,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/types/auth/keycloakAuth.ts",
       "source_location": "L14",
       "id": "auth_keycloakauth_keycloaklogincredentials",
-      "community": 26,
+      "community": 27,
       "norm_label": "keycloaklogincredentials"
     },
     {
@@ -5508,7 +5508,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/types/auth/keycloakAuth.ts",
       "source_location": "L22",
       "id": "auth_keycloakauth_keycloakregistercredentials",
-      "community": 26,
+      "community": 27,
       "norm_label": "keycloakregistercredentials"
     },
     {
@@ -5517,7 +5517,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/types/auth/keycloakAuth.ts",
       "source_location": "L30",
       "id": "auth_keycloakauth_keycloakloginexchangerequest",
-      "community": 26,
+      "community": 27,
       "norm_label": "keycloakloginexchangerequest"
     },
     {
@@ -5526,7 +5526,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/types/auth/keycloakAuth.ts",
       "source_location": "L37",
       "id": "auth_keycloakauth_keycloakauthsession",
-      "community": 26,
+      "community": 27,
       "norm_label": "keycloakauthsession"
     },
     {
@@ -5535,7 +5535,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/types/auth/keycloakAuth.ts",
       "source_location": "L52",
       "id": "auth_keycloakauth_keycloaktokenresponse",
-      "community": 26,
+      "community": 27,
       "norm_label": "keycloaktokenresponse"
     },
     {
@@ -5544,7 +5544,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/types/auth/keycloakAuth.ts",
       "source_location": "L68",
       "id": "auth_keycloakauth_keycloakjwtpayload",
-      "community": 26,
+      "community": 27,
       "norm_label": "keycloakjwtpayload"
     },
     {
@@ -5553,7 +5553,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/types/auth/keycloakAuth.ts",
       "source_location": "L99",
       "id": "auth_keycloakauth_keycloakuserinfo",
-      "community": 26,
+      "community": 27,
       "norm_label": "keycloakuserinfo"
     },
     {
@@ -5562,7 +5562,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/types/auth/keycloakAuth.ts",
       "source_location": "L116",
       "id": "auth_keycloakauth_keycloakerrorresponse",
-      "community": 26,
+      "community": 27,
       "norm_label": "keycloakerrorresponse"
     },
     {
@@ -6165,7 +6165,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/utils/helpers.ts",
       "source_location": "L1",
       "id": "home_thang_workspace_react_fashion_src_utils_helpers_ts",
-      "community": 17,
+      "community": 16,
       "norm_label": "helpers.ts"
     },
     {
@@ -6174,7 +6174,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/utils/helpers.ts",
       "source_location": "L7",
       "id": "utils_helpers_cn",
-      "community": 17,
+      "community": 16,
       "norm_label": "cn()"
     },
     {
@@ -6183,7 +6183,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/utils/helpers.ts",
       "source_location": "L14",
       "id": "utils_helpers_debounce",
-      "community": 17,
+      "community": 16,
       "norm_label": "debounce()"
     },
     {
@@ -6192,7 +6192,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/utils/helpers.ts",
       "source_location": "L34",
       "id": "utils_helpers_throttle",
-      "community": 17,
+      "community": 16,
       "norm_label": "throttle()"
     },
     {
@@ -6201,7 +6201,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/utils/helpers.ts",
       "source_location": "L52",
       "id": "utils_helpers_sleep",
-      "community": 17,
+      "community": 16,
       "norm_label": "sleep()"
     },
     {
@@ -6210,7 +6210,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/utils/helpers.ts",
       "source_location": "L59",
       "id": "utils_helpers_generateid",
-      "community": 17,
+      "community": 16,
       "norm_label": "generateid()"
     },
     {
@@ -6219,7 +6219,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/utils/helpers.ts",
       "source_location": "L66",
       "id": "utils_helpers_isempty",
-      "community": 17,
+      "community": 16,
       "norm_label": "isempty()"
     },
     {
@@ -6228,7 +6228,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/utils/helpers.ts",
       "source_location": "L77",
       "id": "utils_helpers_capitalize",
-      "community": 17,
+      "community": 16,
       "norm_label": "capitalize()"
     },
     {
@@ -6237,7 +6237,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/utils/jwt.ts",
       "source_location": "L1",
       "id": "home_thang_workspace_react_fashion_src_utils_jwt_ts",
-      "community": 27,
+      "community": 28,
       "norm_label": "jwt.ts"
     },
     {
@@ -6246,7 +6246,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/utils/jwt.ts",
       "source_location": "L3",
       "id": "utils_jwt_decodebase64url",
-      "community": 27,
+      "community": 28,
       "norm_label": "decodebase64url()"
     },
     {
@@ -6255,7 +6255,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/utils/jwt.ts",
       "source_location": "L16",
       "id": "utils_jwt_parsejwtpayload",
-      "community": 27,
+      "community": 28,
       "norm_label": "parsejwtpayload()"
     },
     {
@@ -6264,7 +6264,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/utils/jwt.ts",
       "source_location": "L36",
       "id": "utils_jwt_extractrolesfromjwtpayload",
-      "community": 27,
+      "community": 28,
       "norm_label": "extractrolesfromjwtpayload()"
     },
     {
@@ -6273,7 +6273,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/utils/jwt.ts",
       "source_location": "L51",
       "id": "utils_jwt_getrolesfromjwttoken",
-      "community": 27,
+      "community": 28,
       "norm_label": "getrolesfromjwttoken()"
     },
     {
@@ -6282,7 +6282,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/utils/jwt.ts",
       "source_location": "L56",
       "id": "utils_jwt_getprofilefieldsfromjwttoken",
-      "community": 27,
+      "community": 28,
       "norm_label": "getprofilefieldsfromjwttoken()"
     },
     {
@@ -6399,7 +6399,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L75",
       "id": "react_fashion_coding_guide_chi_ti_t_t_ng_b_c",
-      "community": 15,
+      "community": 13,
       "norm_label": "\ud83d\udcdd chi tiet tung buoc"
     },
     {
@@ -6408,7 +6408,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L77",
       "id": "react_fashion_coding_guide_b_c_1_nh_ngh_a_types_typescript_interfaces",
-      "community": 48,
+      "community": 13,
       "norm_label": "buoc 1: \u0111inh nghia types (typescript interfaces)"
     },
     {
@@ -6417,7 +6417,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L85",
       "id": "react_fashion_coding_guide_codeblock_2",
-      "community": 48,
+      "community": 13,
       "norm_label": "code:typescript (// src/types/user.ts)"
     },
     {
@@ -6426,7 +6426,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L118",
       "id": "react_fashion_coding_guide_codeblock_3",
-      "community": 48,
+      "community": 13,
       "norm_label": "code:typescript (export * from './auth';)"
     },
     {
@@ -6435,7 +6435,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L125",
       "id": "react_fashion_coding_guide_b_c_2_th_m_api_endpoints_v_o_constants",
-      "community": 15,
+      "community": 13,
       "norm_label": "buoc 2: them api endpoints vao constants"
     },
     {
@@ -6444,7 +6444,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L133",
       "id": "react_fashion_coding_guide_codeblock_4",
-      "community": 15,
+      "community": 13,
       "norm_label": "code:typescript (export const api_endpoints = {)"
     },
     {
@@ -6453,7 +6453,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L158",
       "id": "react_fashion_coding_guide_b_c_3_t_o_service_layer_api_calls",
-      "community": 15,
+      "community": 13,
       "norm_label": "buoc 3: tao service layer (api calls)"
     },
     {
@@ -6462,7 +6462,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L166",
       "id": "react_fashion_coding_guide_codeblock_5",
-      "community": 15,
+      "community": 13,
       "norm_label": "code:typescript (import apiclient from '@/utils/api';)"
     },
     {
@@ -6471,7 +6471,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L234",
       "id": "react_fashion_coding_guide_b_c_4_t_o_redux_thunks_async_actions",
-      "community": 15,
+      "community": 13,
       "norm_label": "buoc 4: tao redux thunks (async actions)"
     },
     {
@@ -6480,7 +6480,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L242",
       "id": "react_fashion_coding_guide_codeblock_6",
-      "community": 15,
+      "community": 13,
       "norm_label": "code:typescript (import { createasyncthunk } from '@reduxjs/toolkit';)"
     },
     {
@@ -6489,7 +6489,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L313",
       "id": "react_fashion_coding_guide_codeblock_7",
-      "community": 15,
+      "community": 13,
       "norm_label": "code:typescript (export * from './auththunks';)"
     },
     {
@@ -6498,7 +6498,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L320",
       "id": "react_fashion_coding_guide_b_c_5_t_o_redux_slice_state_management",
-      "community": 15,
+      "community": 13,
       "norm_label": "buoc 5: tao redux slice (state management)"
     },
     {
@@ -6507,7 +6507,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L328",
       "id": "react_fashion_coding_guide_codeblock_8",
-      "community": 15,
+      "community": 13,
       "norm_label": "code:typescript (import { createslice, payloadaction } from '@reduxjs/toolkit)"
     },
     {
@@ -6516,7 +6516,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L415",
       "id": "react_fashion_coding_guide_codeblock_9",
-      "community": 15,
+      "community": 13,
       "norm_label": "code:typescript (import userreducer from './slices/userslice';)"
     },
     {
@@ -6525,7 +6525,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L429",
       "id": "react_fashion_coding_guide_b_c_6_t_o_custom_hook_optional",
-      "community": 15,
+      "community": 13,
       "norm_label": "buoc 6: tao custom hook (optional)"
     },
     {
@@ -6534,7 +6534,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L437",
       "id": "react_fashion_coding_guide_codeblock_10",
-      "community": 15,
+      "community": 13,
       "norm_label": "code:typescript (import { usecallback } from 'react';)"
     },
     {
@@ -6543,7 +6543,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L544",
       "id": "react_fashion_coding_guide_b_c_7_t_o_components_reusable_ui",
-      "community": 15,
+      "community": 13,
       "norm_label": "buoc 7: tao components (reusable ui)"
     },
     {
@@ -6552,7 +6552,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L552",
       "id": "react_fashion_coding_guide_codeblock_11",
-      "community": 15,
+      "community": 13,
       "norm_label": "code:typescript (import react, { useeffect } from 'react';)"
     },
     {
@@ -6561,7 +6561,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L590",
       "id": "react_fashion_coding_guide_b_c_8_t_o_page_component",
-      "community": 15,
+      "community": 13,
       "norm_label": "buoc 8: tao page component"
     },
     {
@@ -6570,7 +6570,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L598",
       "id": "react_fashion_coding_guide_codeblock_12",
-      "community": 15,
+      "community": 13,
       "norm_label": "code:typescript (import react, { usestate } from 'react';)"
     },
     {
@@ -6633,7 +6633,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L752",
       "id": "react_fashion_coding_guide_codeblock_15",
-      "community": 13,
+      "community": 43,
       "norm_label": "code:json (// en.json)"
     },
     {
@@ -6642,7 +6642,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L782",
       "id": "react_fashion_coding_guide_v_d_c_th_user_management_feature",
-      "community": 13,
+      "community": 18,
       "norm_label": "\ud83c\udfaf vi du cu the: user management feature"
     },
     {
@@ -6651,7 +6651,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L786",
       "id": "react_fashion_coding_guide_1_types_src_types_user_ts",
-      "community": 13,
+      "community": 43,
       "norm_label": "1. types (`src/types/user.ts`)"
     },
     {
@@ -6660,7 +6660,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L788",
       "id": "react_fashion_coding_guide_codeblock_16",
-      "community": 13,
+      "community": 43,
       "norm_label": "code:typescript (export interface user {)"
     },
     {
@@ -6669,7 +6669,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L825",
       "id": "react_fashion_coding_guide_2_constants_src_constants_index_ts",
-      "community": 13,
+      "community": 43,
       "norm_label": "2. constants (`src/constants/index.ts`)"
     },
     {
@@ -6678,7 +6678,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L827",
       "id": "react_fashion_coding_guide_codeblock_17",
-      "community": 13,
+      "community": 43,
       "norm_label": "code:typescript (export const api_endpoints = {)"
     },
     {
@@ -6687,7 +6687,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L845",
       "id": "react_fashion_coding_guide_3_service_src_services_userservice_ts",
-      "community": 13,
+      "community": 18,
       "norm_label": "3. service (`src/services/userservice.ts`)"
     },
     {
@@ -6696,7 +6696,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L847",
       "id": "react_fashion_coding_guide_codeblock_18",
-      "community": 13,
+      "community": 18,
       "norm_label": "code:typescript (import apiclient from '@/utils/api';)"
     },
     {
@@ -6705,7 +6705,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L903",
       "id": "react_fashion_coding_guide_4_thunks_src_store_thunks_userthunks_ts",
-      "community": 13,
+      "community": 18,
       "norm_label": "4. thunks (`src/store/thunks/userthunks.ts`)"
     },
     {
@@ -6714,7 +6714,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L905",
       "id": "react_fashion_coding_guide_codeblock_19",
-      "community": 13,
+      "community": 18,
       "norm_label": "code:typescript (import { createasyncthunk } from '@reduxjs/toolkit';)"
     },
     {
@@ -6723,7 +6723,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L987",
       "id": "react_fashion_coding_guide_5_slice_src_store_slices_userslice_ts",
-      "community": 13,
+      "community": 18,
       "norm_label": "5. slice (`src/store/slices/userslice.ts`)"
     },
     {
@@ -6732,7 +6732,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L989",
       "id": "react_fashion_coding_guide_codeblock_20",
-      "community": 13,
+      "community": 18,
       "norm_label": "code:typescript (import { createslice, payloadaction } from '@reduxjs/toolkit)"
     },
     {
@@ -6741,7 +6741,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L1089",
       "id": "react_fashion_coding_guide_6_hook_src_hooks_useusers_ts",
-      "community": 13,
+      "community": 18,
       "norm_label": "6. hook (`src/hooks/useusers.ts`)"
     },
     {
@@ -6750,7 +6750,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L1091",
       "id": "react_fashion_coding_guide_codeblock_21",
-      "community": 13,
+      "community": 18,
       "norm_label": "code:typescript (import { usecallback } from 'react';)"
     },
     {
@@ -6759,7 +6759,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L1187",
       "id": "react_fashion_coding_guide_7_components_src_components_userlist_tsx",
-      "community": 13,
+      "community": 18,
       "norm_label": "7. components (`src/components/userlist.tsx`)"
     },
     {
@@ -6768,7 +6768,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L1189",
       "id": "react_fashion_coding_guide_codeblock_22",
-      "community": 13,
+      "community": 18,
       "norm_label": "code:typescript (import react, { useeffect } from 'react';)"
     },
     {
@@ -6777,7 +6777,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L1219",
       "id": "react_fashion_coding_guide_8_page_src_pages_users_tsx",
-      "community": 13,
+      "community": 18,
       "norm_label": "8. page (`src/pages/users.tsx`)"
     },
     {
@@ -6786,7 +6786,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L1221",
       "id": "react_fashion_coding_guide_codeblock_23",
-      "community": 13,
+      "community": 18,
       "norm_label": "code:typescript (import react, { usestate } from 'react';)"
     },
     {
@@ -6795,7 +6795,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L1286",
       "id": "react_fashion_coding_guide_9_route_src_routes_index_tsx_v_khi_c_n_src_routes_v2",
-      "community": 43,
+      "community": 44,
       "norm_label": "9. route (`src/routes/index.tsx` va khi can `src/routes/v2/*`)"
     },
     {
@@ -6804,7 +6804,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L1290",
       "id": "react_fashion_coding_guide_codeblock_24",
-      "community": 43,
+      "community": 44,
       "norm_label": "code:typescript (const users = react.lazy(() => import('@/pages/users'));)"
     },
     {
@@ -6813,7 +6813,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L1299",
       "id": "react_fashion_coding_guide_codeblock_25",
-      "community": 43,
+      "community": 44,
       "norm_label": "code:typescript (// src/routes/v2/userroute.tsx \u2014 path relative toi /v2)"
     },
     {
@@ -6822,7 +6822,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L1305",
       "id": "react_fashion_coding_guide_10_i18n_src_constants_locales_en_json_v_vi_json",
-      "community": 43,
+      "community": 44,
       "norm_label": "10. i18n (`src/constants/locales/en.json` va `vi.json`)"
     },
     {
@@ -6831,7 +6831,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L1307",
       "id": "react_fashion_coding_guide_codeblock_26",
-      "community": 43,
+      "community": 44,
       "norm_label": "code:json (// en.json)"
     },
     {
@@ -6840,7 +6840,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L1325",
       "id": "react_fashion_coding_guide_best_practices",
-      "community": 28,
+      "community": 29,
       "norm_label": "\u2705 best practices"
     },
     {
@@ -6849,7 +6849,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L1327",
       "id": "react_fashion_coding_guide_1_type_safety",
-      "community": 28,
+      "community": 29,
       "norm_label": "1. **type safety**"
     },
     {
@@ -6858,7 +6858,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L1333",
       "id": "react_fashion_coding_guide_2_error_handling",
-      "community": 28,
+      "community": 29,
       "norm_label": "2. **error handling**"
     },
     {
@@ -6867,7 +6867,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L1341",
       "id": "react_fashion_coding_guide_3_code_organization",
-      "community": 28,
+      "community": 29,
       "norm_label": "3. **code organization**"
     },
     {
@@ -6876,7 +6876,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L1347",
       "id": "react_fashion_coding_guide_4_performance",
-      "community": 28,
+      "community": 29,
       "norm_label": "4. **performance**"
     },
     {
@@ -6885,7 +6885,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L1353",
       "id": "react_fashion_coding_guide_5_testing",
-      "community": 28,
+      "community": 29,
       "norm_label": "5. **testing**"
     },
     {
@@ -6894,7 +6894,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L1359",
       "id": "react_fashion_coding_guide_6_accessibility",
-      "community": 28,
+      "community": 29,
       "norm_label": "6. **accessibility**"
     },
     {
@@ -6903,7 +6903,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L1365",
       "id": "react_fashion_coding_guide_7_i18n",
-      "community": 28,
+      "community": 29,
       "norm_label": "7. **i18n**"
     },
     {
@@ -6912,7 +6912,7 @@
       "source_file": "CODING_GUIDE.md",
       "source_location": "L1371",
       "id": "react_fashion_coding_guide_8_tailwind_design_system",
-      "community": 28,
+      "community": 29,
       "norm_label": "8. **tailwind & design system**"
     },
     {
@@ -7245,7 +7245,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L1",
       "id": "home_thang_workspace_react_fashion_docs_tailwind_design_system_md",
-      "community": 37,
+      "community": 38,
       "norm_label": "tailwind_design_system.md"
     },
     {
@@ -7254,7 +7254,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L1",
       "id": "docs_tailwind_design_system_h_ng_d_n_s_d_ng_design_system_tailwind_css",
-      "community": 37,
+      "community": 38,
       "norm_label": "huong dan su dung design system - tailwind css"
     },
     {
@@ -7263,7 +7263,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L5",
       "id": "docs_tailwind_design_system_m_u_s_c_colors",
-      "community": 24,
+      "community": 25,
       "norm_label": "\ud83c\udfa8 mau sac (colors)"
     },
     {
@@ -7272,7 +7272,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L7",
       "id": "docs_tailwind_design_system_gray_scale",
-      "community": 24,
+      "community": 25,
       "norm_label": "gray scale"
     },
     {
@@ -7281,7 +7281,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L28",
       "id": "docs_tailwind_design_system_codeblock_1",
-      "community": 24,
+      "community": 25,
       "norm_label": "code:jsx (// background mau xam \u0111am voi text trang)"
     },
     {
@@ -7290,7 +7290,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L40",
       "id": "docs_tailwind_design_system_primary_colors_m_u_ch_nh",
-      "community": 24,
+      "community": 25,
       "norm_label": "primary colors (mau chinh)"
     },
     {
@@ -7299,7 +7299,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L53",
       "id": "docs_tailwind_design_system_codeblock_2",
-      "community": 24,
+      "community": 25,
       "norm_label": "code:jsx (// button primary)"
     },
     {
@@ -7308,7 +7308,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L65",
       "id": "docs_tailwind_design_system_secondary_colors_m_u_ph",
-      "community": 24,
+      "community": 25,
       "norm_label": "secondary colors (mau phu)"
     },
     {
@@ -7317,7 +7317,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L77",
       "id": "docs_tailwind_design_system_codeblock_3",
-      "community": 24,
+      "community": 25,
       "norm_label": "code:jsx (// badge hoac tag)"
     },
     {
@@ -7326,7 +7326,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L89",
       "id": "docs_tailwind_design_system_accent_colors_m_u_nh_n",
-      "community": 24,
+      "community": 25,
       "norm_label": "accent colors (mau nhan)"
     },
     {
@@ -7335,7 +7335,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L101",
       "id": "docs_tailwind_design_system_codeblock_4",
-      "community": 24,
+      "community": 25,
       "norm_label": "code:jsx (// warning hoac notification)"
     },
     {
@@ -7344,7 +7344,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L108",
       "id": "docs_tailwind_design_system_shadcn_ui_system_colors",
-      "community": 24,
+      "community": 25,
       "norm_label": "shadcn/ui system colors"
     },
     {
@@ -7524,7 +7524,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L277",
       "id": "docs_tailwind_design_system_effects",
-      "community": 44,
+      "community": 45,
       "norm_label": "\ud83c\udfad effects"
     },
     {
@@ -7533,7 +7533,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L279",
       "id": "docs_tailwind_design_system_box_shadow",
-      "community": 44,
+      "community": 45,
       "norm_label": "box shadow"
     },
     {
@@ -7542,7 +7542,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L287",
       "id": "docs_tailwind_design_system_codeblock_11",
-      "community": 44,
+      "community": 45,
       "norm_label": "code:jsx (<div classname=\"bg-white shadow-md rounded-lg p-4\">card with)"
     },
     {
@@ -7551,7 +7551,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L291",
       "id": "docs_tailwind_design_system_border_radius",
-      "community": 44,
+      "community": 45,
       "norm_label": "border radius"
     },
     {
@@ -7560,7 +7560,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L303",
       "id": "docs_tailwind_design_system_codeblock_12",
-      "community": 44,
+      "community": 45,
       "norm_label": "code:jsx (// button voi bo goc medium)"
     },
     {
@@ -7569,7 +7569,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L315",
       "id": "docs_tailwind_design_system_dark_mode",
-      "community": 37,
+      "community": 38,
       "norm_label": "\ud83c\udfaf dark mode"
     },
     {
@@ -7578,7 +7578,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L319",
       "id": "docs_tailwind_design_system_codeblock_13",
-      "community": 37,
+      "community": 38,
       "norm_label": "code:jsx (// element thay \u0111oi mau theo dark mode)"
     },
     {
@@ -7659,7 +7659,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L371",
       "id": "docs_tailwind_design_system_responsive_design",
-      "community": 37,
+      "community": 38,
       "norm_label": "\ud83d\udd27 responsive design"
     },
     {
@@ -7668,7 +7668,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L375",
       "id": "docs_tailwind_design_system_codeblock_17",
-      "community": 37,
+      "community": 38,
       "norm_label": "code:jsx (<h1 classname=\"text-h4-bold md:text-h3-bold lg:text-h2-bold\")"
     },
     {
@@ -7677,7 +7677,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L385",
       "id": "docs_tailwind_design_system_component_examples",
-      "community": 38,
+      "community": 37,
       "norm_label": "\ud83d\udce6 component examples"
     },
     {
@@ -7686,7 +7686,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L387",
       "id": "docs_tailwind_design_system_card_component",
-      "community": 38,
+      "community": 37,
       "norm_label": "card component"
     },
     {
@@ -7695,7 +7695,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L389",
       "id": "docs_tailwind_design_system_codeblock_18",
-      "community": 38,
+      "community": 37,
       "norm_label": "code:jsx (<div classname=\"bg-white dark:bg-gray-800 shadow-md rounded-)"
     },
     {
@@ -7704,7 +7704,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L403",
       "id": "docs_tailwind_design_system_form_input",
-      "community": 38,
+      "community": 37,
       "norm_label": "form input"
     },
     {
@@ -7713,7 +7713,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L405",
       "id": "docs_tailwind_design_system_codeblock_19",
-      "community": 38,
+      "community": 37,
       "norm_label": "code:jsx (<div classname=\"space-y-2\">)"
     },
     {
@@ -7722,7 +7722,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L419",
       "id": "docs_tailwind_design_system_alert_component",
-      "community": 38,
+      "community": 37,
       "norm_label": "alert component"
     },
     {
@@ -7731,7 +7731,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L421",
       "id": "docs_tailwind_design_system_codeblock_20",
-      "community": 38,
+      "community": 37,
       "norm_label": "code:jsx (<div classname=\"bg-accent-700 border-l-4 border-accent-900 p)"
     },
     {
@@ -7740,7 +7740,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L430",
       "id": "docs_tailwind_design_system_resources",
-      "community": 37,
+      "community": 38,
       "norm_label": "\ud83d\udcda resources"
     },
     {
@@ -7838,7 +7838,7 @@
       "file_type": "code",
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/components/FormField.tsx",
       "source_location": "L1",
-      "community": 25,
+      "community": 26,
       "norm_label": "formfield.tsx",
       "id": "home_thang_workspace_react_fashion_src_components_formfield_tsx"
     },
@@ -7847,7 +7847,7 @@
       "file_type": "code",
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/lib/utils.ts",
       "source_location": "L1",
-      "community": 25,
+      "community": 26,
       "norm_label": "utils.ts",
       "id": "home_thang_workspace_react_fashion_src_lib_utils_ts"
     },
@@ -8090,7 +8090,7 @@
       "file_type": "code",
       "source_file": "src/routes/v2/userRoute.tsx",
       "source_location": "L16",
-      "community": 16,
+      "community": 15,
       "norm_label": "productdetail",
       "id": "v2_userroute_productdetail"
     },
@@ -8342,7 +8342,7 @@
       "file_type": "code",
       "source_file": "src/routes/v2/userRoute.tsx",
       "source_location": "L16",
-      "community": 16,
+      "community": 15,
       "norm_label": "profile",
       "id": "v2_userroute_profile"
     },
@@ -8351,7 +8351,7 @@
       "file_type": "document",
       "source_file": "CODING_GUIDE.md",
       "source_location": "L1256",
-      "community": 13,
+      "community": 18,
       "norm_label": "9. route (`src/app.tsx`)",
       "id": "react_fashion_coding_guide_9_route_src_app_tsx"
     },
@@ -8682,77 +8682,77 @@
     {
       "label": "Coding Guide - Feature Development Workflow",
       "file_type": "document",
-      "community": 20,
+      "community": 19,
       "norm_label": "coding guide - feature development workflow",
       "id": "coding_guide"
     },
     {
       "label": "Types/TypeScript Interfaces",
       "file_type": "code",
-      "community": 20,
+      "community": 19,
       "norm_label": "types/typescript interfaces",
       "id": "types_layer"
     },
     {
       "label": "Constants (API Endpoints, Routes)",
       "file_type": "code",
-      "community": 20,
+      "community": 19,
       "norm_label": "constants (api endpoints, routes)",
       "id": "constants_layer"
     },
     {
       "label": "Service Layer (API Calls)",
       "file_type": "code",
-      "community": 20,
+      "community": 19,
       "norm_label": "service layer (api calls)",
       "id": "service_layer"
     },
     {
       "label": "Redux Thunks (Async Actions)",
       "file_type": "code",
-      "community": 20,
+      "community": 19,
       "norm_label": "redux thunks (async actions)",
       "id": "redux_thunks"
     },
     {
       "label": "Redux Slice (State Management)",
       "file_type": "code",
-      "community": 20,
+      "community": 19,
       "norm_label": "redux slice (state management)",
       "id": "redux_slice"
     },
     {
       "label": "Custom Hooks",
       "file_type": "code",
-      "community": 20,
+      "community": 19,
       "norm_label": "custom hooks",
       "id": "custom_hooks"
     },
     {
       "label": "Reusable Components",
       "file_type": "code",
-      "community": 20,
+      "community": 19,
       "norm_label": "reusable components",
       "id": "components"
     },
     {
       "label": "Page Components",
       "file_type": "code",
-      "community": 20,
+      "community": 19,
       "norm_label": "page components",
       "id": "page_components"
     },
     {
       "label": "Routes Configuration",
       "file_type": "code",
-      "community": 20,
+      "community": 19,
       "norm_label": "routes configuration",
       "id": "routing"
     },
     {
       "label": "i18n Translations",
       "file_type": "code",
-      "community": 20,
+      "community": 19,
       "norm_label": "i18n translations",
       "id": "i18n_translations"
     },
@@ -9004,7 +9004,7 @@
     {
       "label": "Protected Routes & Auth",
       "file_type": "code",
-      "community": 20,
+      "community": 19,
       "norm_label": "protected routes & auth",
       "id": "protected_routes"
     },
@@ -28618,5 +28618,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "109dce487a76181e7d02c6874b10736a8bf9e141"
+  "built_at_commit": "ae25fe539dd1a07f11b5afaaa8d5497703bd3b44"
 }
