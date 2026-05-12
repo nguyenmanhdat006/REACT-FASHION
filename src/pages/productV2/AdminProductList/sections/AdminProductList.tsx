@@ -24,7 +24,6 @@ export type AdminProductRow = {
 
 export type AdminProductListProps = {
   products: AdminProductRow[];
-  /** 1-based current page */
   page?: number;
   totalPages?: number;
   onPageChange?: (page: number) => void;
@@ -36,8 +35,8 @@ export type AdminProductListProps = {
 function buildProductColumns(): TableColumn<AdminProductRow>[] {
   return [
     {
-      id: 'item',
-      header: 'Product Name & Size',
+      id: 'thumb',
+      header: '',
       cellClassName: 'whitespace-normal py-4',
       cell: (product) => (
         <div className="flex max-w-md items-center gap-3">
@@ -47,9 +46,18 @@ function buildProductColumns(): TableColumn<AdminProductRow>[] {
             className="size-12 shrink-0 rounded-md object-cover"
             loading="lazy"
           />
+        </div>
+      ),
+    },
+    {
+      id: 'name',
+      header: 'Product Name & Size',
+      cellClassName: 'whitespace-normal py-4',
+      cell: (product) => (
+        <div className="flex max-w-md items-center gap-3">
           <div className="min-w-0">
-            <p className="text-body-semi text-foreground">{product.name}</p>
-            <p className="text-caption-sm-regular text-muted-foreground">
+            <p className="text-body-regular text-foreground">{product.name}</p>
+            <p className="text-caption-sm-regular text-gray-500">
               {product.sizesLabel}
             </p>
           </div>
@@ -60,7 +68,7 @@ function buildProductColumns(): TableColumn<AdminProductRow>[] {
       id: 'price',
       header: 'Price',
       headerClassName: 'text-center text-body-medium text-foreground',
-      cellClassName: 'text-center text-body-regular text-foreground',
+      cellClassName: 'text-center text-caption-lg-regular text-gray-900',
       cell: (product) => product.priceFormatted,
     },
     {
@@ -82,12 +90,12 @@ function buildProductColumns(): TableColumn<AdminProductRow>[] {
     {
       id: 'category',
       header: 'Category',
-      headerClassName: 'text-center text-body-medium text-foreground',
+      headerClassName: 'text-center text-body-medium',
       cellClassName: 'text-center',
       cell: (product) => (
         <Badge
           variant="outline"
-          className="border-primary/40 bg-primary/5 font-medium text-primary"
+          className="border-primary/40 bg-primary/5 text-primary text-caption-sm-regular rounded-sm"
         >
           {product.category}
         </Badge>

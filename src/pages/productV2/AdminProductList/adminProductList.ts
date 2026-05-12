@@ -1,8 +1,7 @@
 import { IMAGES } from '@/constants/images';
 
-import type { AdminProductRow } from '@/components/admin/AdminProductList';
+import type { AdminProductRow } from '@/pages/productV2/AdminProductList/sections/AdminProductList';
 
-/** Mock catalog for admin product list (aligned with demo imagery in `homeDemoData` / `IMAGES`). */
 export const ADMIN_PRODUCT_LIST_MOCK: AdminProductRow[] = [
   {
     id: 'mock-1',

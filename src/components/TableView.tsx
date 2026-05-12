@@ -153,9 +153,9 @@ function TableView<T extends TableRowBase>({
                   />
                 </TableHead>
               ) : null}
-              {columns.map((col) => (
+              {columns.map((col, colIndex) => (
                 <TableHead
-                  key={col.id}
+                  key={`${col.id}-${colIndex}`}
                   className={cn(
                     'text-body-medium text-foreground',
                     col.headerClassName,
@@ -185,9 +185,9 @@ function TableView<T extends TableRowBase>({
                     />
                   </TableCell>
                 ) : null}
-                {columns.map((col) => (
+                {columns.map((col, colIndex) => (
                   <TableCell
-                    key={col.id}
+                    key={`${col.id}-${colIndex}`}
                     className={col.cellClassName}
                   >
                     {col.cell(row)}
@@ -205,7 +205,7 @@ function TableView<T extends TableRowBase>({
       </div>
 
       <div className="mt-6 flex justify-center">
-        <div className="inline-flex items-center gap-1 rounded-full border border-border bg-background px-2 py-1 shadow-md ring-1 ring-foreground/5">
+        <div className="inline-flex items-center gap-1 rounded-full bg-white px-2 py-1 shadow-md ring-1 ring-foreground/5">
           <Button
             type="button"
             variant="ghost"
