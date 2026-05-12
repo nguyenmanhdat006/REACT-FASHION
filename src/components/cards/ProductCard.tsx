@@ -1,4 +1,4 @@
-import { type JSX } from 'react';
+import { type JSX, type MouseEvent } from 'react';
 
 import { ActionIconButton } from '@/components/buttons/ActionIconButton';
 import { LabelButton } from '@/components/buttons/LabelButton';
@@ -25,6 +25,7 @@ export interface ProductCardProps {
   priceAriaLabel?: string;
   onFavorite?: () => void;
   onSelectPrice?: () => void;
+  onOpenDetails?: () => void;
   className?: string;
 }
 
@@ -49,15 +50,25 @@ export function ProductCard({
   priceAriaLabel,
   onFavorite,
   onSelectPrice,
+  onOpenDetails,
   className,
 }: ProductCardProps): JSX.Element {
+  const handleCardClick = (event: MouseEvent<HTMLDivElement>) => {
+    if (!onOpenDetails) return;
+    const t = event.target as HTMLElement;
+    if (t.closest('[data-product-card-interactive]')) return;
+    onOpenDetails();
+  };
+
   return (
     <Card
       className={cn(
         'relative flex flex-1 grow flex-col items-center justify-center gap-0 self-stretch overflow-hidden rounded-2xl border border-solid border-gray-50 bg-white p-0',
         CARD_HOVER,
+        onOpenDetails && 'cursor-pointer',
         className,
       )}
+      onClick={handleCardClick}
     >
       <div className="relative flex min-h-[400px] flex-1 flex-col items-center gap-2.5 self-stretch overflow-hidden">
         <div
@@ -70,7 +81,10 @@ export function ProductCard({
           }}
         />
         <div className="relative z-10 flex min-h-[400px] flex-1 grow flex-col items-center gap-2.5 self-stretch p-4">
-          <div className="relative flex w-full items-center justify-between self-stretch">
+          <div
+            className="relative flex w-full items-center justify-between self-stretch"
+            data-product-card-interactive
+          >
             <div className="relative inline-flex items-center justify-center gap-1">
               {swatches.map((swatch, index) => (
                 <div
@@ -109,12 +123,14 @@ export function ProductCard({
               {title}
             </CardTitle>
           </div>
-          <LabelButton
-            tone="primary"
-            label={price}
-            ariaLabel={priceAriaLabel ?? `View product price ${price}`}
-            onClick={onSelectPrice}
-          />
+          <div data-product-card-interactive>
+            <LabelButton
+              tone="primary"
+              label={price}
+              ariaLabel={priceAriaLabel ?? `View product price ${price}`}
+              onClick={onSelectPrice}
+            />
+          </div>
         </div>
       </CardContent>
     </Card>
