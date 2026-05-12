@@ -11,8 +11,10 @@ export type ProfileCoverSummarySectionProps = {
   avatarSrc: string;
   displayName: string;
   initials: string;
-  onEditProfile: () => void;
-  onEditAddresses: () => void;
+  profileEditing: boolean;
+  addressesEditing: boolean;
+  onToggleProfileEdit: () => void;
+  onToggleAddressesEdit: () => void;
 };
 
 /** Kéo block info lên chồng bìa (avatar cắm vào cover). */
@@ -23,8 +25,10 @@ export function ProfileCoverSummarySection({
   avatarSrc,
   displayName,
   initials,
-  onEditProfile,
-  onEditAddresses,
+  profileEditing,
+  addressesEditing,
+  onToggleProfileEdit,
+  onToggleAddressesEdit,
 }: ProfileCoverSummarySectionProps): JSX.Element {
   return (
     <section
@@ -69,25 +73,25 @@ export function ProfileCoverSummarySection({
         <div className="flex flex-wrap items-end gap-2">
           <IconLabelButton
             icon={Pencil}
-            label="Edit profile"
+            label={profileEditing ? 'Cancel' : 'Edit profile'}
             variant="outline"
-            pillVariant="default"
+            pillVariant={profileEditing ? 'selected' : 'default'}
             size="default"
             className="rounded-lg px-2 py-1"
             iconClassName="size-4"
             labelClassName="text-body-regular text-gray-black"
-            onClick={onEditProfile}
+            onClick={onToggleProfileEdit}
           />
           <IconLabelButton
             icon={MapPin}
-            label="Edit addresses"
+            label={addressesEditing ? 'Cancel' : 'Edit addresses'}
             variant="outline"
-            pillVariant="default"
+            pillVariant={addressesEditing ? 'selected' : 'default'}
             size="default"
             className="rounded-lg px-2 py-1"
             iconClassName="size-4"
             labelClassName="text-body-regular text-gray-black"
-            onClick={onEditAddresses}
+            onClick={onToggleAddressesEdit}
           />
         </div>
       </div>
