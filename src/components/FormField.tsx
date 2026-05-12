@@ -2,35 +2,133 @@ import { Eye, EyeOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 
-interface FormFieldProps {
+const labelClass = 'text-body-regular font-normal text-foreground';
+const inputClass =
+  'h-14 rounded-2xl border-secondary-900 px-4 text-body-regular placeholder:text-gray-500 w-full dark:border-secondary-700 dark:bg-input/30';
+
+export type SelectOption = { value: string; label: string };
+
+type FormFieldBase = {
   id: string;
   label: string;
+  error?: FieldError;
+};
+
+export type FormFieldInputProps = FormFieldBase & {
+  variant?: 'input';
   type: 'email' | 'password' | 'text';
   placeholder: string;
   register: UseFormRegisterReturn;
-  error?: FieldError;
   autoComplete?: string;
   showPassword?: boolean;
   onPasswordToggle?: () => void;
-}
+};
 
-const labelClass = 'text-black text-body-regular font-normal';
-const inputClass = 'h-14 rounded-2xl border-secondary-900 px-4 text-body-regular placeholder:text-gray-500 w-full';
+export type FormFieldParagraphProps = FormFieldBase & {
+  variant: 'paragraph';
+  placeholder: string;
+  register: UseFormRegisterReturn;
+  rows?: number;
+};
 
-export function FormField({
-  id,
-  label,
-  type,
-  placeholder,
-  register,
-  error,
-  autoComplete,
-  showPassword,
-  onPasswordToggle,
-}: FormFieldProps) {
+export type FormFieldSelectionProps = FormFieldBase & {
+  variant: 'selection';
+  placeholder: string;
+  options: SelectOption[];
+  value: string;
+  onValueChange: (value: string) => void;
+  disabled?: boolean;
+};
+
+export type FormFieldProps = FormFieldInputProps | FormFieldParagraphProps | FormFieldSelectionProps;
+
+export function FormField(props: FormFieldProps) {
+  if (props.variant === 'paragraph') {
+    const { id, label, placeholder, register, error, rows = 5 } = props;
+    const hasError = !!error;
+    return (
+      <div className="flex flex-col items-start gap-1 relative self-stretch w-full">
+        <Label htmlFor={id} className={labelClass}>
+          {label}
+        </Label>
+        <Textarea
+          id={id}
+          rows={rows}
+          placeholder={placeholder}
+          className={cn(
+            inputClass,
+            'min-h-[140px] resize-y py-3',
+            hasError && 'border-red-500 ring-1 ring-red-500'
+          )}
+          {...register}
+        />
+        {error && (
+          <span className="text-red-500 text-caption-lg-regular">{error.message}</span>
+        )}
+      </div>
+    );
+  }
+
+  if (props.variant === 'selection') {
+    const { id, label, placeholder, options, value, onValueChange, error, disabled } = props;
+    const hasError = !!error;
+    return (
+      <div className="flex flex-col items-start gap-1 relative self-stretch w-full">
+        <Label htmlFor={id} className={labelClass}>
+          {label}
+        </Label>
+        <Select
+          value={value || undefined}
+          onValueChange={onValueChange}
+          disabled={disabled}
+        >
+          <SelectTrigger
+            id={id}
+            aria-invalid={hasError}
+            className={cn(
+              'h-14 w-full min-w-0 rounded-2xl border-secondary-900 px-4 text-body-regular data-placeholder:text-gray-500 dark:border-secondary-700',
+              hasError && 'border-red-500 ring-1 ring-red-500'
+            )}
+          >
+            <SelectValue placeholder={placeholder} />
+          </SelectTrigger>
+          <SelectContent position="popper" className="z-[100]">
+            {options.map((opt) => (
+              <SelectItem key={opt.value} value={opt.value}>
+                {opt.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        {error && (
+          <span className="text-red-500 text-caption-lg-regular">{error.message}</span>
+        )}
+      </div>
+    );
+  }
+
+  const {
+    id,
+    label,
+    type,
+    placeholder,
+    register,
+    error,
+    autoComplete,
+    showPassword,
+    onPasswordToggle,
+  } = props;
   const isPassword = type === 'password';
   const hasError = !!error;
 

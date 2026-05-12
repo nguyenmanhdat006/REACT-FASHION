@@ -7,6 +7,7 @@ const AdminDashboard = React.lazy(() => import('@/pages/admin/AdminDashboard'));
 const AdminProductListPage = React.lazy(
   () => import('@/pages/productV2/AdminProductList/AdminProductListPage'),
 );
+const AdminAddProduct = React.lazy(() => import('@/pages/productV2/AdminAddProduct'));
 
 export const adminRoute: RouteObject = {
   // element: (
@@ -21,6 +22,7 @@ export const adminRoute: RouteObject = {
       children: [
         { index: true, element: <AdminDashboard /> },
         { path: 'products', element: <AdminProductListPage /> },
+        { path: 'products/add', element: <AdminAddProduct /> },
         { path: 'category', element: <AdminDashboard /> },
         { path: 'orders', element: <AdminDashboard /> },
         { path: 'brand', element: <AdminDashboard /> },
