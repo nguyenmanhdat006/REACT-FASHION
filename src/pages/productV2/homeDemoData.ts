@@ -55,6 +55,11 @@ export const LAST_ORDERS: LastOrderItem[] = [
   { label: 'Huddie', imageUrl: IMAGES.PRODUCT_DEMO_2 },
 ];
 
+export const RECENTS_CHAT: LastOrderItem[] = [
+  { label: 'Cát Tường', imageUrl: IMAGES.USER_AVATAR },
+  { label: 'Thắng', imageUrl: IMAGES.PRODUCT_DEMO_1 },
+];
+
 export const SIDEBAR_LOGOUT_ICON = LogOut;
 
 export const LEFT_TOP_PROMOS: PromoCardModel[] = [

@@ -1,15 +1,28 @@
 import React from 'react';
 import { Outlet, type RouteObject } from 'react-router-dom';
 
-import ProtectedRoute from '@/components/navigation/ProtectedRoute';
+// import ProtectedRoute from '@/components/navigation/ProtectedRoute';
 
 const AdminDashboard = React.lazy(() => import('@/pages/admin/AdminDashboard'));
 
 export const adminRoute: RouteObject = {
-  element: (
-    <ProtectedRoute requiredRole="ADMIN">
-      <Outlet />
-    </ProtectedRoute>
-  ),
-  children: [{ path: 'admin', element: <AdminDashboard /> }],
+  // element: (
+  //   <ProtectedRoute requiredRole="ADMIN">
+  //     <Outlet />
+  //   </ProtectedRoute>
+  // ),
+  children: [
+    {
+      path: 'admin',
+      element: <Outlet />,
+      children: [
+        { index: true, element: <AdminDashboard /> },
+        { path: 'products', element: <AdminDashboard /> },
+        { path: 'category', element: <AdminDashboard /> },
+        { path: 'orders', element: <AdminDashboard /> },
+        { path: 'brand', element: <AdminDashboard /> },
+        { path: 'users', element: <AdminDashboard /> },
+      ],
+    },
+  ],
 };
