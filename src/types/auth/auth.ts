@@ -2,10 +2,14 @@ export interface User {
   id: string;
   email: string;
   fullName: string;
-  phone?: string;
-  avatar?: string;
+  phone?: string | null;
+  avatarUrl?: string | null;
   roles: string[];
   createdAt: string;
+  updatedAt?: string;
+  status?: string;
+  emailVerified?: boolean;
+  phoneVerified?: boolean;
 }
 
 export interface AuthResponse {
@@ -25,6 +29,13 @@ export interface SignUpCredentials {
   password: string;
   fullName: string;
   phone?: string;
+}
+
+export type SocialProvider = 'google' | 'facebook';
+
+export interface OAuthExchangeRequest {
+  code: string;
+  redirectUri: string;
 }
 
 export interface ForgotPasswordData {

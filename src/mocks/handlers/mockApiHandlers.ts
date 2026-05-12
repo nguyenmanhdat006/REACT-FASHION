@@ -17,7 +17,6 @@ import {
   MOCK_UPDATE_CART_ITEM_REQUEST,
 } from '@/mocks/cart/cartMockData';
 import {
-  MOCK_CREATE_ORDER_REQUEST,
   MOCK_ORDERS_DATA,
 } from '@/mocks/order/orderMockData';
 import {
@@ -41,7 +40,6 @@ import {
   MOCK_NOTIFICATIONS,
 } from '@/mocks/notification/notificationMockData';
 import type { ApiResponse, PageResponse } from '@/types/common/common';
-import type { Cart } from '@/types/cart/cart';
 import { PaymentMethod, PaymentStatus, type Order, OrderStatus } from '@/types/order/order';
 import type { PaymentIntent } from '@/types/payment/payment';
 import type { Product } from '@/types/product/product';

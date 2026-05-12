@@ -25,6 +25,13 @@ export interface KeycloakRegisterCredentials extends KeycloakLoginCredentials {
 }
 
 /**
+ * Payload sent from frontend to backend for Keycloak token exchange.
+ */
+export interface KeycloakLoginExchangeRequest {
+  accessToken: string;
+}
+
+/**
  * Normalized authentication session returned after password grant.
  */
 export interface KeycloakAuthSession {

@@ -2,6 +2,8 @@ import React from 'react';
 import { Outlet, type RouteObject } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
 import ProtectedRoute from '@/components/navigation/ProtectedRoute';
+import { authV2Routes } from './v2/authRoutes';
+import { userRoute } from './v2/userRoute';
 
 const Home = React.lazy(() => import('@/pages/public/Home'));
 const Products = React.lazy(() => import('@/pages/product/Products'));
@@ -19,7 +21,6 @@ const NotFound = React.lazy(() => import('@/pages/public/NotFound'));
 
 const LoginV2 = React.lazy(() => import('@/pages/authV2/LoginV2'));
 const SignUpV2 = React.lazy(() => import('@/pages/authV2/SignUpV2'));
-const OrderListV2 = React.lazy(() => import('@/pages/orderV2'));
 
 
 export const routes: RouteObject[] = [
@@ -59,6 +60,10 @@ export const routes: RouteObject[] = [
     ],
   },
   {
+    path: '/auth/callback',
+    element: <AuthCallback />
+  },
+  {
     path: '/v2',
     // element: <Layout />,
     children: [
@@ -77,7 +82,7 @@ export const routes: RouteObject[] = [
         children: [
           { path: 'cart', element: <Cart /> },
           { path: 'checkout', element: <Checkout /> },
-          { path: 'orders', element: <OrderListV2 /> },
+          { path: 'orders', element: <Orders /> },
           { path: 'orders/:id', element: <OrderDetail /> },
           { path: 'profile', element: <Profile /> },
           {

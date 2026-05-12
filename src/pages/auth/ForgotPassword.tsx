@@ -23,7 +23,7 @@ const ForgotPassword: React.FC = () => {
             from your account settings.
           </p>
           <Link to={ROUTES.LOGIN}>
-            <Button type="button" variant="primary" className="w-full">
+            <Button type="button" variant="default" className="w-full">
               Back to Login
             </Button>
           </Link>

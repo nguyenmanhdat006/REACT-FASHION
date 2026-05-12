@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import toast from 'react-hot-toast';
 import { Card } from '@/components/ui/card';
@@ -133,7 +133,7 @@ const AdminDashboard: React.FC = () => {
     );
   }, [brandFilter, categoryFilter, featuredFilter, keyword, maxPrice, minPrice]);
 
-  const loadProducts = async (page: number) => {
+  const loadProducts = useCallback(async (page: number) => {
     setProductsLoading(true);
 
     try {
@@ -166,7 +166,18 @@ const AdminDashboard: React.FC = () => {
     } finally {
       setProductsLoading(false);
     }
-  };
+  }, [
+    brandFilter,
+    categoryFilter,
+    featuredFilter,
+    hasSearchFilters,
+    keyword,
+    maxPrice,
+    minPrice,
+    productSize,
+    sortBy,
+    sortDirection,
+  ]);
 
   const loadCategories = async () => {
     setCategoriesLoading(true);
@@ -198,7 +209,7 @@ const AdminDashboard: React.FC = () => {
 
   useEffect(() => {
     void loadProducts(productPage);
-  }, [hasSearchFilters, productPage, productSize, sortBy, sortDirection]);
+  }, [loadProducts, productPage]);
 
   const resetProductForm = () => {
     setEditingProduct(null);

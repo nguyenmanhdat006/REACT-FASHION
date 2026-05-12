@@ -1,4 +1,3 @@
-import axios from 'axios';
 import apiClient from '@/utils/api';
 import {
   LoginCredentials,
@@ -6,84 +5,61 @@ import {
   AuthResponse,
   User,
   Address,
+  ForgotPasswordData,
+  OAuthExchangeRequest,
+  SocialProvider,
 } from '@/types/auth/auth';
 import { ApiResponse } from '@/types/common/common';
-import { API_ENDPOINTS, AUTH_ENDPOINTS } from '@/constants';
+import {
+  API_ENDPOINTS,
+  AUTH_ENDPOINTS,
+  KEYCLOAK_AUTH_ENDPOINTS,
+  KEYCLOAK_CONFIG,
+  SOCIAL_PROVIDER_HINTS,
+} from '@/constants';
 import { getAccessToken } from '@/utils/authStorage';
-import { getProfileFieldsFromJwtToken, getRolesFromJwtToken } from '@/utils/jwt';
+import { getRolesFromJwtToken } from '@/utils/jwt';
 import { MaybeWrapped, unwrapApiData } from '@/utils/response';
 
-type LoginApiUser = User & {
-  avatarUrl?: string | null;
-  roles?: string[] | null;
-};
+export type UserInbound = User & { roles?: string[] | null; avatar?: string | null };
 
-type LoginApiAuthResponse = Omit<AuthResponse, 'user'> & {
-  tokenType?: string;
-  user?: LoginApiUser | null;
-};
-
-const normalizeAuthResponse = (
-  payload: LoginApiAuthResponse,
-  fallbackEmail: string
-): AuthResponse => {
-  const tokenRoles = getRolesFromJwtToken(payload.accessToken);
-  const tokenProfile = getProfileFieldsFromJwtToken(payload.accessToken);
-
-  const normalizedUser: User = payload.user
-    ? {
-        ...payload.user,
-        avatar: payload.user.avatar ?? payload.user.avatarUrl ?? undefined,
-        email: payload.user.email || tokenProfile.email || fallbackEmail,
-        fullName:
-          payload.user.fullName || tokenProfile.fullName || payload.user.email || fallbackEmail,
-        roles: Array.isArray(payload.user.roles) && payload.user.roles.length > 0
-          ? payload.user.roles
-          : tokenRoles,
-        createdAt: payload.user.createdAt || new Date().toISOString(),
-      }
-    : {
-        id: '',
-        email: tokenProfile.email || fallbackEmail,
-        fullName: tokenProfile.fullName || fallbackEmail,
-        roles: tokenRoles,
-        createdAt: new Date().toISOString(),
-      };
-
+export function normalizeUser(raw: UserInbound): User {
+  const { avatar: legacyAvatar, roles: rawRoles, ...rest } = raw;
+  const avatarUrl = rest.avatarUrl ?? legacyAvatar ?? undefined;
   return {
-    ...payload,
-    user: normalizedUser,
+    ...rest,
+    roles: Array.isArray(rawRoles) ? rawRoles : [],
+    avatarUrl: avatarUrl ?? undefined,
   };
+}
+
+export const getSocialLoginRedirectUri = (provider: SocialProvider): string =>
+  `${window.location.origin}/auth/callback?provider=${provider}`;
+
+const buildSocialLoginUrl = (provider: SocialProvider, redirectUri: string): string => {
+  const url = new URL(KEYCLOAK_AUTH_ENDPOINTS.AUTH);
+
+  url.searchParams.set('client_id', KEYCLOAK_CONFIG.CLIENT_ID);
+  url.searchParams.set('response_type', 'code');
+  url.searchParams.set('scope', 'openid');
+  url.searchParams.set('redirect_uri', redirectUri);
+  url.searchParams.set('kc_idp_hint', SOCIAL_PROVIDER_HINTS[provider]);
+
+  return url.toString();
 };
+
 
 export const authService = {
   login: async (credentials: LoginCredentials): Promise<AuthResponse> => {
-    try {
-      const response = await apiClient.post<MaybeWrapped<LoginApiAuthResponse>>(
-        AUTH_ENDPOINTS.LOGIN,
-        credentials
-      );
-
-      const authData = unwrapApiData(response);
-
-      if (!authData?.accessToken || !authData?.refreshToken) {
-        throw new Error('Invalid login response: missing auth tokens.');
-      }
-
-      return normalizeAuthResponse(authData, credentials.email);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const serverMessage = (error.response?.data as { message?: string })?.message;
-
-        if (serverMessage) {
-          error.message = serverMessage;
-        } else if (!error.response) {
-          error.message = 'Unable to connect to authentication gateway.';
-        }
-      }
-
-      throw error;
-    }
+    const response = await apiClient.post<MaybeWrapped<AuthResponse>>(
+      AUTH_ENDPOINTS.LOGIN,
+      credentials
+    );
+    const data = unwrapApiData(response);
+    return {
+      ...data,
+      user: normalizeUser(data.user as UserInbound),
+    };
   },
 
   register: async (credentials: SignUpCredentials): Promise<User> => {
@@ -91,7 +67,8 @@ export const authService = {
       AUTH_ENDPOINTS.REGISTER,
       credentials
     );
-    return unwrapApiData(response);
+    const user = unwrapApiData(response);
+    return normalizeUser(user as UserInbound);
   },
 
   logout: async (refreshToken: string): Promise<void> => {
@@ -103,7 +80,41 @@ export const authService = {
       AUTH_ENDPOINTS.REFRESH,
       { refreshToken }
     );
-    return unwrapApiData(response);
+    const data = unwrapApiData(response);
+    return {
+      ...data,
+      user: normalizeUser(data.user as UserInbound),
+    };
+  },
+
+  forgotPassword: async (data: ForgotPasswordData): Promise<void> => {
+    await apiClient.post<MaybeWrapped<null>>(AUTH_ENDPOINTS.FORGOT_PASSWORD, data);
+  },
+
+  socialLogin: (provider: SocialProvider): void => {
+    window.location.assign(
+      buildSocialLoginUrl(provider, getSocialLoginRedirectUri(provider))
+    );
+  },
+
+  exchangeOAuthCode: async (
+    provider: SocialProvider,
+    code: string
+  ): Promise<AuthResponse> => {
+    const body: OAuthExchangeRequest = {
+      code,
+      redirectUri: getSocialLoginRedirectUri(provider),
+    };
+    const response = await apiClient.post<MaybeWrapped<AuthResponse>>(
+      AUTH_ENDPOINTS.OAUTH2(provider),
+      body
+    );
+
+    const data = unwrapApiData(response);
+    return {
+      ...data,
+      user: normalizeUser(data.user as UserInbound),
+    };
   },
 
   getProfile: async (): Promise<User> => {
@@ -112,13 +123,15 @@ export const authService = {
     const token = getAccessToken() || undefined;
     const tokenRoles = getRolesFromJwtToken(token);
 
-    return {
-      ...profile,
-      roles:
-        Array.isArray(profile.roles) && profile.roles.length > 0
-          ? profile.roles
-          : tokenRoles,
-    };
+    const roles =
+      Array.isArray(profile.roles) && profile.roles.length > 0
+        ? profile.roles
+        : tokenRoles;
+
+    return normalizeUser({
+      ...(profile as UserInbound),
+      roles,
+    });
   },
 
   updateProfile: async (data: Partial<User>): Promise<User> => {
@@ -126,7 +139,7 @@ export const authService = {
       API_ENDPOINTS.USER.PROFILE,
       data
     );
-    return response.data;
+    return normalizeUser(response.data as UserInbound);
   },
 
   getAddresses: async (): Promise<Address[]> => {

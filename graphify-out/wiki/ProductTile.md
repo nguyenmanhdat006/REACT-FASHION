@@ -1,0 +1,17 @@
+---
+source_file: "src/pages/productV2/ProductV2/homeDemoData.ts"
+type: "code"
+community: "Community 1"
+location: "L60"
+tags:
+  - graphify/code
+  - graphify/EXTRACTED
+  - community/Community_1
+---
+
+# ProductTile
+
+## Connections
+- [[homeDemoData.ts]] - `contains` [EXTRACTED]
+
+#graphify/code #graphify/EXTRACTED #community/Community_1

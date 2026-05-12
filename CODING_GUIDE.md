@@ -7,8 +7,9 @@ Hướng dẫn chi tiết về workflow code khi implement một feature mới t
 1. [Tổng Quan Workflow](#tổng-quan-workflow)
 2. [Chi Tiết Từng Bước](#chi-tiết-từng-bước)
 3. [Ví Dụ Cụ Thể: User Management Feature](#ví-dụ-cụ-thể-user-management-feature)
-4. [Best Practices](#best-practices)
-5. [Checklist](#checklist)
+4. [Tailwind & Design System (quy tắc cho AI)](#tailwind--design-system-quy-tắc-cho-ai)
+5. [Best Practices](#best-practices)
+6. [Checklist](#checklist)
 
 ---
 
@@ -33,10 +34,41 @@ Khi implement một feature mới, hãy làm theo thứ tự sau:
    ↓
 8. Pages (Page Components)
    ↓
-9. Routes (Routing)
+9. Routes (Routing) — `src/routes/index.tsx`; riêng `/v2` thêm `src/routes/v2/userRoute.tsx` và khi cần shell UI thì `src/routes/v2/appShellRoutes.ts`
    ↓
 10. i18n Translations (Optional)
 ```
+
+**UI / styling:** Sau bước Components & Pages, mọi class Tailwind và token thiết kế phải tuân **[Tailwind & Design System (quy tắc cho AI)](#tailwind--design-system-quy-tắc-cho-ai)** và tài liệu `docs/TAILWIND_DESIGN_SYSTEM.md`.
+
+---
+
+## Tailwind & Design System (quy tắc cho AI)
+
+Dành cho **AI / Cursor** khi chỉnh sửa JSX/TSX, layout, Theme, hoặc thêm UI mới — **ưu tiên đọc tài liệu trước khi tự đặt giá trị tùy ý.**
+
+### Tham chiếu bắt buộc
+
+| File | Vai trò |
+| ------ | ------- |
+| `docs/TAILWIND_DESIGN_SYSTEM.md` | Chuẩn màu (gray / primary / secondary / accent), typography (`text-h*-*`, `text-body-*`, `text-caption-*-*`), semantic shadcn, shadow, radius, dark mode, responsive, ví dụ component. |
+| `tailwind.config.js` | Nơi đăng ký token: `theme.extend.colors`, `fontSize`, `fontFamily`; import palette từ `src/constants/colors.ts` (đường dẫn theo `./src/constants/colors` trong config). |
+
+### Quy tắc cụ thể
+
+1. **Token trước, arbitrary sau** — Dùng class đã có trong design system và `tailwind.config.js`. **Tránh** `bg-[#...]`, `text-[NNpx]` nếu đã có tương đương trong doc (ví dụ `primary-900` thay vì `#5F33E1`; `text-h1-bold` thay vì `text-[48px]`).
+2. **Typography** — Heading / body / caption chỉ qua các family class đã định nghĩa trong config (`text-h1-regular` … `text-h6-bold`, `text-body-*`, `text-caption-lg-*`, `text-caption-sm-*`, `text-caption-xs-*`). Không tự ghép stack `font-size` + `line-height`/`font-weight` nếu đã có một class token.
+3. **Màu** — Theo hierarchy trong doc: CTA và primary steps (`primary-900`, `primary-800`, …), chữ và nền phụ (`gray-*`), nhấn phụ (`secondary-*`, `accent-*`). Với component **shadcn/ui**, kết hợp semantic như `bg-background`, `text-foreground`, `text-muted-foreground`, `border-border`, `bg-destructive`.
+4. **Font** — Mặc định **`font-sans`** (Poppins + fallback trong config); chỉ khác khi có lý do thiết kế rõ ràng.
+5. **Bo góc & bóng** — Ưu tiên `rounded-sm` / `rounded-md` / `rounded-lg` (gắn `var(--radius)`), và `shadow-md` khi khớp card/modal trong doc — giữ nhất quán với page/component lân cận.
+6. **Dark mode** — Khi chỉnh màn có theme tối, dùng cặp **`dark:`** theo ví dụ trong `TAILWIND_DESIGN_SYSTEM.md` (ví dụ `dark:bg-gray-900`, `dark:text-gray-white`).
+7. **Responsive** — Prefix `sm:`, `md:`, `lg:` kết hợp typography responsive như ví dụ trong doc (scale heading theo breakpoint).
+8. **`cn()`** — Gộp / điều kiện class dùng `cn()` từ `@/lib/utils` (pattern đồng bộ shadcn), tránh string nối dài khó đọc.
+9. **Khi phải thêm token Tailwind mới** — Cập nhật **`tailwind.config.js`** và đồng bộ **`docs/TAILWIND_DESIGN_SYSTEM.md`** để không mất một nguồn sự thật duy nhất.
+
+### ⚠️ Lưu ý file `tailwind.config.js`
+
+Trong repo hiện có đoạn khai báo `colors.secondary` và `colors.accent` **lặp/ghi chồng** (merge object). AI khi chỉnh **chỉ sửa phần cần thiết**, tránh ghi đè nhầm; sau thay đổi luôn chạy **`npm run build`** hoặc dev để Tailwind báo class invalid.
 
 ---
 
@@ -557,7 +589,7 @@ export default UserList;
 
 ### BƯỚC 8: Tạo Page Component
 
-**📍 Location:** `src/pages/[PageName].tsx`
+**📍 Location:** `src/pages/[PageName].tsx` hoặc theo module con, ví dụ `src/pages/productV2/[Feature]/index.tsx` (đặt page gần feature, export default cho `React.lazy`).
 
 **Mục đích:** Tạo page component chính cho feature
 
@@ -650,32 +682,62 @@ export default Users;
 
 ### BƯỚC 9: Thêm Route
 
-**📍 Location:** `src/App.tsx`
+**Mục đích:** Đăng ký URL cho page mới.
 
-**Mục đích:** Đăng ký route cho page mới
+**📍 Cây route thật trong repo:** `src/routes/index.tsx` — export `routes` (mảng `RouteObject[]`). `App.tsx` **không** khai báo từng `Route`; chỉ gọi `useRoutes(routes)`.
 
-**Cấu trúc:**
+#### 9a. Trang gốc (`/`, `Layout` cũ)
+
+Thêm `RouteObject` vào nhánh `path: '/'` trong `src/routes/index.tsx` (lazy import, `ProtectedRoute` / `Outlet` giống pattern sẵn có).
 
 ```typescript
 // Lazy load page
 const Users = React.lazy(() => import('@/pages/Users'));
 
-// Trong Routes:
-<Route
-  path="users"
-  element={
-    <ProtectedRoute>
-      <Users />
-    </ProtectedRoute>
-  }
-/>
+// Trong routes: children của layout '/', ví dụ
+{ path: 'users', element: <Users /> }
+// hoặc bọc ProtectedRoute + Outlet theo nhóm route hiện tại
 ```
 
 **⚠️ Lưu ý:**
 
-- Sử dụng lazy loading cho performance
-- Sử dụng `ProtectedRoute` nếu cần authentication
-- Route path nên match với constant trong `ROUTES`
+- Lazy loading cho page components
+- `ProtectedRoute` khi cần đăng nhập / role
+- Path string nên thống nhất với constants trong `src/constants/index.ts` (`ROUTES`, …) nếu có
+
+#### 9b. Trang trong App Shell V2 (`/v2`, `LayoutV2`)
+
+Luồng product / UI mới dùng **`LayoutV2`** (sidebar `NavigationMenuSection` + `HomeHeaderSection` + vùng scroll nội dung).
+
+1. **`src/routes/v2/userRoute.tsx`** — Thêm `children` (path **relative** tới `/v2`, không ghi tiền tố `/v2`):
+
+```typescript
+const MyPage = React.lazy(() => import('@/pages/productV2/MyFeature'));
+
+// trong userRoute.children, cùng cấp các route 'products', …
+{ path: 'my-feature', element: <MyPage /> },
+```
+
+URL đầy đủ sẽ là `/v2/my-feature`. Các route được bọc bởi `element: <LayoutV2><Outlet /></LayoutV2>` như đã cấu hình trong `userRoute`.
+
+2. **`src/routes/v2/appShellRoutes.ts`** — Khi page cần **hiện trên sidebar**, **tiêu đề header**, và/hoặc hàng **Filters / Search** hoặc **quick filter** giữa header:
+
+- Thêm một object vào `APP_SHELL_ROUTES` kiểu `AppShellRoute`:
+
+| Field | Ý nghĩa |
+| ----- | ------- |
+| `to` | **Full path** khớp `location.pathname` (ví dụ `'/v2/my-feature'`) |
+| `label` | Chữ trên sidebar |
+| `headerTitle` | Tiêu đề trong `HomeHeaderSection` |
+| `icon` | Icon Lucide (import từ `lucide-react`) |
+| `showInSidebar` | `true` nếu mục xuất hiện trong menu |
+| `sidebarOrder` | Thứ tự sort (số nhỏ lên trước) |
+| `showHeaderFiltersRow` | Hiện nút Filters + Search bên phải header |
+| `showQuickFilter` | Hiện nhóm quick filter (All / Men / Women) giữa header |
+
+- `getCurrentRoute(pathname)` đang **match đúng** chuỗi `to` (không prefix). `to` phải trùng URL thực tế khi user vào page.
+
+3. **Re-export:** `src/components/layout/navigationMenuData.ts` re-export `APP_SHELL_ROUTES` / `SIDEBAR_NAV_ITEMS` — có thể import từ `@/routes/v2/appShellRoutes` hoặc từ `navigationMenuData` tùy chỗ dùng trong codebase.
 
 ---
 
@@ -1221,20 +1283,23 @@ const Users: React.FC = () => {
 export default Users;
 ```
 
-### 9. Route (`src/App.tsx`)
+### 9. Route (`src/routes/index.tsx` và khi cần `src/routes/v2/*`)
+
+**Trang gốc (`/`):** thêm `RouteObject` vào mảng `routes` / children của layout (xem file thật).
 
 ```typescript
 const Users = React.lazy(() => import('@/pages/Users'));
 
-// Trong Routes:
-<Route
-  path="users"
-  element={
-    <ProtectedRoute>
-      <Users />
-    </ProtectedRoute>
-  }
-/>
+// Ví dụ trong children của path: '/'
+{ path: 'users', element: <Users /> }
+```
+
+**Trang `/v2` (LayoutV2):** khai báo trong `src/routes/v2/userRoute.tsx`; nếu cần sidebar + header đúng metadata, thêm entry tương ứng trong `src/routes/v2/appShellRoutes.ts` (full `to`, `showInSidebar`, `showHeaderFiltersRow`, `showQuickFilter`, …). Chi tiết xem **BƯỚC 9b** trong mục *BƯỚC 9: Thêm Route* ở trên.
+
+```typescript
+// src/routes/v2/userRoute.tsx — path relative tới /v2
+const MyPage = React.lazy(() => import('@/pages/productV2/MyFeature'));
+{ path: 'my-feature', element: <MyPage /> },
 ```
 
 ### 10. i18n (`src/constants/locales/en.json` và `vi.json`)
@@ -1303,6 +1368,11 @@ const Users = React.lazy(() => import('@/pages/Users'));
 - Không hardcode strings
 - Support đầy đủ các languages
 
+### 8. **Tailwind & Design System**
+
+- Tuân **[Tailwind & Design System (quy tắc cho AI)](#tailwind--design-system-quy-tắc-cho-ai)**: đọc `docs/TAILWIND_DESIGN_SYSTEM.md`, chỉ dùng token có trong doc / `tailwind.config.js`
+- Không thêm màu/typography một lần dùng bằng arbitrary value nếu đã có token
+
 ---
 
 ## 📋 Checklist
@@ -1319,12 +1389,14 @@ Khi implement một feature mới, đảm bảo:
 - [ ] ✅ Đã đăng ký slice trong `src/store/index.ts`
 - [ ] ✅ Đã tạo custom hook (nếu cần) trong `src/hooks/`
 - [ ] ✅ Đã tạo components trong `src/components/`
-- [ ] ✅ Đã tạo page trong `src/pages/`
-- [ ] ✅ Đã thêm route trong `src/App.tsx`
+- [ ] ✅ Đã tạo page trong `src/pages/` (hoặc module con như `src/pages/productV2/...`)
+- [ ] ✅ Đã đăng ký route: `src/routes/index.tsx` (trang `/`) và/hoặc `src/routes/v2/userRoute.tsx` (trang `/v2/...`)
+- [ ] ✅ Với trang trong shell V2: nếu cần sidebar / tiêu đề header / Filters / quick filter — đã thêm (hoặc cập nhật) entry trong `src/routes/v2/appShellRoutes.ts` với `to` khớp chính xác URL
 - [ ] ✅ Đã thêm i18n translations
 - [ ] ✅ Đã test feature hoạt động đúng
 - [ ] ✅ Đã handle loading và error states
 - [ ] ✅ Code đã pass linting và type checking
+- [ ] ✅ UI dùng token Tailwind / design system (`docs/TAILWIND_DESIGN_SYSTEM.md`, `tailwind.config.js`)
 
 ---
 
@@ -1334,6 +1406,7 @@ Khi implement một feature mới, đảm bảo:
 - [React Router Documentation](https://reactrouter.com/)
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/)
 - [React Hooks Documentation](https://react.dev/reference/react)
+- Design system trong repo: `docs/TAILWIND_DESIGN_SYSTEM.md`, `tailwind.config.js`, `src/constants/colors.ts`
 
 ---
 

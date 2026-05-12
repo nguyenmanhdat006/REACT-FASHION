@@ -1,364 +1,853 @@
 {
   "communities": {
     "0": [
-      "Brand",
-      "CODING_GUIDE.md",
-      "Category",
-      "CreateOrderRequest",
-      "CreateReviewRequest",
-      "Order",
-      "OrderDetail",
-      "OrderItem",
-      "OrderStatus",
-      "PageResponse",
-      "PaginationParams",
-      "PaymentMethod",
-      "PaymentStatus",
-      "Product",
-      "ProductDetail",
-      "ProductVariant",
-      "README.md",
-      "Review",
-      "apicontract.MD",
-      "common.ts",
-      "order-service",
-      "order.ts",
-      "product-service",
-      "product.ts",
-      "redux-store",
-      "review-service",
-      "review.ts"
+      "auth_signup_signup",
+      "auth_signup_signupformdata",
+      "auth_signup_signupschema",
+      "auth_useauth_useauth",
+      "cart_checkout_checkout",
+      "constants_index_routes",
+      "ecommerce_ecommercemockdata_mock_orders",
+      "ecommerce_ecommercemockdata_mock_products",
+      "feedback_loadingspinner_loadingspinner",
+      "forgotpasswordsentv2_index_forgotpasswordsentv2",
+      "form_input_input",
+      "form_input_inputprops",
+      "home_thang_workspace_react_fashion_src_components_feedback_loadingspinner_tsx",
+      "home_thang_workspace_react_fashion_src_components_form_input_tsx",
+      "home_thang_workspace_react_fashion_src_components_layout_layout_tsx",
+      "home_thang_workspace_react_fashion_src_components_navigation_protectedroute_tsx",
+      "home_thang_workspace_react_fashion_src_hooks_theme_usetheme_ts",
+      "home_thang_workspace_react_fashion_src_pages_auth_signup_tsx",
+      "home_thang_workspace_react_fashion_src_pages_cart_checkout_tsx",
+      "home_thang_workspace_react_fashion_src_pages_order_orderdetail_tsx",
+      "home_thang_workspace_react_fashion_src_pages_order_orders_tsx",
+      "home_thang_workspace_react_fashion_src_pages_product_productdetail_tsx",
+      "home_thang_workspace_react_fashion_src_pages_product_products_tsx",
+      "home_thang_workspace_react_fashion_src_pages_public_about_tsx",
+      "home_thang_workspace_react_fashion_src_pages_public_home_tsx",
+      "home_thang_workspace_react_fashion_src_pages_public_notfound_tsx",
+      "home_thang_workspace_react_fashion_src_pages_user_dashboard_tsx",
+      "home_thang_workspace_react_fashion_src_pages_user_profile_tsx",
+      "home_thang_workspace_react_fashion_src_store_hooks_ts",
+      "home_thang_workspace_react_fashion_src_store_index_ts",
+      "home_thang_workspace_react_fashion_src_store_slices_themeslice_ts",
+      "home_thang_workspace_react_fashion_src_store_thunks_index_ts",
+      "layout_layout_layout",
+      "navigation_protectedroute_protectedroute",
+      "navigation_protectedroute_protectedrouteprops",
+      "order_order_paymentmethod",
+      "order_orderdetail_orderdetail",
+      "order_orders_orders",
+      "product_productdetail_productdetail",
+      "product_products_products",
+      "public_about_about",
+      "public_home_home",
+      "public_notfound_notfound",
+      "slices_themeslice_initialstate",
+      "slices_themeslice_theme",
+      "slices_themeslice_themeslice",
+      "slices_themeslice_themestate",
+      "src_main_queryclient",
+      "src_main_tsx",
+      "src_pages_authv2_forgotpasswordsentv2_index_tsx",
+      "store_index_appdispatch",
+      "store_index_persistconfig",
+      "store_index_persistedreducer",
+      "store_index_persistor",
+      "store_index_rootreducer",
+      "store_index_rootstate",
+      "store_index_store",
+      "theme_usetheme_usetheme",
+      "ui_card_card",
+      "user_dashboard_dashboard",
+      "user_dashboard_mocktabledata",
+      "user_profile_profile"
     ],
     "1": [
-      "button_test",
-      "button_ui",
-      "card_comp",
-      "class_variance",
-      "ecommerce_api",
-      "error_boundary",
-      "eslint",
-      "eslint_config",
-      "formfield_comp",
-      "input_form_comp",
-      "input_ui",
-      "label_ui",
-      "lucide_react",
-      "modal_comp",
-      "radix_ui",
-      "react",
-      "react_hook_form",
-      "table_comp",
-      "typescript",
-      "vite",
-      "vite_config",
-      "vitest",
-      "vitest_config"
+      "buttons_actioniconbutton_actioniconbutton",
+      "buttons_actioniconbutton_actioniconbuttonprops",
+      "buttons_actioniconbutton_actioniconvariant",
+      "buttons_labelbutton_buttonbaseprops",
+      "buttons_labelbutton_labelbutton",
+      "buttons_labelbutton_labelbuttonprops",
+      "buttons_labelbutton_labelbuttontone",
+      "buttons_labelbutton_tone_styles",
+      "cards_productcard_default_swatches",
+      "cards_productcard_productcard",
+      "cards_productcard_productcardprops",
+      "cards_productcard_productswatch",
+      "components_orderstats_orderstats",
+      "components_orderstats_orderstatsprops",
+      "components_promocard_promobg",
+      "components_promocard_promocard",
+      "components_promocard_promocardprops",
+      "components_userbutton_userbutton",
+      "components_userbutton_userbuttonprops",
+      "constants_images_images",
+      "layout_homeheadersection_homeheadersection",
+      "layout_layoutv2_layoutv2",
+      "layout_layoutv2_layoutv2props",
+      "layout_navigationmenusection_navigationmenusection",
+      "productv2_homedemodata_featured_promo",
+      "productv2_homedemodata_lastorderitem",
+      "productv2_homedemodata_left_bottom_promos",
+      "productv2_homedemodata_left_top_promos",
+      "productv2_homedemodata_primarynavitem",
+      "productv2_homedemodata_product_tiles",
+      "productv2_homedemodata_producttile",
+      "productv2_homedemodata_promocardmodel",
+      "productv2_index_homev2",
+      "sections_homefeaturedpromosection_homefeaturedpromosection",
+      "sections_homemainsection_homemainsection",
+      "sections_homeproductcardssection_homeproductcardssection",
+      "sections_homepromoleftsection_homepromoleftsection",
+      "src_components_buttons_actioniconbutton_tsx",
+      "src_components_buttons_labelbutton_tsx",
+      "src_components_cards_productcard_tsx",
+      "src_components_layout_components_orderstats_tsx",
+      "src_components_layout_components_userbutton_tsx",
+      "src_components_layout_homeheadersection_tsx",
+      "src_components_layout_layoutv2_tsx",
+      "src_components_ui_card_tsx",
+      "src_constants_images_ts",
+      "src_pages_productv2_productv2_components_promocard_tsx",
+      "src_pages_productv2_productv2_homedemodata_ts",
+      "src_pages_productv2_productv2_index_tsx",
+      "src_pages_productv2_productv2_sections_homefeaturedpromosection_tsx",
+      "src_pages_productv2_productv2_sections_homemainsection_tsx",
+      "src_pages_productv2_productv2_sections_homeproductcardssection_tsx",
+      "src_pages_productv2_productv2_sections_homepromoleftsection_tsx",
+      "ui_card_cardaction",
+      "ui_card_cardcontent",
+      "ui_card_carddescription",
+      "ui_card_cardfooter",
+      "ui_card_cardheader",
+      "ui_card_cardprops",
+      "ui_card_cardtitle"
     ],
     "2": [
-      "AddToCartRequest",
-      "Address",
-      "Button_comp",
-      "Card_comp",
-      "Home_page",
-      "Input_comp",
-      "ProductDetail_page",
-      "Products_page",
-      "Profile_page",
-      "addToCartThunk",
-      "fetchAddressesThunk",
-      "fetchBrandsThunk",
-      "fetchCartThunk",
-      "fetchCategoriesThunk",
-      "fetchFeaturedProductsThunk",
-      "fetchProductBySlugThunk",
-      "fetchProductsThunk",
-      "fetchProfileThunk",
-      "productService",
-      "productsSlice",
-      "updateProfileThunk",
-      "userService",
-      "userSlice"
+      "auth_auth_authresponse",
+      "auth_auth_forgotpassworddata",
+      "auth_auth_logincredentials",
+      "auth_auth_oauthexchangerequest",
+      "auth_auth_resetpassworddata",
+      "auth_auth_signupcredentials",
+      "auth_auth_socialprovider",
+      "auth_authcallback_authcallbackpage",
+      "auth_authcallback_issocialprovider",
+      "auth_authservice_authservice",
+      "auth_authservice_buildsocialloginurl",
+      "auth_authservice_getsocialloginredirecturi",
+      "auth_login_login",
+      "auth_login_loginformdata",
+      "auth_login_loginschema",
+      "common_common_apiresponse",
+      "components_socialauthsection_socialauthsection",
+      "constants_index_auth_endpoints",
+      "constants_index_auth_storage_keys",
+      "constants_index_keycloak_auth_endpoints",
+      "constants_index_keycloak_config",
+      "constants_index_social_provider_hints",
+      "constants_index_user_roles",
+      "home_thang_workspace_react_fashion_src_config_env_ts",
+      "home_thang_workspace_react_fashion_src_utils_api_ts",
+      "home_thang_workspace_react_fashion_src_utils_authstorage_ts",
+      "home_thang_workspace_react_fashion_src_utils_response_ts",
+      "slices_authslice_authslice",
+      "slices_authslice_authstate",
+      "slices_authslice_initialaccesstoken",
+      "slices_authslice_initialrefreshtoken",
+      "slices_authslice_initialstate",
+      "src_constants_index_ts",
+      "src_hooks_auth_useauth_ts",
+      "src_pages_auth_authcallback_tsx",
+      "src_pages_auth_login_tsx",
+      "src_pages_authv2_components_socialauthsection_tsx",
+      "src_services_auth_authservice_ts",
+      "src_store_slices_authslice_ts",
+      "src_store_thunks_auththunks_ts",
+      "src_types_auth_auth_ts",
+      "thunks_auththunks_forgotpasswordthunk",
+      "thunks_auththunks_getprofilethunk",
+      "thunks_auththunks_loginthunk",
+      "thunks_auththunks_logoutthunk",
+      "thunks_auththunks_refreshtokenthunk",
+      "thunks_auththunks_signupthunk",
+      "utils_api_retryconfig",
+      "utils_authstorage_clearauthtokens",
+      "utils_authstorage_getaccesstoken",
+      "utils_authstorage_getrefreshtoken",
+      "utils_authstorage_setauthtokens",
+      "utils_response_maybewrapped",
+      "utils_response_unwrapapidata"
     ],
     "3": [
-      "AdminDashboard",
-      "Checkout",
-      "ForgotPassword",
-      "Home",
-      "Layout",
-      "Login",
-      "LoginV2",
-      "NotFound",
-      "Orders",
-      "PaymentIntent",
-      "ProtectedRoute",
-      "SignUp",
-      "SignUpV2",
-      "TAILWIND_DESIGN_SYSTEM.md",
-      "cn",
-      "debounce",
-      "helpers.ts",
-      "payment-service",
-      "payment.ts",
-      "routes.tsx",
-      "throttle"
+      "constants_index_api_endpoints",
+      "handlers_mockapihandlers_asrecord",
+      "handlers_mockapihandlers_clone",
+      "handlers_mockapihandlers_createorderfromcart",
+      "handlers_mockapihandlers_delay",
+      "handlers_mockapihandlers_findproductbyid",
+      "handlers_mockapihandlers_handlemockapirequest",
+      "handlers_mockapihandlers_mockaddresses",
+      "handlers_mockapihandlers_mockcart",
+      "handlers_mockapihandlers_mockhttpmethod",
+      "handlers_mockapihandlers_mocknotifications",
+      "handlers_mockapihandlers_mockorders",
+      "handlers_mockapihandlers_mockpayment",
+      "handlers_mockapihandlers_mockproducts",
+      "handlers_mockapihandlers_mockreviews",
+      "handlers_mockapihandlers_mockuser",
+      "handlers_mockapihandlers_recalculatecart",
+      "handlers_mockapihandlers_tonumber",
+      "handlers_mockapihandlers_topage",
+      "handlers_mockapihandlers_toresponse",
+      "home_thang_workspace_react_fashion_src_mocks_payment_paymentmockdata_ts",
+      "home_thang_workspace_react_fashion_src_mocks_review_reviewmockdata_ts",
+      "home_thang_workspace_react_fashion_src_mocks_shipping_shippingmockdata_ts",
+      "home_thang_workspace_react_fashion_src_services_payment_paymentservice_ts",
+      "home_thang_workspace_react_fashion_src_services_review_reviewservice_ts",
+      "home_thang_workspace_react_fashion_src_services_shipping_shippingservice_ts",
+      "home_thang_workspace_react_fashion_src_types_payment_payment_ts",
+      "home_thang_workspace_react_fashion_src_types_review_review_ts",
+      "payment_payment_confirmpaymentrequest",
+      "payment_payment_createpaymentrequest",
+      "payment_payment_paymentintent",
+      "payment_paymentmockdata_mock_confirm_payment_request",
+      "payment_paymentmockdata_mock_confirmed_payment_intent",
+      "payment_paymentmockdata_mock_create_payment_request",
+      "payment_paymentmockdata_mock_payment_intent",
+      "payment_paymentservice_paymentservice",
+      "review_review_createreviewrequest",
+      "review_review_review",
+      "review_review_reviewpage",
+      "review_review_reviewsummary",
+      "review_reviewmockdata_mock_create_review_request",
+      "review_reviewmockdata_mock_review_page",
+      "review_reviewmockdata_mock_review_summary",
+      "review_reviewmockdata_mock_reviews",
+      "review_reviewservice_reviewservice",
+      "shipping_shippingmockdata_mock_shipment",
+      "shipping_shippingmockdata_mock_shipping_fee_request",
+      "shipping_shippingmockdata_mock_shipping_fee_response",
+      "shipping_shippingservice_shipment",
+      "shipping_shippingservice_shippingfeerequest",
+      "shipping_shippingservice_shippingfeeresponse",
+      "shipping_shippingservice_shippingservice",
+      "src_mocks_handlers_mockapihandlers_ts"
     ],
     "4": [
-      "AuthHeader_comp",
-      "AuthLayout_comp",
-      "AuthSwitchPrompt_comp",
-      "BannerSection_comp",
-      "Dashboard_page",
-      "FormField_comp",
-      "LoginFormSection_comp",
-      "LoginV2_page",
-      "SignUpFormSection_comp",
-      "SignUpV2_page",
-      "SocialAuthSection_comp",
-      "SocialProviders_comp",
-      "Table_comp",
-      "TermsAgreement_comp",
-      "authService",
-      "keycloakAuthService",
-      "useAuth_hook"
+      "auth_forgotpassword_forgotpassword",
+      "buttons_iconbutton_buttonbaseprops",
+      "buttons_iconbutton_iconbutton",
+      "buttons_iconbutton_iconbuttonprops",
+      "buttons_iconlabelbutton_buttonbaseprops",
+      "buttons_iconlabelbutton_iconlabelbutton",
+      "buttons_iconlabelbutton_iconlabelbuttonprops",
+      "components_divider_divider",
+      "components_divider_dividerprops",
+      "components_formfield_formfield",
+      "components_formfield_formfieldprops",
+      "components_lastorderbutton_lastorderbutton",
+      "components_lastorderbutton_lastorderbuttonprops",
+      "components_navbutton_navbutton",
+      "components_navbutton_navbuttonprops",
+      "components_termsagreement_termsagreement",
+      "components_termsagreement_termsagreementprops",
+      "home_thang_workspace_react_fashion_src_components_formfield_tsx",
+      "home_thang_workspace_react_fashion_src_components_tests_button_test_tsx",
+      "home_thang_workspace_react_fashion_src_components_ui_input_tsx",
+      "home_thang_workspace_react_fashion_src_components_ui_label_tsx",
+      "home_thang_workspace_react_fashion_src_lib_utils_ts",
+      "home_thang_workspace_react_fashion_src_pages_authv2_components_termsagreement_tsx",
+      "home_thang_workspace_react_fashion_src_pages_authv2_signupv2_sections_formsection_tsx",
+      "lib_utils_cn",
+      "productv2_homedemodata_last_orders",
+      "productv2_homedemodata_primary_nav_items",
+      "sections_formsection_forgotpasswordformdata",
+      "sections_formsection_forgotpasswordschema",
+      "sections_formsection_formsection",
+      "sections_formsection_loginformdata",
+      "sections_formsection_loginschema",
+      "sections_formsection_signupformdata",
+      "sections_formsection_signupschema",
+      "src_components_buttons_iconbutton_tsx",
+      "src_components_buttons_iconlabelbutton_tsx",
+      "src_components_divider_tsx",
+      "src_components_layout_components_lastorderbutton_tsx",
+      "src_components_layout_components_navbutton_tsx",
+      "src_components_layout_navigationmenusection_tsx",
+      "src_components_ui_button_tsx",
+      "src_pages_auth_forgotpassword_tsx",
+      "src_pages_authv2_forgotpasswordv2_sections_formsection_tsx",
+      "src_pages_authv2_loginv2_sections_formsection_tsx",
+      "tests_button_test_handleclick",
+      "tests_button_test_user",
+      "ui_button_button",
+      "ui_button_buttonvariants",
+      "ui_input_input",
+      "ui_label_label"
     ],
     "5": [
-      "app_tsx",
-      "i18n_config",
-      "i18next",
-      "layout_comp",
-      "loading_spinner",
-      "main_tsx",
-      "postcss_config",
-      "protected_route",
-      "react_helmet",
-      "react_hot_toast",
-      "react_query",
-      "react_router",
-      "redux",
-      "redux_persist",
-      "tailwind_config",
-      "tailwindcss"
+      "admin_admindashboard_admindashboard",
+      "admin_admindashboard_admintab",
+      "admin_admindashboard_brandformstate",
+      "admin_admindashboard_categoryformstate",
+      "admin_admindashboard_default_brand_form",
+      "admin_admindashboard_default_category_form",
+      "admin_admindashboard_default_product_form",
+      "admin_admindashboard_productformstate",
+      "home_thang_workspace_react_fashion_src_mocks_product_productmockdata_ts",
+      "home_thang_workspace_react_fashion_src_services_product_productservice_ts",
+      "home_thang_workspace_react_fashion_src_store_slices_productsslice_ts",
+      "home_thang_workspace_react_fashion_src_store_thunks_productthunks_ts",
+      "home_thang_workspace_react_fashion_src_types_product_product_ts",
+      "product_product_brand",
+      "product_product_brandpayload",
+      "product_product_category",
+      "product_product_categorypayload",
+      "product_product_createproductrequest",
+      "product_product_product",
+      "product_product_productfilters",
+      "product_product_productimage",
+      "product_product_productimagepayload",
+      "product_product_productlistparams",
+      "product_product_productpage",
+      "product_product_productstatus",
+      "product_product_productvariant",
+      "product_product_productvariantpayload",
+      "product_product_searchproductsparams",
+      "product_product_updatebrandrequest",
+      "product_product_updatecategoryrequest",
+      "product_product_updateproductrequest",
+      "product_productmockdata_mock_brands",
+      "product_productmockdata_mock_categories",
+      "product_productmockdata_mock_product_filters",
+      "product_productmockdata_mock_product_list_params",
+      "product_productmockdata_mock_products_page",
+      "product_productmockdata_mock_search_products_params",
+      "product_productservice_normalizeproductlist",
+      "product_productservice_productservice",
+      "product_productservice_toqueryparams",
+      "slices_productsslice_initialstate",
+      "slices_productsslice_productsslice",
+      "slices_productsslice_productsstate",
+      "src_pages_admin_admindashboard_tsx",
+      "thunks_productthunks_fetchbrandsthunk",
+      "thunks_productthunks_fetchcategoriesthunk",
+      "thunks_productthunks_fetchfeaturedproductsthunk",
+      "thunks_productthunks_fetchproductbyslugthunk",
+      "thunks_productthunks_fetchproductsthunk",
+      "thunks_productthunks_geterrormessage"
     ],
     "6": [
-      "AuthResponse",
-      "Orders_page",
-      "User",
-      "authSlice",
-      "cancelOrderThunk",
-      "createOrderThunk",
-      "fetchOrderByIdThunk",
-      "fetchOrdersThunk",
-      "getProfileThunk",
-      "loginThunk",
-      "logoutThunk",
-      "ordersSlice",
-      "refreshTokenThunk",
-      "signUpThunk",
-      "store",
-      "themeSlice"
+      "common_common_pageresponse",
+      "common_common_paginationparams",
+      "home_thang_workspace_react_fashion_src_mocks_notification_notificationmockdata_ts",
+      "home_thang_workspace_react_fashion_src_mocks_order_ordermockdata_ts",
+      "home_thang_workspace_react_fashion_src_services_notification_notificationservice_ts",
+      "home_thang_workspace_react_fashion_src_services_order_orderservice_ts",
+      "home_thang_workspace_react_fashion_src_store_slices_ordersslice_ts",
+      "home_thang_workspace_react_fashion_src_store_thunks_orderthunks_ts",
+      "home_thang_workspace_react_fashion_src_types_common_common_ts",
+      "home_thang_workspace_react_fashion_src_types_order_order_ts",
+      "notification_notificationmockdata_mock_notification_page",
+      "notification_notificationmockdata_mock_notifications",
+      "notification_notificationservice_notificationitem",
+      "notification_notificationservice_notificationservice",
+      "order_order_createorderrequest",
+      "order_order_order",
+      "order_order_orderitem",
+      "order_order_orderpage",
+      "order_order_orderstatus",
+      "order_order_paymentstatus",
+      "order_ordermockdata_mock_create_order_request",
+      "order_ordermockdata_mock_orders_data",
+      "order_ordermockdata_mock_orders_page",
+      "order_orderservice_orderservice",
+      "slices_ordersslice_initialstate",
+      "slices_ordersslice_ordersslice",
+      "slices_ordersslice_ordersstate",
+      "thunks_orderthunks_cancelorderthunk",
+      "thunks_orderthunks_createorderthunk",
+      "thunks_orderthunks_fetchorderbyidthunk",
+      "thunks_orderthunks_fetchordersthunk",
+      "thunks_orderthunks_geterrormessage"
     ],
     "7": [
-      "ApiClient",
-      "ApiResponse",
-      "Profile",
-      "api.ts",
-      "auth-service",
-      "authStorage.ts",
-      "axios",
-      "clearAuthTokens",
-      "getAccessToken",
-      "response.ts",
-      "setAuthTokens",
-      "unwrapApiData"
+      "cart_cart_addtocartrequest",
+      "cart_cart_cart",
+      "cart_cart_cartitem",
+      "cart_cart_cartstatus",
+      "cart_cart_cartsummary",
+      "cart_cart_updatecartitemrequest",
+      "cart_cartmockdata_mock_add_to_cart_request",
+      "cart_cartmockdata_mock_cart_data",
+      "cart_cartmockdata_mock_cart_summary",
+      "cart_cartmockdata_mock_update_cart_item_request",
+      "cart_cartservice_cartservice",
+      "cart_usecart_usecart",
+      "ecommerce_ecommercemockdata_mock_cart",
+      "home_thang_workspace_react_fashion_src_hooks_cart_usecart_ts",
+      "home_thang_workspace_react_fashion_src_mocks_cart_cartmockdata_ts",
+      "home_thang_workspace_react_fashion_src_mocks_ecommerce_ecommercemockdata_ts",
+      "home_thang_workspace_react_fashion_src_pages_cart_cart_tsx",
+      "home_thang_workspace_react_fashion_src_services_cart_cartservice_ts",
+      "home_thang_workspace_react_fashion_src_store_slices_cartslice_ts",
+      "home_thang_workspace_react_fashion_src_store_thunks_cartthunks_ts",
+      "home_thang_workspace_react_fashion_src_types_cart_cart_ts",
+      "slices_cartslice_cartslice",
+      "slices_cartslice_cartstate",
+      "slices_cartslice_initialstate",
+      "thunks_cartthunks_addtocartthunk",
+      "thunks_cartthunks_clearcartthunk",
+      "thunks_cartthunks_fetchcartthunk",
+      "thunks_cartthunks_geterrormessage",
+      "thunks_cartthunks_removecartitemthunk",
+      "thunks_cartthunks_updatecartitemthunk"
     ],
     "8": [
-      "Cart",
-      "CartItem",
-      "CartStatus",
-      "UpdateCartItemRequest",
-      "cart-service",
-      "cartSlice",
-      "clearCartThunk",
-      "removeCartItemThunk",
-      "updateCartItemThunk"
+      "routes_index_admindashboard",
+      "routes_index_authcallback",
+      "routes_index_cart",
+      "routes_index_checkout",
+      "routes_index_forgotpassword",
+      "routes_index_forgotpasswordsentv2",
+      "routes_index_forgotpasswordv2",
+      "routes_index_home",
+      "routes_index_login",
+      "routes_index_loginv2",
+      "routes_index_notfound",
+      "routes_index_orderdetail",
+      "routes_index_orders",
+      "routes_index_productdetail",
+      "routes_index_products",
+      "routes_index_profile",
+      "routes_index_routes",
+      "routes_index_signup",
+      "routes_index_signupv2",
+      "src_app_app",
+      "src_app_tsx",
+      "src_pages_productv2_index_tsx",
+      "src_routes_index_tsx"
     ],
     "9": [
-      "Shipment",
-      "ShippingFeeRequest",
-      "ShippingFeeResponse",
-      "shippingService"
+      "auth_auth_address",
+      "auth_auth_user",
+      "auth_authmockdata_mock_auth_response",
+      "auth_authmockdata_mock_auth_user",
+      "auth_authmockdata_mock_login_credentials",
+      "auth_authmockdata_mock_sign_up_credentials",
+      "auth_authmockdata_mock_user_addresses",
+      "home_thang_workspace_react_fashion_src_mocks_auth_authmockdata_ts",
+      "home_thang_workspace_react_fashion_src_mocks_user_usermockdata_ts",
+      "home_thang_workspace_react_fashion_src_services_user_userservice_ts",
+      "home_thang_workspace_react_fashion_src_store_slices_userslice_ts",
+      "home_thang_workspace_react_fashion_src_store_thunks_userthunks_ts",
+      "slices_userslice_initialstate",
+      "slices_userslice_userslice",
+      "slices_userslice_userstate",
+      "thunks_userthunks_fetchaddressesthunk",
+      "thunks_userthunks_fetchprofilethunk",
+      "thunks_userthunks_geterrormessage",
+      "thunks_userthunks_updateprofilethunk",
+      "user_usermockdata_mock_addresses",
+      "user_usermockdata_mock_user_profile",
+      "user_usermockdata_mock_user_update_payload",
+      "user_userservice_userservice"
     ],
     "10": [
-      "e2e_spec",
-      "playwright",
-      "playwright_config"
+      "components_authheader_authheader",
+      "components_authheader_authheaderprops",
+      "components_authlayout_authlayout",
+      "components_authlayout_authlayoutprops",
+      "components_authswitchprompt_authswitchprompt",
+      "components_authswitchprompt_authswitchpromptprops",
+      "constants_index_routesv2",
+      "forgotpasswordv2_index_forgotpasswordv2",
+      "home_thang_workspace_react_fashion_src_pages_authv2_components_authswitchprompt_tsx",
+      "home_thang_workspace_react_fashion_src_pages_authv2_loginv2_index_tsx",
+      "home_thang_workspace_react_fashion_src_pages_authv2_signupv2_index_tsx",
+      "loginv2_index_loginv2",
+      "signupv2_index_signupv2",
+      "src_pages_authv2_components_authheader_tsx",
+      "src_pages_authv2_components_authlayout_tsx",
+      "src_pages_authv2_forgotpasswordv2_index_tsx"
     ],
     "11": [
-      "date.ts",
-      "dayjs",
-      "formatDate"
+      "data_display_table_column",
+      "data_display_table_table",
+      "data_display_table_tableprops",
+      "home_thang_workspace_react_fashion_src_components_data_display_table_tsx",
+      "home_thang_workspace_react_fashion_src_components_overlay_modal_tsx",
+      "home_thang_workspace_react_fashion_src_utils_helpers_ts",
+      "overlay_modal_modal",
+      "overlay_modal_modalprops",
+      "utils_helpers_capitalize",
+      "utils_helpers_cn",
+      "utils_helpers_debounce",
+      "utils_helpers_generateid",
+      "utils_helpers_isempty",
+      "utils_helpers_sleep",
+      "utils_helpers_throttle"
     ],
     "12": [
-      "jwt.ts",
-      "parseJwtPayload"
+      "coding_guide",
+      "components",
+      "constants_layer",
+      "custom_hooks",
+      "i18n_translations",
+      "page_components",
+      "protected_routes",
+      "redux_slice",
+      "redux_thunks",
+      "routing",
+      "service_layer",
+      "types_layer"
     ],
     "13": [
-      "vite_env"
+      "auth_jwt_jwtprofilepayload",
+      "auth_jwt_jwtrolepayload",
+      "home_thang_workspace_react_fashion_src_types_auth_jwt_ts",
+      "home_thang_workspace_react_fashion_src_utils_jwt_ts",
+      "utils_jwt_decodebase64url",
+      "utils_jwt_extractrolesfromjwtpayload",
+      "utils_jwt_getprofilefieldsfromjwttoken",
+      "utils_jwt_getrolesfromjwttoken",
+      "utils_jwt_parsejwtpayload"
     ],
     "14": [
-      "lib.utils.ts"
+      "auth_keycloakauth_keycloakauthsession",
+      "auth_keycloakauth_keycloakerrorresponse",
+      "auth_keycloakauth_keycloakjwtpayload",
+      "auth_keycloakauth_keycloaklogincredentials",
+      "auth_keycloakauth_keycloakloginexchangerequest",
+      "auth_keycloakauth_keycloakregistercredentials",
+      "auth_keycloakauth_keycloaktokenresponse",
+      "auth_keycloakauth_keycloakuserinfo",
+      "home_thang_workspace_react_fashion_src_types_auth_keycloakauth_ts"
     ],
     "15": [
-      "index.html"
+      "utils_api_apiclient",
+      "utils_api_apiclient_constructor",
+      "utils_api_apiclient_delete",
+      "utils_api_apiclient_get",
+      "utils_api_apiclient_patch",
+      "utils_api_apiclient_post",
+      "utils_api_apiclient_put",
+      "utils_api_apiclient_setupinterceptors"
     ],
     "16": [
-      "About_page"
+      "feedback_errorboundary_errorboundary",
+      "feedback_errorboundary_errorboundary_componentdidcatch",
+      "feedback_errorboundary_errorboundary_getderivedstatefromerror",
+      "feedback_errorboundary_errorboundary_render",
+      "feedback_errorboundary_props",
+      "feedback_errorboundary_state",
+      "home_thang_workspace_react_fashion_src_components_feedback_errorboundary_tsx"
     ],
     "17": [
-      "NotFound_page"
+      "constants_colors_accent",
+      "constants_colors_gray",
+      "constants_colors_primary",
+      "constants_colors_secondary",
+      "home_thang_workspace_react_fashion_src_constants_colors_ts",
+      "home_thang_workspace_react_fashion_tailwind_config_js"
     ],
     "18": [
-      "cartService"
+      "home_thang_workspace_react_fashion_src_utils_date_ts",
+      "utils_date_formatdate",
+      "utils_date_formatdatetime",
+      "utils_date_formatrelativetime",
+      "utils_date_setlocale"
     ],
     "19": [
-      "orderService"
+      "components_socialproviders_provider",
+      "components_socialproviders_providers",
+      "components_socialproviders_socialproviders",
+      "home_thang_workspace_react_fashion_src_pages_authv2_components_socialproviders_tsx"
     ],
     "20": [
-      "notificationService"
+      "home_thang_workspace_react_fashion_src_vite_env_d_ts",
+      "src_vite_env_d_importmeta",
+      "src_vite_env_d_importmetaenv"
     ],
     "21": [
-      "paymentService"
+      "components_bannersection_bannersection",
+      "components_bannersection_slides",
+      "home_thang_workspace_react_fashion_src_pages_authv2_components_bannersection_tsx"
     ],
     "22": [
-      "reviewService"
+      "e2e_example_spec_themebutton",
+      "home_thang_workspace_react_fashion_e2e_example_spec_ts"
     ],
     "23": [
-      "useAppDispatch"
+      "constants_icons_icons",
+      "src_constants_icons_ts"
     ],
     "24": [
-      "useAppSelector"
+      "home_thang_workspace_react_fashion_eslint_config_js"
     ],
     "25": [
-      "LoginCredentials"
+      "home_thang_workspace_react_fashion_playwright_config_ts"
     ],
     "26": [
-      "SignUpCredentials"
+      "home_thang_workspace_react_fashion_postcss_config_js"
     ],
     "27": [
-      "JwtProfilePayload"
+      "vite_config_ts"
     ],
     "28": [
-      "KeycloakAuthSession"
+      "home_thang_workspace_react_fashion_vitest_config_ts"
+    ],
+    "29": [
+      "home_thang_workspace_react_fashion_src_config_i18n_ts"
+    ],
+    "30": [
+      "home_thang_workspace_react_fashion_src_mocks_index_ts"
+    ],
+    "31": [
+      "home_thang_workspace_react_fashion_src_pages_authv2_forgotpasswordv2_tsx"
+    ],
+    "32": [
+      "home_thang_workspace_react_fashion_src_test_setup_ts"
+    ],
+    "33": [
+      "home_thang_workspace_react_fashion_src_types_index_ts"
+    ],
+    "34": [
+      "readme"
+    ],
+    "35": [
+      "react_stack"
+    ],
+    "36": [
+      "redux_state_management"
+    ],
+    "37": [
+      "tailwind_styling"
+    ],
+    "38": [
+      "api_contract"
+    ],
+    "39": [
+      "auth_service"
+    ],
+    "40": [
+      "user_service"
+    ],
+    "41": [
+      "product_service"
+    ],
+    "42": [
+      "cart_service"
+    ],
+    "43": [
+      "order_service"
+    ],
+    "44": [
+      "payment_service"
+    ],
+    "45": [
+      "review_service"
+    ],
+    "46": [
+      "notification_service"
+    ],
+    "47": [
+      "shipping_service"
+    ],
+    "48": [
+      "api_gateway"
+    ],
+    "49": [
+      "authentication_feature"
+    ],
+    "50": [
+      "product_browsing"
+    ],
+    "51": [
+      "shopping_cart"
+    ],
+    "52": [
+      "checkout_flow"
+    ],
+    "53": [
+      "order_management"
+    ],
+    "54": [
+      "stripe_payment"
+    ],
+    "55": [
+      "user_profile"
+    ],
+    "56": [
+      "admin_dashboard"
+    ],
+    "57": [
+      "design_system"
+    ],
+    "58": [
+      "color_palette"
+    ],
+    "59": [
+      "typography_system"
+    ],
+    "60": [
+      "dark_mode"
+    ],
+    "61": [
+      "responsive_design"
+    ],
+    "62": [
+      "icon_group"
+    ],
+    "63": [
+      "icon_buy"
+    ],
+    "64": [
+      "icon_deal"
+    ],
+    "65": [
+      "user_management_example"
+    ],
+    "66": [
+      "form_handling"
+    ],
+    "67": [
+      "api_client"
+    ],
+    "68": [
+      "error_handling"
+    ],
+    "69": [
+      "role_based_access"
+    ],
+    "70": [
+      "notifications"
+    ],
+    "71": [
+      "wishlist_feature"
+    ],
+    "72": [
+      "product_reviews"
+    ],
+    "73": [
+      "shipping_tracking"
+    ],
+    "74": [
+      "advanced_search"
     ]
   },
   "cohesion": {},
   "god_nodes": [
     {
-      "id": "routes.tsx",
-      "label": "Route Definitions",
+      "id": "ui_button_button",
+      "label": "Button()",
+      "degree": 27
+    },
+    {
+      "id": "auth_useauth_useauth",
+      "label": "useAuth()",
+      "degree": 17
+    },
+    {
+      "id": "ui_card_card",
+      "label": "Card()",
       "degree": 16
     },
     {
-      "id": "react",
-      "label": "React",
-      "degree": 14
+      "id": "lib_utils_cn",
+      "label": "cn()",
+      "degree": 16
     },
     {
-      "id": "main_tsx",
-      "label": "src/main.tsx",
-      "degree": 10
+      "id": "constants_index_routes",
+      "label": "ROUTES",
+      "degree": 13
     },
     {
-      "id": "order.ts",
-      "label": "Order Types",
-      "degree": 8
+      "id": "common_common_apiresponse",
+      "label": "ApiResponse",
+      "degree": 12
     },
     {
-      "id": "Cart",
-      "label": "Cart",
-      "degree": 8
+      "id": "constants_index_api_endpoints",
+      "label": "API_ENDPOINTS",
+      "degree": 11
     },
     {
-      "id": "button_ui",
-      "label": "Button UI Component",
-      "degree": 7
+      "id": "handlers_mockapihandlers_handlemockapirequest",
+      "label": "handleMockApiRequest()",
+      "degree": 11
     },
     {
-      "id": "Products_page",
-      "label": "Products",
-      "degree": 7
+      "id": "common_common_pageresponse",
+      "label": "PageResponse",
+      "degree": 11
     },
     {
-      "id": "addToCartThunk",
-      "label": "addToCartThunk",
-      "degree": 6
-    },
-    {
-      "id": "Button_comp",
-      "label": "Button",
-      "degree": 6
-    },
-    {
-      "id": "store",
-      "label": "Redux Store",
-      "degree": 6
+      "id": "auth_auth_user",
+      "label": "User",
+      "degree": 9
     }
   ],
   "surprises": [
     {
-      "source": "Cart",
-      "target": "Cart Service",
+      "source": "App()",
+      "target": "useTheme()",
       "source_files": [
-        "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt",
-        "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt"
-      ],
-      "confidence": "INFERRED",
-      "relation": "uses",
-      "why": "inferred connection - not explicitly stated in source; peripheral node `Cart Service` unexpectedly reaches hub `Cart`"
-    },
-    {
-      "source": "Route Definitions",
-      "target": "Cart",
-      "source_files": [
-        "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_Tv5PPAH0uKPiLzjre9iRoRYp__vscode-1778320141721/content.txt",
-        "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt"
+        "src/App.tsx",
+        "/home/thang/Workspace/REACT-FASHION/src/hooks/theme/useTheme.ts"
       ],
       "confidence": "EXTRACTED",
-      "relation": "renders",
-      "why": "bridges separate communities"
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities; peripheral node `App()` unexpectedly reaches hub `useTheme()`"
     },
     {
-      "source": "Orders",
-      "target": "fetchOrdersThunk",
+      "source": "ProtectedRoute()",
+      "target": "useAuth()",
       "source_files": [
-        "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
-        "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt"
+        "/home/thang/Workspace/REACT-FASHION/src/components/navigation/ProtectedRoute.tsx",
+        "src/hooks/auth/useAuth.ts"
       ],
       "confidence": "EXTRACTED",
-      "relation": "dispatches",
-      "why": "cross-file semantic connection"
+      "relation": "calls",
+      "why": "connects across different repos/directories; peripheral node `ProtectedRoute()` unexpectedly reaches hub `useAuth()`"
     },
     {
-      "source": "ProductDetail",
-      "target": "fetchProductBySlugThunk",
+      "source": "SignUp()",
+      "target": "useAuth()",
       "source_files": [
-        "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
-        "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt"
+        "/home/thang/Workspace/REACT-FASHION/src/pages/auth/SignUp.tsx",
+        "src/hooks/auth/useAuth.ts"
       ],
       "confidence": "EXTRACTED",
-      "relation": "dispatches",
-      "why": "cross-file semantic connection"
+      "relation": "calls",
+      "why": "connects across different repos/directories; peripheral node `SignUp()` unexpectedly reaches hub `useAuth()`"
     },
     {
-      "source": "ProductDetail",
-      "target": "addToCartThunk",
+      "source": "Dashboard()",
+      "target": "useAuth()",
       "source_files": [
-        "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_4cTm2Sea6bVQdoRcD9toeefA__vscode-1778320141719/content.txt",
-        "/home/thang/.config/Code/User/workspaceStorage/02f751c77592664cdf86ec6a8ec33960/GitHub.copilot-chat/chat-session-resources/ad91ed13-c21b-4b17-b444-b535eee14c8c/call_W2dHsRSu3TeL2UdQVQkte4CM__vscode-1778320141720/content.txt"
+        "/home/thang/Workspace/REACT-FASHION/src/pages/user/Dashboard.tsx",
+        "src/hooks/auth/useAuth.ts"
       ],
       "confidence": "EXTRACTED",
-      "relation": "dispatches",
-      "why": "cross-file semantic connection"
+      "relation": "calls",
+      "why": "connects across different repos/directories; peripheral node `Dashboard()` unexpectedly reaches hub `useAuth()`"
+    },
+    {
+      "source": "Layout()",
+      "target": "useAuth()",
+      "source_files": [
+        "/home/thang/Workspace/REACT-FASHION/src/components/layout/Layout.tsx",
+        "src/hooks/auth/useAuth.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories"
     }
   ]
 }
