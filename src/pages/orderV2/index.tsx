@@ -1,12 +1,12 @@
-import { OrdersSection } from "./OrdersSection";
-import { SidebarNavigationSection } from "./SidebarNavigationSection";
+import { JSX } from 'react';
+import OrderV2Layout from './components/OrderV2Layout';
+import { OrdersSection } from './sections/OrdersSection';
 
 export const OrderList = (): JSX.Element => {
   return (
-    <main className="relative flex min-h-screen items-start justify-center bg-grayscale-50">
-      <SidebarNavigationSection />
+    <OrderV2Layout>
       <OrdersSection />
-    </main>
+    </OrderV2Layout>
   );
 };
 
