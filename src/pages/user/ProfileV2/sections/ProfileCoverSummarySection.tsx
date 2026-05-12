@@ -1,4 +1,4 @@
-import { Camera, Pencil } from 'lucide-react';
+import { Camera, MapPin, Pencil } from 'lucide-react';
 import type { JSX } from 'react';
 
 import { IconLabelButton } from '@/components/buttons/IconLabelButton';
@@ -11,6 +11,8 @@ export type ProfileCoverSummarySectionProps = {
   avatarSrc: string;
   displayName: string;
   initials: string;
+  onEditProfile: () => void;
+  onEditAddresses: () => void;
 };
 
 /** Kéo block info lên chồng bìa (avatar cắm vào cover). */
@@ -21,6 +23,8 @@ export function ProfileCoverSummarySection({
   avatarSrc,
   displayName,
   initials,
+  onEditProfile,
+  onEditAddresses,
 }: ProfileCoverSummarySectionProps): JSX.Element {
   return (
     <section
@@ -62,16 +66,30 @@ export function ProfileCoverSummarySection({
             {displayName}
           </p>
         </div>
-        <IconLabelButton
-          icon={Pencil}
-          label="Edit profile"
-          variant="outline"
-          pillVariant="default"
-          size="default"
-          className="px-2 py-1 rounded-lg"
-          iconClassName="size-4"
-          labelClassName="text-body-regular text-gray-black"
-        />
+        <div className="flex flex-wrap items-end gap-2">
+          <IconLabelButton
+            icon={Pencil}
+            label="Edit profile"
+            variant="outline"
+            pillVariant="default"
+            size="default"
+            className="rounded-lg px-2 py-1"
+            iconClassName="size-4"
+            labelClassName="text-body-regular text-gray-black"
+            onClick={onEditProfile}
+          />
+          <IconLabelButton
+            icon={MapPin}
+            label="Edit addresses"
+            variant="outline"
+            pillVariant="default"
+            size="default"
+            className="rounded-lg px-2 py-1"
+            iconClassName="size-4"
+            labelClassName="text-body-regular text-gray-black"
+            onClick={onEditAddresses}
+          />
+        </div>
       </div>
     </section>
   );

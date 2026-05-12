@@ -1,8 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { Address, User } from '@/types/auth/auth';
 import {
+  createAddressThunk,
+  deleteAddressThunk,
   fetchAddressesThunk,
   fetchProfileThunk,
+  setDefaultAddressThunk,
+  updateAddressThunk,
   updateProfileThunk,
 } from '@/store/thunks/userThunks';
 
@@ -42,6 +46,18 @@ const userSlice = createSlice({
         state.profile = action.payload;
       })
       .addCase(fetchAddressesThunk.fulfilled, (state, action) => {
+        state.addresses = action.payload;
+      })
+      .addCase(createAddressThunk.fulfilled, (state, action) => {
+        state.addresses = action.payload;
+      })
+      .addCase(updateAddressThunk.fulfilled, (state, action) => {
+        state.addresses = action.payload;
+      })
+      .addCase(setDefaultAddressThunk.fulfilled, (state, action) => {
+        state.addresses = action.payload;
+      })
+      .addCase(deleteAddressThunk.fulfilled, (state, action) => {
         state.addresses = action.payload;
       });
   },

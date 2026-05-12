@@ -41,7 +41,7 @@ const Login: React.FC = () => {
 
   const handleSocialLogin = (provider: SocialProvider) => {
     setSocialLoginProvider(provider);
-    authService.startSocialLogin(provider);
+    authService.socialLogin(provider);
   };
 
   return (

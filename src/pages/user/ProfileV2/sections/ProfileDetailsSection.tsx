@@ -1,15 +1,17 @@
-import { Mail, MapPin, Smartphone } from 'lucide-react';
+import { Mail, MapPin, Smartphone, User } from 'lucide-react';
 import type { JSX } from 'react';
 
-import { ProfileReadOnlyField } from '../components/ProfileReadOnlyField';
+import { LabeledInputField } from '@/components/form/LabeledInputField';
 
 export type ProfileDetailsSectionProps = {
+  fullName: string;
   email: string;
   phone: string;
   locationDisplay: string;
 };
 
 export function ProfileDetailsSection({
+  fullName,
   email,
   phone,
   locationDisplay,
@@ -17,21 +19,31 @@ export function ProfileDetailsSection({
   return (
     <section aria-label="Profile details" className="px-8">
       <div className="grid gap-6 sm:grid-cols-2">
-        <ProfileReadOnlyField
+        <LabeledInputField
+          mode="readonly"
+          id="profile-fullName"
+          label="Full name"
+          icon={User}
+          value={fullName}
+        />
+        <LabeledInputField
+          mode="readonly"
           id="profile-email"
           label="Email address"
           icon={Mail}
           value={email}
         />
-        <ProfileReadOnlyField
+        <LabeledInputField
+          mode="readonly"
           id="profile-phone"
-          label="Phone Number"
+          label="Phone number"
           icon={Smartphone}
           value={phone}
         />
-        <ProfileReadOnlyField
-          id="profile-country"
-          label="Country"
+        <LabeledInputField
+          mode="readonly"
+          id="profile-location"
+          label="Default shipping area"
           icon={MapPin}
           value={locationDisplay}
         />

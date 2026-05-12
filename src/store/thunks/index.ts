@@ -33,4 +33,8 @@ export {
   fetchProfileThunk,
   updateProfileThunk,
   fetchAddressesThunk,
+  createAddressThunk,
+  updateAddressThunk,
+  setDefaultAddressThunk,
+  deleteAddressThunk,
 } from './userThunks';
