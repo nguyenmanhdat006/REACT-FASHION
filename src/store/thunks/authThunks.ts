@@ -19,6 +19,7 @@ import {
   getRefreshToken,
 } from '@/utils/authStorage';
 import { apiFailureMessage } from '@/utils/apiEnvelope';
+import type { ApiResponse } from '@/types/common/common';
 
 const getHttpErrorMessage = (error: unknown, fallback: string) =>
   (error as { response?: { data?: { message?: string } } })?.response?.data?.message ||
@@ -27,7 +28,7 @@ const getHttpErrorMessage = (error: unknown, fallback: string) =>
 
 // Login thunk
 export const loginThunk = createAsyncThunk<
-  AuthResponse,
+  ApiResponse<AuthResponse>,
   LoginCredentials,
   { rejectValue: string }
 >('auth/login', async (credentials, { rejectWithValue }) => {
@@ -38,7 +39,7 @@ export const loginThunk = createAsyncThunk<
     }
     const data = authDataWithNormalizedUser(res.data);
     setAuthTokens(data.accessToken, data.refreshToken);
-    return data;
+    return { ...res, data };
   } catch (error) {
     return rejectWithValue(getHttpErrorMessage(error, 'Login failed'));
   }
@@ -46,7 +47,7 @@ export const loginThunk = createAsyncThunk<
 
 // Sign up thunk
 export const signUpThunk = createAsyncThunk<
-  User,
+  ApiResponse<User>,
   SignUpCredentials,
   { rejectValue: string }
 >('auth/signUp', async (credentials, { rejectWithValue }) => {
@@ -55,35 +56,37 @@ export const signUpThunk = createAsyncThunk<
     if (!res.success || res.data === undefined || res.data === null) {
       return rejectWithValue(apiFailureMessage(res));
     }
-    return normalizeUser(res.data as UserInbound);
+    return { ...res, data: normalizeUser(res.data as UserInbound) };
   } catch (error) {
     return rejectWithValue(getHttpErrorMessage(error, 'Sign up failed'));
   }
 });
 
 // Logout thunk
-export const logoutThunk = createAsyncThunk<void, void, { rejectValue: string }>(
-  'auth/logout',
-  async () => {
-    try {
-      const refreshToken = getRefreshToken();
+export const logoutThunk = createAsyncThunk<
+  ApiResponse<null>,
+  void,
+  { rejectValue: string }
+>('auth/logout', async () => {
+  try {
+    const refreshToken = getRefreshToken();
 
-      if (!refreshToken) {
-        clearAuthTokens();
-        return;
-      }
-
-      await authService.logout(refreshToken);
-    } catch {
-      // Always clear local session even if backend logout endpoint fails.
-    } finally {
+    if (!refreshToken) {
       clearAuthTokens();
+      return { success: true as const, data: null };
     }
+
+    await authService.logout(refreshToken);
+  } catch {
+    // Always clear local session even if backend logout endpoint fails.
+  } finally {
+    clearAuthTokens();
   }
-);
+  return { success: true as const, data: null };
+});
 
 export const refreshTokenThunk = createAsyncThunk<
-  AuthResponse,
+  ApiResponse<AuthResponse>,
   string,
   { rejectValue: string }
 >('auth/refreshToken', async (refreshToken, { rejectWithValue }) => {
@@ -94,14 +97,14 @@ export const refreshTokenThunk = createAsyncThunk<
     }
     const data = authDataWithNormalizedUser(res.data);
     setAuthTokens(data.accessToken, data.refreshToken);
-    return data;
+    return { ...res, data };
   } catch (error) {
     return rejectWithValue(getHttpErrorMessage(error, 'Failed to refresh token'));
   }
 });
 
 export const getProfileThunk = createAsyncThunk<
-  User,
+  ApiResponse<User>,
   void,
   { rejectValue: string }
 >('auth/getProfile', async (_, { rejectWithValue }) => {
@@ -110,20 +113,21 @@ export const getProfileThunk = createAsyncThunk<
     if (!res.success || res.data === undefined || res.data === null) {
       return rejectWithValue(apiFailureMessage(res));
     }
-    return finalizeUserFromMeEnvelope(res);
+    return { ...res, data: finalizeUserFromMeEnvelope(res) };
   } catch (error) {
     return rejectWithValue(getHttpErrorMessage(error, 'Failed to load profile'));
   }
 });
 
 export const forgotPasswordThunk = createAsyncThunk<
-  void,
+  ApiResponse<null>,
   ForgotPasswordData,
   { rejectValue: string }
 >('auth/forgotPassword', async (data, { rejectWithValue }) => {
   try {
     const res = await authService.forgotPassword(data);
     if (!res.success) return rejectWithValue(apiFailureMessage(res));
+    return res;
   } catch (error) {
     return rejectWithValue(
       getHttpErrorMessage(error, 'Unable to send reset email')

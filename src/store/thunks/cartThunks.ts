@@ -68,13 +68,13 @@ export const removeCartItemThunk = createAsyncThunk<
 });
 
 export const clearCartThunk = createAsyncThunk<
-  true,
+  ApiResponse<null>,
   void,
   { rejectValue: string }
 >('cart/clearCart', async (_, { rejectWithValue }) => {
   try {
     await cartService.clearCart();
-    return true;
+    return { success: true as const, data: null };
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to clear cart'));
   }

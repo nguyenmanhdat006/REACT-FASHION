@@ -19,8 +19,16 @@ const listFromEnvelope = (res: ApiResponse<AddressInbound[]>): Address[] | null 
   return normalizeAddressList(res.data);
 };
 
+const toNormalizedAddressesEnvelope = (
+  res: ApiResponse<AddressInbound[]>
+): ApiResponse<Address[]> | null => {
+  const list = listFromEnvelope(res);
+  if (!list) return null;
+  return { ...res, data: list };
+};
+
 export const fetchProfileThunk = createAsyncThunk<
-  User,
+  ApiResponse<User>,
   void,
   { rejectValue: string }
 >('user/fetchProfile', async (_, { rejectWithValue }) => {
@@ -29,14 +37,14 @@ export const fetchProfileThunk = createAsyncThunk<
     if (!res.success || res.data === undefined || res.data === null) {
       return rejectWithValue(apiFailureMessage(res));
     }
-    return normalizeUser(res.data as UserInbound);
+    return { ...res, data: normalizeUser(res.data as UserInbound) };
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to fetch profile'));
   }
 });
 
 export const updateProfileThunk = createAsyncThunk<
-  User,
+  ApiResponse<User>,
   Partial<User>,
   { rejectValue: string }
 >('user/updateProfile', async (payload, { rejectWithValue }) => {
@@ -45,29 +53,29 @@ export const updateProfileThunk = createAsyncThunk<
     if (!res.success || res.data === undefined || res.data === null) {
       return rejectWithValue(apiFailureMessage(res));
     }
-    return normalizeUser(res.data as UserInbound);
+    return { ...res, data: normalizeUser(res.data as UserInbound) };
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to update profile'));
   }
 });
 
 export const fetchAddressesThunk = createAsyncThunk<
-  Address[],
+  ApiResponse<Address[]>,
   void,
   { rejectValue: string }
 >('user/fetchAddresses', async (_, { rejectWithValue }) => {
   try {
     const res = await userService.getAddresses();
-    const list = listFromEnvelope(res);
-    if (!list) return rejectWithValue(apiFailureMessage(res));
-    return list;
+    const out = toNormalizedAddressesEnvelope(res);
+    if (!out) return rejectWithValue(apiFailureMessage(res));
+    return out;
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to fetch addresses'));
   }
 });
 
 export const createAddressThunk = createAsyncThunk<
-  Address[],
+  ApiResponse<Address[]>,
   CreateAddressRequest,
   { rejectValue: string }
 >('user/createAddress', async (payload, { rejectWithValue }) => {
@@ -75,16 +83,16 @@ export const createAddressThunk = createAsyncThunk<
     const createRes = await userService.createAddress(payload);
     if (!createRes.success) return rejectWithValue(apiFailureMessage(createRes));
     const res = await userService.getAddresses();
-    const list = listFromEnvelope(res);
-    if (!list) return rejectWithValue(apiFailureMessage(res));
-    return list;
+    const out = toNormalizedAddressesEnvelope(res);
+    if (!out) return rejectWithValue(apiFailureMessage(res));
+    return out;
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to create address'));
   }
 });
 
 export const updateAddressThunk = createAsyncThunk<
-  Address[],
+  ApiResponse<Address[]>,
   { id: string; body: UpdateAddressRequest },
   { rejectValue: string }
 >('user/updateAddress', async ({ id, body }, { rejectWithValue }) => {
@@ -92,16 +100,16 @@ export const updateAddressThunk = createAsyncThunk<
     const updateRes = await userService.updateAddress(id, body);
     if (!updateRes.success) return rejectWithValue(apiFailureMessage(updateRes));
     const res = await userService.getAddresses();
-    const list = listFromEnvelope(res);
-    if (!list) return rejectWithValue(apiFailureMessage(res));
-    return list;
+    const out = toNormalizedAddressesEnvelope(res);
+    if (!out) return rejectWithValue(apiFailureMessage(res));
+    return out;
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to update address'));
   }
 });
 
 export const setDefaultAddressThunk = createAsyncThunk<
-  Address[],
+  ApiResponse<Address[]>,
   string,
   { rejectValue: string }
 >('user/setDefaultAddress', async (id, { rejectWithValue }) => {
@@ -109,16 +117,16 @@ export const setDefaultAddressThunk = createAsyncThunk<
     const defRes = await userService.setDefaultAddress(id);
     if (!defRes.success) return rejectWithValue(apiFailureMessage(defRes));
     const res = await userService.getAddresses();
-    const list = listFromEnvelope(res);
-    if (!list) return rejectWithValue(apiFailureMessage(res));
-    return list;
+    const out = toNormalizedAddressesEnvelope(res);
+    if (!out) return rejectWithValue(apiFailureMessage(res));
+    return out;
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to set default address'));
   }
 });
 
 export const deleteAddressThunk = createAsyncThunk<
-  Address[],
+  ApiResponse<Address[]>,
   string,
   { rejectValue: string }
 >('user/deleteAddress', async (id, { rejectWithValue }) => {
@@ -126,9 +134,9 @@ export const deleteAddressThunk = createAsyncThunk<
     const delRes = await userService.deleteAddress(id);
     if (!delRes.success) return rejectWithValue(apiFailureMessage(delRes));
     const res = await userService.getAddresses();
-    const list = listFromEnvelope(res);
-    if (!list) return rejectWithValue(apiFailureMessage(res));
-    return list;
+    const out = toNormalizedAddressesEnvelope(res);
+    if (!out) return rejectWithValue(apiFailureMessage(res));
+    return out;
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to delete address'));
   }

@@ -56,7 +56,7 @@ export const fetchFeaturedProductsThunk = createAsyncThunk<
 });
 
 export const fetchProductBySlugThunk = createAsyncThunk<
-  Product,
+  ApiResponse<Product>,
   string,
   { rejectValue: string }
 >('products/fetchProductBySlug', async (slug, { rejectWithValue }) => {
@@ -65,14 +65,14 @@ export const fetchProductBySlugThunk = createAsyncThunk<
     if (!res.success || res.data === undefined || res.data === null) {
       return rejectWithValue(apiFailureMessage(res));
     }
-    return res.data;
+    return res;
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to fetch product'));
   }
 });
 
 export const fetchCategoriesThunk = createAsyncThunk<
-  Category[],
+  ApiResponse<Category[]>,
   void,
   { rejectValue: string }
 >('products/fetchCategories', async (_, { rejectWithValue }) => {
@@ -81,31 +81,32 @@ export const fetchCategoriesThunk = createAsyncThunk<
     if (!res.success || !Array.isArray(res.data)) {
       return rejectWithValue(apiFailureMessage(res));
     }
-    return res.data;
+    return res;
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to fetch categories'));
   }
 });
 
-export const fetchBrandsThunk = createAsyncThunk<Brand[], void, { rejectValue: string }>(
-  'products/fetchBrands',
-  async (_, { rejectWithValue }) => {
-    try {
-      const res = await productService.getBrands();
-      if (!res.success || !Array.isArray(res.data)) {
-        return rejectWithValue(apiFailureMessage(res));
-      }
-      return res.data;
-    } catch (error) {
-      return rejectWithValue(getErrorMessage(error, 'Failed to fetch brands'));
+export const fetchBrandsThunk = createAsyncThunk<
+  ApiResponse<Brand[]>,
+  void,
+  { rejectValue: string }
+>('products/fetchBrands', async (_, { rejectWithValue }) => {
+  try {
+    const res = await productService.getBrands();
+    if (!res.success || !Array.isArray(res.data)) {
+      return rejectWithValue(apiFailureMessage(res));
     }
+    return res;
+  } catch (error) {
+    return rejectWithValue(getErrorMessage(error, 'Failed to fetch brands'));
   }
-);
+});
 
 export type V2PublishedScope = 'home' | 'explore';
 
 export const fetchV2PublishedProductsThunk = createAsyncThunk<
-  { scope: V2PublishedScope; products: Product[] },
+  ApiResponse<Product[], PageMeta>,
   { scope: V2PublishedScope; params?: ProductListParams },
   { rejectValue: string }
 >('products/fetchV2Published', async ({ scope, params }, { rejectWithValue }) => {
@@ -119,16 +120,14 @@ export const fetchV2PublishedProductsThunk = createAsyncThunk<
     if (!res.success || !Array.isArray(res.data)) {
       return rejectWithValue(apiFailureMessage(res));
     }
-
-    console.log('res', res);
-    return { scope, products: res.data };
+    return res;
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to load products'));
   }
 });
 
 export const fetchProductByIdThunk = createAsyncThunk<
-  Product,
+  ApiResponse<Product>,
   string,
   { rejectValue: string }
 >('products/fetchProductById', async (id, { rejectWithValue }) => {
@@ -137,14 +136,14 @@ export const fetchProductByIdThunk = createAsyncThunk<
     if (!res.success || res.data === undefined || res.data === null) {
       return rejectWithValue(apiFailureMessage(res));
     }
-    return res.data;
+    return res;
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to load product'));
   }
 });
 
 export const fetchAdminProductMetaThunk = createAsyncThunk<
-  { categories: Category[]; brands: Brand[] },
+  ApiResponse<{ categories: Category[]; brands: Brand[] }>,
   void,
   { rejectValue: string }
 >('products/fetchAdminProductMeta', async (_, { rejectWithValue }) => {
@@ -159,14 +158,17 @@ export const fetchAdminProductMetaThunk = createAsyncThunk<
     if (!brandRes.success || !Array.isArray(brandRes.data)) {
       return rejectWithValue(apiFailureMessage(brandRes));
     }
-    return { categories: catRes.data, brands: brandRes.data };
+    return {
+      success: true,
+      data: { categories: catRes.data, brands: brandRes.data },
+    };
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to load categories and brands'));
   }
 });
 
 export const createProductThunk = createAsyncThunk<
-  Product,
+  ApiResponse<Product>,
   CreateProductRequest,
   { rejectValue: string }
 >('products/createProduct', async (payload, { rejectWithValue }) => {
@@ -175,21 +177,22 @@ export const createProductThunk = createAsyncThunk<
     if (!res.success || res.data === undefined || res.data === null) {
       return rejectWithValue(apiFailureMessage(res));
     }
-    return res.data;
+    return res;
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to create product'));
   }
 });
 
-export const deleteProductThunk = createAsyncThunk<string, string, { rejectValue: string }>(
-  'products/deleteProduct',
-  async (id, { rejectWithValue }) => {
-    try {
-      const res = await productService.deleteProduct(id);
-      if (!res.success) return rejectWithValue(apiFailureMessage(res));
-      return id;
-    } catch (error) {
-      return rejectWithValue(getErrorMessage(error, 'Failed to delete product'));
-    }
+export const deleteProductThunk = createAsyncThunk<
+  ApiResponse<unknown>,
+  string,
+  { rejectValue: string }
+>('products/deleteProduct', async (id, { rejectWithValue }) => {
+  try {
+    const res = await productService.deleteProduct(id);
+    if (!res.success) return rejectWithValue(apiFailureMessage(res));
+    return res;
+  } catch (error) {
+    return rejectWithValue(getErrorMessage(error, 'Failed to delete product'));
   }
-);
+});

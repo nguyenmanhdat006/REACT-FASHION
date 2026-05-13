@@ -103,8 +103,8 @@ const productsSlice = createSlice({
       .addCase(fetchProductsThunk.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = null;
-        state.items = action.payload.data;
-        const meta = action.payload.meta;
+        const { data, meta } = action.payload;
+        state.items = data;
         if (meta) {
           state.page = meta.page;
           state.size = meta.size;
@@ -120,7 +120,8 @@ const productsSlice = createSlice({
         state.totalPages = 0;
       })
       .addCase(fetchFeaturedProductsThunk.fulfilled, (state, action) => {
-        state.featured = action.payload.data;
+        const { data } = action.payload;
+        state.featured = data;
       })
       .addCase(fetchProductBySlugThunk.pending, state => {
         state.isLoading = true;
@@ -128,17 +129,20 @@ const productsSlice = createSlice({
       })
       .addCase(fetchProductBySlugThunk.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.selectedProduct = action.payload;
+        const { data } = action.payload;
+        state.selectedProduct = data;
       })
       .addCase(fetchProductBySlugThunk.rejected, (state, action) => {
         state.isLoading = false;
         state.error = (action.payload as string) || 'Failed to fetch product';
       })
       .addCase(fetchCategoriesThunk.fulfilled, (state, action) => {
-        state.categories = action.payload;
+        const { data } = action.payload;
+        state.categories = data;
       })
       .addCase(fetchBrandsThunk.fulfilled, (state, action) => {
-        state.brands = action.payload;
+        const { data } = action.payload;
+        state.brands = data;
       })
       .addCase(fetchV2PublishedProductsThunk.pending, (state, action) => {
         if (action.meta.arg.scope === 'home') {
@@ -150,12 +154,13 @@ const productsSlice = createSlice({
         }
       })
       .addCase(fetchV2PublishedProductsThunk.fulfilled, (state, action) => {
-        if (action.payload.scope === 'home') {
+        const { data } = action.payload;
+        if (action.meta.arg.scope === 'home') {
           state.homeTilesLoading = false;
-          state.homePublishedProducts = action.payload.products;
+          state.homePublishedProducts = data;
         } else {
           state.exploreTilesLoading = false;
-          state.explorePublishedProducts = action.payload.products;
+          state.explorePublishedProducts = data;
         }
       })
       .addCase(fetchV2PublishedProductsThunk.rejected, (state, action) => {
@@ -178,7 +183,8 @@ const productsSlice = createSlice({
       })
       .addCase(fetchProductByIdThunk.fulfilled, (state, action) => {
         state.productDetailLoading = false;
-        state.productDetail = action.payload;
+        const { data } = action.payload;
+        state.productDetail = data;
       })
       .addCase(fetchProductByIdThunk.rejected, (state, action) => {
         state.productDetailLoading = false;
@@ -191,8 +197,9 @@ const productsSlice = createSlice({
       })
       .addCase(fetchAdminProductMetaThunk.fulfilled, (state, action) => {
         state.metaLoading = false;
-        state.activeCategories = action.payload.categories;
-        state.activeBrands = action.payload.brands;
+        const { data } = action.payload;
+        state.activeCategories = data.categories;
+        state.activeBrands = data.brands;
       })
       .addCase(fetchAdminProductMetaThunk.rejected, (state, action) => {
         state.metaLoading = false;
@@ -201,10 +208,11 @@ const productsSlice = createSlice({
         state.activeBrands = [];
       })
       .addCase(createProductThunk.fulfilled, (state, action) => {
-        state.items = [action.payload, ...state.items];
+        const { data } = action.payload;
+        state.items = [data, ...state.items];
       })
       .addCase(deleteProductThunk.fulfilled, (state, action) => {
-        const id = action.payload;
+        const id = action.meta.arg;
         state.items = state.items.filter(p => p.id !== id);
         state.homePublishedProducts = state.homePublishedProducts.filter(p => p.id !== id);
         state.explorePublishedProducts = state.explorePublishedProducts.filter(p => p.id !== id);

@@ -24,7 +24,7 @@ export const fetchOrdersThunk = createAsyncThunk<
 });
 
 export const fetchOrderByIdThunk = createAsyncThunk<
-  Order,
+  ApiResponse<Order>,
   string,
   { rejectValue: string }
 >('orders/fetchOrderById', async (id, { rejectWithValue }) => {
@@ -33,14 +33,14 @@ export const fetchOrderByIdThunk = createAsyncThunk<
     if (!res.success || res.data === undefined || res.data === null) {
       return rejectWithValue(apiFailureMessage(res));
     }
-    return res.data;
+    return res;
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to fetch order'));
   }
 });
 
 export const createOrderThunk = createAsyncThunk<
-  Order,
+  ApiResponse<Order>,
   CreateOrderRequest,
   { rejectValue: string }
 >('orders/createOrder', async (payload, { rejectWithValue }) => {
@@ -49,14 +49,14 @@ export const createOrderThunk = createAsyncThunk<
     if (!res.success || res.data === undefined || res.data === null) {
       return rejectWithValue(apiFailureMessage(res));
     }
-    return res.data;
+    return res;
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to create order'));
   }
 });
 
 export const cancelOrderThunk = createAsyncThunk<
-  Order,
+  ApiResponse<Order>,
   { id: string; reason: string },
   { rejectValue: string }
 >('orders/cancelOrder', async (payload, { rejectWithValue }) => {
@@ -65,7 +65,7 @@ export const cancelOrderThunk = createAsyncThunk<
     if (!res.success || res.data === undefined || res.data === null) {
       return rejectWithValue(apiFailureMessage(res));
     }
-    return res.data;
+    return res;
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to cancel order'));
   }

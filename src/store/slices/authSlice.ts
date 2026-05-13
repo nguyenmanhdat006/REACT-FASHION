@@ -77,9 +77,10 @@ const authSlice = createSlice({
       })
       .addCase(loginThunk.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.user = action.payload.user;
-        state.accessToken = action.payload.accessToken;
-        state.refreshToken = action.payload.refreshToken;
+        const { data } = action.payload;
+        state.user = data.user;
+        state.accessToken = data.accessToken;
+        state.refreshToken = data.refreshToken;
         state.isAuthenticated = true;
         state.error = null;
       })
@@ -96,7 +97,8 @@ const authSlice = createSlice({
       })
       .addCase(signUpThunk.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.user = action.payload;
+        const { data } = action.payload;
+        state.user = data;
         state.accessToken = null;
         state.refreshToken = null;
         state.isAuthenticated = false;
@@ -137,8 +139,9 @@ const authSlice = createSlice({
       })
       .addCase(refreshTokenThunk.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.accessToken = action.payload.accessToken;
-        state.refreshToken = action.payload.refreshToken;
+        const { data } = action.payload;
+        state.accessToken = data.accessToken;
+        state.refreshToken = data.refreshToken;
         state.isAuthenticated = true;
         state.error = null;
       })
@@ -155,7 +158,8 @@ const authSlice = createSlice({
       })
       .addCase(getProfileThunk.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.user = action.payload;
+        const { data } = action.payload;
+        state.user = data;
         state.isAuthenticated = !!state.accessToken;
         state.error = null;
       })
