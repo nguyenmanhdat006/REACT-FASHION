@@ -1,7 +1,7 @@
 import { useEffect, useMemo, type JSX } from 'react';
 
 import { ProductCard } from '@/components/cards/ProductCard';
-import { useV2ProductCatalog } from '@/hooks/product/useV2ProductCatalog';
+import { useProducts } from '@/hooks/product/useProducts';
 import { useAppSelector } from '@/store/hooks';
 
 import { useProductDetailsModal } from '../ProductDetailsModalContext';
@@ -10,7 +10,7 @@ import { productToExploreProductTile } from '../productDisplayMappers';
 
 export default function Products(): JSX.Element {
   const { openProductDetails } = useProductDetailsModal();
-  const { fetchExplorePublished } = useV2ProductCatalog();
+  const { fetchExplorePublished } = useProducts();
   const { explorePublishedProducts, exploreTilesLoading } = useAppSelector(s => s.products);
 
   useEffect(() => {

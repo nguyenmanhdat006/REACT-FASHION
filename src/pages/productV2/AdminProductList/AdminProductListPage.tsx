@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState, type JSX } from 'react';
 
 import AdminProductList from '@/pages/productV2/AdminProductList/sections/AdminProductList';
 import { productToAdminProductRow } from '@/pages/productV2/productDisplayMappers';
-import { useAdminProductList } from '@/hooks/product/useAdminProductList';
+import { useProducts } from '@/hooks/product/useProducts';
 import { useAppSelector } from '@/store/hooks';
 
 import type { AdminProductRow } from './sections/AdminProductList';
@@ -12,7 +12,7 @@ const PAGE_SIZE = 10;
 
 export default function AdminProductListPage(): JSX.Element {
   const [page, setPage] = useState(1);
-  const { fetchProductsPage, deleteProduct } = useAdminProductList();
+  const { fetchProductsPage, deleteProduct } = useProducts();
   const { items, totalPages, isLoading, error } = useAppSelector(s => s.products);
 
   const listFilters = useMemo(

@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 import type { SelectOption } from '@/components/FormField';
 import { ROUTESV2 } from '@/constants';
-import { useAdminAddProduct } from '@/hooks/product/useAdminAddProduct';
+import { useProducts } from '@/hooks/product/useProducts';
 import { useAppSelector } from '@/store/hooks';
 
 import AdminAddProductDetailsSection from './sections/AdminAddProductDetailsSection';
@@ -35,7 +35,7 @@ function flattenCategories(nodes: Category[]): SelectOption[] {
 
 export default function AdminAddProduct(): JSX.Element {
   const navigate = useNavigate();
-  const { loadMeta, createProduct } = useAdminAddProduct();
+  const { loadMeta, createProduct } = useProducts();
   const { activeBrands, activeCategories, metaLoading, metaError } = useAppSelector(
     s => s.products
   );

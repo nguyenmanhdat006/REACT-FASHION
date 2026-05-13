@@ -1,7 +1,7 @@
 import { useEffect, useMemo, type JSX } from 'react';
 
 import { IMAGES } from '@/constants/images';
-import { useV2ProductDetail } from '@/hooks/product/useV2ProductDetail';
+import { useProducts } from '@/hooks/product/useProducts';
 import { useAppSelector } from '@/store/hooks';
 
 import {
@@ -39,7 +39,7 @@ const FALLBACK_THUMBS = [
 ] as const;
 
 export function ProductDetails({ onClose, productId }: ProductDetailsProps): JSX.Element {
-  const { fetchProductById, clearDetail } = useV2ProductDetail();
+  const { fetchProductById, clearDetail } = useProducts();
   const product = useAppSelector(s => s.products.productDetail);
 
   useEffect(() => {

@@ -117,7 +117,7 @@ export const fetchV2PublishedProductsThunk = createAsyncThunk<
       ...params,
     };
     const res = await productService.getPublishedProducts(merged);
-    if (!res.success || !Array.isArray(res.data)) {
+    if (res.success === false || !Array.isArray(res.data)) {
       return rejectWithValue(apiFailureMessage(res));
     }
     return res;
