@@ -125,7 +125,7 @@ export const ADMIN_SHELL_ROUTES: AppShellRoute[] = [
     icon: ShoppingCart,
     showInSidebar: true,
     sidebarOrder: 3,
-    showHeaderFiltersRow: false,
+    showHeaderFiltersRow: true,
     showQuickFilter: false,
   },
   {
