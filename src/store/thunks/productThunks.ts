@@ -119,6 +119,8 @@ export const fetchV2PublishedProductsThunk = createAsyncThunk<
     if (!res.success || !Array.isArray(res.data)) {
       return rejectWithValue(apiFailureMessage(res));
     }
+
+    console.log('res', res);
     return { scope, products: res.data };
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to load products'));
