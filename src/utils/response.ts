@@ -9,3 +9,19 @@ export const unwrapApiData = <T>(response: MaybeWrapped<T>): T => {
 
   return response as T;
 };
+
+export const unwrapApiSuccess = <T>(body: MaybeWrapped<T>): T => {
+  if (body && typeof body === 'object' && 'success' in body) {
+    const envelope = body as ApiResponse<T>;
+    if (envelope.success === false) {
+      const msg =
+        (typeof envelope.error === 'string' && envelope.error.trim()) ||
+        envelope.message?.trim() ||
+        'Request failed';
+      throw new Error(msg);
+    }
+    return envelope.data as T;
+  }
+
+  return unwrapApiData(body);
+};

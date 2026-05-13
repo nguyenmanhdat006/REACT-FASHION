@@ -433,11 +433,11 @@ export const handleMockApiRequest = async <T>(
     let filtered = [...mockProducts];
 
     if (params.categoryId) {
-      filtered = filtered.filter(product => product.category.id === String(params.categoryId));
+      filtered = filtered.filter(product => product.category?.id === String(params.categoryId));
     }
 
     if (params.brandId) {
-      filtered = filtered.filter(product => product.brand.id === String(params.brandId));
+      filtered = filtered.filter(product => product.brand?.id === String(params.brandId));
     }
 
     if (params.featured !== undefined) {
@@ -498,11 +498,11 @@ export const handleMockApiRequest = async <T>(
           id: `ci-${mockCart.items.length + 1}`,
           productId,
           productName: product.name,
-          productImageUrl: product.images[0]?.imageUrl || '',
+          productImageUrl: product.images?.[0]?.imageUrl || '',
           quantity,
           price: unitPrice,
           total: quantity * unitPrice,
-          inStock: product.stockQuantity > 0,
+          inStock: (product.stockQuantity ?? 0) > 0,
           createdAt: new Date().toISOString(),
         });
       }
@@ -880,7 +880,7 @@ export const handleMockApiRequest = async <T>(
 
   if (method === 'get' && cleanUrl.startsWith('/products/category/')) {
     const categoryId = cleanUrl.replace('/products/category/', '');
-    const filtered = mockProducts.filter(product => product.category.id === categoryId);
+    const filtered = mockProducts.filter(product => product.category?.id === categoryId);
     return toResponse(
       toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 20))
     ) as T;
@@ -888,7 +888,7 @@ export const handleMockApiRequest = async <T>(
 
   if (method === 'get' && cleanUrl.startsWith('/products/brand/')) {
     const brandId = cleanUrl.replace('/products/brand/', '');
-    const filtered = mockProducts.filter(product => product.brand.id === brandId);
+    const filtered = mockProducts.filter(product => product.brand?.id === brandId);
     return toResponse(
       toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 20))
     ) as T;

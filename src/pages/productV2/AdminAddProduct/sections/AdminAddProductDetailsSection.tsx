@@ -1,5 +1,6 @@
 import { Controller, type Control, type FieldErrors, type UseFormRegister } from 'react-hook-form';
 
+import type { SelectOption } from '@/components/FormField';
 import { FormField } from '@/components/FormField';
 import { Button } from '@/components/ui/button';
 import {
@@ -22,12 +23,18 @@ type AdminAddProductDetailsSectionProps = {
   register: UseFormRegister<AdminAddProductFormValues>;
   control: Control<AdminAddProductFormValues>;
   errors: FieldErrors<AdminAddProductFormValues>;
+  brandOptions?: SelectOption[];
+  categoryOptions?: SelectOption[];
+  isSubmitting?: boolean;
 };
 
 export default function AdminAddProductDetailsSection({
   register,
   control,
   errors,
+  brandOptions = BRAND_OPTIONS,
+  categoryOptions = CATEGORY_OPTIONS,
+  isSubmitting = false,
 }: AdminAddProductDetailsSectionProps) {
   return (
     <div className="col-span-12 lg:col-span-6">
@@ -74,7 +81,7 @@ export default function AdminAddProductDetailsSection({
                   id="product-brand"
                   label="Brand"
                   placeholder="Select the brand name"
-                  options={BRAND_OPTIONS}
+                  options={brandOptions}
                   value={field.value}
                   onValueChange={field.onChange}
                   error={errors.brand}
@@ -93,7 +100,7 @@ export default function AdminAddProductDetailsSection({
                   id="product-category"
                   label="Category"
                   placeholder="Select category"
-                  options={CATEGORY_OPTIONS}
+                  options={categoryOptions}
                   value={field.value}
                   onValueChange={field.onChange}
                   error={errors.category}
@@ -147,8 +154,12 @@ export default function AdminAddProductDetailsSection({
           />
 
           <div className="flex justify-end pt-2">
-            <Button type="submit" className="h-12 rounded-2xl px-8 text-body-regular">
-              Publish
+            <Button
+              type="submit"
+              className="h-12 rounded-2xl px-8 text-body-regular"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Publishing…' : 'Publish'}
             </Button>
           </div>
         </CardContent>

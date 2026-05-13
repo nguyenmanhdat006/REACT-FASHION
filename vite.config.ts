@@ -24,7 +24,9 @@ export default defineConfig({
     open: true,
     proxy: {
       '/api': {
+        /** Product Service contract: `http://localhost:8082` with paths under `/api/...`. */
         target: 'https://ecommerce-api-gateway.kruzetech.dev',
+        // target: 'http://localhost:8082',
         // target: 'http://localhost:8080',
         changeOrigin: true,
       },

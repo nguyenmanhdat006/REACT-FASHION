@@ -1,23 +1,49 @@
-import { useState, type JSX } from "react";
-import { Heart } from "lucide-react";
+import { useEffect, useState, type JSX } from 'react';
+import { Heart, type LucideIcon } from 'lucide-react';
 
-import { IconButton } from "@/components/buttons/IconButton";
-import { LabelButton } from "@/components/buttons/LabelButton";
-import { useHorizontalDragScroll } from "@/hooks/useHorizontalDragScroll";
-import { cn } from "@/lib/utils";
+import { IconButton } from '@/components/buttons/IconButton';
+import { LabelButton } from '@/components/buttons/LabelButton';
+import { useHorizontalDragScroll } from '@/hooks/useHorizontalDragScroll';
+import { cn } from '@/lib/utils';
 
-import { SHIPPING_ITEMS, SIZE_OPTIONS } from "../constants";
-import { ProductDetailsAccordion } from "../../components/ProductDetailsAccordion";
-import { ProductDetailsShippingItem } from "../../components/ProductDetailsShippingItem";
+import { ProductDetailsAccordion } from '../../components/ProductDetailsAccordion';
+import { ProductDetailsShippingItem } from '../../components/ProductDetailsShippingItem';
+import type { SizeOption } from '../../productDisplayMappers';
 
-export default function ProductDetailsRightSection(): JSX.Element {
-  const [selectedSize, setSelectedSize] = useState("S");
+export type ProductDetailsRightSectionProps = {
+  productTitle: string;
+  priceLabel: string;
+  description: string;
+  sizeOptions: SizeOption[];
+  shippingItems: readonly {
+    title: string;
+    value: string;
+    Icon: LucideIcon;
+  }[];
+};
+
+export default function ProductDetailsRightSection({
+  productTitle,
+  priceLabel,
+  description,
+  sizeOptions,
+  shippingItems,
+}: ProductDetailsRightSectionProps): JSX.Element {
+  const [selectedSize, setSelectedSize] = useState(() => {
+    const first = sizeOptions.find((s) => s.available);
+    return first?.label ?? sizeOptions[0]?.label ?? 'S';
+  });
   const [isDescriptionOpen, setIsDescriptionOpen] = useState(true);
   const [isShippingOpen, setIsShippingOpen] = useState(true);
   const [isWishlisted, setIsWishlisted] = useState(false);
 
+  useEffect(() => {
+    const first = sizeOptions.find((s) => s.available);
+    setSelectedSize(first?.label ?? sizeOptions[0]?.label ?? 'S');
+  }, [productTitle, sizeOptions]);
+
   const sizeStripDrag = useHorizontalDragScroll<HTMLDivElement>({
-    ignoreDragFromSelector: "button",
+    ignoreDragFromSelector: 'button',
   });
 
   return (
@@ -27,11 +53,9 @@ export default function ProductDetailsRightSection(): JSX.Element {
           id="product-details-title"
           className="m-0 whitespace-nowrap text-h5-medium text-black"
         >
-          Supper Skinny jogger in brown
+          {productTitle}
         </h1>
-        <p className="m-0 whitespace-nowrap text-h5-medium text-black">
-          $36
-        </p>
+        <p className="m-0 whitespace-nowrap text-h5-medium text-black">{priceLabel}</p>
       </div>
 
       <div className="whitespace-nowrap text-caption-lg-regular leading-5 text-gray-500">
@@ -43,24 +67,24 @@ export default function ProductDetailsRightSection(): JSX.Element {
         role="group"
         aria-label="Select product size"
         className={cn(
-          "flex min-w-0 w-full shrink-0 cursor-grab items-center gap-2 overflow-x-auto overscroll-x-contain scrollbar-hide active:cursor-grabbing",
-          "touch-pan-x select-none"
+          'flex min-w-0 w-full shrink-0 cursor-grab items-center gap-2 overflow-x-auto overscroll-x-contain scrollbar-hide active:cursor-grabbing',
+          'touch-pan-x select-none'
         )}
         onPointerDown={sizeStripDrag.onPointerDown}
         onPointerMove={sizeStripDrag.onPointerMove}
         onPointerUp={sizeStripDrag.onPointerUp}
         onPointerCancel={sizeStripDrag.onPointerCancel}
       >
-        {SIZE_OPTIONS.map((size) => {
+        {sizeOptions.map((size, index) => {
           const selected = selectedSize === size.label;
           return (
             <LabelButton
-              key={size.label}
+              key={`${size.label}-${index}`}
               type="button"
               label={size.label}
               disabled={!size.available}
-              tone={size.available && selected ? "primary" : "default"}
-              aria-label={`Size ${size.label}${!size.available ? " unavailable" : ""}`}
+              tone={size.available && selected ? 'primary' : 'default'}
+              aria-label={`Size ${size.label}${!size.available ? ' unavailable' : ''}`}
               aria-pressed={size.available ? selected : undefined}
               onClick={() => {
                 if (size.available) setSelectedSize(size.label);
@@ -88,19 +112,19 @@ export default function ProductDetailsRightSection(): JSX.Element {
         <IconButton
           icon={Heart}
           ariaLabel={
-            isWishlisted ? "Remove from wishlist" : "Add to wishlist"
+            isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'
           }
           aria-pressed={isWishlisted}
           onClick={() => setIsWishlisted((prev) => !prev)}
           className={cn(
-            "shrink-0 rounded-[60px] bg-[#f5f5f5] px-4 py-4 hover:bg-[#f5f5f5]",
-            "shadow-none focus-visible:ring-0"
+            'shrink-0 rounded-[60px] bg-[#f5f5f5] px-4 py-4 hover:bg-[#f5f5f5]',
+            'shadow-none focus-visible:ring-0'
           )}
           iconClassName={cn(
-            "size-6 transition-[fill,color] duration-200",
+            'size-6 transition-[fill,color] duration-200',
             isWishlisted
-              ? "fill-[#e53935] text-[#e53935]"
-              : "fill-none text-gray-black"
+              ? 'fill-[#e53935] text-[#e53935]'
+              : 'fill-none text-gray-black'
           )}
         />
       </div>
@@ -110,12 +134,7 @@ export default function ProductDetailsRightSection(): JSX.Element {
         isOpen={isDescriptionOpen}
         onToggle={() => setIsDescriptionOpen((prev) => !prev)}
       >
-        <p className="w-full text-caption-lg-regular">
-          A hoodie is a casual and comfortable sweatshirt made from soft, warm
-          fabric, typically featuring a front pocket and an adjustable drawstring
-          hood. It is designed for everyday wear, providing both style and
-          practicality.
-        </p>
+        <p className="w-full text-caption-lg-regular">{description}</p>
       </ProductDetailsAccordion>
 
       <ProductDetailsAccordion
@@ -124,7 +143,7 @@ export default function ProductDetailsRightSection(): JSX.Element {
         onToggle={() => setIsShippingOpen((prev) => !prev)}
       >
         <div className="box-border grid w-full grid-cols-2 gap-x-8 gap-y-2 px-2">
-          {SHIPPING_ITEMS.map((item) => (
+          {shippingItems.map((item) => (
             <ProductDetailsShippingItem
               key={item.title}
               title={item.title}

@@ -8,6 +8,7 @@ import Input from '@/components/form/Input';
 import Modal from '@/components/overlay/Modal';
 import { productService } from '@/services/product/productService';
 import { ProductStatus, type Brand, type Category, type Product } from '@/types/product/product';
+import { productDocumentToProduct } from '@/utils/productApiAdapters';
 
 type AdminTab = 'products' | 'categories' | 'brands';
 
@@ -144,23 +145,28 @@ const AdminDashboard: React.FC = () => {
         sortDirection,
       };
 
-      const response = hasSearchFilters
-        ? await productService.searchProducts({
-            ...baseParams,
-            keyword: keyword.trim() || undefined,
-            categoryId: categoryFilter || undefined,
-            brandId: brandFilter || undefined,
-            minPrice: minPrice ? Number(minPrice) : undefined,
-            maxPrice: maxPrice ? Number(maxPrice) : undefined,
-            featured:
-              featuredFilter === 'all' ? undefined : featuredFilter === 'true',
-          })
-        : await productService.getProducts(baseParams);
-
-      setProducts(response.content);
-      setProductPage(response.page);
-      setProductTotalElements(response.totalElements);
-      setProductTotalPages(response.totalPages);
+      if (hasSearchFilters) {
+        const response = await productService.searchProducts({
+          ...baseParams,
+          keyword: keyword.trim() || undefined,
+          categoryId: categoryFilter || undefined,
+          brandId: brandFilter || undefined,
+          minPrice: minPrice ? Number(minPrice) : undefined,
+          maxPrice: maxPrice ? Number(maxPrice) : undefined,
+          featured:
+            featuredFilter === 'all' ? undefined : featuredFilter === 'true',
+        });
+        setProducts(response.content.map(productDocumentToProduct));
+        setProductPage(response.page);
+        setProductTotalElements(response.totalElements);
+        setProductTotalPages(response.totalPages);
+      } else {
+        const response = await productService.getProducts(baseParams);
+        setProducts(response.content);
+        setProductPage(response.page);
+        setProductTotalElements(response.totalElements);
+        setProductTotalPages(response.totalPages);
+      }
     } catch {
       toast.error('Khong the tai danh sach san pham');
     } finally {
@@ -226,7 +232,7 @@ const AdminDashboard: React.FC = () => {
     setProductForm({
       name: product.name,
       slug: product.slug,
-      description: product.description,
+      description: product.description ?? '',
       shortDescription: product.shortDescription || '',
       price: String(product.price),
       compareAtPrice: product.compareAtPrice ? String(product.compareAtPrice) : '',
@@ -253,15 +259,15 @@ const AdminDashboard: React.FC = () => {
     try {
       const payload = {
         name: productForm.name.trim(),
-        slug: productForm.slug.trim(),
-        description: productForm.description.trim(),
+        slug: productForm.slug.trim() || undefined,
+        description: productForm.description.trim() || undefined,
         shortDescription: productForm.shortDescription.trim() || undefined,
         price: Number(productForm.price),
         compareAtPrice: productForm.compareAtPrice
           ? Number(productForm.compareAtPrice)
           : undefined,
-        categoryId: productForm.categoryId,
-        brandId: productForm.brandId,
+        categoryId: productForm.categoryId || undefined,
+        brandId: productForm.brandId || undefined,
         status: productForm.status,
         published: productForm.published,
         featured: productForm.featured,

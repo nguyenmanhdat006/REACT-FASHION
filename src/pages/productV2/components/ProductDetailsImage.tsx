@@ -1,36 +1,34 @@
-import { type JSX } from "react";
+import { type JSX } from 'react';
 
-import { IMAGES } from "@/constants/images";
-import { useHorizontalDragScroll } from "@/hooks/useHorizontalDragScroll";
-import { cn } from "@/lib/utils";
+import { useHorizontalDragScroll } from '@/hooks/useHorizontalDragScroll';
+import { cn } from '@/lib/utils';
 
-const HERO_IMAGE = IMAGES.PRODUCT_DEMO_1;
+export type ProductDetailsImageProps = {
+  heroImageUrl: string;
+  thumbnailUrls: string[];
+  galleryAriaLabel: string;
+};
 
-const THUMB_IMAGES = [
-  IMAGES.PRODUCT_DEMO_1,
-  IMAGES.PRODUCT_DEMO_2,
-  IMAGES.PROMO_TILE,
-  IMAGES.PRODUCT_DEMO_1,
-  IMAGES.PRODUCT_DEMO_2,
-  IMAGES.PROMO_TILE,
-] as const;
-
-export function ProductDetailsImage(): JSX.Element {
+export function ProductDetailsImage({
+  heroImageUrl,
+  thumbnailUrls,
+  galleryAriaLabel,
+}: ProductDetailsImageProps): JSX.Element {
   const stripDrag = useHorizontalDragScroll<HTMLDivElement>();
 
   return (
     <div
       className={cn(
-        "flex min-w-0 border border-gray-200 flex-1 flex-col justify-end self-stretch overflow-hidden rounded-2xl bg-cover bg-top p-4"
+        'flex min-w-0 border border-gray-200 flex-1 flex-col justify-end self-stretch overflow-hidden rounded-2xl bg-cover bg-top p-4'
       )}
-      style={{ backgroundImage: `url(${HERO_IMAGE})` }}
-      aria-label="Supper Skinny jogger in brown — product gallery"
+      style={{ backgroundImage: `url(${heroImageUrl})` }}
+      aria-label={galleryAriaLabel}
     >
       <div
         ref={stripDrag.ref}
         className={cn(
-          "flex w-full min-w-0 cursor-grab gap-2 overflow-x-auto overscroll-x-contain scrollbar-hide active:cursor-grabbing",
-          "touch-pan-x select-none"
+          'flex w-full min-w-0 cursor-grab gap-2 overflow-x-auto overscroll-x-contain scrollbar-hide active:cursor-grabbing',
+          'touch-pan-x select-none'
         )}
         role="list"
         aria-label="Product image thumbnails, drag horizontally to scroll"
@@ -39,7 +37,7 @@ export function ProductDetailsImage(): JSX.Element {
         onPointerUp={stripDrag.onPointerUp}
         onPointerCancel={stripDrag.onPointerCancel}
       >
-        {THUMB_IMAGES.map((src, index) => (
+        {thumbnailUrls.map((src, index) => (
           <div
             key={`${src}-${index}`}
             role="listitem"
