@@ -26,7 +26,6 @@ import {
 } from '@/mocks/payment/paymentMockData';
 import {
   MOCK_CREATE_REVIEW_REQUEST,
-  MOCK_REVIEW_PAGE,
   MOCK_REVIEW_SUMMARY,
   MOCK_REVIEWS,
 } from '@/mocks/review/reviewMockData';
@@ -36,10 +35,9 @@ import {
   MOCK_SHIPPING_FEE_RESPONSE,
 } from '@/mocks/shipping/shippingMockData';
 import {
-  MOCK_NOTIFICATION_PAGE,
   MOCK_NOTIFICATIONS,
 } from '@/mocks/notification/notificationMockData';
-import type { ApiResponse, PageResponse } from '@/types/common/common';
+import type { ApiResponse, PageMeta } from '@/types/common/common';
 import { PaymentMethod, PaymentStatus, type Order, OrderStatus } from '@/types/order/order';
 import type { PaymentIntent } from '@/types/payment/payment';
 import type { Product } from '@/types/product/product';
@@ -52,25 +50,44 @@ const clone = <T>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
 const toResponse = <T>(data: T): ApiResponse<T> => ({
   success: true,
   data,
+  error: null,
+  message: null,
   timestamp: new Date().toISOString(),
 });
 
-const toPage = <T>(items: T[], page = 0, size = 20): PageResponse<T> => {
-  const start = page * size;
-  const end = start + size;
-  const content = items.slice(start, end);
+type PagedListBody<T> = { data: T[]; meta: PageMeta };
+
+const toPage = <T>(items: T[], page = 0, size = 20): PagedListBody<T> => {
+  const safeSize = size > 0 ? size : 20;
   const totalElements = items.length;
-  const totalPages = Math.max(1, Math.ceil(totalElements / size));
+  const totalPages = totalElements === 0 ? 0 : Math.ceil(totalElements / safeSize);
+  const start = page * safeSize;
+  const end = Math.min(start + safeSize, totalElements);
+  const data = items.slice(start, end);
+  const first = page === 0;
+  const last = totalPages === 0 ? true : page >= totalPages - 1;
 
   return {
-    content,
-    page,
-    size,
-    totalElements,
-    totalPages,
-    isLast: page >= totalPages - 1,
+    data,
+    meta: {
+      page,
+      size: safeSize,
+      totalElements,
+      totalPages,
+      first,
+      last,
+    },
   };
 };
+
+const toPaginatedListResponse = <T>(page: PagedListBody<T>): ApiResponse<T[], PageMeta> => ({
+  success: true,
+  data: page.data,
+  meta: page.meta,
+  error: null,
+  message: null,
+  timestamp: new Date().toISOString(),
+});
 
 const asRecord = (value: unknown): Record<string, unknown> =>
   (value as Record<string, unknown>) || {};
@@ -408,7 +425,7 @@ export const handleMockApiRequest = async <T>(
     const featuredProducts = mockProducts.filter(product => product.featured);
     const page = toNumber(params.page, 0);
     const size = toNumber(params.size, 20);
-    return toResponse(toPage(featuredProducts, page, size)) as T;
+    return toPaginatedListResponse(toPage(featuredProducts, page, size)) as T;
   }
 
   if (method === 'get' && cleanUrl === API_ENDPOINTS.PRODUCTS.SEARCH) {
@@ -424,7 +441,7 @@ export const handleMockApiRequest = async <T>(
       return nameMatch && price >= minPrice && price <= maxPrice;
     });
 
-    return toResponse(
+    return toPaginatedListResponse(
       toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 20))
     ) as T;
   }
@@ -445,7 +462,7 @@ export const handleMockApiRequest = async <T>(
       filtered = filtered.filter(product => product.featured === featured);
     }
 
-    return toResponse(
+    return toPaginatedListResponse(
       toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 20))
     ) as T;
   }
@@ -555,7 +572,7 @@ export const handleMockApiRequest = async <T>(
   }
 
   if (method === 'get' && cleanUrl === API_ENDPOINTS.ORDERS.ROOT) {
-    return toResponse(
+    return toPaginatedListResponse(
       toPage(mockOrders, toNumber(params.page, 0), toNumber(params.size, 10))
     ) as T;
   }
@@ -701,13 +718,9 @@ export const handleMockApiRequest = async <T>(
   }
 
   if (method === 'get' && cleanUrl.startsWith('/reviews/product/')) {
-    return toResponse({
-      ...MOCK_REVIEW_PAGE,
-      content: mockReviews,
-      totalElements: mockReviews.length,
-      totalPages: 1,
-      isLast: true,
-    }) as T;
+    return toPaginatedListResponse(
+      toPage(mockReviews, toNumber(params.page, 0), toNumber(params.size, 10))
+    ) as T;
   }
 
   if (method === 'post' && cleanUrl.startsWith('/reviews/') && cleanUrl.endsWith('/vote')) {
@@ -733,11 +746,9 @@ export const handleMockApiRequest = async <T>(
   }
 
   if (method === 'get' && cleanUrl === API_ENDPOINTS.NOTIFICATIONS.MY) {
-    return toResponse({
-      ...MOCK_NOTIFICATION_PAGE,
-      content: mockNotifications,
-      totalElements: mockNotifications.length,
-    }) as T;
+    return toPaginatedListResponse(
+      toPage(mockNotifications, toNumber(params.page, 0), toNumber(params.size, 10))
+    ) as T;
   }
 
   if (method === 'put' && cleanUrl.startsWith('/notifications/') && cleanUrl.endsWith('/mark-read')) {
@@ -881,7 +892,7 @@ export const handleMockApiRequest = async <T>(
   if (method === 'get' && cleanUrl.startsWith('/products/category/')) {
     const categoryId = cleanUrl.replace('/products/category/', '');
     const filtered = mockProducts.filter(product => product.category?.id === categoryId);
-    return toResponse(
+    return toPaginatedListResponse(
       toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 20))
     ) as T;
   }
@@ -889,7 +900,7 @@ export const handleMockApiRequest = async <T>(
   if (method === 'get' && cleanUrl.startsWith('/products/brand/')) {
     const brandId = cleanUrl.replace('/products/brand/', '');
     const filtered = mockProducts.filter(product => product.brand?.id === brandId);
-    return toResponse(
+    return toPaginatedListResponse(
       toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 20))
     ) as T;
   }
@@ -901,14 +912,14 @@ export const handleMockApiRequest = async <T>(
       const price = product.salePrice || product.price;
       return price >= min && price <= max;
     });
-    return toResponse(
+    return toPaginatedListResponse(
       toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 20))
     ) as T;
   }
 
   if (method === 'get' && cleanUrl === API_ENDPOINTS.PRODUCTS.PUBLISHED) {
     const filtered = mockProducts.filter(product => product.status === 'PUBLISHED');
-    return toResponse(
+    return toPaginatedListResponse(
       toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 20))
     ) as T;
   }

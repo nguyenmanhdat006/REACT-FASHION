@@ -1,5 +1,5 @@
 import { API_ENDPOINTS } from '@/constants';
-import type { PageResponse } from '@/types/common/common';
+import type { ApiResponse, PageMeta } from '@/types/common/common';
 import type {
   Brand,
   BrandPayload,
@@ -16,265 +16,146 @@ import type {
   UpdateProductRequest,
 } from '@/types/product/product';
 import apiClient from '@/utils/api';
-import { MaybeWrapped, unwrapApiSuccess } from '@/utils/response';
 
 const toQueryParams = (
   params?: ProductFilters | ProductListParams | SearchProductsParams
 ) => ({ ...params });
 
-const getFeaturedPage = async (
-  params?: ProductListParams
-): Promise<PageResponse<Product>> => {
-  const response = await apiClient.get<MaybeWrapped<PageResponse<Product>>>(
-    API_ENDPOINTS.PRODUCTS.FEATURED,
-    { params: toQueryParams(params) }
-  );
-  return unwrapApiSuccess(response);
-};
+const getFeaturedPage = (params?: ProductListParams) =>
+  apiClient.get<ApiResponse<Product[], PageMeta>>(API_ENDPOINTS.PRODUCTS.FEATURED, {
+    params: toQueryParams(params),
+  });
 
 export const productService = {
-  getCategories: async (): Promise<Category[]> => {
-    const response = await apiClient.get<MaybeWrapped<Category[]>>(
-      API_ENDPOINTS.PRODUCTS.CATEGORIES
-    );
-    return unwrapApiSuccess(response);
-  },
+  getCategories: (): Promise<ApiResponse<Category[]>> =>
+    apiClient.get<ApiResponse<Category[]>>(API_ENDPOINTS.PRODUCTS.CATEGORIES),
 
-  getActiveCategories: async (): Promise<Category[]> => {
-    const response = await apiClient.get<MaybeWrapped<Category[]>>(
-      API_ENDPOINTS.PRODUCTS.CATEGORIES_ACTIVE
-    );
-    return unwrapApiSuccess(response);
-  },
+  getActiveCategories: (): Promise<ApiResponse<Category[]>> =>
+    apiClient.get<ApiResponse<Category[]>>(API_ENDPOINTS.PRODUCTS.CATEGORIES_ACTIVE),
 
-  getCategoryTree: async (): Promise<Category[]> => {
-    const response = await apiClient.get<MaybeWrapped<Category[]>>(
-      API_ENDPOINTS.PRODUCTS.CATEGORIES_TREE
-    );
-    return unwrapApiSuccess(response);
-  },
+  getCategoryTree: (): Promise<ApiResponse<Category[]>> =>
+    apiClient.get<ApiResponse<Category[]>>(API_ENDPOINTS.PRODUCTS.CATEGORIES_TREE),
 
-  getCategoryById: async (id: string): Promise<Category> => {
-    const response = await apiClient.get<MaybeWrapped<Category>>(
-      API_ENDPOINTS.PRODUCTS.CATEGORY_DETAIL(id)
-    );
-    return unwrapApiSuccess(response);
-  },
+  getCategoryById: (id: string): Promise<ApiResponse<Category>> =>
+    apiClient.get<ApiResponse<Category>>(API_ENDPOINTS.PRODUCTS.CATEGORY_DETAIL(id)),
 
-  getCategoryBySlug: async (slug: string): Promise<Category> => {
-    const response = await apiClient.get<MaybeWrapped<Category>>(
-      API_ENDPOINTS.PRODUCTS.CATEGORY_SLUG(slug)
-    );
-    return unwrapApiSuccess(response);
-  },
+  getCategoryBySlug: (slug: string): Promise<ApiResponse<Category>> =>
+    apiClient.get<ApiResponse<Category>>(API_ENDPOINTS.PRODUCTS.CATEGORY_SLUG(slug)),
 
-  createCategory: async (payload: CategoryPayload): Promise<Category> => {
-    const response = await apiClient.post<MaybeWrapped<Category>>(
-      API_ENDPOINTS.PRODUCTS.CATEGORIES,
-      payload
-    );
-    return unwrapApiSuccess(response);
-  },
+  createCategory: (payload: CategoryPayload): Promise<ApiResponse<Category>> =>
+    apiClient.post<ApiResponse<Category>>(API_ENDPOINTS.PRODUCTS.CATEGORIES, payload),
 
-  updateCategory: async (
+  updateCategory: (
     id: string,
     payload: UpdateCategoryRequest
-  ): Promise<Category> => {
-    const response = await apiClient.put<MaybeWrapped<Category>>(
-      API_ENDPOINTS.PRODUCTS.CATEGORY_DETAIL(id),
-      payload
-    );
-    return unwrapApiSuccess(response);
-  },
+  ): Promise<ApiResponse<Category>> =>
+    apiClient.put<ApiResponse<Category>>(API_ENDPOINTS.PRODUCTS.CATEGORY_DETAIL(id), payload),
 
-  deleteCategory: async (id: string): Promise<void> => {
-    const response = await apiClient.delete<MaybeWrapped<unknown>>(
-      API_ENDPOINTS.PRODUCTS.CATEGORY_DETAIL(id)
-    );
-    if (response === undefined || response === null || response === '') return;
-    unwrapApiSuccess(response);
-  },
+  deleteCategory: (id: string): Promise<ApiResponse<unknown>> =>
+    apiClient.delete<ApiResponse<unknown>>(API_ENDPOINTS.PRODUCTS.CATEGORY_DETAIL(id)),
 
-  getBrands: async (): Promise<Brand[]> => {
-    const response = await apiClient.get<MaybeWrapped<Brand[]>>(API_ENDPOINTS.PRODUCTS.BRANDS);
-    return unwrapApiSuccess(response);
-  },
+  getBrands: (): Promise<ApiResponse<Brand[]>> =>
+    apiClient.get<ApiResponse<Brand[]>>(API_ENDPOINTS.PRODUCTS.BRANDS),
 
-  getActiveBrands: async (): Promise<Brand[]> => {
-    const response = await apiClient.get<MaybeWrapped<Brand[]>>(
-      API_ENDPOINTS.PRODUCTS.BRANDS_ACTIVE
-    );
-    return unwrapApiSuccess(response);
-  },
+  getActiveBrands: (): Promise<ApiResponse<Brand[]>> =>
+    apiClient.get<ApiResponse<Brand[]>>(API_ENDPOINTS.PRODUCTS.BRANDS_ACTIVE),
 
-  getBrandById: async (id: string): Promise<Brand> => {
-    const response = await apiClient.get<MaybeWrapped<Brand>>(
-      API_ENDPOINTS.PRODUCTS.BRAND_DETAIL(id)
-    );
-    return unwrapApiSuccess(response);
-  },
+  getBrandById: (id: string): Promise<ApiResponse<Brand>> =>
+    apiClient.get<ApiResponse<Brand>>(API_ENDPOINTS.PRODUCTS.BRAND_DETAIL(id)),
 
-  getBrandBySlug: async (slug: string): Promise<Brand> => {
-    const response = await apiClient.get<MaybeWrapped<Brand>>(
-      API_ENDPOINTS.PRODUCTS.BRAND_SLUG(slug)
-    );
-    return unwrapApiSuccess(response);
-  },
+  getBrandBySlug: (slug: string): Promise<ApiResponse<Brand>> =>
+    apiClient.get<ApiResponse<Brand>>(API_ENDPOINTS.PRODUCTS.BRAND_SLUG(slug)),
 
-  createBrand: async (payload: BrandPayload): Promise<Brand> => {
-    const response = await apiClient.post<MaybeWrapped<Brand>>(
-      API_ENDPOINTS.PRODUCTS.BRANDS,
-      payload
-    );
-    return unwrapApiSuccess(response);
-  },
+  createBrand: (payload: BrandPayload): Promise<ApiResponse<Brand>> =>
+    apiClient.post<ApiResponse<Brand>>(API_ENDPOINTS.PRODUCTS.BRANDS, payload),
 
-  updateBrand: async (id: string, payload: UpdateBrandRequest): Promise<Brand> => {
-    const response = await apiClient.put<MaybeWrapped<Brand>>(
-      API_ENDPOINTS.PRODUCTS.BRAND_DETAIL(id),
-      payload
-    );
-    return unwrapApiSuccess(response);
-  },
+  updateBrand: (id: string, payload: UpdateBrandRequest): Promise<ApiResponse<Brand>> =>
+    apiClient.put<ApiResponse<Brand>>(API_ENDPOINTS.PRODUCTS.BRAND_DETAIL(id), payload),
 
-  deleteBrand: async (id: string): Promise<void> => {
-    const response = await apiClient.delete<MaybeWrapped<unknown>>(
-      API_ENDPOINTS.PRODUCTS.BRAND_DETAIL(id)
-    );
-    if (response === undefined || response === null || response === '') return;
-    unwrapApiSuccess(response);
-  },
+  deleteBrand: (id: string): Promise<ApiResponse<unknown>> =>
+    apiClient.delete<ApiResponse<unknown>>(API_ENDPOINTS.PRODUCTS.BRAND_DETAIL(id)),
 
-  getProducts: async (filters?: ProductFilters): Promise<PageResponse<Product>> => {
-    const response = await apiClient.get<MaybeWrapped<PageResponse<Product>>>(
-      API_ENDPOINTS.PRODUCTS.LIST,
-      { params: toQueryParams(filters) }
-    );
-    return unwrapApiSuccess(response);
-  },
+  getProducts: (filters?: ProductFilters): Promise<ApiResponse<Product[], PageMeta>> =>
+    apiClient.get<ApiResponse<Product[], PageMeta>>(API_ENDPOINTS.PRODUCTS.LIST, {
+      params: toQueryParams(filters),
+    }),
 
-  getProductById: async (id: string): Promise<Product> => {
-    const response = await apiClient.get<MaybeWrapped<Product>>(
-      API_ENDPOINTS.PRODUCTS.DETAIL(id)
-    );
-    return unwrapApiSuccess(response);
-  },
+  getProductById: (id: string): Promise<ApiResponse<Product>> =>
+    apiClient.get<ApiResponse<Product>>(API_ENDPOINTS.PRODUCTS.DETAIL(id)),
 
-  getProductBySlug: async (slug: string): Promise<Product> => {
-    const response = await apiClient.get<MaybeWrapped<Product>>(
-      API_ENDPOINTS.PRODUCTS.SLUG(slug)
-    );
-    return unwrapApiSuccess(response);
-  },
+  getProductBySlug: (slug: string): Promise<ApiResponse<Product>> =>
+    apiClient.get<ApiResponse<Product>>(API_ENDPOINTS.PRODUCTS.SLUG(slug)),
 
-  getPublishedProducts: async (
+  getPublishedProducts: (
     params?: ProductListParams
-  ): Promise<PageResponse<Product>> => {
-    const response = await apiClient.get<MaybeWrapped<PageResponse<Product>>>(
-      API_ENDPOINTS.PRODUCTS.PUBLISHED,
-      { params: toQueryParams(params) }
-    );
-    return unwrapApiSuccess(response);
-  },
+  ): Promise<ApiResponse<Product[], PageMeta>> =>
+    apiClient.get<ApiResponse<Product[], PageMeta>>(API_ENDPOINTS.PRODUCTS.PUBLISHED, {
+      params: toQueryParams(params),
+    }),
 
-  getProductsByCategory: async (
+  getProductsByCategory: (
     categoryId: string,
     params?: ProductListParams
-  ): Promise<PageResponse<Product>> => {
-    const response = await apiClient.get<MaybeWrapped<PageResponse<Product>>>(
+  ): Promise<ApiResponse<Product[], PageMeta>> =>
+    apiClient.get<ApiResponse<Product[], PageMeta>>(
       API_ENDPOINTS.PRODUCTS.BY_CATEGORY(categoryId),
       { params: toQueryParams(params) }
-    );
-    return unwrapApiSuccess(response);
-  },
+    ),
 
-  getProductsByBrand: async (
+  getProductsByBrand: (
     brandId: string,
     params?: ProductListParams
-  ): Promise<PageResponse<Product>> => {
-    const response = await apiClient.get<MaybeWrapped<PageResponse<Product>>>(
+  ): Promise<ApiResponse<Product[], PageMeta>> =>
+    apiClient.get<ApiResponse<Product[], PageMeta>>(
       API_ENDPOINTS.PRODUCTS.BY_BRAND(brandId),
       { params: toQueryParams(params) }
-    );
-    return unwrapApiSuccess(response);
-  },
+    ),
 
   getFeaturedProductsPage: getFeaturedPage,
 
-  /** Same contract as other paged product endpoints: `PageResponse<Product>`. */
   getFeaturedProducts: getFeaturedPage,
 
-  getProductsByPriceRange: async (
+  getProductsByPriceRange: (
     minPrice: number,
     maxPrice: number,
     params?: ProductListParams
-  ): Promise<PageResponse<Product>> => {
-    const response = await apiClient.get<MaybeWrapped<PageResponse<Product>>>(
-      API_ENDPOINTS.PRODUCTS.PRICE_RANGE,
-      {
-        params: {
-          ...toQueryParams(params),
-          minPrice,
-          maxPrice,
-        },
-      }
-    );
-    return unwrapApiSuccess(response);
-  },
+  ): Promise<ApiResponse<Product[], PageMeta>> =>
+    apiClient.get<ApiResponse<Product[], PageMeta>>(API_ENDPOINTS.PRODUCTS.PRICE_RANGE, {
+      params: {
+        ...toQueryParams(params),
+        minPrice,
+        maxPrice,
+      },
+    }),
 
-  searchProducts: async (
+  searchProducts: (
     filters: SearchProductsParams
-  ): Promise<PageResponse<ProductDocument>> => {
-    const response = await apiClient.get<MaybeWrapped<PageResponse<ProductDocument>>>(
-      API_ENDPOINTS.PRODUCTS.SEARCH,
-      { params: toQueryParams(filters) }
-    );
-    return unwrapApiSuccess(response);
-  },
+  ): Promise<ApiResponse<ProductDocument[], PageMeta>> =>
+    apiClient.get<ApiResponse<ProductDocument[], PageMeta>>(API_ENDPOINTS.PRODUCTS.SEARCH, {
+      params: toQueryParams(filters),
+    }),
 
-  createProduct: async (payload: CreateProductRequest): Promise<Product> => {
-    const response = await apiClient.post<MaybeWrapped<Product>>(
-      API_ENDPOINTS.PRODUCTS.CREATE,
-      payload
-    );
-    return unwrapApiSuccess(response);
-  },
+  createProduct: (payload: CreateProductRequest): Promise<ApiResponse<Product>> =>
+    apiClient.post<ApiResponse<Product>>(API_ENDPOINTS.PRODUCTS.CREATE, payload),
 
-  updateProduct: async (
+  updateProduct: (
     id: string,
     payload: UpdateProductRequest
-  ): Promise<Product> => {
-    const response = await apiClient.put<MaybeWrapped<Product>>(
-      API_ENDPOINTS.PRODUCTS.UPDATE(id),
-      payload
-    );
-    return unwrapApiSuccess(response);
-  },
+  ): Promise<ApiResponse<Product>> =>
+    apiClient.put<ApiResponse<Product>>(API_ENDPOINTS.PRODUCTS.UPDATE(id), payload),
 
-  deleteProduct: async (id: string): Promise<void> => {
-    const response = await apiClient.delete<MaybeWrapped<unknown>>(
-      API_ENDPOINTS.PRODUCTS.DELETE(id)
-    );
-    if (response === undefined || response === null || response === '') return;
-    unwrapApiSuccess(response);
-  },
+  deleteProduct: (id: string): Promise<ApiResponse<unknown>> =>
+    apiClient.delete<ApiResponse<unknown>>(API_ENDPOINTS.PRODUCTS.DELETE(id)),
 
-  uploadProductImage: async (id: string, file: File): Promise<string> => {
+  uploadProductImage: (id: string, file: File): Promise<ApiResponse<string>> => {
     const formData = new FormData();
     formData.append('file', file);
-
-    const response = await apiClient.post<MaybeWrapped<string>>(
+    return apiClient.post<ApiResponse<string>>(
       API_ENDPOINTS.PRODUCTS.UPLOAD_IMAGE(id),
       formData
     );
-    return unwrapApiSuccess(response);
   },
 
-  syncAllProductsToElasticsearch: async (): Promise<void> => {
-    const response = await apiClient.post<MaybeWrapped<unknown>>(
-      API_ENDPOINTS.PRODUCTS.SYNC_ELASTICSEARCH
-    );
-    if (response === undefined || response === null || response === '') return;
-    unwrapApiSuccess(response);
-  },
+  syncAllProductsToElasticsearch: (): Promise<ApiResponse<unknown>> =>
+    apiClient.post<ApiResponse<unknown>>(API_ENDPOINTS.PRODUCTS.SYNC_ELASTICSEARCH),
 };

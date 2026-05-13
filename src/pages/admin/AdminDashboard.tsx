@@ -9,6 +9,7 @@ import Modal from '@/components/overlay/Modal';
 import { productService } from '@/services/product/productService';
 import { ProductStatus, type Brand, type Category, type Product } from '@/types/product/product';
 import { productDocumentToProduct } from '@/utils/productApiAdapters';
+import { apiFailureMessage } from '@/utils/apiEnvelope';
 
 type AdminTab = 'products' | 'categories' | 'brands';
 
@@ -156,16 +157,24 @@ const AdminDashboard: React.FC = () => {
           featured:
             featuredFilter === 'all' ? undefined : featuredFilter === 'true',
         });
-        setProducts(response.content.map(productDocumentToProduct));
-        setProductPage(response.page);
-        setProductTotalElements(response.totalElements);
-        setProductTotalPages(response.totalPages);
+        if (!response.success || !response.meta) {
+          toast.error(apiFailureMessage(response));
+          return;
+        }
+        setProducts(response.data.map(productDocumentToProduct));
+        setProductPage(response.meta.page);
+        setProductTotalElements(response.meta.totalElements);
+        setProductTotalPages(response.meta.totalPages);
       } else {
         const response = await productService.getProducts(baseParams);
-        setProducts(response.content);
-        setProductPage(response.page);
-        setProductTotalElements(response.totalElements);
-        setProductTotalPages(response.totalPages);
+        if (!response.success || !response.meta) {
+          toast.error(apiFailureMessage(response));
+          return;
+        }
+        setProducts(response.data);
+        setProductPage(response.meta.page);
+        setProductTotalElements(response.meta.totalElements);
+        setProductTotalPages(response.meta.totalPages);
       }
     } catch {
       toast.error('Khong the tai danh sach san pham');
@@ -189,7 +198,11 @@ const AdminDashboard: React.FC = () => {
     setCategoriesLoading(true);
     try {
       const response = await productService.getCategories();
-      setCategories(response);
+      if (!response.success || !Array.isArray(response.data)) {
+        toast.error(apiFailureMessage(response));
+        return;
+      }
+      setCategories(response.data);
     } catch {
       toast.error('Khong the tai danh muc');
     } finally {
@@ -201,7 +214,11 @@ const AdminDashboard: React.FC = () => {
     setBrandsLoading(true);
     try {
       const response = await productService.getBrands();
-      setBrands(response);
+      if (!response.success || !Array.isArray(response.data)) {
+        toast.error(apiFailureMessage(response));
+        return;
+      }
+      setBrands(response.data);
     } catch {
       toast.error('Khong the tai thuong hieu');
     } finally {
@@ -276,10 +293,18 @@ const AdminDashboard: React.FC = () => {
       };
 
       if (editingProduct) {
-        await productService.updateProduct(editingProduct.id, payload);
+        const res = await productService.updateProduct(editingProduct.id, payload);
+        if (!res.success) {
+          toast.error(apiFailureMessage(res));
+          return;
+        }
         toast.success('Cap nhat san pham thanh cong');
       } else {
-        await productService.createProduct(payload);
+        const res = await productService.createProduct(payload);
+        if (!res.success) {
+          toast.error(apiFailureMessage(res));
+          return;
+        }
         toast.success('Tao san pham thanh cong');
       }
 
@@ -299,7 +324,11 @@ const AdminDashboard: React.FC = () => {
     }
 
     try {
-      await productService.deleteProduct(id);
+      const res = await productService.deleteProduct(id);
+      if (!res.success) {
+        toast.error(apiFailureMessage(res));
+        return;
+      }
       toast.success('Xoa san pham thanh cong');
       await loadProducts(productPage);
     } catch {
@@ -319,7 +348,11 @@ const AdminDashboard: React.FC = () => {
     }
 
     try {
-      await productService.uploadProductImage(uploadingProductId, file);
+      const res = await productService.uploadProductImage(uploadingProductId, file);
+      if (!res.success) {
+        toast.error(apiFailureMessage(res));
+        return;
+      }
       toast.success('Upload anh thanh cong');
       await loadProducts(productPage);
     } catch {
@@ -333,7 +366,11 @@ const AdminDashboard: React.FC = () => {
   const handleSyncElasticsearch = async () => {
     setSyncingSearch(true);
     try {
-      await productService.syncAllProductsToElasticsearch();
+      const res = await productService.syncAllProductsToElasticsearch();
+      if (!res.success) {
+        toast.error(apiFailureMessage(res));
+        return;
+      }
       toast.success('Dong bo Elasticsearch thanh cong');
     } catch {
       toast.error('Dong bo Elasticsearch that bai');
@@ -379,10 +416,18 @@ const AdminDashboard: React.FC = () => {
       };
 
       if (editingCategory) {
-        await productService.updateCategory(editingCategory.id, payload);
+        const res = await productService.updateCategory(editingCategory.id, payload);
+        if (!res.success) {
+          toast.error(apiFailureMessage(res));
+          return;
+        }
         toast.success('Cap nhat danh muc thanh cong');
       } else {
-        await productService.createCategory(payload);
+        const res = await productService.createCategory(payload);
+        if (!res.success) {
+          toast.error(apiFailureMessage(res));
+          return;
+        }
         toast.success('Tao danh muc thanh cong');
       }
 
@@ -402,7 +447,11 @@ const AdminDashboard: React.FC = () => {
     }
 
     try {
-      await productService.deleteCategory(id);
+      const res = await productService.deleteCategory(id);
+      if (!res.success) {
+        toast.error(apiFailureMessage(res));
+        return;
+      }
       toast.success('Xoa danh muc thanh cong');
       await loadCategories();
     } catch {
@@ -445,10 +494,18 @@ const AdminDashboard: React.FC = () => {
       };
 
       if (editingBrand) {
-        await productService.updateBrand(editingBrand.id, payload);
+        const res = await productService.updateBrand(editingBrand.id, payload);
+        if (!res.success) {
+          toast.error(apiFailureMessage(res));
+          return;
+        }
         toast.success('Cap nhat thuong hieu thanh cong');
       } else {
-        await productService.createBrand(payload);
+        const res = await productService.createBrand(payload);
+        if (!res.success) {
+          toast.error(apiFailureMessage(res));
+          return;
+        }
         toast.success('Tao thuong hieu thanh cong');
       }
 
@@ -468,7 +525,11 @@ const AdminDashboard: React.FC = () => {
     }
 
     try {
-      await productService.deleteBrand(id);
+      const res = await productService.deleteBrand(id);
+      if (!res.success) {
+        toast.error(apiFailureMessage(res));
+        return;
+      }
       toast.success('Xoa thuong hieu thanh cong');
       await loadBrands();
     } catch {

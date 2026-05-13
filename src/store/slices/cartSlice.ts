@@ -32,20 +32,20 @@ const cartSlice = createSlice({
       })
       .addCase(fetchCartThunk.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.cart = action.payload;
+        state.cart = action.payload.data;
       })
       .addCase(fetchCartThunk.rejected, (state, action) => {
         state.isLoading = false;
         state.error = (action.payload as string) || 'Failed to fetch cart';
       })
       .addCase(addToCartThunk.fulfilled, (state, action) => {
-        state.cart = action.payload;
+        state.cart = action.payload.data;
       })
       .addCase(updateCartItemThunk.fulfilled, (state, action) => {
-        state.cart = action.payload;
+        state.cart = action.payload.data;
       })
       .addCase(removeCartItemThunk.fulfilled, (state, action) => {
-        state.cart = action.payload;
+        state.cart = action.payload.data;
       })
       .addCase(clearCartThunk.fulfilled, state => {
         if (state.cart) {

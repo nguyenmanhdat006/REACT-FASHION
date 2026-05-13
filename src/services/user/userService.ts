@@ -1,13 +1,12 @@
 import { API_ENDPOINTS } from '@/constants';
-import { normalizeUser, type UserInbound } from '@/services/auth/authService';
 import type {
   Address,
   CreateAddressRequest,
   UpdateAddressRequest,
   User,
 } from '@/types/auth/auth';
+import type { ApiResponse } from '@/types/common/common';
 import apiClient from '@/utils/api';
-import { MaybeWrapped, unwrapApiData } from '@/utils/response';
 
 /** Inbound shape from API or legacy mocks (`state` / `zipCode`). */
 export type AddressInbound = Address & {
@@ -33,74 +32,37 @@ export function normalizeAddress(raw: AddressInbound): Address {
   };
 }
 
-const normalizeAddressList = (list: AddressInbound[]): Address[] =>
+export const normalizeAddressList = (list: AddressInbound[]): Address[] =>
   list.map(normalizeAddress);
 
 export const userService = {
-  getProfile: async (): Promise<User> => {
-    const response = await apiClient.get<MaybeWrapped<User>>(API_ENDPOINTS.USER.PROFILE);
-    const data = unwrapApiData(response);
-    return normalizeUser(data as UserInbound);
-  },
+  getProfile: (): Promise<ApiResponse<User>> =>
+    apiClient.get<ApiResponse<User>>(API_ENDPOINTS.USER.PROFILE),
 
-  updateProfile: async (data: Partial<User>): Promise<User> => {
-    const response = await apiClient.put<MaybeWrapped<User>>(
-      API_ENDPOINTS.USER.PROFILE,
-      data
-    );
-    const payload = unwrapApiData(response);
-    return normalizeUser(payload as UserInbound);
-  },
+  updateProfile: (data: Partial<User>): Promise<ApiResponse<User>> =>
+    apiClient.put<ApiResponse<User>>(API_ENDPOINTS.USER.PROFILE, data),
 
-  getAddresses: async (): Promise<Address[]> => {
-    const response = await apiClient.get<MaybeWrapped<AddressInbound[]>>(
-      API_ENDPOINTS.USER.ADDRESSES
-    );
-    const list = unwrapApiData(response) ?? [];
-    return normalizeAddressList(Array.isArray(list) ? list : []);
-  },
+  getAddresses: (): Promise<ApiResponse<AddressInbound[]>> =>
+    apiClient.get<ApiResponse<AddressInbound[]>>(API_ENDPOINTS.USER.ADDRESSES),
 
-  getAddressById: async (id: string): Promise<Address> => {
-    const response = await apiClient.get<MaybeWrapped<AddressInbound>>(
-      API_ENDPOINTS.USER.ADDRESS_DETAIL(id)
-    );
-    return normalizeAddress(unwrapApiData(response) as AddressInbound);
-  },
+  getAddressById: (id: string): Promise<ApiResponse<AddressInbound>> =>
+    apiClient.get<ApiResponse<AddressInbound>>(API_ENDPOINTS.USER.ADDRESS_DETAIL(id)),
 
-  getDefaultAddress: async (): Promise<Address> => {
-    const response = await apiClient.get<MaybeWrapped<AddressInbound>>(
-      API_ENDPOINTS.USER.ADDRESS_DEFAULT
-    );
-    return normalizeAddress(unwrapApiData(response) as AddressInbound);
-  },
+  getDefaultAddress: (): Promise<ApiResponse<AddressInbound>> =>
+    apiClient.get<ApiResponse<AddressInbound>>(API_ENDPOINTS.USER.ADDRESS_DEFAULT),
 
-  createAddress: async (body: CreateAddressRequest): Promise<Address> => {
-    const response = await apiClient.post<MaybeWrapped<AddressInbound>>(
-      API_ENDPOINTS.USER.ADDRESSES,
-      body
-    );
-    return normalizeAddress(unwrapApiData(response) as AddressInbound);
-  },
+  createAddress: (body: CreateAddressRequest): Promise<ApiResponse<AddressInbound>> =>
+    apiClient.post<ApiResponse<AddressInbound>>(API_ENDPOINTS.USER.ADDRESSES, body),
 
-  updateAddress: async (id: string, body: UpdateAddressRequest): Promise<Address> => {
-    const response = await apiClient.put<MaybeWrapped<AddressInbound>>(
-      API_ENDPOINTS.USER.ADDRESS_DETAIL(id),
-      body
-    );
-    return normalizeAddress(unwrapApiData(response) as AddressInbound);
-  },
+  updateAddress: (
+    id: string,
+    body: UpdateAddressRequest
+  ): Promise<ApiResponse<AddressInbound>> =>
+    apiClient.put<ApiResponse<AddressInbound>>(API_ENDPOINTS.USER.ADDRESS_DETAIL(id), body),
 
-  setDefaultAddress: async (id: string): Promise<Address> => {
-    const response = await apiClient.put<MaybeWrapped<AddressInbound>>(
-      API_ENDPOINTS.USER.ADDRESS_SET_DEFAULT(id)
-    );
-    return normalizeAddress(unwrapApiData(response) as AddressInbound);
-  },
+  setDefaultAddress: (id: string): Promise<ApiResponse<AddressInbound>> =>
+    apiClient.put<ApiResponse<AddressInbound>>(API_ENDPOINTS.USER.ADDRESS_SET_DEFAULT(id)),
 
-  deleteAddress: async (id: string): Promise<void> => {
-    const response = await apiClient.delete<MaybeWrapped<null>>(
-      API_ENDPOINTS.USER.ADDRESS_DETAIL(id)
-    );
-    unwrapApiData(response);
-  },
+  deleteAddress: (id: string): Promise<ApiResponse<null>> =>
+    apiClient.delete<ApiResponse<null>>(API_ENDPOINTS.USER.ADDRESS_DETAIL(id)),
 };

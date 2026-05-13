@@ -1,4 +1,4 @@
-import type { PageResponse } from '../common/common';
+import type { ApiResponse, PageMeta } from '../common/common';
 
 export enum ProductStatus {
   DRAFT = 'DRAFT',
@@ -207,4 +207,5 @@ export interface BrandPayload {
 
 export type UpdateBrandRequest = Partial<BrandPayload>;
 
-export type ProductPage = PageResponse<Product>;
+/** Paginated catalog list as returned by the API (`ApiResponse` + `PageMeta`). */
+export type ProductPage = ApiResponse<Product[], PageMeta>;

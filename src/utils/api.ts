@@ -8,9 +8,9 @@ import axios, {
 import toast from 'react-hot-toast';
 import { API_BASE_URL, AUTH_ENDPOINTS } from '@/constants';
 import type { AuthResponse } from '@/types/auth/auth';
+import type { ApiResponse } from '@/types/common/common';
 import { IS_MOCK_ENABLED } from '@/config/env';
 import { handleMockApiRequest } from '@/mocks/handlers/mockApiHandlers';
-import { MaybeWrapped, unwrapApiData } from './response';
 import {
   getAccessToken,
   getRefreshToken,
@@ -79,9 +79,13 @@ class ApiClient {
 
                   try {
                     const refreshResponse = await this.client.post<
-                      MaybeWrapped<AuthResponse>
+                      ApiResponse<AuthResponse>
                     >(AUTH_ENDPOINTS.REFRESH, { refreshToken });
-                    const refreshData = unwrapApiData(refreshResponse.data);
+                    const envelope = refreshResponse.data;
+                    if (!envelope.success || !envelope.data) {
+                      throw new Error('Refresh failed');
+                    }
+                    const refreshData = envelope.data;
 
                     setAuthTokens(
                       refreshData.accessToken,

@@ -1,4 +1,4 @@
-import type { PageResponse } from '../common/common';
+import type { ApiResponse, PageMeta } from '../common/common';
 
 export interface Review {
   id: string;
@@ -26,4 +26,4 @@ export interface ReviewSummary {
   distribution: Record<string, number>;
 }
 
-export type ReviewPage = PageResponse<Review>;
+export type ReviewPage = ApiResponse<Review[], PageMeta>;

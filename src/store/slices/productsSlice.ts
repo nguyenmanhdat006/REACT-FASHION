@@ -103,11 +103,14 @@ const productsSlice = createSlice({
       .addCase(fetchProductsThunk.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = null;
-        state.items = action.payload.content;
-        state.page = action.payload.page;
-        state.size = action.payload.size;
-        state.totalElements = action.payload.totalElements;
-        state.totalPages = action.payload.totalPages;
+        state.items = action.payload.data;
+        const meta = action.payload.meta;
+        if (meta) {
+          state.page = meta.page;
+          state.size = meta.size;
+          state.totalElements = meta.totalElements;
+          state.totalPages = meta.totalPages;
+        }
       })
       .addCase(fetchProductsThunk.rejected, (state, action) => {
         state.isLoading = false;
@@ -117,7 +120,7 @@ const productsSlice = createSlice({
         state.totalPages = 0;
       })
       .addCase(fetchFeaturedProductsThunk.fulfilled, (state, action) => {
-        state.featured = action.payload.content;
+        state.featured = action.payload.data;
       })
       .addCase(fetchProductBySlugThunk.pending, state => {
         state.isLoading = true;

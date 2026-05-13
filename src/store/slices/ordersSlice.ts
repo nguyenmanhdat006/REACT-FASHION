@@ -41,11 +41,14 @@ const ordersSlice = createSlice({
       })
       .addCase(fetchOrdersThunk.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.items = action.payload.content;
-        state.page = action.payload.page;
-        state.size = action.payload.size;
-        state.totalElements = action.payload.totalElements;
-        state.totalPages = action.payload.totalPages;
+        state.items = action.payload.data;
+        const meta = action.payload.meta;
+        if (meta) {
+          state.page = meta.page;
+          state.size = meta.size;
+          state.totalElements = meta.totalElements;
+          state.totalPages = meta.totalPages;
+        }
       })
       .addCase(fetchOrdersThunk.rejected, (state, action) => {
         state.isLoading = false;
