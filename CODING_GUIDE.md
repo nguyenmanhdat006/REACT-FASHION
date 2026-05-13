@@ -1,16 +1,18 @@
 # Coding Guide - Workflow cho Feature Development
 
-Hướng dẫn chi tiết về workflow code khi implement một feature mới trong React Boilerplate.
+Workflow khi implement feature mới (ưu tiên cho AI / Cursor đọc cùng code thật trong repo).
 
 ## 📋 Mục Lục
 
 1. [Tổng Quan Workflow](#tổng-quan-workflow)
-2. [Chi Tiết Từng Bước](#chi-tiết-từng-bước)
-3. [Ví Dụ Cụ Thể: User Management Feature](#ví-dụ-cụ-thể-user-management-feature)
-4. [Tailwind & Design System (quy tắc cho AI)](#tailwind--design-system-quy-tắc-cho-ai)
-5. [Forms & Validation (react-hook-form + zod)](#forms--validation-react-hook-form--zod)
-6. [Best Practices](#best-practices)
-7. [Checklist](#checklist)
+2. [Graphify & đồ thị codebase](#graphify--đồ-thị-codebase)
+3. [Tailwind & Design System (quy tắc cho AI)](#tailwind--design-system-quy-tắc-cho-ai)
+4. [Forms & Validation (react-hook-form + zod)](#forms--validation-react-hook-form--zod)
+5. [Chi Tiết Từng Bước](#chi-tiết-từng-bước)
+6. [Tham chiếu trong repo (end-to-end)](#tham-chiếu-trong-repo-end-to-end)
+7. [Best Practices](#best-practices)
+8. [Checklist](#checklist)
+9. [Tài Liệu Tham Khảo](#tài-liệu-tham-khảo)
 
 ---
 
@@ -43,6 +45,14 @@ Khi implement một feature mới, hãy làm theo thứ tự sau:
 ```
 
 **UI / styling:** Sau bước Components & Pages, mọi class Tailwind và token thiết kế phải tuân **[Tailwind & Design System (quy tắc cho AI)](#tailwind--design-system-quy-tắc-cho-ai)** và tài liệu `docs/TAILWIND_DESIGN_SYSTEM.md`.
+
+---
+
+## Graphify & đồ thị codebase
+
+- Trước khi đụng **nhiều file** hoặc câu hỏi **kiến trúc**: đọc `graphify-out/GRAPH_REPORT.md` (god nodes, communities). Repo có wiki theo node trong `graphify-out/wiki/` 
+- Sau khi **sửa code** trong session: chạy `graphify update .` (AST-only, không tốn API) để đồng bộ graph.
+- Chi tiết quy tắc Cursor: `.cursor/rules/graphify.mdc`.
 
 ---
 
@@ -998,628 +1008,53 @@ URL đầy đủ sẽ là `/v2/my-feature`. Các route được bọc bởi `ele
 
 ---
 
-## 🎯 Ví Dụ Cụ Thể: User Management Feature
+## Tham chiếu trong repo (end-to-end)
 
-Dưới đây là ví dụ đầy đủ cho User Management Feature:
+Ưu tiên đọc code thật thay vì copy mẫu tổng hợp. Các đường dẫn sau khớp workflow (types → constants → service → thunks → slice → hook → form module → page → route):
 
-### 1. Types (`src/types/user.ts`)
+| Luồng | File / thư mục |
+| ----- | -------------- |
+| Profile + địa chỉ, `*Form.ts`, hook có toast | `src/pages/user/ProfileV2/profileForm.ts`, `sections/`, `index.tsx`; `src/hooks/user/useProfile.ts`; `src/store/thunks/userThunks.ts`; `src/store/slices/userSlice.ts`; `src/services/userService.ts` |
+| Auth | `src/hooks/auth/useAuth.ts`; `src/pages/auth/Login.tsx` hoặc `src/pages/authV2/LoginV2/` |
+| Form nhiều field (admin) | `src/pages/productV2/AdminAddProduct/` |
+| Route `/` và `/v2`, shell | `src/routes/index.tsx`; `src/routes/v2/userRoute.tsx`; `src/routes/v2/appShellRoutes.ts` |
 
-```typescript
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: 'admin' | 'user' | 'moderator';
-  status: 'active' | 'inactive';
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface CreateUserData {
-  name: string;
-  email: string;
-  role: string;
-  password?: string;
-}
-
-export interface UpdateUserData {
-  name?: string;
-  email?: string;
-  role?: string;
-  status?: 'active' | 'inactive';
-}
-
-export interface UserListResponse {
-  data: User[];
-  total: number;
-  page: number;
-  limit: number;
-}
-
-export interface UserResponse {
-  data: User;
-}
-```
-
-### 2. Constants (`src/constants/index.ts`)
-
-```typescript
-export const API_ENDPOINTS = {
-  // ... existing
-  USERS: {
-    LIST: '/users',
-    DETAIL: (id: string) => `/users/${id}`,
-    CREATE: '/users',
-    UPDATE: (id: string) => `/users/${id}`,
-    DELETE: (id: string) => `/users/${id}`,
-  },
-} as const;
-
-export const ROUTES = {
-  // ... existing
-  USERS: '/users',
-} as const;
-```
-
-### 3. Service (`src/services/userService.ts`)
-
-```typescript
-import apiClient from '@/utils/api';
-import {
-  User,
-  CreateUserData,
-  UpdateUserData,
-  UserListResponse,
-  UserResponse,
-} from '@/types/user';
-import { API_ENDPOINTS } from '@/constants';
-
-export const userService = {
-  getUsers: async (params?: {
-    page?: number;
-    limit?: number;
-    search?: string;
-  }): Promise<UserListResponse> => {
-    const response = await apiClient.get<UserListResponse>(
-      API_ENDPOINTS.USERS.LIST,
-      { params }
-    );
-    return response.data;
-  },
-
-  getUserById: async (id: string): Promise<UserResponse> => {
-    const response = await apiClient.get<UserResponse>(
-      API_ENDPOINTS.USERS.DETAIL(id)
-    );
-    return response.data;
-  },
-
-  createUser: async (data: CreateUserData): Promise<UserResponse> => {
-    const response = await apiClient.post<UserResponse>(
-      API_ENDPOINTS.USERS.CREATE,
-      data
-    );
-    return response.data;
-  },
-
-  updateUser: async (
-    id: string,
-    data: UpdateUserData
-  ): Promise<UserResponse> => {
-    const response = await apiClient.put<UserResponse>(
-      API_ENDPOINTS.USERS.UPDATE(id),
-      data
-    );
-    return response.data;
-  },
-
-  deleteUser: async (id: string): Promise<void> => {
-    await apiClient.delete(API_ENDPOINTS.USERS.DELETE(id));
-  },
-};
-```
-
-### 4. Thunks (`src/store/thunks/userThunks.ts`)
-
-```typescript
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { userService } from '@/services/userService';
-import {
-  CreateUserData,
-  UpdateUserData,
-  UserListResponse,
-  UserResponse,
-} from '@/types/user';
-
-export const fetchUsersThunk = createAsyncThunk<
-  UserListResponse,
-  { page?: number; limit?: number; search?: string } | undefined,
-  { rejectValue: string }
->('user/fetchUsers', async (params, { rejectWithValue }) => {
-  try {
-    return await userService.getUsers(params);
-  } catch (error: any) {
-    return rejectWithValue(
-      error.response?.data?.message || 'Failed to fetch users'
-    );
-  }
-});
-
-export const fetchUserByIdThunk = createAsyncThunk<
-  UserResponse,
-  string,
-  { rejectValue: string }
->('user/fetchUserById', async (id, { rejectWithValue }) => {
-  try {
-    return await userService.getUserById(id);
-  } catch (error: any) {
-    return rejectWithValue(
-      error.response?.data?.message || 'Failed to fetch user'
-    );
-  }
-});
-
-export const createUserThunk = createAsyncThunk<
-  UserResponse,
-  CreateUserData,
-  { rejectValue: string }
->('user/createUser', async (data, { rejectWithValue }) => {
-  try {
-    return await userService.createUser(data);
-  } catch (error: any) {
-    return rejectWithValue(
-      error.response?.data?.message || 'Failed to create user'
-    );
-  }
-});
-
-export const updateUserThunk = createAsyncThunk<
-  UserResponse,
-  { id: string; data: UpdateUserData },
-  { rejectValue: string }
->('user/updateUser', async ({ id, data }, { rejectWithValue }) => {
-  try {
-    return await userService.updateUser(id, data);
-  } catch (error: any) {
-    return rejectWithValue(
-      error.response?.data?.message || 'Failed to update user'
-    );
-  }
-});
-
-export const deleteUserThunk = createAsyncThunk<
-  string,
-  string,
-  { rejectValue: string }
->('user/deleteUser', async (id, { rejectWithValue }) => {
-  try {
-    await userService.deleteUser(id);
-    return id;
-  } catch (error: any) {
-    return rejectWithValue(
-      error.response?.data?.message || 'Failed to delete user'
-    );
-  }
-});
-```
-
-### 5. Slice (`src/store/slices/userSlice.ts`)
-
-```typescript
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { User } from '@/types/user';
-import {
-  fetchUsersThunk,
-  fetchUserByIdThunk,
-  createUserThunk,
-  updateUserThunk,
-  deleteUserThunk,
-} from '../thunks/userThunks';
-
-interface UserState {
-  users: User[];
-  currentUser: User | null;
-  isLoading: boolean;
-  error: string | null;
-  total: number;
-  page: number;
-  limit: number;
-}
-
-const initialState: UserState = {
-  users: [],
-  currentUser: null,
-  isLoading: false,
-  error: null,
-  total: 0,
-  page: 1,
-  limit: 10,
-};
-
-const userSlice = createSlice({
-  name: 'user',
-  initialState,
-  reducers: {
-    clearError: state => {
-      state.error = null;
-    },
-    setPage: (state, action: PayloadAction<number>) => {
-      state.page = action.payload;
-    },
-  },
-  extraReducers: builder => {
-    // Fetch users
-    builder
-      .addCase(fetchUsersThunk.pending, state => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(fetchUsersThunk.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.users = action.payload.data;
-        state.total = action.payload.total;
-      })
-      .addCase(fetchUsersThunk.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload || 'Failed to fetch users';
-      });
-
-    // Fetch user by ID
-    builder
-      .addCase(fetchUserByIdThunk.pending, state => {
-        state.isLoading = true;
-      })
-      .addCase(fetchUserByIdThunk.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.currentUser = action.payload.data;
-      })
-      .addCase(fetchUserByIdThunk.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload || 'Failed to fetch user';
-      });
-
-    // Create user
-    builder.addCase(createUserThunk.fulfilled, (state, action) => {
-      state.users.push(action.payload.data);
-    });
-
-    // Update user
-    builder.addCase(updateUserThunk.fulfilled, (state, action) => {
-      const index = state.users.findIndex(u => u.id === action.payload.data.id);
-      if (index !== -1) {
-        state.users[index] = action.payload.data;
-      }
-      if (state.currentUser?.id === action.payload.data.id) {
-        state.currentUser = action.payload.data;
-      }
-    });
-
-    // Delete user
-    builder.addCase(deleteUserThunk.fulfilled, (state, action) => {
-      state.users = state.users.filter(u => u.id !== action.payload);
-    });
-  },
-});
-
-export const { clearError, setPage } = userSlice.actions;
-export default userSlice.reducer;
-```
-
-### 6. Hook (`src/hooks/useUsers.ts`)
-
-```typescript
-import { useCallback } from 'react';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import {
-  fetchUsersThunk,
-  fetchUserByIdThunk,
-  createUserThunk,
-  updateUserThunk,
-  deleteUserThunk,
-} from '@/store/thunks/userThunks';
-import { CreateUserData, UpdateUserData } from '@/types/user';
-import toast from 'react-hot-toast';
-
-export const useUsers = () => {
-  const dispatch = useAppDispatch();
-  const { users, currentUser, isLoading, error, total, page, limit } =
-    useAppSelector(state => state.user);
-
-  const fetchUsers = useCallback(
-    async (params?: { page?: number; limit?: number; search?: string }) => {
-      const result = await dispatch(fetchUsersThunk(params));
-      if (fetchUsersThunk.rejected.match(result)) {
-        toast.error(result.payload || 'Failed to fetch users');
-      }
-      return result;
-    },
-    [dispatch]
-  );
-
-  const fetchUserById = useCallback(
-    async (id: string) => {
-      const result = await dispatch(fetchUserByIdThunk(id));
-      if (fetchUserByIdThunk.rejected.match(result)) {
-        toast.error(result.payload || 'Failed to fetch user');
-      }
-      return result;
-    },
-    [dispatch]
-  );
-
-  const createUser = useCallback(
-    async (data: CreateUserData): Promise<boolean> => {
-      const result = await dispatch(createUserThunk(data));
-      if (createUserThunk.fulfilled.match(result)) {
-        toast.success('User created successfully!');
-        return true;
-      }
-      toast.error((result.payload as string) || 'Failed to create user');
-      return false;
-    },
-    [dispatch]
-  );
-
-  const updateUser = useCallback(
-    async (id: string, data: UpdateUserData): Promise<boolean> => {
-      const result = await dispatch(updateUserThunk({ id, data }));
-      if (updateUserThunk.fulfilled.match(result)) {
-        toast.success('User updated successfully!');
-        return true;
-      }
-      toast.error((result.payload as string) || 'Failed to update user');
-      return false;
-    },
-    [dispatch]
-  );
-
-  const deleteUser = useCallback(
-    async (id: string): Promise<boolean> => {
-      const result = await dispatch(deleteUserThunk(id));
-      if (deleteUserThunk.fulfilled.match(result)) {
-        toast.success('User deleted successfully!');
-        return true;
-      }
-      toast.error((result.payload as string) || 'Failed to delete user');
-      return false;
-    },
-    [dispatch]
-  );
-
-  return {
-    users,
-    currentUser,
-    isLoading,
-    error,
-    total,
-    page,
-    limit,
-    fetchUsers,
-    fetchUserById,
-    createUser,
-    updateUser,
-    deleteUser,
-  };
-};
-```
-
-### 7. Components (`src/components/UserList.tsx`)
-
-```typescript
-import React, { useEffect } from 'react';
-import { useUsers } from '@/hooks/useUsers';
-import Table from './Table';
-import LoadingSpinner from './LoadingSpinner';
-
-const UserList: React.FC = () => {
-  const { users, isLoading, error, fetchUsers } = useUsers();
-
-  useEffect(() => {
-    fetchUsers();
-  }, [fetchUsers]);
-
-  const columns = [
-    { key: 'id', header: 'ID' },
-    { key: 'name', header: 'Name' },
-    { key: 'email', header: 'Email' },
-    { key: 'role', header: 'Role' },
-    { key: 'status', header: 'Status' },
-  ];
-
-  if (isLoading) return <LoadingSpinner />;
-  if (error) return <div className="text-red-500">Error: {error}</div>;
-
-  return <Table data={users} columns={columns} />;
-};
-
-export default UserList;
-```
-
-### 8. Page (`src/pages/Users.tsx`)
-
-```typescript
-import React, { useState } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { useTranslation } from 'react-i18next';
-import { useUsers } from '@/hooks/useUsers';
-import UserList from '@/components/UserList';
-import UserForm from '@/components/UserForm';
-import Modal from '@/components/Modal';
-import Button from '@/components/Button';
-
-const Users: React.FC = () => {
-  const { t } = useTranslation();
-  const { createUser, updateUser } = useUsers();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingUserId, setEditingUserId] = useState<string | null>(null);
-
-  const handleCreate = () => {
-    setEditingUserId(null);
-    setIsModalOpen(true);
-  };
-
-  const handleSubmit = async (data: any) => {
-    const ok = editingUserId
-      ? await updateUser(editingUserId, data)
-      : await createUser(data);
-    if (ok) {
-      setIsModalOpen(false);
-      setEditingUserId(null);
-    }
-  };
-
-  return (
-    <>
-      <Helmet>
-        <title>Users - React Boilerplate</title>
-      </Helmet>
-      <div className="space-y-6">
-        <div className="flex justify-between items-center">
-          <h1 className="text-3xl font-bold">{t('pages.users')}</h1>
-          <Button onClick={handleCreate}>Create User</Button>
-        </div>
-        <UserList />
-        <Modal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          title={editingUserId ? 'Edit User' : 'Create User'}
-        >
-          <UserForm
-            userId={editingUserId}
-            onSuccess={() => setIsModalOpen(false)}
-            onCancel={() => setIsModalOpen(false)}
-          />
-        </Modal>
-      </div>
-    </>
-  );
-};
-
-export default Users;
-```
-
-### 9. Route (`src/routes/index.tsx` và khi cần `src/routes/v2/*`)
-
-**Trang gốc (`/`):** thêm `RouteObject` vào mảng `routes` / children của layout (xem file thật).
-
-```typescript
-const Users = React.lazy(() => import('@/pages/Users'));
-
-// Ví dụ trong children của path: '/'
-{ path: 'users', element: <Users /> }
-```
-
-**Trang `/v2` (LayoutV2):** khai báo trong `src/routes/v2/userRoute.tsx`; nếu cần sidebar + header đúng metadata, thêm entry tương ứng trong `src/routes/v2/appShellRoutes.ts` (full `to`, `showInSidebar`, `showHeaderFiltersRow`, `showQuickFilter`, …). Chi tiết xem **BƯỚC 9b** trong mục *BƯỚC 9: Thêm Route* ở trên.
-
-```typescript
-// src/routes/v2/userRoute.tsx — path relative tới /v2
-const MyPage = React.lazy(() => import('@/pages/productV2/MyFeature'));
-{ path: 'my-feature', element: <MyPage /> },
-```
-
-### 10. i18n (`src/constants/locales/en.json` và `vi.json`)
-
-```json
-// en.json
-{
-  "pages": {
-    "users": "Users Management"
-  }
-}
-
-// vi.json
-{
-  "pages": {
-    "users": "Quản Lý Người Dùng"
-  }
-}
-```
+Chi tiết từng bước: [Chi Tiết Từng Bước](#chi-tiết-từng-bước).
 
 ---
 
 ## ✅ Best Practices
 
-### 1. **Type Safety**
-
-- Luôn định nghĩa types trước khi code
-- Sử dụng TypeScript strict mode
-- Tránh `any`, sử dụng `unknown` nếu cần
-
-### 2. **Error Handling**
-
-- Handle errors ở thunks, không ở service
-- **Toast sau thunk:** chỉ trong **custom hook** (BƯỚC 6) — page không `toast` kết quả thunk
-- Hiển thị user-friendly error messages
-- Log errors để debug
-- Sử dụng `react-hot-toast` cho toast notifications
-
-### 3. **Code Organization**
-
-- Một file = một responsibility
-- Group related files trong cùng folder
-- Sử dụng barrel exports (`index.ts`)
-
-### 4. **Performance**
-
-- Sử dụng lazy loading cho pages
-- Sử dụng `useCallback` và `useMemo` khi cần
-- Tránh unnecessary re-renders
-
-### 5. **Testing**
-
-- Viết tests cho services và thunks
-- Test components với user interactions
-- Maintain test coverage > 80%
-
-### 6. **Accessibility**
-
-- Sử dụng semantic HTML
-- Thêm ARIA labels khi cần
-- Đảm bảo keyboard navigation
-
-### 7. **i18n**
-
-- Luôn sử dụng `useTranslation` cho text
-- Không hardcode strings
-- Support đầy đủ các languages
-
-### 8. **Tailwind & Design System**
-
-- Tuân **[Tailwind & Design System (quy tắc cho AI)](#tailwind--design-system-quy-tắc-cho-ai)**: đọc `docs/TAILWIND_DESIGN_SYSTEM.md`, chỉ dùng token có trong doc / `tailwind.config.js`
-- Không thêm màu/typography một lần dùng bằng arbitrary value nếu đã có token
-
-### 9. **Forms & Validation**
-
-- Mọi form **bắt buộc** dùng `react-hook-form` + `zod` (xem [Forms & Validation](#forms--validation-react-hook-form--zod)).
-- **Tách module form thuần** (`*Form.ts` / pattern `profileForm.ts`): zod + types + `empty*` + map entity ↔ payload; page/section chỉ import và gắn `useForm` — không nhét schema vào file JSX.
-- Schema zod là nguồn sự thật cho cả validate + type. **Không** validate inline trong handler khi đã có schema.
-- Dùng `<Controller>` để bind các UI custom (Select, Checkbox, `LabeledInputField`, …); dùng `register(...)` cho input native.
-- `formState.isSubmitting` thay cho `useState` saving flag.
-- Gửi dữ liệu qua Redux thunk có toast: page gọi hàm async từ **custom hook** (BƯỚC 6), **không** `toast` / `unwrap` thunk trực tiếp trên page.
+- **Types & lỗi:** Type trước khi implement; tránh `any`; lỗi HTTP xử lý ở thunk; **toast chỉ trong custom hook** (BƯỚC 6), không trên page; `react-hot-toast`.
+- **Cấu trúc:** Một file ~ một trách nhiệm; barrel `index.ts` khi hợp lý.
+- **Hiệu năng:** Lazy load page; `useCallback` / `useMemo` khi cần.
+- **Test, a11y, i18n:** Ưu tiên test service + thunk; HTML ngữ nghĩa, keyboard; chuỗi UI qua `useTranslation`.
+- **Tailwind & form:** Không lặp chi tiết — tuân [Tailwind & Design System](#tailwind--design-system-quy-tắc-cho-ai) và [Forms & Validation](#forms--validation-react-hook-form--zod).
 
 ## 📋 Checklist
 
 Khi implement một feature mới, đảm bảo:
 
-- [ ] ✅ Đã định nghĩa types trong `src/types/`
-- [ ] ✅ Đã export types trong `src/types/index.ts`
-- [ ] ✅ Đã thêm API endpoints vào `src/constants/index.ts`
-- [ ] ✅ Đã tạo service trong `src/services/`
-- [ ] ✅ Đã tạo thunks trong `src/store/thunks/`
-- [ ] ✅ Đã export thunks trong `src/store/thunks/index.ts`
-- [ ] ✅ Đã tạo slice trong `src/store/slices/`
-- [ ] ✅ Đã đăng ký slice trong `src/store/index.ts`
-- [ ] ✅ Đã tạo custom hook trong `src/hooks/` (hoặc `src/hooks/<domain>/`) — **bắt buộc** khi page gọi thunk có toast/feedback; hook bọc `dispatch` + `fulfilled`/`rejected` + toast, page giữ form + UI state
-- [ ] ✅ Đã tạo components trong `src/components/`
-- [ ] ✅ Đã tạo page trong `src/pages/` (hoặc module con như `src/pages/productV2/...`)
-- [ ] ✅ Đã đăng ký route: `src/routes/index.tsx` (trang `/`) và/hoặc `src/routes/v2/userRoute.tsx` (trang `/v2/...`)
-- [ ] ✅ Với trang trong shell V2: nếu cần sidebar / tiêu đề header / Filters / quick filter — đã thêm (hoặc cập nhật) entry trong `src/routes/v2/appShellRoutes.ts` với `to` khớp chính xác URL
-- [ ] ✅ Đã thêm i18n translations
-- [ ] ✅ Đã test feature hoạt động đúng
-- [ ] ✅ Đã handle loading và error states
-- [ ] ✅ Code đã pass linting và type checking
-- [ ] ✅ UI dùng token Tailwind / design system (`docs/TAILWIND_DESIGN_SYSTEM.md`, `tailwind.config.js`)
-- [ ] ✅ Form (nếu có): module thuần kiểu `<feature>Form.ts` / `profileForm.ts` (zod + mapper) + page dùng `useForm({ resolver: zodResolver(...) })` — không tự `useState` cho values / errors / submitting; không nhét schema vào JSX
+- [ ] Đã định nghĩa types trong `src/types/`
+- [ ] Đã export types trong `src/types/index.ts`
+- [ ] Đã thêm API endpoints vào `src/constants/index.ts`
+- [ ] Đã tạo service trong `src/services/`
+- [ ] Đã tạo thunks trong `src/store/thunks/`
+- [ ] Đã export thunks trong `src/store/thunks/index.ts`
+- [ ] Đã tạo slice trong `src/store/slices/`
+- [ ] Đã đăng ký slice trong `src/store/index.ts`
+- [ ] Đã tạo custom hook trong `src/hooks/` (hoặc `src/hooks/<domain>/`) — **bắt buộc** khi page gọi thunk có toast/feedback; hook bọc `dispatch` + `fulfilled`/`rejected` + toast, page giữ form + UI state
+- [ ] Đã tạo components trong `src/components/`
+- [ ] Đã tạo page trong `src/pages/` (hoặc module con như `src/pages/productV2/...`)
+- [ ] Đã đăng ký route: `src/routes/index.tsx` (trang `/`) và/hoặc `src/routes/v2/userRoute.tsx` (trang `/v2/...`)
+- [ ] Với trang trong shell V2: nếu cần sidebar / tiêu đề header / Filters / quick filter — đã thêm (hoặc cập nhật) entry trong `src/routes/v2/appShellRoutes.ts` với `to` khớp chính xác URL
+- [ ] Đã thêm i18n translations
+- [ ] Đã test feature hoạt động đúng
+- [ ] Đã handle loading và error states
+- [ ] Code đã pass linting và type checking
+- [ ] UI dùng token Tailwind / design system (`docs/TAILWIND_DESIGN_SYSTEM.md`, `tailwind.config.js`)
+- [ ] Form (nếu có): module thuần kiểu `<feature>Form.ts` / `profileForm.ts` (zod + mapper) + page dùng `useForm({ resolver: zodResolver(...) })` — không tự `useState` cho values / errors / submitting; không nhét schema vào JSX
+- [ ] Đã chạy `graphify update .` sau khi sửa code (đồng bộ `graphify-out/`)
 
 ---
 
@@ -1632,7 +1067,8 @@ Khi implement một feature mới, đảm bảo:
 - [React Hook Form](https://react-hook-form.com/) — form library bắt buộc trong repo
 - [Zod](https://zod.dev/) — schema validation tích hợp qua `@hookform/resolvers/zod`
 - Design system trong repo: `docs/TAILWIND_DESIGN_SYSTEM.md`, `tailwind.config.js`, `src/constants/colors.ts`
+- Đồ thị codebase: `graphify-out/GRAPH_REPORT.md`, lệnh `graphify update .`
 
 ---
 
-**Lưu ý:** Workflow này có thể điều chỉnh tùy theo nhu cầu của project. Quan trọng là giữ consistency trong codebase.
+**Lưu ý:** Điều chỉnh linh hoạt theo feature; giữ nhất quán với code hiện có và [Tham chiếu trong repo](#tham-chiếu-trong-repo-end-to-end).
