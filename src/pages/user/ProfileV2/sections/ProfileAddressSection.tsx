@@ -2,6 +2,7 @@ import { MapPin, User } from 'lucide-react';
 import type { JSX } from 'react';
 import { Controller, type UseFormReturn } from 'react-hook-form';
 
+import { LabelButton } from '@/components/buttons/LabelButton';
 import { LabeledInputField } from '@/components/form/LabeledInputField';
 import type { AddressFormValues } from '@/pages/user/ProfileV2/profileForm';
 import { Button } from '@/components/ui/button';
@@ -361,23 +362,20 @@ export function ProfileAddressSection({
 
       {editingAddresses ? (
         <div className="flex flex-wrap gap-2">
-          <Button
-            type="button"
-            size="sm"
+          <LabelButton
+            label="Save address"
+            tone="primary"
+            className="px-6 py-2.5"
             onClick={onSubmitAddress}
             disabled={savingAddress}
-          >
-            Save address
-          </Button>
-          <Button
-            type="button"
-            size="sm"
-            variant="outline"
+          />
+          <LabelButton
+            label="Cancel"
+            tone="default"
+            className="px-6 py-2.5"
             onClick={onCancelAddress}
             disabled={savingAddress}
-          >
-            Cancel
-          </Button>
+          />
           {selectedAddressId !== 'new' && !addressIsDefault ? (
             <Button
               type="button"

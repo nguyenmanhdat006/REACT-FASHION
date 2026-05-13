@@ -2,9 +2,9 @@ import { Mail, Smartphone, User } from 'lucide-react';
 import type { JSX } from 'react';
 import { Controller, type UseFormReturn } from 'react-hook-form';
 
+import { LabelButton } from '@/components/buttons/LabelButton';
 import { LabeledInputField } from '@/components/form/LabeledInputField';
 import type { ProfileAccountFormValues } from '@/pages/user/ProfileV2/profileForm';
-import { Button } from '@/components/ui/button';
 
 export type ProfileReadonlyDisplay = {
   fullName: string;
@@ -100,23 +100,20 @@ export function ProfileSection({
       </div>
       {editingProfile ? (
         <div className="flex flex-wrap gap-2">
-          <Button
-            type="button"
-            size="sm"
+          <LabelButton
+            label="Save profile"
+            tone="primary"
+            className="px-6 py-2.5"
             onClick={onSubmitProfile}
             disabled={savingProfile}
-          >
-            Save profile
-          </Button>
-          <Button
-            type="button"
-            size="sm"
-            variant="outline"
+          />
+          <LabelButton
+            label="Cancel"
+            tone="default"
+            className="px-6 py-2.5"
             onClick={onCancelProfile}
             disabled={savingProfile}
-          >
-            Cancel
-          </Button>
+          />
         </div>
       ) : null}
     </section>
