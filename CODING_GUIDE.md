@@ -8,8 +8,9 @@ Hướng dẫn chi tiết về workflow code khi implement một feature mới t
 2. [Chi Tiết Từng Bước](#chi-tiết-từng-bước)
 3. [Ví Dụ Cụ Thể: User Management Feature](#ví-dụ-cụ-thể-user-management-feature)
 4. [Tailwind & Design System (quy tắc cho AI)](#tailwind--design-system-quy-tắc-cho-ai)
-5. [Best Practices](#best-practices)
-6. [Checklist](#checklist)
+5. [Forms & Validation (react-hook-form + zod)](#forms--validation-react-hook-form--zod)
+6. [Best Practices](#best-practices)
+7. [Checklist](#checklist)
 
 ---
 
@@ -28,9 +29,11 @@ Khi implement một feature mới, hãy làm theo thứ tự sau:
    ↓
 5. Redux Slice (State Management)
    ↓
-6. Custom Hooks (Optional - để dùng dễ hơn)
+6. Custom Hooks — **bắt buộc** khi page/feature gọi Redux thunk và cần phản hồi UX (toast, v.v.). Chi tiết: **BƯỚC 6** trong mục [Chi Tiết Từng Bước](#chi-tiết-từng-bước).
    ↓
-7. Components (Reusable UI)
+6.5. Module form thuần (zod + mapper) — **tách riêng một file** cạnh page (ví dụ `profileForm.ts`). Xem [Forms & Validation](#forms--validation-react-hook-form--zod)
+   ↓
+7. Components (Reusable UI) — form UI bind qua `react-hook-form` (`register` / `Controller`) + `FormField` / `LabeledInputField`
    ↓
 8. Pages (Page Components)
    ↓
@@ -69,6 +72,217 @@ Dành cho **AI / Cursor** khi chỉnh sửa JSX/TSX, layout, Theme, hoặc thêm
 ### ⚠️ Lưu ý file `tailwind.config.js`
 
 Trong repo hiện có đoạn khai báo `colors.secondary` và `colors.accent` **lặp/ghi chồng** (merge object). AI khi chỉnh **chỉ sửa phần cần thiết**, tránh ghi đè nhầm; sau thay đổi luôn chạy **`npm run build`** hoặc dev để Tailwind báo class invalid.
+
+---
+
+## Forms & Validation (react-hook-form + zod)
+
+**Quy tắc bắt buộc:** Mọi form trong ứng dụng (login, signup, address, profile, admin create/update, …) phải dùng [`react-hook-form`](https://react-hook-form.com/) (`useForm`) kết hợp [`zod`](https://zod.dev/) qua `@hookform/resolvers/zod`. **Không** dùng `useState` rời để giữ form values / errors / submitting flags.
+
+Các dependency đã có sẵn trong `package.json`:
+
+- `react-hook-form` (`^7.x`)
+- `@hookform/resolvers`
+- `zod`
+
+### Khi nào áp dụng
+
+- ✅ Form có ≥ 2 input, hoặc cần validate (`required`, format, length, async).
+- ✅ Mọi form trong page CRUD (create / edit) — kể cả form chỉ có 1 field text nhưng có validate.
+- ❌ Toggle / select đơn lẻ không có submit (ví dụ dropdown chuyển trang, theme switch) — vẫn dùng `useState` thường.
+
+### Bố cục file
+
+**Bắt buộc:** Schema zod, type suy ra, giá trị mặc định, map entity → form, map form → payload API — **không** viết trong `index.tsx` / component JSX. Gom vào **một module TypeScript thuần** (không JSX, không `react-hook-form`, không React) đặt cạnh page hoặc feature folder.
+
+- **Chuẩn tham chiếu:** `src/pages/user/ProfileV2/profileForm.ts` — nhiều form cùng màn (profile + address) có thể nằm **chung một file** `*Form.ts` thay vì tách nhiều `.schema.ts` rời nếu chúng luôn đi cùng nhau.
+- **Tên file gợi ý:** `<Feature>Form.ts`, `<Area>Form.ts`, hoặc `<feature>.schema.ts` nếu chỉ có một schema đơn — quan trọng là **một nơi** cho toàn bộ “logic form tĩnh”, page chỉ wire RHF + UI.
+
+| File | Nội dung |
+| ---- | -------- |
+| `src/.../<feature>Form.ts` *(hoặc `<feature>.schema.ts` khi đủ một schema)* | `zod` schema(s), `z.infer<…>`, `empty*()`, `*ToFormValues` / `profileToFormValues`, `to*Payload` / `toCreatePayload`. **Không** import React / RHF ở đây. |
+| `src/.../<Feature>Page.tsx` (hoặc `index.tsx`, section) | Import từ module form thuần. Gọi `useForm<FormValues>({ resolver: zodResolver(schema), defaultValues })`. Truyền `control` / `register` / `errors` xuống UI. |
+| `src/components/FormField.tsx` *(text/password/textarea/select)* | Helper bind sẵn với `register: UseFormRegisterReturn` và `error: FieldError`. **Dùng cho form mới** trong app shell V2. |
+| `src/components/form/LabeledInputField.tsx` | Field text dạng readonly/edit (icon + label) — bind RHF qua `<Controller>`. Dùng cho trang profile / setting. |
+
+### Pattern chuẩn
+
+#### 1. Module form thuần — schema + mapper (nguồn sự thật duy nhất)
+
+Đặt trong file kiểu `src/pages/user/ProfileV2/profileForm.ts` (rút gọn minh họa; file thật còn schema address + `toCreatePayload`, v.v.):
+
+```typescript
+// src/pages/user/ProfileV2/profileForm.ts
+import { z } from 'zod';
+
+import type { User } from '@/types/auth/auth';
+import { VIETNAMESE_PHONE_REGEX } from '@/utils/phone';
+
+export const profileAccountSchema = z.object({
+  fullName: z.string().trim().min(1, 'Full name is required'),
+  phone: z
+    .string()
+    .trim()
+    .refine(v => v === '' || VIETNAMESE_PHONE_REGEX.test(v), {
+      message: 'Phone number must be valid Vietnamese phone number',
+    }),
+});
+
+export type ProfileAccountFormValues = z.infer<typeof profileAccountSchema>;
+
+export const emptyProfileAccount = (): ProfileAccountFormValues => ({
+  fullName: '',
+  phone: '',
+});
+
+export const profileToFormValues = (
+  profile: Pick<User, 'fullName' | 'phone'> | null | undefined
+): ProfileAccountFormValues => ({
+  fullName: profile?.fullName?.trim() ?? '',
+  phone: profile?.phone?.trim() ?? '',
+});
+
+export const toUpdateProfilePayload = (
+  values: ProfileAccountFormValues
+): Partial<User> => ({
+  fullName: values.fullName.trim(),
+  phone: values.phone.trim() || null,
+});
+```
+
+- Validate trim/format **trong schema**, không validate inline trong handler.
+- Payload gửi API: hàm `toUpdateProfilePayload` / `toCreatePayload` **cùng module** với schema → khi đổi field chỉ sửa một file.
+
+#### 2. Khởi tạo `useForm`
+
+```typescript
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  profileAccountSchema,
+  emptyProfileAccount,
+  type ProfileAccountFormValues,
+} from '@/pages/user/ProfileV2/profileForm';
+
+const profileForm = useForm<ProfileAccountFormValues>({
+  resolver: zodResolver(profileAccountSchema),
+  defaultValues: emptyProfileAccount(),
+  mode: 'onSubmit', // hoặc 'onBlur' cho realtime validation
+});
+
+const { register, control, handleSubmit, reset, formState: { errors, isSubmitting } }
+  = profileForm;
+```
+
+- **`defaultValues` luôn có giá trị đầy đủ** (không để `undefined`) để RHF chuyển sang controlled mode ngay từ đầu.
+- `mode: 'onSubmit'` cho form ngắn; `mode: 'onBlur'` hoặc `'onChange'` cho form dài / wizard.
+
+#### 3. Reset khi load data / đổi record
+
+```typescript
+// Đồng bộ form với data từ store khi vào edit mode hoặc đổi record
+useEffect(() => {
+  if (!editingProfile) return;
+  reset(profileToFormValues(profile));
+}, [editingProfile, profile, reset]);
+```
+
+- **Không** dùng `useEffect` set từng field bằng `setValue` — luôn dùng `reset(values)`.
+- Khi cancel: nếu cần khôi phục giá trị ban đầu, gọi `reset(profileToFormValues(profile))` (hoặc mapper tương ứng từ module `*Form.ts`).
+
+#### 4. Bind UI
+
+**Với `<FormField />`** (text/password/textarea/select trong form V2):
+
+```tsx
+<FormField
+  id="email"
+  label="Email"
+  type="email"
+  placeholder="Enter your email"
+  register={register('email')}
+  error={errors.email}
+/>
+```
+
+**Với select hoặc component custom**, dùng `<Controller>`:
+
+```tsx
+<Controller
+  name="status"
+  control={control}
+  render={({ field, fieldState }) => (
+    <FormField
+      variant="selection"
+      id="status"
+      label="Status"
+      placeholder="Choose status"
+      options={STATUS_OPTIONS}
+      value={field.value}
+      onValueChange={field.onChange}
+      error={fieldState.error}
+    />
+  )}
+/>
+```
+
+**Với `<LabeledInputField />`** (profile / settings page), wrap `<Controller>`:
+
+```tsx
+<Controller
+  name="fullName"
+  control={control}
+  render={({ field, fieldState }) => (
+    <LabeledInputField
+      mode={editing ? 'edit' : 'readonly'}
+      id="profile-fullName"
+      label="Full name"
+      icon={User}
+      value={field.value}
+      onChange={field.onChange}
+      onBlur={field.onBlur}
+      error={fieldState.error?.message}
+    />
+  )}
+/>
+```
+
+#### 5. Submit handler — page gọi hook (toast nằm trong hook)
+
+```tsx
+import { useProfileExample } from '@/hooks/user/useProfileExample';
+
+const { updateProfile } = useProfileExample();
+
+const onValid = async (values: ProfileAccountFormValues) => {
+  const ok = await updateProfile(toUpdateProfilePayload(values));
+  if (ok) setEditing(false);
+};
+
+// Gắn vào <form>:
+<form onSubmit={handleSubmit(onValid)}>...</form>
+
+// Hoặc gắn vào button không có <form>:
+<Button onClick={handleSubmit(onValid)} disabled={isSubmitting}>Save</Button>
+```
+
+- Dùng `isSubmitting` thay vì `useState` cho saving flag.
+- **`toUpdateProfilePayload` / schema** vẫn ở module form thuần; **không** gọi `toast` trong handler submit của page.
+
+#### 6. Những điều **không** nên làm
+
+- ❌ `useState` cho `fieldErrors: Record<string, string>` → đã có `formState.errors`.
+- ❌ Tạo `validate*` thủ công khi đã có schema → đưa hết vào zod.
+- ❌ Quên `defaultValues` → field thành uncontrolled, sẽ warn console.
+- ❌ `setValue` để khởi tạo nhiều field → dùng `reset(values)`.
+- ❌ Trộn UI state (modal open, current id, edit mode) vào `useForm`. Các state đó vẫn `useState` ở page và **độc lập** với form values.
+- ❌ `dispatch(thunk(...))` kèm `toast` trong page khi feature đã có hook theo BƯỚC 6 — toast sau thunk **chỉ** trong hook.
+
+### Ví dụ rút gọn
+
+- **Login form (1 form đơn giản):** `src/pages/authV2/LoginV2/sections/FormSection.tsx`
+- **Form nhiều section (`register` + `Controller`):** `src/pages/productV2/AdminAddProduct/`
+- **Form readonly/edit toggle + module `profileForm.ts` + nhiều form cùng page:** `src/pages/user/ProfileV2/`
 
 ---
 
@@ -426,11 +640,20 @@ export const store = configureStore({
 
 ---
 
-### BƯỚC 6: Tạo Custom Hook (Optional)
+### BƯỚC 6: Tạo Custom Hook (bắt buộc khi có thunk + toast)
 
-**📍 Location:** `src/hooks/use[FeatureName].ts`
+**📍 Location:** `src/hooks/use[FeatureName].ts` hoặc theo nhóm domain `src/hooks/<domain>/use[FeatureName].ts` (ví dụ `src/hooks/user/useProfile.ts`, `src/hooks/auth/useAuth.ts`).
 
-**Mục đích:** Tạo custom hook để dùng dễ hơn trong components
+**Mục đích:** Hook **bọc `useAppDispatch` / `useAppSelector`**, gọi thunk qua `dispatch`, bọc trong `useCallback`, và **xử lý toast** bằng `Thunk.fulfilled.match(result)` / `Thunk.rejected.match(result)` (hoặc pattern tương đương). Page/component **không** gọi `dispatch(someThunk(...))` kèm `toast.success` / `toast.error` trực tiếp.
+
+**Phân tách với form (page):**
+
+| Ở **custom hook** | Ở **page** (hoặc section chứa form) |
+| --- | --- |
+| `dispatch` thunk, kiểm tra `fulfilled` / `rejected`, `toast` | `useForm`, `zodResolver`, `defaultValues`, `reset` / `setValue`, `handleSubmit`, state edit mode / id đang chọn |
+| Hàm async trả về `boolean` hoặc `ActionResult` để page biết thành công (vd. đóng panel) | Map `values` → payload API (từ module `*Form.ts`), gọi `await updateX(payload)` từ hook, rồi `if (ok) setEditing(false)` |
+
+- **SRP trong hook:** mỗi hàm export tương ứng **một** thunk (hoặc một luồng nghiệp vụ đơn). Ví dụ `fetchProfile` và `fetchAddresses` là hai hàm riêng — **không** gộp `Promise.all` nhiều thunk chỉ để “tiện gọi một lần”; page gọi lần lượt hoặc hai `useEffect` nếu cần tải độc lập lúc mount.
 
 **Cấu trúc:**
 
@@ -475,40 +698,40 @@ export const useUsers = () => {
   );
 
   const createUser = useCallback(
-    async (data: CreateUserData) => {
+    async (data: CreateUserData): Promise<boolean> => {
       const result = await dispatch(createUserThunk(data));
       if (createUserThunk.fulfilled.match(result)) {
         toast.success('User created successfully!');
-      } else if (createUserThunk.rejected.match(result)) {
-        toast.error(result.payload || 'Failed to create user');
+        return true;
       }
-      return result;
+      toast.error((result.payload as string) || 'Failed to create user');
+      return false;
     },
     [dispatch]
   );
 
   const updateUser = useCallback(
-    async (id: string, data: UpdateUserData) => {
+    async (id: string, data: UpdateUserData): Promise<boolean> => {
       const result = await dispatch(updateUserThunk({ id, data }));
       if (updateUserThunk.fulfilled.match(result)) {
         toast.success('User updated successfully!');
-      } else if (updateUserThunk.rejected.match(result)) {
-        toast.error(result.payload || 'Failed to update user');
+        return true;
       }
-      return result;
+      toast.error((result.payload as string) || 'Failed to update user');
+      return false;
     },
     [dispatch]
   );
 
   const deleteUser = useCallback(
-    async (id: string) => {
+    async (id: string): Promise<boolean> => {
       const result = await dispatch(deleteUserThunk(id));
       if (deleteUserThunk.fulfilled.match(result)) {
         toast.success('User deleted successfully!');
-      } else if (deleteUserThunk.rejected.match(result)) {
-        toast.error(result.payload || 'Failed to delete user');
+        return true;
       }
-      return result;
+      toast.error((result.payload as string) || 'Failed to delete user');
+      return false;
     },
     [dispatch]
   );
@@ -532,12 +755,12 @@ export const useUsers = () => {
 
 **⚠️ Lưu ý:**
 
-- **Luôn sử dụng `useAppDispatch` và `useAppSelector` từ `@/store/hooks`** thay vì `useDispatch` và `useSelector` trực tiếp (để có type safety tốt hơn)
-- Hook này optional, nhưng nên dùng để code gọn hơn
-- Sử dụng `useCallback` để tránh re-render không cần thiết
-- **Xử lý toast notifications trong hook** để hiển thị success/error messages cho user
-- Sử dụng `.fulfilled.match()` và `.rejected.match()` để check kết quả của thunk
-- Toast messages nên user-friendly và informative
+- **Luôn sử dụng `useAppDispatch` và `useAppSelector` từ `@/store/hooks`** thay vì `useDispatch` và `useSelector` trực tiếp (để có type safety tốt hơn).
+- **Mọi page/feature có thunk + toast (hoặc feedback tương đương) phải có hook** theo mục này — không xử lý toast thunk trong page.
+- Sử dụng `useCallback` cho các hàm gọi `dispatch` trong hook.
+- Toast messages nên user-friendly và informative.
+- Sử dụng `.fulfilled.match()` và `.rejected.match()` để check kết quả của thunk (hoặc unwrap + try/catch **chỉ** trong hook nếu một pattern thống nhất).
+- Hàm trong hook có thể `return true` khi `fulfilled` để page cập nhật UI cục bộ (đóng form, reset local state) **sau** khi thunk thành công.
 
 ---
 
@@ -622,16 +845,12 @@ const Users: React.FC = () => {
   };
 
   const handleSubmit = async (data: any) => {
-    try {
-      if (editingUserId) {
-        await updateUser(editingUserId, data);
-      } else {
-        await createUser(data);
-      }
+    const ok = editingUserId
+      ? await updateUser(editingUserId, data)
+      : await createUser(data);
+    if (ok) {
       setIsModalOpen(false);
       setEditingUserId(null);
-    } catch (error) {
-      console.error('Error saving user:', error);
     }
   };
 
@@ -677,8 +896,8 @@ export default Users;
 - Sử dụng `useTranslation` cho i18n
 - Handle loading, error states
 - Sử dụng các components có sẵn
-
----
+- **Form trong page** phải dùng `react-hook-form` + `zod` (xem [Forms & Validation](#forms--validation-react-hook-form--zod)) — không tự `useState` form values / errors / submitting.
+- Sau khi gọi `createUser` / `updateUser` từ hook (BƯỚC 6), chỉ đóng modal / reset UI khi hàm trả về `true` (thunk fulfilled).
 
 ### BƯỚC 9: Thêm Route
 
@@ -1129,40 +1348,40 @@ export const useUsers = () => {
   );
 
   const createUser = useCallback(
-    async (data: CreateUserData) => {
+    async (data: CreateUserData): Promise<boolean> => {
       const result = await dispatch(createUserThunk(data));
       if (createUserThunk.fulfilled.match(result)) {
         toast.success('User created successfully!');
-      } else if (createUserThunk.rejected.match(result)) {
-        toast.error(result.payload || 'Failed to create user');
+        return true;
       }
-      return result;
+      toast.error((result.payload as string) || 'Failed to create user');
+      return false;
     },
     [dispatch]
   );
 
   const updateUser = useCallback(
-    async (id: string, data: UpdateUserData) => {
+    async (id: string, data: UpdateUserData): Promise<boolean> => {
       const result = await dispatch(updateUserThunk({ id, data }));
       if (updateUserThunk.fulfilled.match(result)) {
         toast.success('User updated successfully!');
-      } else if (updateUserThunk.rejected.match(result)) {
-        toast.error(result.payload || 'Failed to update user');
+        return true;
       }
-      return result;
+      toast.error((result.payload as string) || 'Failed to update user');
+      return false;
     },
     [dispatch]
   );
 
   const deleteUser = useCallback(
-    async (id: string) => {
+    async (id: string): Promise<boolean> => {
       const result = await dispatch(deleteUserThunk(id));
       if (deleteUserThunk.fulfilled.match(result)) {
         toast.success('User deleted successfully!');
-      } else if (deleteUserThunk.rejected.match(result)) {
-        toast.error(result.payload || 'Failed to delete user');
+        return true;
       }
-      return result;
+      toast.error((result.payload as string) || 'Failed to delete user');
+      return false;
     },
     [dispatch]
   );
@@ -1240,16 +1459,12 @@ const Users: React.FC = () => {
   };
 
   const handleSubmit = async (data: any) => {
-    try {
-      if (editingUserId) {
-        await updateUser(editingUserId, data);
-      } else {
-        await createUser(data);
-      }
+    const ok = editingUserId
+      ? await updateUser(editingUserId, data)
+      : await createUser(data);
+    if (ok) {
       setIsModalOpen(false);
       setEditingUserId(null);
-    } catch (error) {
-      console.error('Error saving user:', error);
     }
   };
 
@@ -1333,7 +1548,7 @@ const MyPage = React.lazy(() => import('@/pages/productV2/MyFeature'));
 ### 2. **Error Handling**
 
 - Handle errors ở thunks, không ở service
-- **Xử lý toast notifications trong custom hooks** để hiển thị success/error messages
+- **Toast sau thunk:** chỉ trong **custom hook** (BƯỚC 6) — page không `toast` kết quả thunk
 - Hiển thị user-friendly error messages
 - Log errors để debug
 - Sử dụng `react-hot-toast` cho toast notifications
@@ -1373,7 +1588,14 @@ const MyPage = React.lazy(() => import('@/pages/productV2/MyFeature'));
 - Tuân **[Tailwind & Design System (quy tắc cho AI)](#tailwind--design-system-quy-tắc-cho-ai)**: đọc `docs/TAILWIND_DESIGN_SYSTEM.md`, chỉ dùng token có trong doc / `tailwind.config.js`
 - Không thêm màu/typography một lần dùng bằng arbitrary value nếu đã có token
 
----
+### 9. **Forms & Validation**
+
+- Mọi form **bắt buộc** dùng `react-hook-form` + `zod` (xem [Forms & Validation](#forms--validation-react-hook-form--zod)).
+- **Tách module form thuần** (`*Form.ts` / pattern `profileForm.ts`): zod + types + `empty*` + map entity ↔ payload; page/section chỉ import và gắn `useForm` — không nhét schema vào file JSX.
+- Schema zod là nguồn sự thật cho cả validate + type. **Không** validate inline trong handler khi đã có schema.
+- Dùng `<Controller>` để bind các UI custom (Select, Checkbox, `LabeledInputField`, …); dùng `register(...)` cho input native.
+- `formState.isSubmitting` thay cho `useState` saving flag.
+- Gửi dữ liệu qua Redux thunk có toast: page gọi hàm async từ **custom hook** (BƯỚC 6), **không** `toast` / `unwrap` thunk trực tiếp trên page.
 
 ## 📋 Checklist
 
@@ -1387,7 +1609,7 @@ Khi implement một feature mới, đảm bảo:
 - [ ] ✅ Đã export thunks trong `src/store/thunks/index.ts`
 - [ ] ✅ Đã tạo slice trong `src/store/slices/`
 - [ ] ✅ Đã đăng ký slice trong `src/store/index.ts`
-- [ ] ✅ Đã tạo custom hook (nếu cần) trong `src/hooks/`
+- [ ] ✅ Đã tạo custom hook trong `src/hooks/` (hoặc `src/hooks/<domain>/`) — **bắt buộc** khi page gọi thunk có toast/feedback; hook bọc `dispatch` + `fulfilled`/`rejected` + toast, page giữ form + UI state
 - [ ] ✅ Đã tạo components trong `src/components/`
 - [ ] ✅ Đã tạo page trong `src/pages/` (hoặc module con như `src/pages/productV2/...`)
 - [ ] ✅ Đã đăng ký route: `src/routes/index.tsx` (trang `/`) và/hoặc `src/routes/v2/userRoute.tsx` (trang `/v2/...`)
@@ -1397,6 +1619,7 @@ Khi implement một feature mới, đảm bảo:
 - [ ] ✅ Đã handle loading và error states
 - [ ] ✅ Code đã pass linting và type checking
 - [ ] ✅ UI dùng token Tailwind / design system (`docs/TAILWIND_DESIGN_SYSTEM.md`, `tailwind.config.js`)
+- [ ] ✅ Form (nếu có): module thuần kiểu `<feature>Form.ts` / `profileForm.ts` (zod + mapper) + page dùng `useForm({ resolver: zodResolver(...) })` — không tự `useState` cho values / errors / submitting; không nhét schema vào JSX
 
 ---
 
@@ -1406,6 +1629,8 @@ Khi implement một feature mới, đảm bảo:
 - [React Router Documentation](https://reactrouter.com/)
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/)
 - [React Hooks Documentation](https://react.dev/reference/react)
+- [React Hook Form](https://react-hook-form.com/) — form library bắt buộc trong repo
+- [Zod](https://zod.dev/) — schema validation tích hợp qua `@hookform/resolvers/zod`
 - Design system trong repo: `docs/TAILWIND_DESIGN_SYSTEM.md`, `tailwind.config.js`, `src/constants/colors.ts`
 
 ---
