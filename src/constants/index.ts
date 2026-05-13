@@ -62,9 +62,11 @@ export const AUTH_ENDPOINTS = {
 export const API_ENDPOINTS = {
   AUTH: AUTH_ENDPOINTS,
   USER: {
-    PROFILE: '/users/profile',
-    ADDRESSES: '/addresses',
-    ADDRESS_DETAIL: (id: string) => `/addresses/${id}`,
+    PROFILE: '/users/me',
+    ADDRESSES: '/users/me/addresses',
+    ADDRESS_DETAIL: (id: string) => `/users/me/addresses/${id}`,
+    ADDRESS_DEFAULT: '/users/me/addresses/default',
+    ADDRESS_SET_DEFAULT: (id: string) => `/users/me/addresses/${id}/default`,
   },
   PRODUCTS: {
     LIST: '/products',

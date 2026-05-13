@@ -9,7 +9,6 @@ import {
   OAuthExchangeRequest,
   SocialProvider,
 } from '@/types/auth/auth';
-import { ApiResponse } from '@/types/common/common';
 import {
   API_ENDPOINTS,
   AUTH_ENDPOINTS,
@@ -135,42 +134,41 @@ export const authService = {
   },
 
   updateProfile: async (data: Partial<User>): Promise<User> => {
-    const response = await apiClient.put<ApiResponse<User>>(
+    const response = await apiClient.put<MaybeWrapped<User>>(
       API_ENDPOINTS.USER.PROFILE,
       data
     );
-    return normalizeUser(response.data as UserInbound);
+    const payload = unwrapApiData(response);
+    return normalizeUser(payload as UserInbound);
   },
 
   getAddresses: async (): Promise<Address[]> => {
-    const response = await apiClient.get<ApiResponse<Address[]>>(
+    const response = await apiClient.get<MaybeWrapped<Address[]>>(
       API_ENDPOINTS.USER.ADDRESSES
     );
-    return response.data;
+    const list = unwrapApiData(response) ?? [];
+    return Array.isArray(list) ? list : [];
   },
 
   addAddress: async (
     address: Omit<Address, 'id' | 'isDefault'>
   ): Promise<Address> => {
-    const response = await apiClient.post<ApiResponse<Address>>(
+    const response = await apiClient.post<MaybeWrapped<Address>>(
       API_ENDPOINTS.USER.ADDRESSES,
       address
     );
-    return response.data;
+    return unwrapApiData(response) as Address;
   },
 
-  updateAddress: async (
-    id: string,
-    address: Partial<Address>
-  ): Promise<Address> => {
-    const response = await apiClient.put<ApiResponse<Address>>(
+  updateAddress: async (id: string, address: Partial<Address>): Promise<Address> => {
+    const response = await apiClient.put<MaybeWrapped<Address>>(
       API_ENDPOINTS.USER.ADDRESS_DETAIL(id),
       address
     );
-    return response.data;
+    return unwrapApiData(response) as Address;
   },
 
   deleteAddress: async (id: string): Promise<void> => {
-    await apiClient.delete(API_ENDPOINTS.USER.ADDRESS_DETAIL(id));
+    await apiClient.delete<MaybeWrapped<null>>(API_ENDPOINTS.USER.ADDRESS_DETAIL(id));
   },
 };

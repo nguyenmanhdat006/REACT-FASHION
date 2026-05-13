@@ -47,15 +47,38 @@ export interface ResetPasswordData {
   password: string;
 }
 
+export type AddressType = 'SHIPPING' | 'BILLING' | 'BOTH';
+
+/** User address (User Service). Legacy mocks may use `state` / `zipCode` — normalize in the service layer. */
 export interface Address {
   id: string;
   fullName: string;
   phone: string;
   addressLine1: string;
+  addressLine2?: string | null;
+  city: string;
+  district?: string | null;
+  ward?: string | null;
+  postalCode?: string | null;
+  country?: string | null;
+  isDefault: boolean;
+  addressType?: AddressType;
+  createdAt?: string;
+  updatedAt?: string | null;
+}
+
+export interface CreateAddressRequest {
+  fullName: string;
+  phone: string;
+  addressLine1: string;
   addressLine2?: string;
   city: string;
-  state: string;
-  zipCode: string;
-  country: string;
-  isDefault: boolean;
+  district?: string;
+  ward?: string;
+  postalCode?: string;
+  country?: string;
+  isDefault?: boolean;
+  addressType?: AddressType;
 }
+
+export type UpdateAddressRequest = Partial<CreateAddressRequest>;
