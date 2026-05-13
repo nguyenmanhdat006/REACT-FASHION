@@ -68,15 +68,16 @@ const Products: React.FC = () => {
         product.name,
         product.shortDescription,
         product.description,
-        product.category.name,
-        product.brand.name,
+        product.category?.name,
+        product.brand?.name,
       ]
+        .filter(Boolean)
         .join(' ')
         .toLowerCase();
 
       const matchesSearch = !searchKeyword || searchableText.includes(searchKeyword);
-      const matchesCategory = !selectedCategoryId || product.category.id === selectedCategoryId;
-      const matchesBrand = !selectedBrandId || product.brand.id === selectedBrandId;
+      const matchesCategory = !selectedCategoryId || product.category?.id === selectedCategoryId;
+      const matchesBrand = !selectedBrandId || product.brand?.id === selectedBrandId;
       const matchesMinPrice = minPrice === undefined || product.price >= minPrice;
       const matchesMaxPrice = maxPrice === undefined || product.price <= maxPrice;
 
@@ -277,7 +278,7 @@ const Products: React.FC = () => {
                     {product.name}
                   </Link>
                   <p className="text-xs text-primary-700 dark:text-primary-300 font-medium">
-                    {product.category.name} • {product.brand.name}
+                    {product.category?.name ?? '—'} • {product.brand?.name ?? '—'}
                   </p>
                   <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
                     {product.shortDescription || product.description}

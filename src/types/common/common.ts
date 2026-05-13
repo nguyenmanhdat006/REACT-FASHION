@@ -1,17 +1,19 @@
-export interface ApiResponse<T> {
-  success: boolean;
-  message?: string;
-  data: T;
-  timestamp?: string;
-}
-
-export interface PageResponse<T> {
-  content: T[];
+export interface PageMeta {
   page: number;
   size: number;
   totalElements: number;
   totalPages: number;
-  isLast?: boolean;
+  first?: boolean;
+  last?: boolean;
+}
+
+export interface ApiResponse<T, M = unknown> {
+  success: boolean;
+  message?: string | null;
+  data: T;
+  meta?: M | null;
+  error?: string | null;
+  timestamp?: string;
 }
 
 export interface PaginationParams {

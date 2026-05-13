@@ -8,36 +8,21 @@ import type {
 import apiClient from '@/utils/api';
 
 export const paymentService = {
-  createPayment: async (payload: CreatePaymentRequest): Promise<PaymentIntent> => {
-    const response = await apiClient.post<ApiResponse<PaymentIntent>>(
-      API_ENDPOINTS.PAYMENTS.ROOT,
-      payload
-    );
-    return response.data;
-  },
+  createPayment: (payload: CreatePaymentRequest): Promise<ApiResponse<PaymentIntent>> =>
+    apiClient.post<ApiResponse<PaymentIntent>>(API_ENDPOINTS.PAYMENTS.ROOT, payload),
 
-  confirmPayment: async (
+  confirmPayment: (
     paymentId: string,
     payload: ConfirmPaymentRequest
-  ): Promise<PaymentIntent> => {
-    const response = await apiClient.post<ApiResponse<PaymentIntent>>(
+  ): Promise<ApiResponse<PaymentIntent>> =>
+    apiClient.post<ApiResponse<PaymentIntent>>(
       API_ENDPOINTS.PAYMENTS.CONFIRM(paymentId),
       payload
-    );
-    return response.data;
-  },
+    ),
 
-  getPaymentById: async (id: string): Promise<PaymentIntent> => {
-    const response = await apiClient.get<ApiResponse<PaymentIntent>>(
-      API_ENDPOINTS.PAYMENTS.DETAIL(id)
-    );
-    return response.data;
-  },
+  getPaymentById: (id: string): Promise<ApiResponse<PaymentIntent>> =>
+    apiClient.get<ApiResponse<PaymentIntent>>(API_ENDPOINTS.PAYMENTS.DETAIL(id)),
 
-  getPaymentByOrder: async (orderId: string): Promise<PaymentIntent> => {
-    const response = await apiClient.get<ApiResponse<PaymentIntent>>(
-      API_ENDPOINTS.PAYMENTS.BY_ORDER(orderId)
-    );
-    return response.data;
-  },
+  getPaymentByOrder: (orderId: string): Promise<ApiResponse<PaymentIntent>> =>
+    apiClient.get<ApiResponse<PaymentIntent>>(API_ENDPOINTS.PAYMENTS.BY_ORDER(orderId)),
 };

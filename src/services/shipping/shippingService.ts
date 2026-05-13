@@ -30,25 +30,17 @@ export interface Shipment {
 }
 
 export const shippingService = {
-  calculateFee: async (payload: ShippingFeeRequest): Promise<ShippingFeeResponse> => {
-    const response = await apiClient.post<ApiResponse<ShippingFeeResponse>>(
+  calculateFee: (
+    payload: ShippingFeeRequest
+  ): Promise<ApiResponse<ShippingFeeResponse>> =>
+    apiClient.post<ApiResponse<ShippingFeeResponse>>(
       API_ENDPOINTS.SHIPPING.CALCULATE_FEE,
       payload
-    );
-    return response.data;
-  },
+    ),
 
-  getShipmentByOrder: async (orderId: string): Promise<Shipment> => {
-    const response = await apiClient.get<ApiResponse<Shipment>>(
-      API_ENDPOINTS.SHIPPING.BY_ORDER(orderId)
-    );
-    return response.data;
-  },
+  getShipmentByOrder: (orderId: string): Promise<ApiResponse<Shipment>> =>
+    apiClient.get<ApiResponse<Shipment>>(API_ENDPOINTS.SHIPPING.BY_ORDER(orderId)),
 
-  trackShipment: async (trackingNumber: string): Promise<Shipment> => {
-    const response = await apiClient.get<ApiResponse<Shipment>>(
-      API_ENDPOINTS.SHIPPING.TRACK(trackingNumber)
-    );
-    return response.data;
-  },
+  trackShipment: (trackingNumber: string): Promise<ApiResponse<Shipment>> =>
+    apiClient.get<ApiResponse<Shipment>>(API_ENDPOINTS.SHIPPING.TRACK(trackingNumber)),
 };

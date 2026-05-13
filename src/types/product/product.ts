@@ -1,4 +1,4 @@
-import type { PageResponse } from '../common/common';
+import type { ApiResponse, PageMeta } from '../common/common';
 
 export enum ProductStatus {
   DRAFT = 'DRAFT',
@@ -8,21 +8,26 @@ export enum ProductStatus {
 }
 
 export interface ProductImage {
-  id: string;
+  id?: string;
   imageUrl: string;
   altText?: string;
-  isPrimary: boolean;
-  displayOrder: number;
+  isPrimary?: boolean;
+  displayOrder?: number;
 }
 
 export interface ProductVariant {
-  id: string;
+  id?: string;
   sku: string;
   size?: string;
   color?: string;
-  priceAdjustment: number;
-  stockQuantity: number;
+  material?: string;
+  style?: string;
+  priceAdjustment?: number;
+  stockQuantity?: number;
   available?: boolean;
+  imageUrl?: string;
+  weight?: number;
+  barcode?: string;
 }
 
 export interface Category {
@@ -32,8 +37,9 @@ export interface Category {
   description?: string;
   imageUrl?: string;
   parentId?: string;
+  parentName?: string | null;
   children?: Category[];
-  productCount: number;
+  productCount?: number;
   active?: boolean;
   displayOrder?: number;
 }
@@ -44,6 +50,7 @@ export interface Brand {
   slug: string;
   description?: string;
   logoUrl?: string;
+  websiteUrl?: string | null;
   active?: boolean;
 }
 
@@ -51,22 +58,50 @@ export interface Product {
   id: string;
   name: string;
   slug: string;
-  description: string;
-  shortDescription?: string;
+  description?: string | null;
+  shortDescription?: string | null;
   price: number;
-  compareAtPrice?: number;
+  compareAtPrice?: number | null;
+  costPrice?: number | null;
   salePrice?: number;
-  stockQuantity: number;
-  sku?: string;
+  stockQuantity?: number | null;
+  sku?: string | null;
   status: ProductStatus;
-  published?: boolean;
-  featured: boolean;
-  category: Category;
-  brand: Brand;
-  images: ProductImage[];
+  published?: boolean | null;
+  featured?: boolean | null;
+  category?: Category | null;
+  brand?: Brand | null;
+  images?: ProductImage[];
   variants?: ProductVariant[];
   createdAt: string;
   updatedAt?: string;
+  publishedAt?: string | null;
+  metaTitle?: string | null;
+  metaDescription?: string | null;
+  metaKeywords?: string | null;
+}
+
+export interface ProductDocument {
+  id: string;
+  name: string;
+  slug: string;
+  description?: string | null;
+  shortDescription?: string | null;
+  price?: number | null;
+  categoryId?: string | null;
+  categoryName?: string | null;
+  categorySlug?: string | null;
+  brandId?: string | null;
+  brandName?: string | null;
+  brandSlug?: string | null;
+  status?: string | null;
+  published?: boolean | null;
+  featured?: boolean | null;
+  stockQuantity?: number | null;
+  sku?: string | null;
+  imageUrls?: string[];
+  createdAt?: string | null;
+  updatedAt?: string | null;
 }
 
 export interface ProductFilters {
@@ -110,25 +145,41 @@ export interface ProductVariantPayload {
   sku: string;
   size?: string;
   color?: string;
-  stockQuantity: number;
+  material?: string;
+  style?: string;
+  stockQuantity?: number;
   priceAdjustment?: number;
+  imageUrl?: string;
+  weight?: number;
+  barcode?: string;
   available?: boolean;
 }
 
 export interface CreateProductRequest {
   name: string;
-  slug: string;
-  description: string;
+  slug?: string;
+  description?: string;
   shortDescription?: string;
   price: number;
   compareAtPrice?: number;
-  categoryId: string;
-  brandId: string;
-  status: ProductStatus;
+  costPrice?: number;
+  categoryId?: string;
+  brandId?: string;
+  status?: ProductStatus;
   published?: boolean;
   featured?: boolean;
-  stockQuantity: number;
+  stockQuantity?: number;
   sku?: string;
+  barcode?: string;
+  weight?: number;
+  weightUnit?: string;
+  length?: number;
+  width?: number;
+  height?: number;
+  dimensionUnit?: string;
+  metaTitle?: string;
+  metaDescription?: string;
+  metaKeywords?: string;
   images?: ProductImagePayload[];
   variants?: ProductVariantPayload[];
 }
@@ -156,4 +207,5 @@ export interface BrandPayload {
 
 export type UpdateBrandRequest = Partial<BrandPayload>;
 
-export type ProductPage = PageResponse<Product>;
+/** Paginated catalog list as returned by the API (`ApiResponse` + `PageMeta`). */
+export type ProductPage = ApiResponse<Product[], PageMeta>;

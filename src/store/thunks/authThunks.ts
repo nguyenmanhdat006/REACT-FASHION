@@ -6,52 +6,65 @@ import {
   User,
   ForgotPasswordData,
 } from '@/types/auth/auth';
-import { authService } from '@/services/auth/authService';
+import {
+  authService,
+  authDataWithNormalizedUser,
+  finalizeUserFromMeEnvelope,
+  normalizeUser,
+  type UserInbound,
+} from '@/services/auth/authService';
 import {
   setAuthTokens,
   clearAuthTokens,
   getRefreshToken,
 } from '@/utils/authStorage';
+import { apiFailureMessage } from '@/utils/apiEnvelope';
+import type { ApiResponse } from '@/types/common/common';
+
+const getHttpErrorMessage = (error: unknown, fallback: string) =>
+  (error as { response?: { data?: { message?: string } } })?.response?.data?.message ||
+  (error as { message?: string })?.message ||
+  fallback;
 
 // Login thunk
 export const loginThunk = createAsyncThunk<
-  AuthResponse,
+  ApiResponse<AuthResponse>,
   LoginCredentials,
   { rejectValue: string }
 >('auth/login', async (credentials, { rejectWithValue }) => {
   try {
-    const data = await authService.login(credentials);
+    const res = await authService.login(credentials);
+    if (!res.success || res.data === undefined || res.data === null) {
+      return rejectWithValue(apiFailureMessage(res));
+    }
+    const data = authDataWithNormalizedUser(res.data);
     setAuthTokens(data.accessToken, data.refreshToken);
-    return data;
+    return { ...res, data };
   } catch (error) {
-    const errorMessage =
-      (error as { response?: { data?: { message?: string } } })?.response?.data
-        ?.message ||
-      (error as { message?: string })?.message ||
-      'Login failed';
-    return rejectWithValue(errorMessage);
+    return rejectWithValue(getHttpErrorMessage(error, 'Login failed'));
   }
 });
 
 // Sign up thunk
 export const signUpThunk = createAsyncThunk<
-  User,
+  ApiResponse<User>,
   SignUpCredentials,
   { rejectValue: string }
 >('auth/signUp', async (credentials, { rejectWithValue }) => {
   try {
-    return await authService.register(credentials);
+    const res = await authService.register(credentials);
+    if (!res.success || res.data === undefined || res.data === null) {
+      return rejectWithValue(apiFailureMessage(res));
+    }
+    return { ...res, data: normalizeUser(res.data as UserInbound) };
   } catch (error) {
-    const errorMessage =
-      (error as { response?: { data?: { message?: string } } })?.response?.data
-        ?.message || 'Sign up failed';
-    return rejectWithValue(errorMessage);
+    return rejectWithValue(getHttpErrorMessage(error, 'Sign up failed'));
   }
 });
 
 // Logout thunk
 export const logoutThunk = createAsyncThunk<
-  void,
+  ApiResponse<null>,
   void,
   { rejectValue: string }
 >('auth/logout', async () => {
@@ -60,7 +73,7 @@ export const logoutThunk = createAsyncThunk<
 
     if (!refreshToken) {
       clearAuthTokens();
-      return;
+      return { success: true as const, data: null };
     }
 
     await authService.logout(refreshToken);
@@ -69,53 +82,55 @@ export const logoutThunk = createAsyncThunk<
   } finally {
     clearAuthTokens();
   }
+  return { success: true as const, data: null };
 });
 
 export const refreshTokenThunk = createAsyncThunk<
-  AuthResponse,
+  ApiResponse<AuthResponse>,
   string,
   { rejectValue: string }
 >('auth/refreshToken', async (refreshToken, { rejectWithValue }) => {
   try {
-    const data = await authService.refreshToken(refreshToken);
+    const res = await authService.refreshToken(refreshToken);
+    if (!res.success || res.data === undefined || res.data === null) {
+      return rejectWithValue(apiFailureMessage(res));
+    }
+    const data = authDataWithNormalizedUser(res.data);
     setAuthTokens(data.accessToken, data.refreshToken);
-    return data;
+    return { ...res, data };
   } catch (error) {
-    const errorMessage =
-      (error as { response?: { data?: { message?: string } } })?.response?.data
-        ?.message || 'Failed to refresh token';
-    return rejectWithValue(errorMessage);
+    return rejectWithValue(getHttpErrorMessage(error, 'Failed to refresh token'));
   }
 });
 
 export const getProfileThunk = createAsyncThunk<
-  User,
+  ApiResponse<User>,
   void,
   { rejectValue: string }
 >('auth/getProfile', async (_, { rejectWithValue }) => {
   try {
-    return await authService.getProfile();
+    const res = await authService.getProfile();
+    if (!res.success || res.data === undefined || res.data === null) {
+      return rejectWithValue(apiFailureMessage(res));
+    }
+    return { ...res, data: finalizeUserFromMeEnvelope(res) };
   } catch (error) {
-    const errorMessage =
-      (error as { response?: { data?: { message?: string } } })?.response?.data
-        ?.message || 'Failed to load profile';
-    return rejectWithValue(errorMessage);
+    return rejectWithValue(getHttpErrorMessage(error, 'Failed to load profile'));
   }
 });
 
 export const forgotPasswordThunk = createAsyncThunk<
-  void,
+  ApiResponse<null>,
   ForgotPasswordData,
   { rejectValue: string }
 >('auth/forgotPassword', async (data, { rejectWithValue }) => {
   try {
-    await authService.forgotPassword(data);
+    const res = await authService.forgotPassword(data);
+    if (!res.success) return rejectWithValue(apiFailureMessage(res));
+    return res;
   } catch (error) {
-    const errorMessage =
-      (error as { response?: { data?: { message?: string } } })?.response?.data
-        ?.message ||
-      (error as { message?: string })?.message ||
-      'Unable to send reset email';
-    return rejectWithValue(errorMessage);
+    return rejectWithValue(
+      getHttpErrorMessage(error, 'Unable to send reset email')
+    );
   }
 });

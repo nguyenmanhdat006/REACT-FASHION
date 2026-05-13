@@ -84,6 +84,7 @@ export const API_ENDPOINTS = {
     UPLOAD_IMAGE: (id: string) => `/products/${id}/images/upload`,
     SYNC_ELASTICSEARCH: '/products/sync-elasticsearch',
     CATEGORIES: '/categories',
+    CATEGORIES_ACTIVE: '/categories/active',
     CATEGORIES_TREE: '/categories/tree',
     CATEGORY_DETAIL: (id: string) => `/categories/${id}`,
     CATEGORY_SLUG: (slug: string) => `/categories/slug/${slug}`,

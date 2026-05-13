@@ -25,7 +25,9 @@ export interface ProductCardProps {
   priceAriaLabel?: string;
   onFavorite?: () => void;
   onSelectPrice?: () => void;
-  onOpenDetails?: () => void;
+  /** When provided, passed to `onOpenDetails` so the modal can load this product. */
+  productId?: string;
+  onOpenDetails?: (productId?: string) => void;
   className?: string;
 }
 
@@ -51,13 +53,14 @@ export function ProductCard({
   onFavorite,
   onSelectPrice,
   onOpenDetails,
+  productId,
   className,
 }: ProductCardProps): JSX.Element {
   const handleCardClick = (event: MouseEvent<HTMLDivElement>) => {
     if (!onOpenDetails) return;
     const t = event.target as HTMLElement;
     if (t.closest('[data-product-card-interactive]')) return;
-    onOpenDetails();
+    onOpenDetails(productId);
   };
 
   return (

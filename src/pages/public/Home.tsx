@@ -139,7 +139,7 @@ const Home: React.FC = () => {
                   className="w-full h-44 object-cover rounded-lg mb-3"
                 />
                 <span className="inline-flex px-2 py-1 mb-2 text-xs font-semibold rounded-full bg-primary-50 text-primary-700 dark:bg-primary-900 dark:text-primary-200">
-                  {product.category.name}
+                  {product.category?.name ?? '—'}
                 </span>
                 <Link
                   to={ROUTES.PRODUCT_DETAIL(product.slug)}

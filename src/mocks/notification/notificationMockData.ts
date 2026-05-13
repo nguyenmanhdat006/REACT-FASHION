@@ -1,4 +1,4 @@
-import type { PageResponse } from '@/types/common/common';
+import type { ApiResponse, PageMeta } from '@/types/common/common';
 import type { NotificationItem } from '@/services/notification/notificationService';
 
 export const MOCK_NOTIFICATIONS: NotificationItem[] = [
@@ -28,11 +28,18 @@ export const MOCK_NOTIFICATIONS: NotificationItem[] = [
   },
 ];
 
-export const MOCK_NOTIFICATION_PAGE: PageResponse<NotificationItem> = {
-  content: MOCK_NOTIFICATIONS,
-  page: 0,
-  size: 10,
-  totalElements: MOCK_NOTIFICATIONS.length,
-  totalPages: 1,
-  isLast: true,
+export const MOCK_NOTIFICATION_PAGE: ApiResponse<NotificationItem[], PageMeta> = {
+  success: true,
+  data: MOCK_NOTIFICATIONS,
+  meta: {
+    page: 0,
+    size: 10,
+    totalElements: MOCK_NOTIFICATIONS.length,
+    totalPages: MOCK_NOTIFICATIONS.length === 0 ? 0 : 1,
+    first: true,
+    last: true,
+  },
+  error: null,
+  message: null,
+  timestamp: new Date().toISOString(),
 };

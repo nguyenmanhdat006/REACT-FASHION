@@ -1,4 +1,4 @@
-import type { PageResponse } from '@/types/common/common';
+import type { ApiResponse, PageMeta } from '@/types/common/common';
 import type { CreateOrderRequest, Order } from '@/types/order/order';
 import { OrderStatus, PaymentMethod, PaymentStatus } from '@/types/order/order';
 import { MOCK_PRODUCTS } from '@/mocks/ecommerce/ecommerceMockData';
@@ -16,7 +16,7 @@ export const MOCK_ORDERS_DATA: Order[] = [
         id: 'oi-1',
         productId: 'p-2',
         productName: 'Men Minimal Hoodie',
-        productImageUrl: MOCK_PRODUCTS[1].images[0].imageUrl,
+        productImageUrl: MOCK_PRODUCTS[1].images?.[0]?.imageUrl ?? '',
         quantity: 1,
         price: 35,
         subtotal: 35,
@@ -25,7 +25,7 @@ export const MOCK_ORDERS_DATA: Order[] = [
         id: 'oi-2',
         productId: 'p-4',
         productName: 'Canvas Tote Bag',
-        productImageUrl: MOCK_PRODUCTS[3].images[0].imageUrl,
+        productImageUrl: MOCK_PRODUCTS[3].images?.[0]?.imageUrl ?? '',
         quantity: 2,
         price: 22,
         subtotal: 44,
@@ -67,7 +67,7 @@ export const MOCK_ORDERS_DATA: Order[] = [
         id: 'oi-3',
         productId: 'p-5',
         productName: 'Slim Fit Jeans',
-        productImageUrl: MOCK_PRODUCTS[4].images[0].imageUrl,
+        productImageUrl: MOCK_PRODUCTS[4].images?.[0]?.imageUrl ?? '',
         quantity: 1,
         price: 44,
         subtotal: 44,
@@ -99,13 +99,20 @@ export const MOCK_ORDERS_DATA: Order[] = [
   },
 ];
 
-export const MOCK_ORDERS_PAGE: PageResponse<Order> = {
-  content: MOCK_ORDERS_DATA,
-  page: 0,
-  size: 10,
-  totalElements: MOCK_ORDERS_DATA.length,
-  totalPages: 1,
-  isLast: true,
+export const MOCK_ORDERS_PAGE: ApiResponse<Order[], PageMeta> = {
+  success: true,
+  data: MOCK_ORDERS_DATA,
+  meta: {
+    page: 0,
+    size: 10,
+    totalElements: MOCK_ORDERS_DATA.length,
+    totalPages: MOCK_ORDERS_DATA.length === 0 ? 0 : 1,
+    first: true,
+    last: true,
+  },
+  error: null,
+  message: null,
+  timestamp: new Date().toISOString(),
 };
 
 export const MOCK_CREATE_ORDER_REQUEST: CreateOrderRequest = {

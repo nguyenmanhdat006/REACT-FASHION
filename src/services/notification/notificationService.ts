@@ -1,5 +1,5 @@
 import { API_ENDPOINTS } from '@/constants';
-import type { ApiResponse, PageResponse, PaginationParams } from '@/types/common/common';
+import type { ApiResponse, PageMeta, PaginationParams } from '@/types/common/common';
 import apiClient from '@/utils/api';
 
 export interface NotificationItem {
@@ -12,17 +12,14 @@ export interface NotificationItem {
 }
 
 export const notificationService = {
-  getMyNotifications: async (
+  getMyNotifications: (
     params?: PaginationParams
-  ): Promise<PageResponse<NotificationItem>> => {
-    const response = await apiClient.get<ApiResponse<PageResponse<NotificationItem>>>(
+  ): Promise<ApiResponse<NotificationItem[], PageMeta>> =>
+    apiClient.get<ApiResponse<NotificationItem[], PageMeta>>(
       API_ENDPOINTS.NOTIFICATIONS.MY,
       { params }
-    );
-    return response.data;
-  },
+    ),
 
-  markRead: async (id: string): Promise<void> => {
-    await apiClient.put(API_ENDPOINTS.NOTIFICATIONS.MARK_READ(id));
-  },
+  markRead: (id: string): Promise<void> =>
+    apiClient.put(API_ENDPOINTS.NOTIFICATIONS.MARK_READ(id)),
 };

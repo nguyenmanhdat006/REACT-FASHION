@@ -36,29 +36,36 @@ const userSlice = createSlice({
       })
       .addCase(fetchProfileThunk.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.profile = action.payload;
+        const { data } = action.payload;
+        state.profile = data;
       })
       .addCase(fetchProfileThunk.rejected, (state, action) => {
         state.isLoading = false;
         state.error = (action.payload as string) || 'Failed to fetch profile';
       })
       .addCase(updateProfileThunk.fulfilled, (state, action) => {
-        state.profile = action.payload;
+        const { data } = action.payload;
+        state.profile = data;
       })
       .addCase(fetchAddressesThunk.fulfilled, (state, action) => {
-        state.addresses = action.payload;
+        const { data } = action.payload;
+        state.addresses = data;
       })
       .addCase(createAddressThunk.fulfilled, (state, action) => {
-        state.addresses = action.payload;
+        const { data } = action.payload;
+        state.addresses = data;
       })
       .addCase(updateAddressThunk.fulfilled, (state, action) => {
-        state.addresses = action.payload;
+        const { data } = action.payload;
+        state.addresses = data;
       })
       .addCase(setDefaultAddressThunk.fulfilled, (state, action) => {
-        state.addresses = action.payload;
+        const { data } = action.payload;
+        state.addresses = data;
       })
       .addCase(deleteAddressThunk.fulfilled, (state, action) => {
-        state.addresses = action.payload;
+        const { data } = action.payload;
+        state.addresses = data;
       });
   },
 });

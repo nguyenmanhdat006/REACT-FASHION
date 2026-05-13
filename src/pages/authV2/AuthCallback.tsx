@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import LoadingSpinner from '@/components/feedback/LoadingSpinner';
-import { authService } from '@/services/auth/authService';
+import { authService, authDataWithNormalizedUser } from '@/services/auth/authService';
 import { useAppDispatch } from '@/store/hooks';
 import { setAuth } from '@/store/slices/authSlice';
 import { setAuthTokens } from '@/utils/authStorage';
@@ -29,7 +29,11 @@ export default function AuthCallbackPage() {
       }
 
       try {
-        const appAuth = await authService.exchangeOAuthCode(provider, code);
+        const res = await authService.exchangeOAuthCode(provider, code);
+        if (!res.success || res.data === undefined || res.data === null) {
+          throw new Error('OAuth exchange failed');
+        }
+        const appAuth = authDataWithNormalizedUser(res.data);
 
         setAuthTokens(appAuth.accessToken, appAuth.refreshToken);
         dispatch(setAuth(appAuth));

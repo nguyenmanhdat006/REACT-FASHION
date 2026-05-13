@@ -15,7 +15,8 @@ This project has a graphify knowledge graph at graphify-out/.
 /graphify query "mô tả chức năng/module cần sửa"
 
 - Nếu thay đổi liên quan đến nhiều hơn 2 file → bắt buộc xác định "god nodes" và "community structure" từ graph để tránh phá vỡ kiến trúc.
-- đọc `CODING_GUIDE.md` để hiểu về phong cách code hiện tại của dự án
+- đọc `CODING_GUIDE.md` để hiểu về phong cách code hiện tại của dự án, bắt buộc phải follow theo phong cách code của CODING_GUIDE.md
+- Bắt buộc đọc hết CODING_GUID.md
 ### 3. SAU MỖI LẦN SỬA CODE (hoặc sau một loạt thay đổi)
 - **Luôn chạy** `graphify update .` để cập nhật graph (chỉ quét lại file thay đổi, rất nhanh, không tốn API).
 - Nếu lệnh thất bại → cảnh báo người dùng và **dừng lại**, không tự ý bỏ qua.

@@ -9,6 +9,7 @@ import {
   OAuthExchangeRequest,
   SocialProvider,
 } from '@/types/auth/auth';
+import type { ApiResponse } from '@/types/common/common';
 import {
   API_ENDPOINTS,
   AUTH_ENDPOINTS,
@@ -18,7 +19,6 @@ import {
 } from '@/constants';
 import { getAccessToken } from '@/utils/authStorage';
 import { getRolesFromJwtToken } from '@/utils/jwt';
-import { MaybeWrapped, unwrapApiData } from '@/utils/response';
 
 export type UserInbound = User & { roles?: string[] | null; avatar?: string | null };
 
@@ -30,6 +30,27 @@ export function normalizeUser(raw: UserInbound): User {
     roles: Array.isArray(rawRoles) ? rawRoles : [],
     avatarUrl: avatarUrl ?? undefined,
   };
+}
+
+export function authDataWithNormalizedUser(data: AuthResponse): AuthResponse {
+  return {
+    ...data,
+    user: normalizeUser(data.user as UserInbound),
+  };
+}
+
+export function finalizeUserFromMeEnvelope(res: ApiResponse<User>): User {
+  const profile = res.data;
+  const token = getAccessToken() || undefined;
+  const tokenRoles = getRolesFromJwtToken(token);
+
+  const roles =
+    Array.isArray(profile.roles) && profile.roles.length > 0 ? profile.roles : tokenRoles;
+
+  return normalizeUser({
+    ...(profile as UserInbound),
+    roles,
+  });
 }
 
 export const getSocialLoginRedirectUri = (provider: SocialProvider): string =>
@@ -47,48 +68,21 @@ const buildSocialLoginUrl = (provider: SocialProvider, redirectUri: string): str
   return url.toString();
 };
 
-
 export const authService = {
-  login: async (credentials: LoginCredentials): Promise<AuthResponse> => {
-    const response = await apiClient.post<MaybeWrapped<AuthResponse>>(
-      AUTH_ENDPOINTS.LOGIN,
-      credentials
-    );
-    const data = unwrapApiData(response);
-    return {
-      ...data,
-      user: normalizeUser(data.user as UserInbound),
-    };
-  },
+  login: (credentials: LoginCredentials): Promise<ApiResponse<AuthResponse>> =>
+    apiClient.post<ApiResponse<AuthResponse>>(AUTH_ENDPOINTS.LOGIN, credentials),
 
-  register: async (credentials: SignUpCredentials): Promise<User> => {
-    const response = await apiClient.post<MaybeWrapped<User>>(
-      AUTH_ENDPOINTS.REGISTER,
-      credentials
-    );
-    const user = unwrapApiData(response);
-    return normalizeUser(user as UserInbound);
-  },
+  register: (credentials: SignUpCredentials): Promise<ApiResponse<User>> =>
+    apiClient.post<ApiResponse<User>>(AUTH_ENDPOINTS.REGISTER, credentials),
 
-  logout: async (refreshToken: string): Promise<void> => {
-    await apiClient.post(AUTH_ENDPOINTS.LOGOUT, { refreshToken });
-  },
+  logout: (refreshToken: string): Promise<void> =>
+    apiClient.post(AUTH_ENDPOINTS.LOGOUT, { refreshToken }),
 
-  refreshToken: async (refreshToken: string): Promise<AuthResponse> => {
-    const response = await apiClient.post<MaybeWrapped<AuthResponse>>(
-      AUTH_ENDPOINTS.REFRESH,
-      { refreshToken }
-    );
-    const data = unwrapApiData(response);
-    return {
-      ...data,
-      user: normalizeUser(data.user as UserInbound),
-    };
-  },
+  refreshToken: (refreshToken: string): Promise<ApiResponse<AuthResponse>> =>
+    apiClient.post<ApiResponse<AuthResponse>>(AUTH_ENDPOINTS.REFRESH, { refreshToken }),
 
-  forgotPassword: async (data: ForgotPasswordData): Promise<void> => {
-    await apiClient.post<MaybeWrapped<null>>(AUTH_ENDPOINTS.FORGOT_PASSWORD, data);
-  },
+  forgotPassword: (data: ForgotPasswordData): Promise<ApiResponse<null>> =>
+    apiClient.post<ApiResponse<null>>(AUTH_ENDPOINTS.FORGOT_PASSWORD, data),
 
   socialLogin: (provider: SocialProvider): void => {
     window.location.assign(
@@ -96,79 +90,38 @@ export const authService = {
     );
   },
 
-  exchangeOAuthCode: async (
+  exchangeOAuthCode: (
     provider: SocialProvider,
     code: string
-  ): Promise<AuthResponse> => {
+  ): Promise<ApiResponse<AuthResponse>> => {
     const body: OAuthExchangeRequest = {
       code,
       redirectUri: getSocialLoginRedirectUri(provider),
     };
-    const response = await apiClient.post<MaybeWrapped<AuthResponse>>(
+    return apiClient.post<ApiResponse<AuthResponse>>(
       AUTH_ENDPOINTS.OAUTH2(provider),
       body
     );
-
-    const data = unwrapApiData(response);
-    return {
-      ...data,
-      user: normalizeUser(data.user as UserInbound),
-    };
   },
 
-  getProfile: async (): Promise<User> => {
-    const response = await apiClient.get<MaybeWrapped<User>>(AUTH_ENDPOINTS.ME);
-    const profile = unwrapApiData(response);
-    const token = getAccessToken() || undefined;
-    const tokenRoles = getRolesFromJwtToken(token);
+  getProfile: (): Promise<ApiResponse<User>> =>
+    apiClient.get<ApiResponse<User>>(AUTH_ENDPOINTS.ME),
 
-    const roles =
-      Array.isArray(profile.roles) && profile.roles.length > 0
-        ? profile.roles
-        : tokenRoles;
+  updateProfile: (data: Partial<User>): Promise<ApiResponse<User>> =>
+    apiClient.put<ApiResponse<User>>(API_ENDPOINTS.USER.PROFILE, data),
 
-    return normalizeUser({
-      ...(profile as UserInbound),
-      roles,
-    });
-  },
+  getAddresses: (): Promise<ApiResponse<Address[]>> =>
+    apiClient.get<ApiResponse<Address[]>>(API_ENDPOINTS.USER.ADDRESSES),
 
-  updateProfile: async (data: Partial<User>): Promise<User> => {
-    const response = await apiClient.put<MaybeWrapped<User>>(
-      API_ENDPOINTS.USER.PROFILE,
-      data
-    );
-    const payload = unwrapApiData(response);
-    return normalizeUser(payload as UserInbound);
-  },
+  addAddress: (address: Omit<Address, 'id' | 'isDefault'>): Promise<ApiResponse<Address>> =>
+    apiClient.post<ApiResponse<Address>>(API_ENDPOINTS.USER.ADDRESSES, address),
 
-  getAddresses: async (): Promise<Address[]> => {
-    const response = await apiClient.get<MaybeWrapped<Address[]>>(
-      API_ENDPOINTS.USER.ADDRESSES
-    );
-    const list = unwrapApiData(response) ?? [];
-    return Array.isArray(list) ? list : [];
-  },
+  updateAddress: (
+    id: string,
+    address: Partial<Address>
+  ): Promise<ApiResponse<Address>> =>
+    apiClient.put<ApiResponse<Address>>(API_ENDPOINTS.USER.ADDRESS_DETAIL(id), address),
 
-  addAddress: async (
-    address: Omit<Address, 'id' | 'isDefault'>
-  ): Promise<Address> => {
-    const response = await apiClient.post<MaybeWrapped<Address>>(
-      API_ENDPOINTS.USER.ADDRESSES,
-      address
-    );
-    return unwrapApiData(response) as Address;
-  },
-
-  updateAddress: async (id: string, address: Partial<Address>): Promise<Address> => {
-    const response = await apiClient.put<MaybeWrapped<Address>>(
-      API_ENDPOINTS.USER.ADDRESS_DETAIL(id),
-      address
-    );
-    return unwrapApiData(response) as Address;
-  },
-
-  deleteAddress: async (id: string): Promise<void> => {
-    await apiClient.delete<MaybeWrapped<null>>(API_ENDPOINTS.USER.ADDRESS_DETAIL(id));
-  },
+  deleteAddress: (id: string): Promise<ApiResponse<null>> =>
+    apiClient.delete<ApiResponse<null>>(API_ENDPOINTS.USER.ADDRESS_DETAIL(id)),
 };

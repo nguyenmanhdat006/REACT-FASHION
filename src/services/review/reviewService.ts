@@ -1,41 +1,27 @@
 import { API_ENDPOINTS } from '@/constants';
-import type { ApiResponse } from '@/types/common/common';
+import type { ApiResponse, PageMeta } from '@/types/common/common';
 import type {
   CreateReviewRequest,
   Review,
-  ReviewPage,
   ReviewSummary,
 } from '@/types/review/review';
 import apiClient from '@/utils/api';
 
 export const reviewService = {
-  createReview: async (payload: CreateReviewRequest): Promise<Review> => {
-    const response = await apiClient.post<ApiResponse<Review>>(
-      API_ENDPOINTS.REVIEWS.ROOT,
-      payload
-    );
-    return response.data;
-  },
+  createReview: (payload: CreateReviewRequest): Promise<ApiResponse<Review>> =>
+    apiClient.post<ApiResponse<Review>>(API_ENDPOINTS.REVIEWS.ROOT, payload),
 
-  getProductReviews: async (
+  getProductReviews: (
     productId: string,
     params?: { page?: number; size?: number; sort?: 'helpful' | 'newest' | 'rating' }
-  ): Promise<ReviewPage> => {
-    const response = await apiClient.get<ApiResponse<ReviewPage>>(
-      API_ENDPOINTS.REVIEWS.PRODUCT(productId),
-      { params }
-    );
-    return response.data;
-  },
+  ): Promise<ApiResponse<Review[], PageMeta>> =>
+    apiClient.get<ApiResponse<Review[], PageMeta>>(API_ENDPOINTS.REVIEWS.PRODUCT(productId), {
+      params,
+    }),
 
-  getProductReviewSummary: async (productId: string): Promise<ReviewSummary> => {
-    const response = await apiClient.get<ApiResponse<ReviewSummary>>(
-      API_ENDPOINTS.REVIEWS.SUMMARY(productId)
-    );
-    return response.data;
-  },
+  getProductReviewSummary: (productId: string): Promise<ApiResponse<ReviewSummary>> =>
+    apiClient.get<ApiResponse<ReviewSummary>>(API_ENDPOINTS.REVIEWS.SUMMARY(productId)),
 
-  voteReview: async (reviewId: string, helpful: boolean): Promise<void> => {
-    await apiClient.post(API_ENDPOINTS.REVIEWS.VOTE(reviewId), { helpful });
-  },
+  voteReview: (reviewId: string, helpful: boolean): Promise<void> =>
+    apiClient.post(API_ENDPOINTS.REVIEWS.VOTE(reviewId), { helpful }),
 };
