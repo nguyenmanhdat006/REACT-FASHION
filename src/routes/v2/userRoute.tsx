@@ -13,6 +13,7 @@ const Checkout = React.lazy(() => import('@/pages/cart/Checkout'));
 const Orders = React.lazy(() => import('@/pages/order/Orders'));
 const OrderDetail = React.lazy(() => import('@/pages/order/OrderDetail'));
 const ProfileV2 = React.lazy(() => import('@/pages/user/ProfileV2'));
+const CartV2 = React.lazy(() => import('@/pages/cartV2/index'));
 
 export const userRoute: RouteObject = {
   element: (
@@ -34,6 +35,7 @@ export const userRoute: RouteObject = {
       ),
       children: [
         { path: 'cart', element: <Cart /> },
+        { path: 'cart/v2', element: <CartV2 /> },
         { path: 'checkout', element: <Checkout /> },
         { path: 'orders', element: <Orders /> },
         { path: 'orders/:id', element: <OrderDetail /> },
