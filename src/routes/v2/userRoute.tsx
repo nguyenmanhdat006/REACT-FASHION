@@ -23,6 +23,7 @@ export const userRoute: RouteObject = {
   ),
   children: [
     { index: true, element: <HomeV2 /> },
+    { path: 'cart/v2', element: <CartV2 /> },
     { path: 'products', element: <Products /> },
     { path: 'products/clothing', element: <Products /> },
     { path: 'products/deal', element: <Products /> },
@@ -35,7 +36,6 @@ export const userRoute: RouteObject = {
       ),
       children: [
         { path: 'cart', element: <Cart /> },
-        { path: 'cart/v2', element: <CartV2 /> },
         { path: 'checkout', element: <Checkout /> },
         { path: 'orders', element: <Orders /> },
         { path: 'orders/:id', element: <OrderDetail /> },
