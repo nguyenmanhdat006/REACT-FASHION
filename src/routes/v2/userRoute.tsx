@@ -15,6 +15,7 @@ const OrderDetail = React.lazy(() => import('@/pages/order/OrderDetail'));
 const OrderV2 = React.lazy(() => import('@/pages/orderv2/index'));
 const ProfileV2 = React.lazy(() => import('@/pages/user/ProfileV2'));
 const CartV2 = React.lazy(() => import('@/pages/cartV2/index'));
+const CheckoutV2 = React.lazy(() => import('@/pages/checkoutV2/index'));
 
 export const userRoute: RouteObject = {
   element: (
@@ -25,6 +26,7 @@ export const userRoute: RouteObject = {
   children: [
     { index: true, element: <HomeV2 /> },
     { path: 'cart/v2', element: <CartV2 /> },
+    { path: 'checkout/v2', element: <CheckoutV2 /> },
     { path: 'order/v2', element: <OrderV2 /> },
     { path: 'products', element: <Products /> },
     { path: 'products/clothing', element: <Products /> },
