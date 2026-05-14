@@ -1,3 +1,5 @@
+import { Button } from '@/components/ui/button';
+
 const summaryItems: {
   label: string;
   value: string;
@@ -60,15 +62,13 @@ export const OrderSummarySection = (): JSX.Element => {
         </div>
       </div>
 
-      <button
+      <Button
         type="button"
         aria-label="Go to checkout"
         className="flex items-center justify-center gap-2.5 px-8 py-3 relative self-stretch w-full flex-[0_0_auto] bg-black rounded-[32px] overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black hover:opacity-90 transition-opacity"
       >
-        <span className="relative w-fit mt-[-1px] font-normal text-white text-base leading-6 whitespace-nowrap">
-          Go to Checkout
-        </span>
-      </button>
+        Go to Checkout
+      </Button>
     </section>
   );
 };
