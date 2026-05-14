@@ -4,19 +4,19 @@ const summaryItems: {
   valueClassName: string;
 }[] = [
   {
-    label: "Subtotal",
-    value: "$560",
-    valueClassName: "text-black",
+    label: 'Subtotal',
+    value: '$560',
+    valueClassName: 'text-black',
   },
   {
-    label: "Discount (-20%)",
-    value: "-$113",
-    valueClassName: "text-red-500",
+    label: 'Discount (-20%)',
+    value: '-$113',
+    valueClassName: 'text-red-500',
   },
   {
-    label: "Delivery Fee",
-    value: "$15",
-    valueClassName: "text-black",
+    label: 'Delivery Fee',
+    value: '$15',
+    valueClassName: 'text-black',
   },
 ];
 

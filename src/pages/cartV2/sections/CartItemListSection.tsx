@@ -1,110 +1,24 @@
-import { useId, useState } from "react";
-import { X, Minus, Plus } from "lucide-react";
-import { Checkbox } from "@/components/ui/checkbox";
+import { useId } from 'react';
+import { X, Minus, Plus } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
+import type { CartItem } from '../cartTypes';
 
-type CartItem = {
-  id: string;
-  title: string;
-  size: string;
-  color: string;
-  price: string;
-  quantity: number;
-  imageSrc: string;
+type CartItemListSectionProps = {
+  items: CartItem[];
+  selectedIds: string[];
+  onToggleSelected: (id: string) => void;
+  onUpdateQuantity: (id: string, delta: number) => void;
+  onRemoveItem: (id: string) => void;
 };
 
-const initialItems: CartItem[] = [
-  {
-    id: "item-1",
-    title: "Supper Skinny jogger in brown",
-    size: "XL",
-    color: "White",
-    price: "$145",
-    quantity: 1,
-    imageSrc: "/frame-514.png",
-  },
-  {
-    id: "item-2",
-    title: "Supper Skinny jogger in brown",
-    size: "XL",
-    color: "White",
-    price: "$145",
-    quantity: 1,
-    imageSrc: "/image.png",
-  },
-  {
-    id: "item-3",
-    title: "Supper Skinny jogger in brown",
-    size: "XL",
-    color: "White",
-    price: "$145",
-    quantity: 1,
-    imageSrc: "/frame-514-2.png",
-  },
-  {
-    id: "item-4",
-    title: "Supper Skinny jogger in brown",
-    size: "XL",
-    color: "White",
-    price: "$145",
-    quantity: 1,
-    imageSrc: "/frame-514-3.png",
-  },
-  {
-    id: "item-5",
-    title: "Supper Skinny jogger in brown",
-    size: "XL",
-    color: "White",
-    price: "$145",
-    quantity: 1,
-    imageSrc: "/frame-514-4.png",
-  },
-  {
-    id: "item-6",
-    title: "Supper Skinny jogger in brown",
-    size: "XL",
-    color: "White",
-    price: "$145",
-    quantity: 1,
-    imageSrc: "/frame-514-5.png",
-  },
-  {
-    id: "item-7",
-    title: "Supper Skinny jogger in brown",
-    size: "XL",
-    color: "White",
-    price: "$145",
-    quantity: 1,
-    imageSrc: "/frame-514-6.png",
-  },
-];
-
-export const CartItemListSection = (): JSX.Element => {
+export const CartItemListSection = ({
+  items,
+  selectedIds,
+  onToggleSelected,
+  onUpdateQuantity,
+  onRemoveItem,
+}: CartItemListSectionProps): JSX.Element => {
   const checkboxGroupId = useId();
-  const [items, setItems] = useState<CartItem[]>(initialItems);
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
-
-  const toggleSelected = (id: string) => {
-    setSelectedIds((current) =>
-      current.includes(id)
-        ? current.filter((itemId) => itemId !== id)
-        : [...current, id]
-    );
-  };
-
-  const updateQuantity = (id: string, delta: number) => {
-    setItems((current) =>
-      current.map((item) =>
-        item.id === id
-          ? { ...item, quantity: Math.max(1, item.quantity + delta) }
-          : item
-      )
-    );
-  };
-
-  const removeItem = (id: string) => {
-    setItems((current) => current.filter((item) => item.id !== id));
-    setSelectedIds((current) => current.filter((itemId) => itemId !== id));
-  };
 
   return (
     <section
@@ -133,7 +47,7 @@ export const CartItemListSection = (): JSX.Element => {
               <Checkbox
                 id={`checkbox-${item.id}`}
                 checked={isSelected}
-                onCheckedChange={() => toggleSelected(item.id)}
+                onCheckedChange={() => onToggleSelected(item.id)}
                 aria-label={`Select ${item.title}`}
                 className="h-6 w-6 rounded-lg border border-gray-200 data-[state=checked]:bg-black data-[state=checked]:border-black shrink-0"
               />
@@ -155,7 +69,7 @@ export const CartItemListSection = (): JSX.Element => {
                     </h3>
                     <button
                       type="button"
-                      onClick={() => removeItem(item.id)}
+                      onClick={() => onRemoveItem(item.id)}
                       aria-label={`Remove ${item.title} from cart`}
                       className="relative w-7 h-[31px] flex items-center justify-center shrink-0 hover:opacity-70 transition-opacity"
                     >
@@ -197,31 +111,24 @@ export const CartItemListSection = (): JSX.Element => {
                   >
                     <button
                       type="button"
-                      onClick={() => updateQuantity(item.id, -1)}
-                      aria-label={`Decrease quantity of ${item.title}`}
-                      className="inline-flex items-center justify-center gap-2.5 relative flex-[0_0_auto] hover:opacity-70 transition-opacity"
+                      onClick={() => onUpdateQuantity(item.id, -1)}
+                      aria-label={`Decrease quantity for ${item.title}`}
+                      className="relative w-fit h-[26px] flex items-center justify-center hover:opacity-70 transition-opacity"
                     >
-                      <div className="relative w-6 h-6 flex items-center justify-center">
-                        <Minus size={14} strokeWidth={2} className="text-black" />
-                      </div>
+                      <Minus size={16} className="text-black" />
                     </button>
 
-                    <output
-                      aria-live="polite"
-                      className="relative w-fit mt-[-1px] font-medium text-black text-sm leading-5 whitespace-nowrap"
-                    >
+                    <span className="text-xs font-medium text-black">
                       {item.quantity}
-                    </output>
+                    </span>
 
                     <button
                       type="button"
-                      onClick={() => updateQuantity(item.id, 1)}
-                      aria-label={`Increase quantity of ${item.title}`}
-                      className="inline-flex items-center justify-center relative flex-[0_0_auto] hover:opacity-70 transition-opacity"
+                      onClick={() => onUpdateQuantity(item.id, 1)}
+                      aria-label={`Increase quantity for ${item.title}`}
+                      className="relative w-fit h-[26px] flex items-center justify-center hover:opacity-70 transition-opacity"
                     >
-                      <div className="relative w-6 h-6 flex items-center justify-center">
-                        <Plus size={14} strokeWidth={2} className="text-black" />
-                      </div>
+                      <Plus size={16} className="text-black" />
                     </button>
                   </div>
                 </div>
