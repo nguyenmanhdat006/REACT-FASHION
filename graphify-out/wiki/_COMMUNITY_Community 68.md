@@ -1,0 +1,18 @@
+---
+type: community
+members: 1
+---
+
+# Community 68
+
+**Members:** 1 nodes
+
+## Members
+- [[Error Handling & Validation]] - code
+
+## Live Query (requires Dataview plugin)
+
+```dataview
+TABLE source_file, type FROM #community/Community_68
+SORT file.name ASC
+```

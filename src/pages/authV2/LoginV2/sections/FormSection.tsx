@@ -2,9 +2,11 @@ import { useId, useState, type JSX } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/auth/useAuth';
 import { FormField } from '../../../../components/FormField';
 import { Button } from '@/components/ui/button';
+import { ROUTESV2 } from '@/constants';
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -61,7 +63,12 @@ export default function FormSection(): JSX.Element {
         />
 
         <div className="relative self-stretch text-right">
-          <button type="button" className="text-black text-sm font-medium hover:underline hover:text-primary">Forgot your password?</button>
+          <Link
+            to={ROUTESV2.FORGOT_PASSWORD}
+            className="text-black text-sm font-medium hover:underline hover:text-primary"
+          >
+            Forgot your password?
+          </Link>
         </div>
       </div>
 

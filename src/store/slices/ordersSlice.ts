@@ -41,27 +41,33 @@ const ordersSlice = createSlice({
       })
       .addCase(fetchOrdersThunk.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.items = action.payload.content;
-        state.page = action.payload.page;
-        state.size = action.payload.size;
-        state.totalElements = action.payload.totalElements;
-        state.totalPages = action.payload.totalPages;
+        const { data, meta } = action.payload;
+        state.items = data;
+        if (meta) {
+          state.page = meta.page;
+          state.size = meta.size;
+          state.totalElements = meta.totalElements;
+          state.totalPages = meta.totalPages;
+        }
       })
       .addCase(fetchOrdersThunk.rejected, (state, action) => {
         state.isLoading = false;
         state.error = (action.payload as string) || 'Failed to fetch orders';
       })
       .addCase(fetchOrderByIdThunk.fulfilled, (state, action) => {
-        state.selectedOrder = action.payload;
+        const { data } = action.payload;
+        state.selectedOrder = data;
       })
       .addCase(createOrderThunk.fulfilled, (state, action) => {
-        state.selectedOrder = action.payload;
-        state.items = [action.payload, ...state.items];
+        const { data } = action.payload;
+        state.selectedOrder = data;
+        state.items = [data, ...state.items];
       })
       .addCase(cancelOrderThunk.fulfilled, (state, action) => {
-        state.selectedOrder = action.payload;
+        const { data } = action.payload;
+        state.selectedOrder = data;
         state.items = state.items.map(order =>
-          order.id === action.payload.id ? action.payload : order
+          order.id === data.id ? data : order
         );
       });
   },

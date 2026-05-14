@@ -44,7 +44,7 @@ const ProductDetail: React.FC = () => {
           />
           <div className="space-y-5">
             <span className="inline-flex px-3 py-1 text-xs font-semibold rounded-full bg-primary-50 text-primary-700 dark:bg-primary-900 dark:text-primary-200">
-              {product.category.name}
+              {product.category?.name ?? '—'}
             </span>
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{product.name}</h1>
             <p className="text-gray-600 dark:text-gray-300">{product.description}</p>
@@ -56,8 +56,8 @@ const ProductDetail: React.FC = () => {
                 <p className="text-lg text-gray-400 line-through">${product.price}</p>
               )}
             </div>
-            <p className="text-sm text-gray-500">Brand: {product.brand.name}</p>
-            <p className="text-sm text-gray-500">Stock: {product.stockQuantity} available</p>
+            <p className="text-sm text-gray-500">Brand: {product.brand?.name ?? '—'}</p>
+            <p className="text-sm text-gray-500">Stock: {product.stockQuantity ?? 0} available</p>
             <div className="flex gap-3">
               <Button
                 onClick={() => dispatch(addToCartThunk({ productId: product.id, quantity: 1 }))}

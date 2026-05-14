@@ -16,8 +16,8 @@ const Checkout: React.FC = () => {
   const [phone, setPhone] = useState('');
   const [addressLine1, setAddressLine1] = useState('');
   const [city, setCity] = useState('');
-  const [state, setState] = useState('');
-  const [zipCode, setZipCode] = useState('');
+  const [district, setDistrict] = useState('');
+  const [postalCode, setPostalCode] = useState('');
   const [country, setCountry] = useState('Vietnam');
 
   const submitOrder = async () => {
@@ -29,9 +29,10 @@ const Checkout: React.FC = () => {
           phone,
           addressLine1,
           city,
-          state,
-          zipCode,
+          district,
+          postalCode,
           country,
+          addressType: 'SHIPPING',
         },
       })
     );
@@ -53,8 +54,8 @@ const Checkout: React.FC = () => {
             <Input label="Phone" value={phone} onChange={e => setPhone(e.target.value)} />
             <Input label="Address" value={addressLine1} onChange={e => setAddressLine1(e.target.value)} />
             <Input label="City" value={city} onChange={e => setCity(e.target.value)} />
-            <Input label="State" value={state} onChange={e => setState(e.target.value)} />
-            <Input label="Zip code" value={zipCode} onChange={e => setZipCode(e.target.value)} />
+            <Input label="District" value={district} onChange={e => setDistrict(e.target.value)} />
+            <Input label="Postal code" value={postalCode} onChange={e => setPostalCode(e.target.value)} />
             <Input label="Country" value={country} onChange={e => setCountry(e.target.value)} />
             <Button className="w-full" onClick={submitOrder}>
               Place Order

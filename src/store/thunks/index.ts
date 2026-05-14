@@ -12,6 +12,11 @@ export {
   fetchProductBySlugThunk,
   fetchCategoriesThunk,
   fetchBrandsThunk,
+  fetchV2PublishedProductsThunk,
+  fetchProductByIdThunk,
+  fetchAdminProductMetaThunk,
+  createProductThunk,
+  deleteProductThunk,
 } from './productThunks';
 
 export {
@@ -33,4 +38,8 @@ export {
   fetchProfileThunk,
   updateProfileThunk,
   fetchAddressesThunk,
+  createAddressThunk,
+  updateAddressThunk,
+  setDefaultAddressThunk,
+  deleteAddressThunk,
 } from './userThunks';

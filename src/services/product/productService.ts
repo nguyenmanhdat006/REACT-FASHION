@@ -1,5 +1,5 @@
 import { API_ENDPOINTS } from '@/constants';
-import type { ApiResponse, PageResponse } from '@/types/common/common';
+import type { ApiResponse, PageMeta } from '@/types/common/common';
 import type {
   Brand,
   BrandPayload,
@@ -7,6 +7,7 @@ import type {
   CategoryPayload,
   CreateProductRequest,
   Product,
+  ProductDocument,
   ProductFilters,
   ProductListParams,
   SearchProductsParams,
@@ -20,250 +21,141 @@ const toQueryParams = (
   params?: ProductFilters | ProductListParams | SearchProductsParams
 ) => ({ ...params });
 
-const normalizeProductList = (payload: PageResponse<Product> | Product[]): Product[] => {
-  return Array.isArray(payload) ? payload : payload.content;
-};
+const getFeaturedPage = (params?: ProductListParams) =>
+  apiClient.get<ApiResponse<Product[], PageMeta>>(API_ENDPOINTS.PRODUCTS.FEATURED, {
+    params: toQueryParams(params),
+  });
 
 export const productService = {
-  getCategories: async (): Promise<Category[]> => {
-    const response = await apiClient.get<ApiResponse<Category[]>>(
-      API_ENDPOINTS.PRODUCTS.CATEGORIES
-    );
-    return response.data;
-  },
+  getCategories: (): Promise<ApiResponse<Category[]>> =>
+    apiClient.get<ApiResponse<Category[]>>(API_ENDPOINTS.PRODUCTS.CATEGORIES),
 
-  getCategoryTree: async (): Promise<Category[]> => {
-    const response = await apiClient.get<ApiResponse<Category[]>>(
-      API_ENDPOINTS.PRODUCTS.CATEGORIES_TREE
-    );
-    return response.data;
-  },
+  getActiveCategories: (): Promise<ApiResponse<Category[]>> =>
+    apiClient.get<ApiResponse<Category[]>>(API_ENDPOINTS.PRODUCTS.CATEGORIES_ACTIVE),
 
-  getCategoryById: async (id: string): Promise<Category> => {
-    const response = await apiClient.get<ApiResponse<Category>>(
-      API_ENDPOINTS.PRODUCTS.CATEGORY_DETAIL(id)
-    );
-    return response.data;
-  },
+  getCategoryTree: (): Promise<ApiResponse<Category[]>> =>
+    apiClient.get<ApiResponse<Category[]>>(API_ENDPOINTS.PRODUCTS.CATEGORIES_TREE),
 
-  getCategoryBySlug: async (slug: string): Promise<Category> => {
-    const response = await apiClient.get<ApiResponse<Category>>(
-      API_ENDPOINTS.PRODUCTS.CATEGORY_SLUG(slug)
-    );
-    return response.data;
-  },
+  getCategoryById: (id: string): Promise<ApiResponse<Category>> =>
+    apiClient.get<ApiResponse<Category>>(API_ENDPOINTS.PRODUCTS.CATEGORY_DETAIL(id)),
 
-  createCategory: async (payload: CategoryPayload): Promise<Category> => {
-    const response = await apiClient.post<ApiResponse<Category>>(
-      API_ENDPOINTS.PRODUCTS.CATEGORIES,
-      payload
-    );
-    return response.data;
-  },
+  getCategoryBySlug: (slug: string): Promise<ApiResponse<Category>> =>
+    apiClient.get<ApiResponse<Category>>(API_ENDPOINTS.PRODUCTS.CATEGORY_SLUG(slug)),
 
-  updateCategory: async (
+  createCategory: (payload: CategoryPayload): Promise<ApiResponse<Category>> =>
+    apiClient.post<ApiResponse<Category>>(API_ENDPOINTS.PRODUCTS.CATEGORIES, payload),
+
+  updateCategory: (
     id: string,
     payload: UpdateCategoryRequest
-  ): Promise<Category> => {
-    const response = await apiClient.put<ApiResponse<Category>>(
-      API_ENDPOINTS.PRODUCTS.CATEGORY_DETAIL(id),
-      payload
-    );
-    return response.data;
-  },
+  ): Promise<ApiResponse<Category>> =>
+    apiClient.put<ApiResponse<Category>>(API_ENDPOINTS.PRODUCTS.CATEGORY_DETAIL(id), payload),
 
-  deleteCategory: async (id: string): Promise<void> => {
-    await apiClient.delete(API_ENDPOINTS.PRODUCTS.CATEGORY_DETAIL(id));
-  },
+  deleteCategory: (id: string): Promise<ApiResponse<unknown>> =>
+    apiClient.delete<ApiResponse<unknown>>(API_ENDPOINTS.PRODUCTS.CATEGORY_DETAIL(id)),
 
-  getBrands: async (): Promise<Brand[]> => {
-    const response = await apiClient.get<ApiResponse<Brand[]>>(
-      API_ENDPOINTS.PRODUCTS.BRANDS
-    );
-    return response.data;
-  },
+  getBrands: (): Promise<ApiResponse<Brand[]>> =>
+    apiClient.get<ApiResponse<Brand[]>>(API_ENDPOINTS.PRODUCTS.BRANDS),
 
-  getActiveBrands: async (): Promise<Brand[]> => {
-    const response = await apiClient.get<ApiResponse<Brand[]>>(
-      API_ENDPOINTS.PRODUCTS.BRANDS_ACTIVE
-    );
-    return response.data;
-  },
+  getActiveBrands: (): Promise<ApiResponse<Brand[]>> =>
+    apiClient.get<ApiResponse<Brand[]>>(API_ENDPOINTS.PRODUCTS.BRANDS_ACTIVE),
 
-  getBrandById: async (id: string): Promise<Brand> => {
-    const response = await apiClient.get<ApiResponse<Brand>>(
-      API_ENDPOINTS.PRODUCTS.BRAND_DETAIL(id)
-    );
-    return response.data;
-  },
+  getBrandById: (id: string): Promise<ApiResponse<Brand>> =>
+    apiClient.get<ApiResponse<Brand>>(API_ENDPOINTS.PRODUCTS.BRAND_DETAIL(id)),
 
-  getBrandBySlug: async (slug: string): Promise<Brand> => {
-    const response = await apiClient.get<ApiResponse<Brand>>(
-      API_ENDPOINTS.PRODUCTS.BRAND_SLUG(slug)
-    );
-    return response.data;
-  },
+  getBrandBySlug: (slug: string): Promise<ApiResponse<Brand>> =>
+    apiClient.get<ApiResponse<Brand>>(API_ENDPOINTS.PRODUCTS.BRAND_SLUG(slug)),
 
-  createBrand: async (payload: BrandPayload): Promise<Brand> => {
-    const response = await apiClient.post<ApiResponse<Brand>>(
-      API_ENDPOINTS.PRODUCTS.BRANDS,
-      payload
-    );
-    return response.data;
-  },
+  createBrand: (payload: BrandPayload): Promise<ApiResponse<Brand>> =>
+    apiClient.post<ApiResponse<Brand>>(API_ENDPOINTS.PRODUCTS.BRANDS, payload),
 
-  updateBrand: async (id: string, payload: UpdateBrandRequest): Promise<Brand> => {
-    const response = await apiClient.put<ApiResponse<Brand>>(
-      API_ENDPOINTS.PRODUCTS.BRAND_DETAIL(id),
-      payload
-    );
-    return response.data;
-  },
+  updateBrand: (id: string, payload: UpdateBrandRequest): Promise<ApiResponse<Brand>> =>
+    apiClient.put<ApiResponse<Brand>>(API_ENDPOINTS.PRODUCTS.BRAND_DETAIL(id), payload),
 
-  deleteBrand: async (id: string): Promise<void> => {
-    await apiClient.delete(API_ENDPOINTS.PRODUCTS.BRAND_DETAIL(id));
-  },
+  deleteBrand: (id: string): Promise<ApiResponse<unknown>> =>
+    apiClient.delete<ApiResponse<unknown>>(API_ENDPOINTS.PRODUCTS.BRAND_DETAIL(id)),
 
-  getProducts: async (filters?: ProductFilters): Promise<PageResponse<Product>> => {
-    const response = await apiClient.get<ApiResponse<PageResponse<Product>>>(
-      API_ENDPOINTS.PRODUCTS.LIST,
-      { params: toQueryParams(filters) }
-    );
-    return response.data;
-  },
+  getProducts: (filters?: ProductFilters): Promise<ApiResponse<Product[], PageMeta>> =>
+    apiClient.get<ApiResponse<Product[], PageMeta>>(API_ENDPOINTS.PRODUCTS.LIST, {
+      params: toQueryParams(filters),
+    }),
 
-  getProductById: async (id: string): Promise<Product> => {
-    const response = await apiClient.get<ApiResponse<Product>>(
-      API_ENDPOINTS.PRODUCTS.DETAIL(id)
-    );
-    return response.data;
-  },
+  getProductById: (id: string): Promise<ApiResponse<Product>> =>
+    apiClient.get<ApiResponse<Product>>(API_ENDPOINTS.PRODUCTS.DETAIL(id)),
 
-  getProductBySlug: async (slug: string): Promise<Product> => {
-    const response = await apiClient.get<ApiResponse<Product>>(
-      API_ENDPOINTS.PRODUCTS.SLUG(slug)
-    );
-    return response.data;
-  },
+  getProductBySlug: (slug: string): Promise<ApiResponse<Product>> =>
+    apiClient.get<ApiResponse<Product>>(API_ENDPOINTS.PRODUCTS.SLUG(slug)),
 
-  getPublishedProducts: async (
+  getPublishedProducts: (
     params?: ProductListParams
-  ): Promise<PageResponse<Product>> => {
-    const response = await apiClient.get<ApiResponse<PageResponse<Product>>>(
-      API_ENDPOINTS.PRODUCTS.PUBLISHED,
-      { params: toQueryParams(params) }
-    );
-    return response.data;
-  },
+  ): Promise<ApiResponse<Product[], PageMeta>> =>
+    apiClient.get<ApiResponse<Product[], PageMeta>>(API_ENDPOINTS.PRODUCTS.PUBLISHED, {
+      params: toQueryParams(params),
+    }),
 
-  getProductsByCategory: async (
+  getProductsByCategory: (
     categoryId: string,
     params?: ProductListParams
-  ): Promise<PageResponse<Product>> => {
-    const response = await apiClient.get<ApiResponse<PageResponse<Product>>>(
+  ): Promise<ApiResponse<Product[], PageMeta>> =>
+    apiClient.get<ApiResponse<Product[], PageMeta>>(
       API_ENDPOINTS.PRODUCTS.BY_CATEGORY(categoryId),
       { params: toQueryParams(params) }
-    );
-    return response.data;
-  },
+    ),
 
-  getProductsByBrand: async (
+  getProductsByBrand: (
     brandId: string,
     params?: ProductListParams
-  ): Promise<PageResponse<Product>> => {
-    const response = await apiClient.get<ApiResponse<PageResponse<Product>>>(
+  ): Promise<ApiResponse<Product[], PageMeta>> =>
+    apiClient.get<ApiResponse<Product[], PageMeta>>(
       API_ENDPOINTS.PRODUCTS.BY_BRAND(brandId),
       { params: toQueryParams(params) }
-    );
-    return response.data;
-  },
+    ),
 
-  getFeaturedProductsPage: async (
-    params?: ProductListParams
-  ): Promise<PageResponse<Product>> => {
-    const response = await apiClient.get<ApiResponse<PageResponse<Product>>>(
-      API_ENDPOINTS.PRODUCTS.FEATURED,
-      { params: toQueryParams(params) }
-    );
-    return response.data;
-  },
+  getFeaturedProductsPage: getFeaturedPage,
 
-  getFeaturedProducts: async (params?: ProductListParams): Promise<Product[]> => {
-    const response = await apiClient.get<ApiResponse<PageResponse<Product> | Product[]>>(
-      API_ENDPOINTS.PRODUCTS.FEATURED,
-      { params: toQueryParams(params) }
-    );
-    return normalizeProductList(response.data);
-  },
+  getFeaturedProducts: getFeaturedPage,
 
-  getProductsByPriceRange: async (
+  getProductsByPriceRange: (
     minPrice: number,
     maxPrice: number,
     params?: ProductListParams
-  ): Promise<PageResponse<Product>> => {
-    const response = await apiClient.get<ApiResponse<PageResponse<Product>>>(
-      API_ENDPOINTS.PRODUCTS.PRICE_RANGE,
-      {
-        params: {
-          ...toQueryParams(params),
-          minPrice,
-          maxPrice,
-        },
-      }
-    );
-    return response.data;
-  },
+  ): Promise<ApiResponse<Product[], PageMeta>> =>
+    apiClient.get<ApiResponse<Product[], PageMeta>>(API_ENDPOINTS.PRODUCTS.PRICE_RANGE, {
+      params: {
+        ...toQueryParams(params),
+        minPrice,
+        maxPrice,
+      },
+    }),
 
-  searchProducts: async (
+  searchProducts: (
     filters: SearchProductsParams
-  ): Promise<PageResponse<Product>> => {
-    const response = await apiClient.get<ApiResponse<PageResponse<Product>>>(
-      API_ENDPOINTS.PRODUCTS.SEARCH,
-      { params: toQueryParams(filters) }
-    );
-    return response.data;
-  },
+  ): Promise<ApiResponse<ProductDocument[], PageMeta>> =>
+    apiClient.get<ApiResponse<ProductDocument[], PageMeta>>(API_ENDPOINTS.PRODUCTS.SEARCH, {
+      params: toQueryParams(filters),
+    }),
 
-  createProduct: async (payload: CreateProductRequest): Promise<Product> => {
-    const response = await apiClient.post<ApiResponse<Product>>(
-      API_ENDPOINTS.PRODUCTS.CREATE,
-      payload
-    );
-    return response.data;
-  },
+  createProduct: (payload: CreateProductRequest): Promise<ApiResponse<Product>> =>
+    apiClient.post<ApiResponse<Product>>(API_ENDPOINTS.PRODUCTS.CREATE, payload),
 
-  updateProduct: async (
+  updateProduct: (
     id: string,
     payload: UpdateProductRequest
-  ): Promise<Product> => {
-    const response = await apiClient.put<ApiResponse<Product>>(
-      API_ENDPOINTS.PRODUCTS.UPDATE(id),
-      payload
-    );
-    return response.data;
-  },
+  ): Promise<ApiResponse<Product>> =>
+    apiClient.put<ApiResponse<Product>>(API_ENDPOINTS.PRODUCTS.UPDATE(id), payload),
 
-  deleteProduct: async (id: string): Promise<void> => {
-    await apiClient.delete(API_ENDPOINTS.PRODUCTS.DELETE(id));
-  },
+  deleteProduct: (id: string): Promise<ApiResponse<unknown>> =>
+    apiClient.delete<ApiResponse<unknown>>(API_ENDPOINTS.PRODUCTS.DELETE(id)),
 
-  uploadProductImage: async (id: string, file: File): Promise<Product> => {
+  uploadProductImage: (id: string, file: File): Promise<ApiResponse<string>> => {
     const formData = new FormData();
     formData.append('file', file);
-
-    const response = await apiClient.post<ApiResponse<Product>>(
+    return apiClient.post<ApiResponse<string>>(
       API_ENDPOINTS.PRODUCTS.UPLOAD_IMAGE(id),
-      formData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      }
+      formData
     );
-    return response.data;
   },
 
-  syncAllProductsToElasticsearch: async (): Promise<void> => {
-    await apiClient.post(API_ENDPOINTS.PRODUCTS.SYNC_ELASTICSEARCH);
-  },
+  syncAllProductsToElasticsearch: (): Promise<ApiResponse<unknown>> =>
+    apiClient.post<ApiResponse<unknown>>(API_ENDPOINTS.PRODUCTS.SYNC_ELASTICSEARCH),
 };

@@ -1,9 +1,24 @@
-import { JSX } from 'react';
+import { useState, type JSX } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { FaFacebook, FaApple } from 'react-icons/fa';
+import toast from 'react-hot-toast';
 import SocialProviders from './SocialProviders';
+import { authService } from '@/services/auth/authService';
+import { SocialProvider } from '@/types/auth/auth';
 
 export default function SocialAuthSection(): JSX.Element {
+  const [isRedirecting, setIsRedirecting] = useState<SocialProvider | null>(null);
+
+  const handleSocialLogin = (provider: SocialProvider): void => {
+    try {
+      setIsRedirecting(provider);
+      authService.socialLogin(provider);
+    } catch (error) {
+      setIsRedirecting(null);
+      toast.error(error instanceof Error ? error.message : 'Unable to start social login');
+    }
+  };
+
   return (
     <>
       <div className="flex items-center justify-center gap-2 relative self-stretch w-full" aria-label="Alternative login methods">
@@ -13,9 +28,25 @@ export default function SocialAuthSection(): JSX.Element {
       </div>
 
       <SocialProviders>
-        <button type="button" aria-label="Continue with Google" className="flex items-center justify-center p-4 bg-slate-50 hover:bg-slate-100 transition-colors rounded-2xl border border-gray-100"><FcGoogle className="w-6 h-6" /></button>
-        <button type="button" aria-label="Continue with Facebook" className="flex items-center justify-center p-4 bg-slate-50 hover:bg-slate-100 transition-colors rounded-2xl border border-gray-100"><FaFacebook className="w-6 h-6 text-[#1877F2]" /></button>
-        <button type="button" aria-label="Continue with Apple" className="flex items-center justify-center p-4 bg-slate-50 hover:bg-slate-100 transition-colors rounded-2xl border border-gray-100"><FaApple className="w-6 h-6 text-black" /></button>
+        <button
+          type="button"
+          aria-label="Continue with Google"
+          onClick={() => handleSocialLogin('google')}
+          disabled={isRedirecting !== null}
+          className="flex items-center justify-center p-4 bg-slate-50 hover:bg-slate-100 transition-colors rounded-2xl border border-gray-100 disabled:cursor-not-allowed disabled:opacity-70"
+        >
+          <FcGoogle className="w-6 h-6" />
+        </button>
+        <button
+          type="button"
+          aria-label="Continue with Facebook"
+          onClick={() => handleSocialLogin('facebook')}
+          disabled={isRedirecting !== null}
+          className="flex items-center justify-center p-4 bg-slate-50 hover:bg-slate-100 transition-colors rounded-2xl border border-gray-100 disabled:cursor-not-allowed disabled:opacity-70"
+        >
+          <FaFacebook className="w-6 h-6 text-[#1877F2]" />
+        </button>
+        <button type="button" aria-label="Continue with Apple" disabled className="flex items-center justify-center p-4 bg-slate-50 rounded-2xl border border-gray-100 opacity-50 cursor-not-allowed"><FaApple className="w-6 h-6 text-black" /></button>
       </SocialProviders>
     </>
   );

@@ -9,42 +9,23 @@ import type { ApiResponse } from '@/types/common/common';
 import apiClient from '@/utils/api';
 
 export const cartService = {
-  getCart: async (): Promise<Cart> => {
-    const response = await apiClient.get<ApiResponse<Cart>>(API_ENDPOINTS.CART.ROOT);
-    return response.data;
-  },
+  getCart: (): Promise<ApiResponse<Cart>> =>
+    apiClient.get<ApiResponse<Cart>>(API_ENDPOINTS.CART.ROOT),
 
-  addToCart: async (payload: AddToCartRequest): Promise<Cart> => {
-    const response = await apiClient.post<ApiResponse<Cart>>(
-      API_ENDPOINTS.CART.ITEMS,
-      payload
-    );
-    return response.data;
-  },
+  addToCart: (payload: AddToCartRequest): Promise<ApiResponse<Cart>> =>
+    apiClient.post<ApiResponse<Cart>>(API_ENDPOINTS.CART.ITEMS, payload),
 
-  updateQuantity: async (itemId: string, payload: UpdateCartItemRequest): Promise<Cart> => {
-    const response = await apiClient.put<ApiResponse<Cart>>(
-      API_ENDPOINTS.CART.ITEM_DETAIL(itemId),
-      payload
-    );
-    return response.data;
-  },
+  updateQuantity: (
+    itemId: string,
+    payload: UpdateCartItemRequest
+  ): Promise<ApiResponse<Cart>> =>
+    apiClient.put<ApiResponse<Cart>>(API_ENDPOINTS.CART.ITEM_DETAIL(itemId), payload),
 
-  removeItem: async (itemId: string): Promise<Cart> => {
-    const response = await apiClient.delete<ApiResponse<Cart>>(
-      API_ENDPOINTS.CART.ITEM_DETAIL(itemId)
-    );
-    return response.data;
-  },
+  removeItem: (itemId: string): Promise<ApiResponse<Cart>> =>
+    apiClient.delete<ApiResponse<Cart>>(API_ENDPOINTS.CART.ITEM_DETAIL(itemId)),
 
-  clearCart: async (): Promise<void> => {
-    await apiClient.delete(API_ENDPOINTS.CART.ROOT);
-  },
+  clearCart: (): Promise<void> => apiClient.delete(API_ENDPOINTS.CART.ROOT),
 
-  getSummary: async (): Promise<CartSummary> => {
-    const response = await apiClient.get<ApiResponse<CartSummary>>(
-      API_ENDPOINTS.CART.SUMMARY
-    );
-    return response.data;
-  },
+  getSummary: (): Promise<ApiResponse<CartSummary>> =>
+    apiClient.get<ApiResponse<CartSummary>>(API_ENDPOINTS.CART.SUMMARY),
 };

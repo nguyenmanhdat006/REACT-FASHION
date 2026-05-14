@@ -5,11 +5,15 @@ import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { FcGoogle } from 'react-icons/fc';
+import { FaFacebook } from 'react-icons/fa';
 import { useAuth } from '@/hooks/auth/useAuth';
 import { Button } from '@/components/ui/button';
 import Input from '@/components/form/Input';
 import { Card } from '@/components/ui/card';
 import { ROUTES } from '@/constants';
+import { authService } from '@/services/auth/authService';
+import { SocialProvider } from '@/types/auth/auth';
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -21,6 +25,7 @@ type LoginFormData = z.infer<typeof loginSchema>;
 const Login: React.FC = () => {
   const { t } = useTranslation();
   const { login } = useAuth();
+  const [socialLoginProvider, setSocialLoginProvider] = React.useState<SocialProvider | null>(null);
 
   const {
     register,
@@ -32,6 +37,11 @@ const Login: React.FC = () => {
 
   const onSubmit = async (data: LoginFormData) => {
     await login(data);
+  };
+
+  const handleSocialLogin = (provider: SocialProvider) => {
+    setSocialLoginProvider(provider);
+    authService.socialLogin(provider);
   };
 
   return (
@@ -67,13 +77,46 @@ const Login: React.FC = () => {
             </div>
             <Button
               type="submit"
-              variant="primary"
+              variant="default"
               className="w-full"
               // isLoading={isLoading}
             >
               {t('auth.login')}
             </Button>
           </form>
+
+          <div className="mt-6 space-y-3">
+            <div className="flex items-center gap-3">
+              <div className="h-px flex-1 bg-gray-200 dark:bg-gray-700" />
+              <span className="text-xs uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">
+                or continue with
+              </span>
+              <div className="h-px flex-1 bg-gray-200 dark:bg-gray-700" />
+            </div>
+
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full justify-center gap-2"
+                onClick={() => handleSocialLogin('google')}
+                disabled={socialLoginProvider !== null}
+              >
+                <FcGoogle className="h-5 w-5" />
+                Google
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full justify-center gap-2"
+                onClick={() => handleSocialLogin('facebook')}
+                disabled={socialLoginProvider !== null}
+              >
+                <FaFacebook className="h-5 w-5 text-[#1877F2]" />
+                Facebook
+              </Button>
+            </div>
+          </div>
 
           <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
             {t('auth.noAccount')}{' '}

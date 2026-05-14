@@ -7,8 +7,8 @@ import axios, {
 } from 'axios';
 import toast from 'react-hot-toast';
 import { API_BASE_URL, AUTH_ENDPOINTS } from '@/constants';
-import type { ApiResponse } from '@/types/common/common';
 import type { AuthResponse } from '@/types/auth/auth';
+import type { ApiResponse } from '@/types/common/common';
 import { IS_MOCK_ENABLED } from '@/config/env';
 import { handleMockApiRequest } from '@/mocks/handlers/mockApiHandlers';
 import {
@@ -17,17 +17,9 @@ import {
   setAuthTokens,
   clearAuthTokens,
 } from './authStorage';
+import { ROUTESV2 } from '@/constants';
 
 type RetryConfig = InternalAxiosRequestConfig & { _retry?: boolean };
-type MaybeWrapped<T> = ApiResponse<T> | T;
-
-const unwrapApiData = <T>(response: MaybeWrapped<T>): T => {
-  if (response && typeof response === 'object' && 'data' in response) {
-    return (response as ApiResponse<T>).data;
-  }
-
-  return response as T;
-};
 
 class ApiClient {
   private client: AxiosInstance;
@@ -87,9 +79,13 @@ class ApiClient {
 
                   try {
                     const refreshResponse = await this.client.post<
-                      MaybeWrapped<AuthResponse>
+                      ApiResponse<AuthResponse>
                     >(AUTH_ENDPOINTS.REFRESH, { refreshToken });
-                    const refreshData = unwrapApiData(refreshResponse.data);
+                    const envelope = refreshResponse.data;
+                    if (!envelope.success || !envelope.data) {
+                      throw new Error('Refresh failed');
+                    }
+                    const refreshData = envelope.data;
 
                     setAuthTokens(
                       refreshData.accessToken,
@@ -112,7 +108,7 @@ class ApiClient {
 
                 clearAuthTokens();
               }
-              window.location.href = '/login';
+              window.location.href = ROUTESV2.LOGIN;
               toast.error('Session expired. Please login again.');
               break;
             case 403:

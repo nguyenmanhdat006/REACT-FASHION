@@ -1,4 +1,3 @@
-import axios from 'axios';
 import apiClient from '@/utils/api';
 import {
   LoginCredentials,
@@ -6,230 +5,123 @@ import {
   AuthResponse,
   User,
   Address,
+  ForgotPasswordData,
+  OAuthExchangeRequest,
+  SocialProvider,
 } from '@/types/auth/auth';
-import { ApiResponse } from '@/types/common/common';
-import { API_ENDPOINTS, AUTH_ENDPOINTS } from '@/constants';
+import type { ApiResponse } from '@/types/common/common';
+import {
+  API_ENDPOINTS,
+  AUTH_ENDPOINTS,
+  KEYCLOAK_AUTH_ENDPOINTS,
+  KEYCLOAK_CONFIG,
+  SOCIAL_PROVIDER_HINTS,
+} from '@/constants';
 import { getAccessToken } from '@/utils/authStorage';
+import { getRolesFromJwtToken } from '@/utils/jwt';
 
-type MaybeWrapped<T> = ApiResponse<T> | T;
+export type UserInbound = User & { roles?: string[] | null; avatar?: string | null };
 
-type LoginApiUser = User & {
-  avatarUrl?: string | null;
-  roles?: string[] | null;
-};
-
-type LoginApiAuthResponse = Omit<AuthResponse, 'user'> & {
-  tokenType?: string;
-  user?: LoginApiUser | null;
-};
-
-interface JwtPayload {
-  email?: string;
-  name?: string;
-  preferred_username?: string;
-  given_name?: string;
-  family_name?: string;
-  realm_access?: {
-    roles?: string[];
+export function normalizeUser(raw: UserInbound): User {
+  const { avatar: legacyAvatar, roles: rawRoles, ...rest } = raw;
+  const avatarUrl = rest.avatarUrl ?? legacyAvatar ?? undefined;
+  return {
+    ...rest,
+    roles: Array.isArray(rawRoles) ? rawRoles : [],
+    avatarUrl: avatarUrl ?? undefined,
   };
-  resource_access?: Record<string, { roles?: string[] }>;
 }
 
-const unwrapApiData = <T>(response: MaybeWrapped<T>): T => {
-  if (response && typeof response === 'object' && 'data' in response) {
-    return (response as ApiResponse<T>).data;
-  }
-
-  return response as T;
-};
-
-const parseJwtPayload = (token?: string): JwtPayload | null => {
-  if (!token) {
-    return null;
-  }
-
-  try {
-    const parts = token.split('.');
-    if (parts.length < 2) {
-      return null;
-    }
-
-    const base64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
-    const padded = base64.padEnd(Math.ceil(base64.length / 4) * 4, '=');
-    const decoded = atob(padded);
-    return JSON.parse(decoded) as JwtPayload;
-  } catch {
-    return null;
-  }
-};
-
-const getRolesFromToken = (token?: string): string[] => {
-  const payload = parseJwtPayload(token);
-  if (!payload) {
-    return [];
-  }
-
-  const realmRoles = payload.realm_access?.roles ?? [];
-  const resourceRoles = Object.values(payload.resource_access ?? {}).flatMap(
-    resource => resource.roles ?? []
-  );
-
-  return Array.from(new Set([...realmRoles, ...resourceRoles]));
-};
-
-const getProfileFieldsFromToken = (token?: string) => {
-  const payload = parseJwtPayload(token);
-  if (!payload) {
-    return {
-      email: undefined,
-      fullName: undefined,
-    };
-  }
-
+export function authDataWithNormalizedUser(data: AuthResponse): AuthResponse {
   return {
-    email: payload.email || payload.preferred_username,
-    fullName:
-      payload.name ||
-      [payload.given_name, payload.family_name].filter(Boolean).join(' ') ||
-      payload.preferred_username,
+    ...data,
+    user: normalizeUser(data.user as UserInbound),
   };
-};
+}
 
-const normalizeAuthResponse = (
-  payload: LoginApiAuthResponse,
-  fallbackEmail: string
-): AuthResponse => {
-  const tokenRoles = getRolesFromToken(payload.accessToken);
-  const tokenProfile = getProfileFieldsFromToken(payload.accessToken);
+export function finalizeUserFromMeEnvelope(res: ApiResponse<User>): User {
+  const profile = res.data;
+  const token = getAccessToken() || undefined;
+  const tokenRoles = getRolesFromJwtToken(token);
 
-  const normalizedUser: User = payload.user
-    ? {
-        ...payload.user,
-        avatar: payload.user.avatar ?? payload.user.avatarUrl ?? undefined,
-        email: payload.user.email || tokenProfile.email || fallbackEmail,
-        fullName:
-          payload.user.fullName || tokenProfile.fullName || payload.user.email || fallbackEmail,
-        roles: Array.isArray(payload.user.roles) && payload.user.roles.length > 0
-          ? payload.user.roles
-          : tokenRoles,
-        createdAt: payload.user.createdAt || new Date().toISOString(),
-      }
-    : {
-        id: '',
-        email: tokenProfile.email || fallbackEmail,
-        fullName: tokenProfile.fullName || fallbackEmail,
-        roles: tokenRoles,
-        createdAt: new Date().toISOString(),
-      };
+  const roles =
+    Array.isArray(profile.roles) && profile.roles.length > 0 ? profile.roles : tokenRoles;
 
-  return {
-    ...payload,
-    user: normalizedUser,
-  };
+  return normalizeUser({
+    ...(profile as UserInbound),
+    roles,
+  });
+}
+
+export const getSocialLoginRedirectUri = (provider: SocialProvider): string =>
+  `${window.location.origin}/auth/callback?provider=${provider}`;
+
+const buildSocialLoginUrl = (provider: SocialProvider, redirectUri: string): string => {
+  const url = new URL(KEYCLOAK_AUTH_ENDPOINTS.AUTH);
+
+  url.searchParams.set('client_id', KEYCLOAK_CONFIG.CLIENT_ID);
+  url.searchParams.set('response_type', 'code');
+  url.searchParams.set('scope', 'openid');
+  url.searchParams.set('redirect_uri', redirectUri);
+  url.searchParams.set('kc_idp_hint', SOCIAL_PROVIDER_HINTS[provider]);
+
+  return url.toString();
 };
 
 export const authService = {
-  login: async (credentials: LoginCredentials): Promise<AuthResponse> => {
-    try {
-      const response = await apiClient.post<MaybeWrapped<LoginApiAuthResponse>>(
-        AUTH_ENDPOINTS.LOGIN,
-        credentials
-      );
+  login: (credentials: LoginCredentials): Promise<ApiResponse<AuthResponse>> =>
+    apiClient.post<ApiResponse<AuthResponse>>(AUTH_ENDPOINTS.LOGIN, credentials),
 
-      const authData = unwrapApiData(response);
+  register: (credentials: SignUpCredentials): Promise<ApiResponse<User>> =>
+    apiClient.post<ApiResponse<User>>(AUTH_ENDPOINTS.REGISTER, credentials),
 
-      if (!authData?.accessToken || !authData?.refreshToken) {
-        throw new Error('Invalid login response: missing auth tokens.');
-      }
+  logout: (refreshToken: string): Promise<void> =>
+    apiClient.post(AUTH_ENDPOINTS.LOGOUT, { refreshToken }),
 
-      return normalizeAuthResponse(authData, credentials.email);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const serverMessage = (error.response?.data as { message?: string })?.message;
+  refreshToken: (refreshToken: string): Promise<ApiResponse<AuthResponse>> =>
+    apiClient.post<ApiResponse<AuthResponse>>(AUTH_ENDPOINTS.REFRESH, { refreshToken }),
 
-        if (serverMessage) {
-          error.message = serverMessage;
-        } else if (!error.response) {
-          error.message = 'Unable to connect to authentication gateway.';
-        }
-      }
+  forgotPassword: (data: ForgotPasswordData): Promise<ApiResponse<null>> =>
+    apiClient.post<ApiResponse<null>>(AUTH_ENDPOINTS.FORGOT_PASSWORD, data),
 
-      throw error;
-    }
-  },
-
-  register: async (credentials: SignUpCredentials): Promise<User> => {
-    const response = await apiClient.post<MaybeWrapped<User>>(
-      AUTH_ENDPOINTS.REGISTER,
-      credentials
+  socialLogin: (provider: SocialProvider): void => {
+    window.location.assign(
+      buildSocialLoginUrl(provider, getSocialLoginRedirectUri(provider))
     );
-    return unwrapApiData(response);
   },
 
-  logout: async (refreshToken: string): Promise<void> => {
-    await apiClient.post(AUTH_ENDPOINTS.LOGOUT, { refreshToken });
-  },
-
-  refreshToken: async (refreshToken: string): Promise<AuthResponse> => {
-    const response = await apiClient.post<MaybeWrapped<AuthResponse>>(
-      AUTH_ENDPOINTS.REFRESH,
-      { refreshToken }
-    );
-    return unwrapApiData(response);
-  },
-
-  getProfile: async (): Promise<User> => {
-    const response = await apiClient.get<MaybeWrapped<User>>(AUTH_ENDPOINTS.ME);
-    const profile = unwrapApiData(response);
-    const token = getAccessToken() || undefined;
-    const tokenRoles = getRolesFromToken(token);
-
-    return {
-      ...profile,
-      roles:
-        Array.isArray(profile.roles) && profile.roles.length > 0
-          ? profile.roles
-          : tokenRoles,
+  exchangeOAuthCode: (
+    provider: SocialProvider,
+    code: string
+  ): Promise<ApiResponse<AuthResponse>> => {
+    const body: OAuthExchangeRequest = {
+      code,
+      redirectUri: getSocialLoginRedirectUri(provider),
     };
-  },
-
-  updateProfile: async (data: Partial<User>): Promise<User> => {
-    const response = await apiClient.put<ApiResponse<User>>(
-      API_ENDPOINTS.USER.PROFILE,
-      data
+    return apiClient.post<ApiResponse<AuthResponse>>(
+      AUTH_ENDPOINTS.OAUTH2(provider),
+      body
     );
-    return response.data;
   },
 
-  getAddresses: async (): Promise<Address[]> => {
-    const response = await apiClient.get<ApiResponse<Address[]>>(
-      API_ENDPOINTS.USER.ADDRESSES
-    );
-    return response.data;
-  },
+  getProfile: (): Promise<ApiResponse<User>> =>
+    apiClient.get<ApiResponse<User>>(AUTH_ENDPOINTS.ME),
 
-  addAddress: async (
-    address: Omit<Address, 'id' | 'isDefault'>
-  ): Promise<Address> => {
-    const response = await apiClient.post<ApiResponse<Address>>(
-      API_ENDPOINTS.USER.ADDRESSES,
-      address
-    );
-    return response.data;
-  },
+  updateProfile: (data: Partial<User>): Promise<ApiResponse<User>> =>
+    apiClient.put<ApiResponse<User>>(API_ENDPOINTS.USER.PROFILE, data),
 
-  updateAddress: async (
+  getAddresses: (): Promise<ApiResponse<Address[]>> =>
+    apiClient.get<ApiResponse<Address[]>>(API_ENDPOINTS.USER.ADDRESSES),
+
+  addAddress: (address: Omit<Address, 'id' | 'isDefault'>): Promise<ApiResponse<Address>> =>
+    apiClient.post<ApiResponse<Address>>(API_ENDPOINTS.USER.ADDRESSES, address),
+
+  updateAddress: (
     id: string,
     address: Partial<Address>
-  ): Promise<Address> => {
-    const response = await apiClient.put<ApiResponse<Address>>(
-      API_ENDPOINTS.USER.ADDRESS_DETAIL(id),
-      address
-    );
-    return response.data;
-  },
+  ): Promise<ApiResponse<Address>> =>
+    apiClient.put<ApiResponse<Address>>(API_ENDPOINTS.USER.ADDRESS_DETAIL(id), address),
 
-  deleteAddress: async (id: string): Promise<void> => {
-    await apiClient.delete(API_ENDPOINTS.USER.ADDRESS_DETAIL(id));
-  },
+  deleteAddress: (id: string): Promise<ApiResponse<null>> =>
+    apiClient.delete<ApiResponse<null>>(API_ENDPOINTS.USER.ADDRESS_DETAIL(id)),
 };

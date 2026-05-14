@@ -1,44 +1,21 @@
 import { API_ENDPOINTS } from '@/constants';
-import type { ApiResponse, PageResponse, PaginationParams } from '@/types/common/common';
+import type { ApiResponse, PageMeta, PaginationParams } from '@/types/common/common';
 import type { CreateOrderRequest, Order } from '@/types/order/order';
 import apiClient from '@/utils/api';
 
 export const orderService = {
-  createOrder: async (payload: CreateOrderRequest): Promise<Order> => {
-    const response = await apiClient.post<ApiResponse<Order>>(
-      API_ENDPOINTS.ORDERS.ROOT,
-      payload
-    );
-    return response.data;
-  },
+  createOrder: (payload: CreateOrderRequest): Promise<ApiResponse<Order>> =>
+    apiClient.post<ApiResponse<Order>>(API_ENDPOINTS.ORDERS.ROOT, payload),
 
-  getOrders: async (params?: PaginationParams): Promise<PageResponse<Order>> => {
-    const response = await apiClient.get<ApiResponse<PageResponse<Order>>>(
-      API_ENDPOINTS.ORDERS.ROOT,
-      { params }
-    );
-    return response.data;
-  },
+  getOrders: (params?: PaginationParams): Promise<ApiResponse<Order[], PageMeta>> =>
+    apiClient.get<ApiResponse<Order[], PageMeta>>(API_ENDPOINTS.ORDERS.ROOT, { params }),
 
-  getOrderById: async (id: string): Promise<Order> => {
-    const response = await apiClient.get<ApiResponse<Order>>(
-      API_ENDPOINTS.ORDERS.DETAIL(id)
-    );
-    return response.data;
-  },
+  getOrderById: (id: string): Promise<ApiResponse<Order>> =>
+    apiClient.get<ApiResponse<Order>>(API_ENDPOINTS.ORDERS.DETAIL(id)),
 
-  getOrderByNumber: async (orderNumber: string): Promise<Order> => {
-    const response = await apiClient.get<ApiResponse<Order>>(
-      API_ENDPOINTS.ORDERS.NUMBER(orderNumber)
-    );
-    return response.data;
-  },
+  getOrderByNumber: (orderNumber: string): Promise<ApiResponse<Order>> =>
+    apiClient.get<ApiResponse<Order>>(API_ENDPOINTS.ORDERS.NUMBER(orderNumber)),
 
-  cancelOrder: async (id: string, reason: string): Promise<Order> => {
-    const response = await apiClient.post<ApiResponse<Order>>(
-      API_ENDPOINTS.ORDERS.CANCEL(id),
-      { reason }
-    );
-    return response.data;
-  },
+  cancelOrder: (id: string, reason: string): Promise<ApiResponse<Order>> =>
+    apiClient.post<ApiResponse<Order>>(API_ENDPOINTS.ORDERS.CANCEL(id), { reason }),
 };

@@ -17,7 +17,6 @@ import {
   MOCK_UPDATE_CART_ITEM_REQUEST,
 } from '@/mocks/cart/cartMockData';
 import {
-  MOCK_CREATE_ORDER_REQUEST,
   MOCK_ORDERS_DATA,
 } from '@/mocks/order/orderMockData';
 import {
@@ -27,7 +26,6 @@ import {
 } from '@/mocks/payment/paymentMockData';
 import {
   MOCK_CREATE_REVIEW_REQUEST,
-  MOCK_REVIEW_PAGE,
   MOCK_REVIEW_SUMMARY,
   MOCK_REVIEWS,
 } from '@/mocks/review/reviewMockData';
@@ -37,11 +35,9 @@ import {
   MOCK_SHIPPING_FEE_RESPONSE,
 } from '@/mocks/shipping/shippingMockData';
 import {
-  MOCK_NOTIFICATION_PAGE,
   MOCK_NOTIFICATIONS,
 } from '@/mocks/notification/notificationMockData';
-import type { ApiResponse, PageResponse } from '@/types/common/common';
-import type { Cart } from '@/types/cart/cart';
+import type { ApiResponse, PageMeta } from '@/types/common/common';
 import { PaymentMethod, PaymentStatus, type Order, OrderStatus } from '@/types/order/order';
 import type { PaymentIntent } from '@/types/payment/payment';
 import type { Product } from '@/types/product/product';
@@ -54,25 +50,44 @@ const clone = <T>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
 const toResponse = <T>(data: T): ApiResponse<T> => ({
   success: true,
   data,
+  error: null,
+  message: null,
   timestamp: new Date().toISOString(),
 });
 
-const toPage = <T>(items: T[], page = 0, size = 20): PageResponse<T> => {
-  const start = page * size;
-  const end = start + size;
-  const content = items.slice(start, end);
+type PagedListBody<T> = { data: T[]; meta: PageMeta };
+
+const toPage = <T>(items: T[], page = 0, size = 20): PagedListBody<T> => {
+  const safeSize = size > 0 ? size : 20;
   const totalElements = items.length;
-  const totalPages = Math.max(1, Math.ceil(totalElements / size));
+  const totalPages = totalElements === 0 ? 0 : Math.ceil(totalElements / safeSize);
+  const start = page * safeSize;
+  const end = Math.min(start + safeSize, totalElements);
+  const data = items.slice(start, end);
+  const first = page === 0;
+  const last = totalPages === 0 ? true : page >= totalPages - 1;
 
   return {
-    content,
-    page,
-    size,
-    totalElements,
-    totalPages,
-    isLast: page >= totalPages - 1,
+    data,
+    meta: {
+      page,
+      size: safeSize,
+      totalElements,
+      totalPages,
+      first,
+      last,
+    },
   };
 };
+
+const toPaginatedListResponse = <T>(page: PagedListBody<T>): ApiResponse<T[], PageMeta> => ({
+  success: true,
+  data: page.data,
+  meta: page.meta,
+  error: null,
+  message: null,
+  timestamp: new Date().toISOString(),
+});
 
 const asRecord = (value: unknown): Record<string, unknown> =>
   (value as Record<string, unknown>) || {};
@@ -91,6 +106,20 @@ const toNumber = (value: unknown, fallback: number): number => {
 
   return fallback;
 };
+
+const sortAddressesForList = <
+  T extends { isDefault: boolean; createdAt?: string },
+>(
+  list: T[]
+): T[] =>
+  [...list].sort((a, b) => {
+    if (a.isDefault !== b.isDefault) {
+      return a.isDefault ? -1 : 1;
+    }
+    const ta = new Date(a.createdAt || 0).getTime();
+    const tb = new Date(b.createdAt || 0).getTime();
+    return tb - ta;
+  });
 
 let mockUser = clone(MOCK_USER_PROFILE);
 let mockAddresses = clone(MOCK_ADDRESSES.length > 0 ? MOCK_ADDRESSES : MOCK_USER_ADDRESSES);
@@ -156,10 +185,12 @@ const createOrderFromCart = () => {
         phone: '0900000000',
         addressLine1: 'Mock Address',
         city: 'Ho Chi Minh City',
-        state: 'District 1',
-        zipCode: '700000',
+        district: 'District 1',
+        postalCode: '700000',
         country: 'Vietnam',
         isDefault: true,
+        addressType: 'SHIPPING' as const,
+        createdAt: now,
       }),
     },
     customerName: mockUser.fullName,
@@ -241,47 +272,141 @@ export const handleMockApiRequest = async <T>(
     return toResponse(mockUser) as T;
   }
 
-  if (method === 'get' && cleanUrl === API_ENDPOINTS.USER.ADDRESSES) {
-    return toResponse(mockAddresses) as T;
+  const addrBase = API_ENDPOINTS.USER.ADDRESSES;
+
+  if (method === 'get' && cleanUrl === addrBase) {
+    return toResponse(sortAddressesForList(mockAddresses)) as T;
   }
 
-  if (method === 'post' && cleanUrl === API_ENDPOINTS.USER.ADDRESSES) {
+  if (method === 'get' && cleanUrl === API_ENDPOINTS.USER.ADDRESS_DEFAULT) {
+    const def = mockAddresses.find(a => a.isDefault);
+    if (def) return toResponse(def) as T;
+    if (mockAddresses.length > 0) {
+      return toResponse({ ...mockAddresses[0], isDefault: true }) as T;
+    }
+    return undefined;
+  }
+
+  if (
+    method === 'get' &&
+    cleanUrl.startsWith(`${addrBase}/`) &&
+    cleanUrl !== API_ENDPOINTS.USER.ADDRESS_DEFAULT
+  ) {
+    const id = cleanUrl.slice(addrBase.length + 1);
+    if (!id || id.includes('/')) return undefined;
+    const found = mockAddresses.find(a => a.id === id);
+    if (!found) return undefined;
+    return toResponse(found) as T;
+  }
+
+  if (method === 'post' && cleanUrl === addrBase) {
     const payload = asRecord(data);
-    const nextAddress = {
-      id: `addr-${mockAddresses.length + 1}`,
+    const now = new Date().toISOString();
+    const isFirst = mockAddresses.length === 0;
+    const wantsDefault = payload.isDefault === true || isFirst;
+
+    let list = mockAddresses.map(a => ({ ...a }));
+    if (wantsDefault) {
+      list = list.map(a => ({ ...a, isDefault: false }));
+    }
+
+    const newAddr = {
+      id: `addr-${mockAddresses.length + 1}-${Date.now()}`,
       fullName: String(payload.fullName || mockUser.fullName),
       phone: String(payload.phone || mockUser.phone || '0900000000'),
       addressLine1: String(payload.addressLine1 || 'Mock Address'),
-      addressLine2: typeof payload.addressLine2 === 'string' ? payload.addressLine2 : undefined,
+      addressLine2:
+        typeof payload.addressLine2 === 'string' && payload.addressLine2
+          ? payload.addressLine2
+          : null,
       city: String(payload.city || 'Ho Chi Minh City'),
-      state: String(payload.state || 'District 1'),
-      zipCode: String(payload.zipCode || '700000'),
+      district:
+        typeof payload.district === 'string' && payload.district ? payload.district : null,
+      ward: typeof payload.ward === 'string' && payload.ward ? payload.ward : null,
+      postalCode:
+        typeof payload.postalCode === 'string' && payload.postalCode ? payload.postalCode : null,
       country: String(payload.country || 'Vietnam'),
-      isDefault: false,
+      isDefault: wantsDefault,
+      addressType: (typeof payload.addressType === 'string' && payload.addressType
+        ? payload.addressType
+        : 'SHIPPING') as 'SHIPPING' | 'BILLING' | 'BOTH',
+      createdAt: now,
+      updatedAt: now,
     };
 
-    mockAddresses = [...mockAddresses, nextAddress];
-    return toResponse(nextAddress) as T;
+    mockAddresses = sortAddressesForList([...list, newAddr]);
+    const created = mockAddresses.find(a => a.id === newAddr.id);
+    return toResponse(created || newAddr) as T;
   }
 
-  if (method === 'put' && cleanUrl.startsWith('/addresses/')) {
-    const addressId = cleanUrl.replace('/addresses/', '');
-    const payload = asRecord(data);
-
-    mockAddresses = mockAddresses.map(address =>
-      address.id === addressId ? { ...address, ...(payload as Partial<typeof address>) } : address
+  if (method === 'put' && cleanUrl.startsWith(`${addrBase}/`) && cleanUrl.endsWith('/default')) {
+    const id = cleanUrl.slice(addrBase.length + 1).replace(/\/default$/, '');
+    if (!id) return undefined;
+    const idx = mockAddresses.findIndex(a => a.id === id);
+    if (idx === -1) return undefined;
+    const now = new Date().toISOString();
+    mockAddresses = sortAddressesForList(
+      mockAddresses.map(a =>
+        a.id === id ? { ...a, isDefault: true, updatedAt: now } : { ...a, isDefault: false }
+      )
     );
-
-    const updated = mockAddresses.find(address => address.id === addressId);
-    if (updated) {
-      return toResponse(updated) as T;
-    }
+    const updated = mockAddresses.find(a => a.id === id);
+    if (updated) return toResponse(updated) as T;
   }
 
-  if (method === 'delete' && cleanUrl.startsWith('/addresses/')) {
-    const addressId = cleanUrl.replace('/addresses/', '');
-    mockAddresses = mockAddresses.filter(address => address.id !== addressId);
-    return undefined;
+  if (method === 'put' && cleanUrl.startsWith(`${addrBase}/`) && !cleanUrl.endsWith('/default')) {
+    const id = cleanUrl.slice(addrBase.length + 1);
+    if (!id || id.includes('/')) return undefined;
+    const payload = asRecord(data);
+    const now = new Date().toISOString();
+    let list = mockAddresses.map(a => ({ ...a }));
+    if (payload.isDefault === true) {
+      list = list.map(a => ({ ...a, isDefault: false }));
+    }
+    mockAddresses = sortAddressesForList(
+      list.map(a => {
+        if (a.id !== id) return a;
+        return {
+          ...a,
+          fullName: typeof payload.fullName === 'string' ? payload.fullName : a.fullName,
+          phone: typeof payload.phone === 'string' ? payload.phone : a.phone,
+          addressLine1:
+            typeof payload.addressLine1 === 'string' ? payload.addressLine1 : a.addressLine1,
+          addressLine2:
+            typeof payload.addressLine2 === 'string' ? payload.addressLine2 : a.addressLine2,
+          city: typeof payload.city === 'string' ? payload.city : a.city,
+          district: typeof payload.district === 'string' ? payload.district : a.district,
+          ward: typeof payload.ward === 'string' ? payload.ward : a.ward,
+          postalCode: typeof payload.postalCode === 'string' ? payload.postalCode : a.postalCode,
+          country: typeof payload.country === 'string' ? payload.country : a.country,
+          addressType:
+            typeof payload.addressType === 'string'
+              ? (payload.addressType as 'SHIPPING' | 'BILLING' | 'BOTH')
+              : a.addressType,
+          isDefault:
+            typeof payload.isDefault === 'boolean' ? payload.isDefault : a.isDefault,
+          updatedAt: now,
+        };
+      })
+    );
+    const updated = mockAddresses.find(a => a.id === id);
+    if (updated) return toResponse(updated) as T;
+  }
+
+  if (method === 'delete' && cleanUrl.startsWith(`${addrBase}/`) && !cleanUrl.endsWith('/default')) {
+    const id = cleanUrl.slice(addrBase.length + 1);
+    if (!id || id.includes('/')) return undefined;
+    const removed = mockAddresses.find(a => a.id === id);
+    if (!removed) return undefined;
+    const wasDefault = removed.isDefault;
+    mockAddresses = mockAddresses.filter(a => a.id !== id);
+    if (wasDefault && mockAddresses.length > 0) {
+      const pickId = mockAddresses[0].id;
+      mockAddresses = sortAddressesForList(
+        mockAddresses.map(a => ({ ...a, isDefault: a.id === pickId }))
+      );
+    }
+    return toResponse(null) as T;
   }
 
   if (method === 'get' && cleanUrl === API_ENDPOINTS.PRODUCTS.CATEGORIES) {
@@ -300,7 +425,7 @@ export const handleMockApiRequest = async <T>(
     const featuredProducts = mockProducts.filter(product => product.featured);
     const page = toNumber(params.page, 0);
     const size = toNumber(params.size, 20);
-    return toResponse(toPage(featuredProducts, page, size)) as T;
+    return toPaginatedListResponse(toPage(featuredProducts, page, size)) as T;
   }
 
   if (method === 'get' && cleanUrl === API_ENDPOINTS.PRODUCTS.SEARCH) {
@@ -316,7 +441,7 @@ export const handleMockApiRequest = async <T>(
       return nameMatch && price >= minPrice && price <= maxPrice;
     });
 
-    return toResponse(
+    return toPaginatedListResponse(
       toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 20))
     ) as T;
   }
@@ -325,11 +450,11 @@ export const handleMockApiRequest = async <T>(
     let filtered = [...mockProducts];
 
     if (params.categoryId) {
-      filtered = filtered.filter(product => product.category.id === String(params.categoryId));
+      filtered = filtered.filter(product => product.category?.id === String(params.categoryId));
     }
 
     if (params.brandId) {
-      filtered = filtered.filter(product => product.brand.id === String(params.brandId));
+      filtered = filtered.filter(product => product.brand?.id === String(params.brandId));
     }
 
     if (params.featured !== undefined) {
@@ -337,7 +462,7 @@ export const handleMockApiRequest = async <T>(
       filtered = filtered.filter(product => product.featured === featured);
     }
 
-    return toResponse(
+    return toPaginatedListResponse(
       toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 20))
     ) as T;
   }
@@ -390,11 +515,11 @@ export const handleMockApiRequest = async <T>(
           id: `ci-${mockCart.items.length + 1}`,
           productId,
           productName: product.name,
-          productImageUrl: product.images[0]?.imageUrl || '',
+          productImageUrl: product.images?.[0]?.imageUrl || '',
           quantity,
           price: unitPrice,
           total: quantity * unitPrice,
-          inStock: product.stockQuantity > 0,
+          inStock: (product.stockQuantity ?? 0) > 0,
           createdAt: new Date().toISOString(),
         });
       }
@@ -447,7 +572,7 @@ export const handleMockApiRequest = async <T>(
   }
 
   if (method === 'get' && cleanUrl === API_ENDPOINTS.ORDERS.ROOT) {
-    return toResponse(
+    return toPaginatedListResponse(
       toPage(mockOrders, toNumber(params.page, 0), toNumber(params.size, 10))
     ) as T;
   }
@@ -487,10 +612,24 @@ export const handleMockApiRequest = async <T>(
         addressLine1: String(shippingAddress.addressLine1 || created.shippingAddress.addressLine1),
         addressLine2: typeof shippingAddress.addressLine2 === 'string' ? shippingAddress.addressLine2 : undefined,
         city: String(shippingAddress.city || created.shippingAddress.city),
-        state: String(shippingAddress.state || created.shippingAddress.state),
-        zipCode: String(shippingAddress.zipCode || created.shippingAddress.zipCode),
+        district: String(
+          shippingAddress.district ??
+            shippingAddress.state ??
+            created.shippingAddress.district ??
+            ''
+        ),
+        ward:
+          typeof shippingAddress.ward === 'string' ? shippingAddress.ward : created.shippingAddress.ward,
+        postalCode: String(
+          shippingAddress.postalCode ??
+            shippingAddress.zipCode ??
+            created.shippingAddress.postalCode ??
+            ''
+        ),
         country: String(shippingAddress.country || created.shippingAddress.country),
         isDefault: false,
+        addressType: created.shippingAddress.addressType ?? 'SHIPPING',
+        createdAt: created.shippingAddress.createdAt,
       };
     }
 
@@ -579,13 +718,9 @@ export const handleMockApiRequest = async <T>(
   }
 
   if (method === 'get' && cleanUrl.startsWith('/reviews/product/')) {
-    return toResponse({
-      ...MOCK_REVIEW_PAGE,
-      content: mockReviews,
-      totalElements: mockReviews.length,
-      totalPages: 1,
-      isLast: true,
-    }) as T;
+    return toPaginatedListResponse(
+      toPage(mockReviews, toNumber(params.page, 0), toNumber(params.size, 10))
+    ) as T;
   }
 
   if (method === 'post' && cleanUrl.startsWith('/reviews/') && cleanUrl.endsWith('/vote')) {
@@ -611,11 +746,9 @@ export const handleMockApiRequest = async <T>(
   }
 
   if (method === 'get' && cleanUrl === API_ENDPOINTS.NOTIFICATIONS.MY) {
-    return toResponse({
-      ...MOCK_NOTIFICATION_PAGE,
-      content: mockNotifications,
-      totalElements: mockNotifications.length,
-    }) as T;
+    return toPaginatedListResponse(
+      toPage(mockNotifications, toNumber(params.page, 0), toNumber(params.size, 10))
+    ) as T;
   }
 
   if (method === 'put' && cleanUrl.startsWith('/notifications/') && cleanUrl.endsWith('/mark-read')) {
@@ -758,16 +891,16 @@ export const handleMockApiRequest = async <T>(
 
   if (method === 'get' && cleanUrl.startsWith('/products/category/')) {
     const categoryId = cleanUrl.replace('/products/category/', '');
-    const filtered = mockProducts.filter(product => product.category.id === categoryId);
-    return toResponse(
+    const filtered = mockProducts.filter(product => product.category?.id === categoryId);
+    return toPaginatedListResponse(
       toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 20))
     ) as T;
   }
 
   if (method === 'get' && cleanUrl.startsWith('/products/brand/')) {
     const brandId = cleanUrl.replace('/products/brand/', '');
-    const filtered = mockProducts.filter(product => product.brand.id === brandId);
-    return toResponse(
+    const filtered = mockProducts.filter(product => product.brand?.id === brandId);
+    return toPaginatedListResponse(
       toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 20))
     ) as T;
   }
@@ -779,14 +912,14 @@ export const handleMockApiRequest = async <T>(
       const price = product.salePrice || product.price;
       return price >= min && price <= max;
     });
-    return toResponse(
+    return toPaginatedListResponse(
       toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 20))
     ) as T;
   }
 
   if (method === 'get' && cleanUrl === API_ENDPOINTS.PRODUCTS.PUBLISHED) {
     const filtered = mockProducts.filter(product => product.status === 'PUBLISHED');
-    return toResponse(
+    return toPaginatedListResponse(
       toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 20))
     ) as T;
   }

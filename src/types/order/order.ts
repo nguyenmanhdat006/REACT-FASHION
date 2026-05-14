@@ -1,5 +1,5 @@
 import type { Address } from '../auth/auth';
-import type { PageResponse } from '../common/common';
+import type { ApiResponse, PageMeta } from '../common/common';
 
 export enum OrderStatus {
   PENDING = 'PENDING',
@@ -64,4 +64,4 @@ export interface CreateOrderRequest {
   notes?: string;
 }
 
-export type OrderPage = PageResponse<Order>;
+export type OrderPage = ApiResponse<Order[], PageMeta>;
