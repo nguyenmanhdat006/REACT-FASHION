@@ -21,6 +21,7 @@ const NotFound = React.lazy(() => import('@/pages/public/NotFound'));
 
 const LoginV2 = React.lazy(() => import('@/pages/authV2/LoginV2'));
 const SignUpV2 = React.lazy(() => import('@/pages/authV2/SignUpV2'));
+const AuthCallback = React.lazy(() => import('@/pages/authV2/AuthCallback'));
 
 
 export const routes: RouteObject[] = [
