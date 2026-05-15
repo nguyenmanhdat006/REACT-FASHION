@@ -1,5 +1,5 @@
 import { useId } from 'react';
-import { X, Minus, Plus } from 'lucide-react';
+import { Minus, Plus, Trash2 } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 import type { CartItem } from '../cartTypes';
 
@@ -23,12 +23,12 @@ export const CartItemListSection = ({
   return (
     <section
       aria-label="Cart item list"
-      className="flex flex-col items-center px-8 py-0 relative flex-1 self-stretch grow bg-white rounded-2xl overflow-hidden border border-solid border-gray-200 overflow-y-scroll"
+      className="flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm"
     >
       <div
         role="list"
         aria-labelledby={checkboxGroupId}
-        className="relative self-stretch w-full"
+        className="max-h-[calc(100vh-9rem)] overflow-y-auto"
       >
         <span id={checkboxGroupId} className="sr-only">
           Shopping cart items
@@ -41,84 +41,76 @@ export const CartItemListSection = ({
             <article
               key={item.id}
               role="listitem"
-              className="flex items-center gap-4 px-0 py-4 relative self-stretch w-full flex-[0_0_auto] bg-white border-b border-solid border-gray-200"
+              className="flex items-center gap-4 border-b border-gray-200 px-4 py-4 transition-colors last:border-b-0 hover:bg-gray-50 sm:px-6"
             >
-              {/* Checkbox */}
               <Checkbox
                 id={`checkbox-${item.id}`}
                 checked={isSelected}
                 onCheckedChange={() => onToggleSelected(item.id)}
                 aria-label={`Select ${item.title}`}
-                className="h-6 w-6 rounded-lg border border-gray-200 data-[state=checked]:bg-black data-[state=checked]:border-black shrink-0"
+                className="h-6 w-6 shrink-0 rounded-md border border-gray-200 data-[state=checked]:border-primary-900 data-[state=checked]:bg-primary-900"
               />
 
-              {/* Product Image */}
               <div
-                className="relative w-[100px] h-[100px] shrink-0 rounded-2xl bg-cover bg-center"
+                className="relative h-20 w-20 shrink-0 rounded-2xl bg-cover bg-center ring-1 ring-gray-100"
                 style={{ backgroundImage: `url(${item.imageSrc})` }}
                 aria-hidden="true"
               />
 
-              {/* Content */}
               <div className="flex flex-col items-start justify-between relative flex-1 self-stretch grow min-w-0">
-                {/* Top: title + remove */}
                 <div className="flex flex-col items-start relative self-stretch w-full flex-[0_0_auto]">
                   <div className="flex items-center justify-between relative self-stretch w-full flex-[0_0_auto]">
-                    <h3 className="relative w-fit font-medium text-black text-sm leading-5 whitespace-nowrap truncate">
+                    <h3 className="relative w-fit truncate text-body-medium text-gray-900">
                       {item.title}
                     </h3>
                     <button
                       type="button"
                       onClick={() => onRemoveItem(item.id)}
                       aria-label={`Remove ${item.title} from cart`}
-                      className="relative w-7 h-[31px] flex items-center justify-center shrink-0 hover:opacity-70 transition-opacity"
+                      className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-destructive transition-colors hover:bg-red-50 hover:text-destructive/80"
                     >
-                      <X size={18} strokeWidth={1.5} className="text-black" />
+                      <Trash2 size={18} strokeWidth={1.75} />
                     </button>
                   </div>
 
-                  {/* Size */}
-                  <div className="inline-flex items-center gap-0.5 relative flex-[0_0_auto]">
-                    <span className="relative w-fit mt-[-1px] text-black text-xs leading-4 whitespace-nowrap">
+                  <div className="inline-flex items-center gap-0.5 relative flex-[0_0_auto] text-caption-sm-regular text-gray-500">
+                    <span className="relative w-fit whitespace-nowrap">
                       Size:
                     </span>
-                    <span className="relative w-fit mt-[-1px] text-[#666666] text-xs leading-4 whitespace-nowrap">
+                    <span className="relative w-fit whitespace-nowrap">
                       {item.size}
                     </span>
                   </div>
 
-                  {/* Color */}
-                  <div className="inline-flex items-center gap-0.5 relative flex-[0_0_auto]">
-                    <span className="text-black relative w-fit mt-[-1px] text-xs leading-4 whitespace-nowrap">
+                  <div className="inline-flex items-center gap-0.5 relative flex-[0_0_auto] text-caption-sm-regular text-gray-500">
+                    <span className="relative w-fit whitespace-nowrap">
                       Color:
                     </span>
-                    <span className="text-[#666666] relative w-fit mt-[-1px] text-xs leading-4 whitespace-nowrap">
+                    <span className="relative w-fit whitespace-nowrap">
                       {item.color}
                     </span>
                   </div>
                 </div>
 
-                {/* Bottom: price + quantity */}
                 <div className="flex items-center justify-between relative self-stretch w-full flex-[0_0_auto]">
-                  <span className="text-sm leading-5 relative w-fit font-medium text-black whitespace-nowrap">
+                  <span className="relative w-fit text-body-medium font-medium text-gray-900 whitespace-nowrap">
                     {item.price}
                   </span>
 
-                  {/* Quantity Controls */}
                   <div
-                    className="inline-flex items-center gap-4 p-1 relative flex-[0_0_auto] bg-gray-50 rounded-2xl overflow-hidden"
+                    className="inline-flex items-center gap-3 rounded-2xl bg-gray-50 px-2 py-1 text-gray-900"
                     aria-label={`Quantity controls for ${item.title}`}
                   >
                     <button
                       type="button"
                       onClick={() => onUpdateQuantity(item.id, -1)}
                       aria-label={`Decrease quantity for ${item.title}`}
-                      className="relative w-fit h-[26px] flex items-center justify-center hover:opacity-70 transition-opacity"
+                      className="flex h-6 w-6 items-center justify-center rounded-full transition-colors hover:bg-gray-100"
                     >
-                      <Minus size={16} className="text-black" />
+                      <Minus size={16} />
                     </button>
 
-                    <span className="text-xs font-medium text-black">
+                    <span className="min-w-4 text-center text-body-medium font-medium">
                       {item.quantity}
                     </span>
 
@@ -126,9 +118,9 @@ export const CartItemListSection = ({
                       type="button"
                       onClick={() => onUpdateQuantity(item.id, 1)}
                       aria-label={`Increase quantity for ${item.title}`}
-                      className="relative w-fit h-[26px] flex items-center justify-center hover:opacity-70 transition-opacity"
+                      className="flex h-6 w-6 items-center justify-center rounded-full transition-colors hover:bg-gray-100"
                     >
-                      <Plus size={16} className="text-black" />
+                      <Plus size={16} />
                     </button>
                   </div>
                 </div>
