@@ -84,12 +84,12 @@ export function ProductDetails({ onClose, productId }: ProductDetailsProps): JSX
   return (
     <main
       className={cn(
-        'mx-auto box-border flex w-[912px] max-w-full flex-col items-center gap-4 overflow-hidden rounded-2xl bg-white px-4 pb-4 pt-0'
+        'mx-auto box-border flex w-auto max-w-full flex-col items-center gap-4 overflow-hidden rounded-2xl bg-white px-4 pb-4 pt-0'
       )}
     >
       <ProductDetailsHeaderSection onClose={onClose} />
 
-      <section className="flex w-full min-w-0 items-start gap-4 self-stretch">
+      <section className="flex w-auto items-start gap-4 self-stretch">
         <ProductDetailsLeftSection
           heroImageUrl={view.heroUrl}
           thumbnailUrls={view.thumbUrls}

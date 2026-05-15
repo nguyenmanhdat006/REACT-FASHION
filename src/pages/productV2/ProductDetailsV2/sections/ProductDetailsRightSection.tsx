@@ -51,7 +51,7 @@ export default function ProductDetailsRightSection({
       <div className="flex w-full shrink-0 flex-col items-start gap-2">
         <h1
           id="product-details-title"
-          className="m-0 whitespace-nowrap text-h5-medium text-black"
+          className="m-0 line-clamp-2 w-full text-h5-medium text-black"
         >
           {productTitle}
         </h1>
