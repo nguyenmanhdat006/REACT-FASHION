@@ -5,9 +5,11 @@ import {
   deleteAddressThunk,
   fetchAddressesThunk,
   fetchProfileThunk,
+  fetchUsersThunk,
   setDefaultAddressThunk,
   updateAddressThunk,
   updateProfileThunk,
+  updateUserRolesThunk,
 } from '@/store/thunks/userThunks';
 
 interface UserState {
@@ -15,6 +17,13 @@ interface UserState {
   addresses: Address[];
   isLoading: boolean;
   error: string | null;
+  listItems: User[];
+  listPage: number;
+  listSize: number;
+  listTotalElements: number;
+  listTotalPages: number;
+  isListLoading: boolean;
+  listError: string | null;
 }
 
 const initialState: UserState = {
@@ -22,6 +31,13 @@ const initialState: UserState = {
   addresses: [],
   isLoading: false,
   error: null,
+  listItems: [],
+  listPage: 0,
+  listSize: 10,
+  listTotalElements: 0,
+  listTotalPages: 0,
+  isListLoading: false,
+  listError: null,
 };
 
 const userSlice = createSlice({
@@ -66,6 +82,31 @@ const userSlice = createSlice({
       .addCase(deleteAddressThunk.fulfilled, (state, action) => {
         const { data } = action.payload;
         state.addresses = data;
+      })
+      .addCase(fetchUsersThunk.pending, state => {
+        state.isListLoading = true;
+        state.listError = null;
+      })
+      .addCase(fetchUsersThunk.fulfilled, (state, action) => {
+        state.isListLoading = false;
+        const { data, meta } = action.payload;
+        state.listItems = data;
+        if (meta) {
+          state.listPage = meta.page;
+          state.listSize = meta.size;
+          state.listTotalElements = meta.totalElements;
+          state.listTotalPages = meta.totalPages;
+        }
+      })
+      .addCase(fetchUsersThunk.rejected, (state, action) => {
+        state.isListLoading = false;
+        state.listError = (action.payload as string) || 'Failed to fetch users';
+      })
+      .addCase(updateUserRolesThunk.fulfilled, (state, action) => {
+        const { data } = action.payload;
+        state.listItems = state.listItems.map(user =>
+          user.id === data.id ? data : user,
+        );
       });
   },
 });

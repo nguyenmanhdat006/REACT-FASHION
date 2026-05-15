@@ -1,7 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import {
+  createBrandThunk,
+  createCategoryThunk,
   createProductThunk,
+  deleteBrandThunk,
+  deleteCategoryThunk,
   deleteProductThunk,
   fetchAdminProductMetaThunk,
   fetchBrandsThunk,
@@ -44,6 +48,11 @@ interface ProductsState {
   activeBrands: Brand[];
   metaLoading: boolean;
   metaError: string | null;
+
+  categoriesLoading: boolean;
+  categoriesError: string | null;
+  brandsLoading: boolean;
+  brandsError: string | null;
 }
 
 const initialState: ProductsState = {
@@ -76,6 +85,11 @@ const initialState: ProductsState = {
   activeBrands: [],
   metaLoading: false,
   metaError: null,
+
+  categoriesLoading: false,
+  categoriesError: null,
+  brandsLoading: false,
+  brandsError: null,
 };
 
 const productsSlice = createSlice({
@@ -136,13 +150,32 @@ const productsSlice = createSlice({
         state.isLoading = false;
         state.error = (action.payload as string) || 'Failed to fetch product';
       })
+      .addCase(fetchCategoriesThunk.pending, state => {
+        state.categoriesLoading = true;
+        state.categoriesError = null;
+      })
       .addCase(fetchCategoriesThunk.fulfilled, (state, action) => {
+        state.categoriesLoading = false;
         const { data } = action.payload;
         state.categories = data;
       })
+      .addCase(fetchCategoriesThunk.rejected, (state, action) => {
+        state.categoriesLoading = false;
+        state.categoriesError =
+          (action.payload as string) || 'Failed to fetch categories';
+      })
+      .addCase(fetchBrandsThunk.pending, state => {
+        state.brandsLoading = true;
+        state.brandsError = null;
+      })
       .addCase(fetchBrandsThunk.fulfilled, (state, action) => {
+        state.brandsLoading = false;
         const { data } = action.payload;
         state.brands = data;
+      })
+      .addCase(fetchBrandsThunk.rejected, (state, action) => {
+        state.brandsLoading = false;
+        state.brandsError = (action.payload as string) || 'Failed to fetch brands';
       })
       .addCase(fetchV2PublishedProductsThunk.pending, (state, action) => {
         if (action.meta.arg.scope === 'home') {
@@ -219,6 +252,26 @@ const productsSlice = createSlice({
         if (state.productDetail?.id === id) {
           state.productDetail = null;
         }
+      })
+      .addCase(createCategoryThunk.fulfilled, (state, action) => {
+        const { data } = action.payload;
+        state.categories = [data, ...state.categories];
+        state.activeCategories = [data, ...state.activeCategories];
+      })
+      .addCase(deleteCategoryThunk.fulfilled, (state, action) => {
+        const id = action.meta.arg;
+        state.categories = state.categories.filter(c => c.id !== id);
+        state.activeCategories = state.activeCategories.filter(c => c.id !== id);
+      })
+      .addCase(createBrandThunk.fulfilled, (state, action) => {
+        const { data } = action.payload;
+        state.brands = [data, ...state.brands];
+        state.activeBrands = [data, ...state.activeBrands];
+      })
+      .addCase(deleteBrandThunk.fulfilled, (state, action) => {
+        const id = action.meta.arg;
+        state.brands = state.brands.filter(b => b.id !== id);
+        state.activeBrands = state.activeBrands.filter(b => b.id !== id);
       });
   },
 });

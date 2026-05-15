@@ -68,6 +68,11 @@ export const API_ENDPOINTS = {
     ADDRESS_DEFAULT: '/users/me/addresses/default',
     ADDRESS_SET_DEFAULT: (id: string) => `/users/me/addresses/${id}/default`,
   },
+  USERS: {
+    LIST: '/users',
+    DETAIL: (id: string) => `/users/${id}`,
+    ROLES: (id: string) => `/users/${id}/roles`,
+  },
   PRODUCTS: {
     LIST: '/products',
     DETAIL: (id: string) => `/products/${id}`,

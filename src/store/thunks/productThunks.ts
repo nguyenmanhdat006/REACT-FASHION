@@ -3,7 +3,9 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { productService } from '@/services/product/productService';
 import type {
   Brand,
+  BrandPayload,
   Category,
+  CategoryPayload,
   CreateProductRequest,
   Product,
   ProductFilters,
@@ -194,5 +196,65 @@ export const deleteProductThunk = createAsyncThunk<
     return res;
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to delete product'));
+  }
+});
+
+export const createCategoryThunk = createAsyncThunk<
+  ApiResponse<Category>,
+  CategoryPayload,
+  { rejectValue: string }
+>('products/createCategory', async (payload, { rejectWithValue }) => {
+  try {
+    const res = await productService.createCategory(payload);
+    if (!res.success || res.data === undefined || res.data === null) {
+      return rejectWithValue(apiFailureMessage(res));
+    }
+    return res;
+  } catch (error) {
+    return rejectWithValue(getErrorMessage(error, 'Failed to create category'));
+  }
+});
+
+export const deleteCategoryThunk = createAsyncThunk<
+  ApiResponse<unknown>,
+  string,
+  { rejectValue: string }
+>('products/deleteCategory', async (id, { rejectWithValue }) => {
+  try {
+    const res = await productService.deleteCategory(id);
+    if (!res.success) return rejectWithValue(apiFailureMessage(res));
+    return res;
+  } catch (error) {
+    return rejectWithValue(getErrorMessage(error, 'Failed to delete category'));
+  }
+});
+
+export const createBrandThunk = createAsyncThunk<
+  ApiResponse<Brand>,
+  BrandPayload,
+  { rejectValue: string }
+>('products/createBrand', async (payload, { rejectWithValue }) => {
+  try {
+    const res = await productService.createBrand(payload);
+    if (!res.success || res.data === undefined || res.data === null) {
+      return rejectWithValue(apiFailureMessage(res));
+    }
+    return res;
+  } catch (error) {
+    return rejectWithValue(getErrorMessage(error, 'Failed to create brand'));
+  }
+});
+
+export const deleteBrandThunk = createAsyncThunk<
+  ApiResponse<unknown>,
+  string,
+  { rejectValue: string }
+>('products/deleteBrand', async (id, { rejectWithValue }) => {
+  try {
+    const res = await productService.deleteBrand(id);
+    if (!res.success) return rejectWithValue(apiFailureMessage(res));
+    return res;
+  } catch (error) {
+    return rejectWithValue(getErrorMessage(error, 'Failed to delete brand'));
   }
 });

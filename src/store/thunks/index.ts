@@ -17,6 +17,10 @@ export {
   fetchAdminProductMetaThunk,
   createProductThunk,
   deleteProductThunk,
+  createCategoryThunk,
+  deleteCategoryThunk,
+  createBrandThunk,
+  deleteBrandThunk,
 } from './productThunks';
 
 export {
@@ -42,6 +46,8 @@ export {
   updateAddressThunk,
   setDefaultAddressThunk,
   deleteAddressThunk,
+  fetchUsersThunk,
+  updateUserRolesThunk,
 } from './userThunks';
 
 export { uploadFileThunk } from './storageThunks';
