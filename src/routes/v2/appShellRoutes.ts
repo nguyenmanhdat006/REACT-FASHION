@@ -85,6 +85,16 @@ export const APP_SHELL_ROUTES: AppShellRoute[] = [
     showHeaderFiltersRow: false,
     showQuickFilter: false,
   },
+  {
+    to: '/v2/cart/v2',
+    label: 'Shopping Cart',
+    headerTitle: 'Shopping Cart',
+    icon: ShoppingCart,
+    showInSidebar: false,
+    sidebarOrder: 100,
+    showHeaderFiltersRow: false,
+    showQuickFilter: false,
+  },
 ];
 
 export const ADMIN_SHELL_ROUTES: AppShellRoute[] = [

@@ -8,17 +8,17 @@ const summaryItems: {
   {
     label: 'Subtotal',
     value: '$560',
-    valueClassName: 'text-black',
+    valueClassName: 'text-gray-900',
   },
   {
     label: 'Discount (-20%)',
     value: '-$113',
-    valueClassName: 'text-red-500',
+    valueClassName: 'text-destructive',
   },
   {
     label: 'Delivery Fee',
     value: '$15',
-    valueClassName: 'text-black',
+    valueClassName: 'text-gray-900',
   },
 ];
 
@@ -26,26 +26,26 @@ export const OrderSummarySection = (): JSX.Element => {
   return (
     <section
       aria-labelledby="order-summary-heading"
-      className="flex flex-col w-full max-w-[446px] items-start gap-[15px] p-8 relative bg-white rounded-2xl border border-solid border-gray-200"
+      className="flex w-full flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm"
     >
       <h2
         id="order-summary-heading"
-        className="relative self-stretch mt-[-1px] font-semibold text-black text-xl leading-7"
+        className="text-h4-semi text-gray-900"
       >
         Order Summary
       </h2>
 
-      <dl className="flex flex-col items-center justify-center gap-2 pt-0 pb-4 px-0 relative self-stretch w-full flex-[0_0_auto] border-b border-solid border-gray-200">
+      <dl className="flex w-full flex-col gap-2 border-b border-gray-200 pb-4">
         {summaryItems.map((item) => (
           <div
             key={item.label}
-            className="flex items-center justify-between relative self-stretch w-full flex-[0_0_auto]"
+            className="flex items-center justify-between gap-4"
           >
-            <dt className="relative w-fit mt-[-1px] font-normal text-[#666666] text-base leading-6 whitespace-nowrap">
+            <dt className="text-body-regular text-gray-600">
               {item.label}
             </dt>
             <dd
-              className={`relative w-fit mt-[-1px] font-normal text-base leading-6 whitespace-nowrap ${item.valueClassName}`}
+              className={`text-body-medium font-medium whitespace-nowrap ${item.valueClassName}`}
             >
               {item.value}
             </dd>
@@ -53,11 +53,11 @@ export const OrderSummarySection = (): JSX.Element => {
         ))}
       </dl>
 
-      <div className="flex items-center justify-between relative self-stretch w-full flex-[0_0_auto]">
-        <div className="relative w-fit mt-[-0.5px] font-normal text-black text-base leading-6 whitespace-nowrap">
+      <div className="flex w-full items-center justify-between pt-1">
+        <div className="text-body-regular text-gray-900">
           Total
         </div>
-        <div className="mt-[-1px] text-xl leading-7 relative w-fit font-semibold text-black whitespace-nowrap">
+        <div className="text-h4-semi text-gray-900 whitespace-nowrap">
           $400
         </div>
       </div>
@@ -65,7 +65,7 @@ export const OrderSummarySection = (): JSX.Element => {
       <Button
         type="button"
         aria-label="Go to checkout"
-        className="flex items-center justify-center gap-2.5 px-8 py-3 relative self-stretch w-full flex-[0_0_auto] bg-black rounded-[32px] overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black hover:opacity-90 transition-opacity"
+        className="h-12 w-full rounded-[32px] text-body-medium font-medium"
       >
         Go to Checkout
       </Button>
