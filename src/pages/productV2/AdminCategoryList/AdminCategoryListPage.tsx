@@ -73,7 +73,7 @@ export default function AdminCategoryListPage(): JSX.Element {
       <Helmet>
         <title>Categories — Admin</title>
       </Helmet>
-      <div className="mb-4 flex justify-end gap-3">
+      <div className="mb-4 flex justify-start gap-3">
         <LabelButton
           label="Filters"
           type="button"

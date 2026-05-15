@@ -59,7 +59,7 @@ export default function AdminProductListPage(): JSX.Element {
       <Helmet>
         <title>Products — Admin</title>
       </Helmet>
-      <div className="mb-4 flex justify-end gap-3">
+      <div className="mb-4 flex justify-start gap-3">
         <LabelButton label="Filters" type="button" className="bg-gray-white hover:bg-gray-100" ariaLabel="Open product filters" />
         <IconButton
           icon={Plus}

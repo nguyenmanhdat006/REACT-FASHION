@@ -62,7 +62,7 @@ export default function AdminUserListPage(): JSX.Element {
       <Helmet>
         <title>Users — Admin</title>
       </Helmet>
-      <div className="mb-4 flex justify-end gap-3">
+      <div className="mb-4 flex justify-start gap-3">
         <LabelButton
           label="Filters"
           type="button"
