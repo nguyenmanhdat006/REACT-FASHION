@@ -1,5 +1,5 @@
 import { API_ENDPOINTS, AUTH_ENDPOINTS } from '@/constants';
-import { MOCK_ADDRESSES, MOCK_USER_PROFILE } from '@/mocks/user/userMockData';
+import { MOCK_ADDRESSES, MOCK_ADMIN_USERS, MOCK_USER_PROFILE } from '@/mocks/user/userMockData';
 import {
   MOCK_AUTH_RESPONSE,
   MOCK_AUTH_USER,
@@ -122,7 +122,10 @@ const sortAddressesForList = <
   });
 
 let mockUser = clone(MOCK_USER_PROFILE);
+let mockUsersList = clone(MOCK_ADMIN_USERS);
 let mockAddresses = clone(MOCK_ADDRESSES.length > 0 ? MOCK_ADDRESSES : MOCK_USER_ADDRESSES);
+let mockCategories = clone(MOCK_CATEGORIES);
+let mockBrands = clone(MOCK_BRANDS);
 let mockProducts = clone(MOCK_PRODUCTS_DATA);
 let mockCart = clone(MOCK_CART_DATA);
 let mockOrders = clone(MOCK_ORDERS_DATA);
@@ -272,6 +275,26 @@ export const handleMockApiRequest = async <T>(
     return toResponse(mockUser) as T;
   }
 
+  if (method === 'get' && cleanUrl === API_ENDPOINTS.USERS.LIST) {
+    return toPaginatedListResponse(
+      toPage(mockUsersList, toNumber(params.page, 0), toNumber(params.size, 10)),
+    ) as T;
+  }
+
+  const userRolesMatch = cleanUrl.match(/^\/users\/([^/]+)\/roles$/);
+  if (method === 'put' && userRolesMatch) {
+    const id = userRolesMatch[1];
+    const payload = asRecord(data);
+    const roles = Array.isArray(payload.roles)
+      ? payload.roles.map((role) => String(role))
+      : [];
+    const index = mockUsersList.findIndex((user) => user.id === id);
+    if (index === -1) return undefined;
+    const updated = { ...mockUsersList[index], roles };
+    mockUsersList = mockUsersList.map((user, i) => (i === index ? updated : user));
+    return toResponse(updated) as T;
+  }
+
   const addrBase = API_ENDPOINTS.USER.ADDRESSES;
 
   if (method === 'get' && cleanUrl === addrBase) {
@@ -410,15 +433,15 @@ export const handleMockApiRequest = async <T>(
   }
 
   if (method === 'get' && cleanUrl === API_ENDPOINTS.PRODUCTS.CATEGORIES) {
-    return toResponse(MOCK_CATEGORIES) as T;
+    return toResponse(mockCategories) as T;
   }
 
   if (method === 'get' && cleanUrl === API_ENDPOINTS.PRODUCTS.BRANDS) {
-    return toResponse(MOCK_BRANDS) as T;
+    return toResponse(mockBrands) as T;
   }
 
   if (method === 'get' && cleanUrl === API_ENDPOINTS.PRODUCTS.BRANDS_ACTIVE) {
-    return toResponse(MOCK_BRANDS.filter(brand => brand.active)) as T;
+    return toResponse(mockBrands.filter((brand) => brand.active)) as T;
   }
 
   if (method === 'get' && cleanUrl === API_ENDPOINTS.PRODUCTS.FEATURED) {
@@ -764,55 +787,62 @@ export const handleMockApiRequest = async <T>(
   }
 
   if (method === 'get' && cleanUrl === API_ENDPOINTS.PRODUCTS.CATEGORIES_TREE) {
-    return toResponse(MOCK_CATEGORIES) as T;
+    return toResponse(mockCategories) as T;
   }
 
   if (method === 'get' && cleanUrl.startsWith('/categories/slug/')) {
     const slug = cleanUrl.replace('/categories/slug/', '');
-    const category = MOCK_CATEGORIES.find(item => item.slug === slug) || MOCK_CATEGORIES[0];
+    const category = mockCategories.find((item) => item.slug === slug) || mockCategories[0];
     return toResponse(category) as T;
   }
 
-  if (method === 'get' && cleanUrl.startsWith('/categories/')) {
-    const id = cleanUrl.replace('/categories/', '');
-    const category = MOCK_CATEGORIES.find(item => item.id === id) || MOCK_CATEGORIES[0];
-    return toResponse(category) as T;
+  if (method === 'get' && cleanUrl.startsWith('/categories/') && !cleanUrl.endsWith('/tree')) {
+    const id = cleanUrl.replace('/categories/', '').split('/')[0];
+    if (id && id !== 'slug') {
+      const category = mockCategories.find((item) => item.id === id) || mockCategories[0];
+      return toResponse(category) as T;
+    }
   }
 
   if (method === 'get' && cleanUrl.startsWith('/brands/slug/')) {
     const slug = cleanUrl.replace('/brands/slug/', '');
-    const brand = MOCK_BRANDS.find(item => item.slug === slug) || MOCK_BRANDS[0];
+    const brand = mockBrands.find((item) => item.slug === slug) || mockBrands[0];
     return toResponse(brand) as T;
   }
 
   if (method === 'get' && cleanUrl.startsWith('/brands/')) {
-    const id = cleanUrl.replace('/brands/', '');
-    const brand = MOCK_BRANDS.find(item => item.id === id) || MOCK_BRANDS[0];
-    return toResponse(brand) as T;
+    const id = cleanUrl.replace('/brands/', '').split('/')[0];
+    if (id && id !== 'slug') {
+      const brand = mockBrands.find((item) => item.id === id) || mockBrands[0];
+      return toResponse(brand) as T;
+    }
   }
 
   if (method === 'post' && cleanUrl === API_ENDPOINTS.PRODUCTS.CATEGORIES) {
     const payload = asRecord(data);
     const next = {
-      id: `c-${MOCK_CATEGORIES.length + 1}`,
+      id: `c-${mockCategories.length + 1}`,
       name: String(payload.name || 'New Category'),
       slug: String(payload.slug || `new-category-${Date.now()}`),
       description: typeof payload.description === 'string' ? payload.description : undefined,
       productCount: 0,
-      active: true,
+      displayOrder: toNumber(payload.displayOrder, mockCategories.length + 1),
+      active: payload.active !== false,
     };
+    mockCategories = [next, ...mockCategories];
     return toResponse(next) as T;
   }
 
   if (method === 'post' && cleanUrl === API_ENDPOINTS.PRODUCTS.BRANDS) {
     const payload = asRecord(data);
     const next = {
-      id: `b-${MOCK_BRANDS.length + 1}`,
+      id: `b-${mockBrands.length + 1}`,
       name: String(payload.name || 'New Brand'),
       slug: String(payload.slug || `new-brand-${Date.now()}`),
       description: typeof payload.description === 'string' ? payload.description : undefined,
-      active: true,
+      active: payload.active !== false,
     };
+    mockBrands = [next, ...mockBrands];
     return toResponse(next) as T;
   }
 
@@ -868,24 +898,34 @@ export const handleMockApiRequest = async <T>(
   }
 
   if (method === 'put' && cleanUrl.startsWith('/categories/')) {
-    const id = cleanUrl.replace('/categories/', '');
+    const id = cleanUrl.replace('/categories/', '').split('/')[0];
     const payload = asRecord(data);
-    const category = MOCK_CATEGORIES.find(item => item.id === id) || MOCK_CATEGORIES[0];
-    return toResponse({ ...category, ...payload }) as T;
+    mockCategories = mockCategories.map((category) =>
+      category.id === id ? { ...category, ...(payload as Partial<typeof category>) } : category,
+    );
+    const updated = mockCategories.find((category) => category.id === id) || mockCategories[0];
+    return toResponse(updated) as T;
   }
 
   if (method === 'delete' && cleanUrl.startsWith('/categories/')) {
+    const id = cleanUrl.replace('/categories/', '').split('/')[0];
+    mockCategories = mockCategories.filter((category) => category.id !== id);
     return undefined;
   }
 
   if (method === 'put' && cleanUrl.startsWith('/brands/')) {
-    const id = cleanUrl.replace('/brands/', '');
+    const id = cleanUrl.replace('/brands/', '').split('/')[0];
     const payload = asRecord(data);
-    const brand = MOCK_BRANDS.find(item => item.id === id) || MOCK_BRANDS[0];
-    return toResponse({ ...brand, ...payload }) as T;
+    mockBrands = mockBrands.map((brand) =>
+      brand.id === id ? { ...brand, ...(payload as Partial<typeof brand>) } : brand,
+    );
+    const updated = mockBrands.find((brand) => brand.id === id) || mockBrands[0];
+    return toResponse(updated) as T;
   }
 
   if (method === 'delete' && cleanUrl.startsWith('/brands/')) {
+    const id = cleanUrl.replace('/brands/', '').split('/')[0];
+    mockBrands = mockBrands.filter((brand) => brand.id !== id);
     return undefined;
   }
 

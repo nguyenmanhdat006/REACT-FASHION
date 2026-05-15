@@ -5,7 +5,7 @@ import type {
   UpdateAddressRequest,
   User,
 } from '@/types/auth/auth';
-import type { ApiResponse } from '@/types/common/common';
+import type { ApiResponse, PageMeta, PaginationParams } from '@/types/common/common';
 import apiClient from '@/utils/api';
 
 /** Inbound shape from API or legacy mocks (`state` / `zipCode`). */
@@ -65,4 +65,10 @@ export const userService = {
 
   deleteAddress: (id: string): Promise<ApiResponse<null>> =>
     apiClient.delete<ApiResponse<null>>(API_ENDPOINTS.USER.ADDRESS_DETAIL(id)),
+
+  getUsers: (params?: PaginationParams): Promise<ApiResponse<User[], PageMeta>> =>
+    apiClient.get<ApiResponse<User[], PageMeta>>(API_ENDPOINTS.USERS.LIST, { params }),
+
+  updateUserRoles: (id: string, roles: string[]): Promise<ApiResponse<User>> =>
+    apiClient.put<ApiResponse<User>>(API_ENDPOINTS.USERS.ROLES(id), { roles }),
 };

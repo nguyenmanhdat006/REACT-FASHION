@@ -7,7 +7,7 @@ import {
 } from '@/services/user/userService';
 import type { CreateAddressRequest, UpdateAddressRequest, User } from '@/types/auth/auth';
 import type { Address } from '@/types/auth/auth';
-import type { ApiResponse } from '@/types/common/common';
+import type { ApiResponse, PageMeta, PaginationParams } from '@/types/common/common';
 import { apiFailureMessage } from '@/utils/apiEnvelope';
 
 const getErrorMessage = (error: unknown, fallback: string) =>
@@ -122,6 +122,39 @@ export const setDefaultAddressThunk = createAsyncThunk<
     return out;
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to set default address'));
+  }
+});
+
+export const fetchUsersThunk = createAsyncThunk<
+  ApiResponse<User[], PageMeta>,
+  PaginationParams | undefined,
+  { rejectValue: string }
+>('user/fetchUsers', async (params, { rejectWithValue }) => {
+  try {
+    const res = await userService.getUsers(params);
+    if (!res.success) return rejectWithValue(apiFailureMessage(res));
+    const data = Array.isArray(res.data)
+      ? res.data.map((u) => normalizeUser(u as UserInbound))
+      : [];
+    return { ...res, data };
+  } catch (error) {
+    return rejectWithValue(getErrorMessage(error, 'Failed to fetch users'));
+  }
+});
+
+export const updateUserRolesThunk = createAsyncThunk<
+  ApiResponse<User>,
+  { id: string; roles: string[] },
+  { rejectValue: string }
+>('user/updateUserRoles', async ({ id, roles }, { rejectWithValue }) => {
+  try {
+    const res = await userService.updateUserRoles(id, roles);
+    if (!res.success || res.data === undefined || res.data === null) {
+      return rejectWithValue(apiFailureMessage(res));
+    }
+    return { ...res, data: normalizeUser(res.data as UserInbound) };
+  } catch (error) {
+    return rejectWithValue(getErrorMessage(error, 'Failed to update user roles'));
   }
 });
 

@@ -11,6 +11,15 @@ const AdminAddProduct = React.lazy(() => import('@/pages/productV2/AdminAddProdu
 const AdminOrderListPage = React.lazy(
   () => import('@/pages/orderv2/AdminOrderList/AdminOrderListPage'),
 );
+const AdminUserListPage = React.lazy(
+  () => import('@/pages/userv2/AdminUserList/AdminUserListPage'),
+);
+const AdminCategoryListPage = React.lazy(
+  () => import('@/pages/productV2/AdminCategoryList/AdminCategoryListPage'),
+);
+const AdminBrandListPage = React.lazy(
+  () => import('@/pages/productV2/AdminBrandList/AdminBrandListPage'),
+);
 
 export const adminRoute: RouteObject = {
   // element: (
@@ -26,10 +35,10 @@ export const adminRoute: RouteObject = {
         { index: true, element: <AdminDashboard /> },
         { path: 'products', element: <AdminProductListPage /> },
         { path: 'products/add', element: <AdminAddProduct /> },
-        { path: 'category', element: <AdminDashboard /> },
+        { path: 'category', element: <AdminCategoryListPage /> },
         { path: 'orders', element: <AdminOrderListPage /> },
-        { path: 'brand', element: <AdminDashboard /> },
-        { path: 'users', element: <AdminDashboard /> },
+        { path: 'brand', element: <AdminBrandListPage /> },
+        { path: 'users', element: <AdminUserListPage /> },
       ],
     },
   ],
