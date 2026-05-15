@@ -1,4 +1,3 @@
-import { IMAGES } from '@/constants/images';
 import { formatProductPriceUsd } from '@/pages/productV2/productDisplayMappers';
 import type { AdminOrderRow } from '@/pages/orderv2/AdminOrderList/sections/AdminOrderList';
 import type { Order } from '@/types/order/order';
@@ -13,17 +12,12 @@ function formatEnumLabel(value: string): string {
 }
 
 export function orderToAdminOrderRow(order: Order): AdminOrderRow {
-  const firstItem = order.items?.[0];
-
   return {
     id: order.id,
     orderNumber: order.orderNumber,
     customerName: order.customerName?.trim() || '—',
     customerEmail: order.customerEmail?.trim() || '—',
     itemsCount: order.items?.length ?? 0,
-    firstItemImageUrl:
-      (firstItem?.productImageUrl?.trim() && firstItem.productImageUrl) ||
-      IMAGES.PRODUCT_DEMO_1,
     totalFormatted: formatProductPriceUsd(order.total),
     status: order.status,
     statusLabel: formatEnumLabel(order.status),

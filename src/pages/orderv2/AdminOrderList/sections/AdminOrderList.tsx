@@ -22,7 +22,6 @@ export type AdminOrderRow = {
   customerName: string;
   customerEmail: string;
   itemsCount: number;
-  firstItemImageUrl: string;
   totalFormatted: string;
   status: OrderStatus;
   statusLabel: string;
@@ -55,19 +54,6 @@ const ORDER_STATUS_BADGE: Partial<Record<OrderStatus, string>> = {
 
 function buildOrderColumns(): TableColumn<AdminOrderRow>[] {
   return [
-    {
-      id: 'thumb',
-      header: '',
-      cellClassName: 'whitespace-normal py-4',
-      cell: (order) => (
-        <img
-          src={order.firstItemImageUrl}
-          alt=""
-          className="size-12 shrink-0 rounded-md object-cover"
-          loading="lazy"
-        />
-      ),
-    },
     {
       id: 'order',
       header: 'Order',

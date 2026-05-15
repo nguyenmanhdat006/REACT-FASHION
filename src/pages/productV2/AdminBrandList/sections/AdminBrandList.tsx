@@ -17,7 +17,6 @@ export type AdminBrandRow = {
   name: string;
   slug: string;
   description: string;
-  logoUrl: string;
   websiteUrl: string;
   active: boolean;
 };
@@ -35,19 +34,6 @@ export type AdminBrandListProps = {
 
 function buildBrandColumns(): TableColumn<AdminBrandRow>[] {
   return [
-    {
-      id: 'logo',
-      header: '',
-      cellClassName: 'whitespace-normal py-4',
-      cell: (brand) => (
-        <img
-          src={brand.logoUrl}
-          alt=""
-          className="size-12 shrink-0 rounded-md object-cover"
-          loading="lazy"
-        />
-      ),
-    },
     {
       id: 'name',
       header: 'Brand',

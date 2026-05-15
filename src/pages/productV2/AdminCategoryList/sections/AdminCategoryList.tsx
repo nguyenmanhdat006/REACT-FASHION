@@ -20,7 +20,6 @@ export type AdminCategoryRow = {
   productCount: number;
   displayOrder: number;
   active: boolean;
-  imageUrl: string;
 };
 
 export type AdminCategoryListProps = {
@@ -36,19 +35,6 @@ export type AdminCategoryListProps = {
 
 function buildCategoryColumns(): TableColumn<AdminCategoryRow>[] {
   return [
-    {
-      id: 'thumb',
-      header: '',
-      cellClassName: 'whitespace-normal py-4',
-      cell: (category) => (
-        <img
-          src={category.imageUrl}
-          alt=""
-          className="size-12 shrink-0 rounded-md object-cover"
-          loading="lazy"
-        />
-      ),
-    },
     {
       id: 'name',
       header: 'Category',
