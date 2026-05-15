@@ -33,11 +33,10 @@ export const ShippingInformationSection = ({
   ];
 
   return (
-    <div className="flex flex-col items-start gap-6 relative flex-1 w-full">
+    <div className="flex flex-col items-start gap-6 relative w-full">
       <h2 className="text-h3-semi text-gray-900">Shipping Information</h2>
 
-      <div className="flex flex-col items-start gap-4 relative w-full">
-        {/* Full Name */}
+      <div className="flex flex-col items-start gap-4 relative w-full">{/* Full Name */}
         <FormField
           id={fullNameId}
           label="Full Name"
