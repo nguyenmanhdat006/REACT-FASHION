@@ -90,21 +90,18 @@ function buildProductImages(
   media: AdminAddProductMediaInput | undefined,
   productName: string
 ): ProductImagePayload[] | undefined {
-  if (!media?.slotUrls?.length) return undefined;
-  const filled = media.slotUrls
-    .map((url, slot) => ({ url, slot }))
-    .filter((x): x is { url: string; slot: number } => Boolean(x.url));
-  if (filled.length === 0) return undefined;
+  if (!media?.imageUrls?.length) return undefined;
+  const urls = media.imageUrls.filter(u => Boolean(u?.trim()));
+  if (urls.length === 0) return undefined;
 
-  const maxSlot = media.slotUrls.length - 1;
-  const coverSlot = Math.min(Math.max(media.coverSlotIndex, 0), maxSlot);
-  const coverEntry = filled.find(x => x.slot === coverSlot) ?? filled[0];
-  const rest = filled.filter(x => x.slot !== coverEntry.slot).sort((a, b) => a.slot - b.slot);
-  const ordered = [coverEntry, ...rest];
+  const ci = Math.min(Math.max(media.coverIndex, 0), urls.length - 1);
+  const coverUrl = urls[ci];
+  const rest = urls.filter((_, i) => i !== ci);
+  const ordered = [coverUrl, ...rest];
   const name = productName.trim() || 'Product';
 
-  return ordered.map((entry, idx) => ({
-    imageUrl: entry.url,
+  return ordered.map((imageUrl, idx) => ({
+    imageUrl,
     altText: `${name} — photo ${idx + 1}`,
     isPrimary: idx === 0,
     displayOrder: idx,

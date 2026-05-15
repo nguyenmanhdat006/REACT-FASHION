@@ -1,7 +1,9 @@
 import type { Control } from 'react-hook-form';
+import type { MouseEvent } from 'react';
 
 import type { AdminAddProductFormValues } from '../types';
 
+import AdminAddProductGalleryModal from './AdminAddProductGalleryModal';
 import AdminAddProductMediaSection from './AdminAddProductMediaSection';
 import AdminAddProductQuickActionsSection from './AdminAddProductQuickActionsSection';
 
@@ -9,31 +11,70 @@ type AdminAddProductLeftSectionProps = {
   control: Control<AdminAddProductFormValues>;
   visible: boolean;
   featured: boolean;
-  slotUrls: readonly (string | null)[];
-  coverSlotIndex: number;
-  uploadingSlotIndex: number | null;
-  onFileForSlot: (slotIndex: number, file: File) => void;
-  onSetCoverSlot: (slotIndex: number) => void;
+  coverUrl: string | null;
+  galleryPreview1: string | null;
+  galleryPreview2: string | null;
+  galleryPreview3: string | null;
+  galleryMoreBeyondThirdCount: number;
+  uploadLocked: boolean;
+  galleryModalOpen: boolean;
+  onOpenGalleryModal: () => void;
+  onCloseGalleryModal: () => void;
+  productImages: string[];
+  coverIndex: number;
+  onChangeProductImages: (next: string[]) => void;
+  onChangeCoverIndex: (index: number) => void;
+  onCoverClick: (e: MouseEvent) => void;
+  onGalleryCellClick: (which: 0 | 1, e: MouseEvent) => void;
+  onDashedPlusClick: () => void;
+  onModalUploadFile: (file: File) => Promise<string | null>;
 };
 
 export default function AdminAddProductLeftSection({
   control,
   visible,
   featured,
-  slotUrls,
-  coverSlotIndex,
-  uploadingSlotIndex,
-  onFileForSlot,
-  onSetCoverSlot,
+  coverUrl,
+  galleryPreview1,
+  galleryPreview2,
+  galleryPreview3,
+  galleryMoreBeyondThirdCount,
+  uploadLocked,
+  galleryModalOpen,
+  onOpenGalleryModal,
+  onCloseGalleryModal,
+  productImages,
+  coverIndex,
+  onChangeProductImages,
+  onChangeCoverIndex,
+  onCoverClick,
+  onGalleryCellClick,
+  onDashedPlusClick,
+  onModalUploadFile,
 }: AdminAddProductLeftSectionProps) {
   return (
     <div className="col-span-12 flex flex-col gap-4 self-stretch lg:col-span-6">
       <AdminAddProductMediaSection
-        slotUrls={slotUrls}
-        coverSlotIndex={coverSlotIndex}
-        uploadingSlotIndex={uploadingSlotIndex}
-        onFileForSlot={onFileForSlot}
-        onSetCoverSlot={onSetCoverSlot}
+        coverUrl={coverUrl}
+        galleryPreview1={galleryPreview1}
+        galleryPreview2={galleryPreview2}
+        galleryPreview3={galleryPreview3}
+        galleryMoreBeyondThirdCount={galleryMoreBeyondThirdCount}
+        uploadLocked={uploadLocked}
+        onCoverClick={onCoverClick}
+        onGalleryCellClick={onGalleryCellClick}
+        onMoreGalleryClick={onOpenGalleryModal}
+        onDashedPlusClick={onDashedPlusClick}
+      />
+      <AdminAddProductGalleryModal
+        isOpen={galleryModalOpen}
+        onClose={onCloseGalleryModal}
+        imageUrls={productImages}
+        coverIndex={coverIndex}
+        onChangeImages={onChangeProductImages}
+        onChangeCoverIndex={onChangeCoverIndex}
+        isUploading={uploadLocked}
+        onUploadFile={onModalUploadFile}
       />
       <AdminAddProductQuickActionsSection
         control={control}

@@ -15,6 +15,12 @@ export type AdminAddProductFormValues = {
 };
 
 export type AdminAddProductMediaInput = {
-  slotUrls: (string | null)[];
-  coverSlotIndex: number;
+  imageUrls: string[];
+  coverIndex: number;
 };
+
+/** Where a picked file should be applied (main card upload pipeline). */
+export type AdminProductUploadIntent =
+  | { kind: 'cover' }
+  | { kind: 'append' }
+  | { kind: 'replace'; index: number };

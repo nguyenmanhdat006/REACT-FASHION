@@ -1,124 +1,125 @@
-import { useRef, type ChangeEvent } from 'react';
 import { Plus } from 'lucide-react';
+import type { MouseEvent } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
-const SLOT_COUNT = 4;
-const GALLERY_SLOT_COUNT = 3;
-
 export type AdminAddProductMediaSectionProps = {
-  slotUrls: readonly (string | null)[];
-  coverSlotIndex: number;
-  uploadingSlotIndex: number | null;
-  onFileForSlot: (slotIndex: number, file: File) => void;
-  onSetCoverSlot: (slotIndex: number) => void;
+  coverUrl: string | null;
+  galleryPreview1: string | null;
+  galleryPreview2: string | null;
+  galleryPreview3: string | null;
+  galleryMoreBeyondThirdCount: number;
+  uploadLocked: boolean;
+  onCoverClick: (e: MouseEvent) => void;
+  onGalleryCellClick: (which: 0 | 1, e: MouseEvent) => void;
+  onMoreGalleryClick: () => void;
+  onDashedPlusClick: () => void;
 };
 
 export default function AdminAddProductMediaSection({
-  slotUrls,
-  coverSlotIndex,
-  uploadingSlotIndex,
-  onFileForSlot,
-  onSetCoverSlot,
+  coverUrl,
+  galleryPreview1,
+  galleryPreview2,
+  galleryPreview3,
+  galleryMoreBeyondThirdCount,
+  uploadLocked,
+  onCoverClick,
+  onGalleryCellClick,
+  onMoreGalleryClick,
+  onDashedPlusClick,
 }: AdminAddProductMediaSectionProps) {
-  const inputRef = useRef<HTMLInputElement>(null);
-  const pendingSlotRef = useRef(0);
-
-  const safeCover = Math.min(Math.max(coverSlotIndex, 0), SLOT_COUNT - 1);
-  const coverUrl = slotUrls[safeCover];
-
-  const triggerPick = (slotIndex: number) => {
-    if (uploadingSlotIndex !== null) return;
-    pendingSlotRef.current = slotIndex;
-    inputRef.current?.click();
-  };
-
-  const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    const slot = pendingSlotRef.current;
-    e.target.value = '';
-    if (file) onFileForSlot(slot, file);
-  };
-
-  const plusTargetSlot = (): number => {
-    for (let s = 1; s <= 3; s += 1) {
-      if (!slotUrls[s]) return s;
-    }
-    return 3;
-  };
-
   return (
-    <Card className="flex gap-0 flex-1 max-h-[360px] self-stretch overflow-hidden rounded-2xl bg-white py-0 dark:bg-gray-800">
-      <input
-        ref={inputRef}
-        type="file"
-        accept="image/jpeg,image/png,image/webp,image/gif"
-        className="sr-only"
-        aria-hidden
-        tabIndex={-1}
-        onChange={onInputChange}
-      />
-      <CardContent className="p-5 flex-1">
+    <Card className="flex max-h-[360px] flex-1 gap-0 self-stretch overflow-hidden rounded-2xl bg-white py-0 dark:bg-gray-800">
+      <CardContent className="flex-1 p-5">
         <div className="flex h-full flex-col gap-4 sm:flex-row">
           <div
             className="relative aspect-square h-full w-full shrink-0 overflow-hidden rounded-2xl bg-muted sm:max-w-[48%]"
-            onClick={e => {
-              if (uploadingSlotIndex !== null) return;
-              if (e.shiftKey) {
-                onSetCoverSlot(0);
-                return;
-              }
-              triggerPick(safeCover);
-            }}
+            onClick={onCoverClick}
           >
             {coverUrl ? (
               <img
                 src={coverUrl}
                 alt=""
-                className="size-full object-cover border border-gray-200 rounded-2xl"
+                className="size-full rounded-2xl border border-gray-200 object-cover"
               />
             ) : (
               <div
-                className="flex size-full flex-col items-center justify-center border border-gray-200 rounded-2xl bg-muted px-3"
+                className="flex size-full flex-col items-center justify-center rounded-2xl border border-gray-200 bg-muted px-3"
                 aria-label="Add cover image"
               >
                 <Plus className="size-8 text-primary-500" strokeWidth={1} aria-hidden />
               </div>
             )}
-            <Badge className="absolute left-3 top-3 rounded-md bg-white border-[0.5px] border-gray-200 text-black text-caption-lg-regular">
+            <Badge className="absolute left-3 top-3 rounded-md border-[0.5px] border-gray-200 bg-white text-black text-caption-lg-regular">
               Cover
             </Badge>
           </div>
 
           <div className="grid flex-1 grid-cols-2 gap-4">
-            {Array.from({ length: GALLERY_SLOT_COUNT }, (_, index) => {
-              const slotIndex = index + 1;
-              const galleryUrl = slotUrls[slotIndex];
-              return (
-                <div
-                  key={`gallery-slot-${index}`}
-                  className="aspect-square overflow-hidden rounded-xl bg-muted border border-gray-200 size-full"
-                  onClick={e => {
-                    if (uploadingSlotIndex !== null) return;
-                    if (e.shiftKey) {
-                      onSetCoverSlot(slotIndex);
-                      return;
-                    }
-                    triggerPick(slotIndex);
-                  }}
-                >
-                  {galleryUrl ? (
-                    <img src={galleryUrl} alt="" className="size-full object-cover" />
-                  ) : (
-                    <div className="flex size-full items-center justify-center px-2 text-center text-body-regular text-muted-foreground">
-                      Gallery image {index + 1}
-                    </div>
-                  )}
+            <div
+              className="aspect-square size-full overflow-hidden rounded-xl border border-gray-200 bg-muted"
+              onClick={e => onGalleryCellClick(0, e)}
+            >
+              {galleryPreview1 ? (
+                <img src={galleryPreview1} alt="" className="size-full object-cover" />
+              ) : (
+                <div className="flex size-full items-center justify-center px-2 text-center text-body-regular text-muted-foreground">
+                  Gallery image 1
                 </div>
-              );
-            })}
+              )}
+            </div>
+            <div
+              className="aspect-square size-full overflow-hidden rounded-xl border border-gray-200 bg-muted"
+              onClick={e => onGalleryCellClick(1, e)}
+            >
+              {galleryPreview2 ? (
+                <img src={galleryPreview2} alt="" className="size-full object-cover" />
+              ) : (
+                <div className="flex size-full items-center justify-center px-2 text-center text-body-regular text-muted-foreground">
+                  Gallery image 2
+                </div>
+              )}
+            </div>
+            <button
+              type="button"
+              className={cn(
+                'relative aspect-square size-full overflow-hidden rounded-xl border border-gray-200 bg-muted transition-colors hover:bg-muted/80',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
+              )}
+              aria-label={
+                galleryPreview3
+                  ? galleryMoreBeyondThirdCount > 0
+                    ? `View gallery, ${galleryMoreBeyondThirdCount} more images`
+                    : 'Manage gallery images'
+                  : 'Gallery image 3'
+              }
+              onClick={() => {
+                if (uploadLocked) return;
+                if (!galleryPreview3) return;
+                onMoreGalleryClick();
+              }}
+            >
+              {galleryPreview3 ? (
+                <>
+                  <img
+                    src={galleryPreview3}
+                    alt=""
+                    className="size-full object-cover"
+                  />
+                  {galleryMoreBeyondThirdCount > 0 ? (
+                    <Badge className="pointer-events-none absolute bottom-2 right-2 rounded-md border-0 bg-black/70 px-2 py-0.5 text-caption-lg-medium text-white tabular-nums dark:bg-black/80">
+                      +{galleryMoreBeyondThirdCount}
+                    </Badge>
+                  ) : null}
+                </>
+              ) : (
+                <div className="flex size-full items-center justify-center px-2 text-center text-body-regular text-muted-foreground">
+                  Gallery image 3
+                </div>
+              )}
+            </button>
             <button
               type="button"
               className={cn(
@@ -126,7 +127,10 @@ export default function AdminAddProductMediaSection({
                 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
               )}
               aria-label="Add gallery image"
-              onClick={() => triggerPick(plusTargetSlot())}
+              onClick={() => {
+                if (uploadLocked) return;
+                onDashedPlusClick();
+              }}
             >
               <Plus className="size-8 text-primary-500" strokeWidth={1} />
             </button>
