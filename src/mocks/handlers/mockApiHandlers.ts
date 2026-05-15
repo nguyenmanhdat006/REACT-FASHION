@@ -13,7 +13,6 @@ import {
 import {
   MOCK_ADD_TO_CART_REQUEST,
   MOCK_CART_DATA,
-  MOCK_CART_SUMMARY,
   MOCK_UPDATE_CART_ITEM_REQUEST,
 } from '@/mocks/cart/cartMockData';
 import {
@@ -38,7 +37,8 @@ import {
   MOCK_NOTIFICATIONS,
 } from '@/mocks/notification/notificationMockData';
 import type { ApiResponse, PageMeta } from '@/types/common/common';
-import { PaymentMethod, PaymentStatus, type Order, OrderStatus } from '@/types/order/order';
+import { PaymentMethod, type Order, OrderStatus, PaymentStatus } from '@/types/order/order';
+import type { Address } from '@/types/auth/auth';
 import type { PaymentIntent } from '@/types/payment/payment';
 import type { Product } from '@/types/product/product';
 import type { AxiosRequestConfig } from 'axios';
@@ -127,48 +127,60 @@ let mockAddresses = clone(MOCK_ADDRESSES.length > 0 ? MOCK_ADDRESSES : MOCK_USER
 let mockCategories = clone(MOCK_CATEGORIES);
 let mockBrands = clone(MOCK_BRANDS);
 let mockProducts = clone(MOCK_PRODUCTS_DATA);
-let mockCart = clone(MOCK_CART_DATA);
 let mockOrders = clone(MOCK_ORDERS_DATA);
 let mockPayment: PaymentIntent = clone(MOCK_PAYMENT_INTENT);
 let mockReviews = clone(MOCK_REVIEWS);
 let mockNotifications = clone(MOCK_NOTIFICATIONS);
+let mockCart = clone(MOCK_CART_DATA);
 
 const delay = async () => new Promise(resolve => setTimeout(resolve, 120));
 
-const recalculateCart = () => {
+
+const findProductById = (productId: string): Product | undefined =>
+  mockProducts.find(product => product.id === productId);
+
+const recalculateCart = (): void => {
   const subtotal = mockCart.items.reduce((sum, item) => sum + item.total, 0);
   const totalItems = mockCart.items.reduce((sum, item) => sum + item.quantity, 0);
-  const discount = subtotal >= 200 ? 20 : MOCK_CART_SUMMARY.discount;
+  const discount = mockCart.discount ?? 0;
 
   mockCart = {
     ...mockCart,
     totalItems,
     subtotal,
-    discount,
     total: Math.max(0, subtotal - discount),
     updatedAt: new Date().toISOString(),
   };
 };
 
-const findProductById = (productId: string): Product | undefined =>
-  mockProducts.find(product => product.id === productId);
-
-const createOrderFromCart = () => {
+const createOrderFromCart = (): Order => {
   const now = new Date().toISOString();
-  const orderId = `o-${mockOrders.length + 1}`;
-  const orderNumber = `ORD-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${
-    String(mockOrders.length + 1).padStart(4, '0')
-  }`;
+  const shippingAddress: Address = {
+    id: 'addr-temp',
+    fullName: mockUser.fullName || 'Customer',
+    phone: mockUser.phone || '0900000000',
+    addressLine1: 'Mock Address',
+    addressLine2: null,
+    city: 'Ho Chi Minh City',
+    district: null,
+    ward: null,
+    postalCode: null,
+    country: 'Vietnam',
+    isDefault: false,
+    addressType: 'SHIPPING',
+    createdAt: now,
+    updatedAt: now,
+  };
 
   const order: Order = {
-    id: orderId,
-    orderNumber,
+    id: `order-${Date.now()}`,
+    orderNumber: `ORD-${Date.now()}`,
     userId: mockUser.id,
     status: OrderStatus.PENDING,
     paymentStatus: PaymentStatus.PENDING,
-    paymentMethod: PaymentMethod.CREDIT_CARD,
+    paymentMethod: PaymentMethod.CASH_ON_DELIVERY,
     items: mockCart.items.map(item => ({
-      id: `oi-${item.id}`,
+      id: item.id,
       productId: item.productId,
       productName: item.productName,
       productImageUrl: item.productImageUrl,
@@ -178,45 +190,21 @@ const createOrderFromCart = () => {
     })),
     subtotal: mockCart.subtotal,
     discount: mockCart.discount,
-    shipping: 3,
-    tax: 1,
-    total: mockCart.total + 4,
-    shippingAddress: {
-      ...(mockAddresses[0] || {
-        id: 'addr-1',
-        fullName: 'Mock User',
-        phone: '0900000000',
-        addressLine1: 'Mock Address',
-        city: 'Ho Chi Minh City',
-        district: 'District 1',
-        postalCode: '700000',
-        country: 'Vietnam',
-        isDefault: true,
-        addressType: 'SHIPPING' as const,
-        createdAt: now,
-      }),
-    },
-    customerName: mockUser.fullName,
+    shipping: 0,
+    tax: 0,
+    total: mockCart.total,
+    shippingAddress,
+    customerName: mockUser.fullName || mockUser.email || 'Customer',
     customerEmail: mockUser.email,
     customerPhone: mockUser.phone || '0900000000',
     orderedAt: now,
     createdAt: now,
   };
 
-  mockOrders = [order, ...mockOrders];
-
-  mockCart = {
-    ...mockCart,
-    items: [],
-    totalItems: 0,
-    subtotal: 0,
-    discount: 0,
-    total: 0,
-    updatedAt: now,
-  };
-
+  mockCart = clone(MOCK_CART_DATA);
   return order;
 };
+
 
 export const handleMockApiRequest = async <T>(
   method: MockHttpMethod,

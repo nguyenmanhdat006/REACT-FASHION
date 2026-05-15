@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { ROUTES } from '@/constants';
+import { ROUTES, ROUTESV2 } from '@/constants';
 import { MOCK_PRODUCTS } from '@/mocks/ecommerce/ecommerceMockData';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchFeaturedProductsThunk, fetchCategoriesThunk } from '@/store/thunks';
@@ -53,7 +53,7 @@ const Home: React.FC = () => {
                 Shop Now
               </Button>
             </Link>
-            <Link to={ROUTES.CART}>
+            <Link to={ROUTESV2.CART}>
               <Button
                 variant="outline"
                 size="lg"

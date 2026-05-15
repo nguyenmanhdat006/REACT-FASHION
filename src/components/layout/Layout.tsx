@@ -3,7 +3,7 @@ import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/auth/useAuth';
 import { useTheme } from '@/hooks/theme/useTheme';
 import { Button } from '@/components/ui/button';
-import { ROUTES } from '@/constants';
+import { ROUTES, ROUTESV2 } from '@/constants';
 
 const Layout: React.FC = () => {
   const { isAuthenticated, logout, user } = useAuth();
@@ -98,7 +98,7 @@ const Layout: React.FC = () => {
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => navigate(ROUTES.CART)}
+                    onClick={() => navigate(ROUTESV2.CART)}
                   >
                     Giỏ hàng
                   </Button>
@@ -204,7 +204,7 @@ const Layout: React.FC = () => {
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => navigate(ROUTES.CART)}
+                    onClick={() => navigate(ROUTESV2.CART)}
                   >
                     Giỏ hàng
                   </Button>

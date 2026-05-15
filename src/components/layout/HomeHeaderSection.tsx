@@ -69,6 +69,7 @@ export function HomeHeaderSection(): JSX.Element {
               icon={ShoppingCart}
               label="Cart"
               ariaLabel="Open cart"
+              onClick={() => navigate(ROUTESV2.CART)}
             />
             <UserButton
               onClick={() =>

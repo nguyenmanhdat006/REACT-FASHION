@@ -3,6 +3,8 @@ import { Heart, type LucideIcon } from 'lucide-react';
 
 import { IconButton } from '@/components/buttons/IconButton';
 import { LabelButton } from '@/components/buttons/LabelButton';
+import { useAppDispatch } from '@/store/hooks';
+import { addToCartThunk } from '@/store/thunks';
 import { useHorizontalDragScroll } from '@/hooks/useHorizontalDragScroll';
 import { cn } from '@/lib/utils';
 
@@ -11,6 +13,7 @@ import { ProductDetailsShippingItem } from '../../components/ProductDetailsShipp
 import type { SizeOption } from '../../productDisplayMappers';
 
 export type ProductDetailsRightSectionProps = {
+  productId?: string;
   productTitle: string;
   priceLabel: string;
   description: string;
@@ -23,12 +26,14 @@ export type ProductDetailsRightSectionProps = {
 };
 
 export default function ProductDetailsRightSection({
+  productId,
   productTitle,
   priceLabel,
   description,
   sizeOptions,
   shippingItems,
 }: ProductDetailsRightSectionProps): JSX.Element {
+  const dispatch = useAppDispatch();
   const [selectedSize, setSelectedSize] = useState(() => {
     const first = sizeOptions.find((s) => s.available);
     return first?.label ?? sizeOptions[0]?.label ?? 'S';
@@ -100,6 +105,11 @@ export default function ProductDetailsRightSection({
           ariaLabel="Add product to cart"
           tone="default"
           className="flex-1"
+          onClick={() => {
+            if (!productId) return;
+            void dispatch(addToCartThunk({ productId, quantity: 1 }));
+          }}
+          disabled={!productId}
         />
 
         <LabelButton
