@@ -1,5 +1,4 @@
 import type { SelectOption } from '@/components/FormField';
-import { IMAGES } from '@/constants/images';
 
 export const STATUS_OPTIONS: SelectOption[] = [
   { value: 'draft', label: 'Draft' },
@@ -23,11 +22,4 @@ export const SUBCATEGORY_OPTIONS: SelectOption[] = [
   { value: 'moisturizers', label: 'Moisturizers' },
   { value: 'cleansers', label: 'Cleansers' },
   { value: 'serums', label: 'Serums' },
-];
-
-export const COVER_IMAGE = IMAGES.PRODUCT_DEMO_1;
-export const GALLERY_IMAGES = [
-  IMAGES.PRODUCT_DEMO_2,
-  IMAGES.PRODUCT_DEMO_1,
-  IMAGES.PRODUCT_DEMO_2,
 ];

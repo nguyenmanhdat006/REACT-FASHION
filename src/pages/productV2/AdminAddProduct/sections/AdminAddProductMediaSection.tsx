@@ -5,14 +5,8 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
-import { COVER_IMAGE, GALLERY_IMAGES } from '../constants';
-
 const SLOT_COUNT = 4;
-
-function fallbackSrc(slotIndex: number): string {
-  if (slotIndex === 0) return COVER_IMAGE;
-  return GALLERY_IMAGES[slotIndex - 1] ?? GALLERY_IMAGES[0];
-}
+const GALLERY_SLOT_COUNT = 3;
 
 export type AdminAddProductMediaSectionProps = {
   slotUrls: readonly (string | null)[];
@@ -33,8 +27,7 @@ export default function AdminAddProductMediaSection({
   const pendingSlotRef = useRef(0);
 
   const safeCover = Math.min(Math.max(coverSlotIndex, 0), SLOT_COUNT - 1);
-  const coverPreview =
-    slotUrls[safeCover] ?? fallbackSrc(safeCover);
+  const coverUrl = slotUrls[safeCover];
 
   const triggerPick = (slotIndex: number) => {
     if (uploadingSlotIndex !== null) return;
@@ -80,16 +73,29 @@ export default function AdminAddProductMediaSection({
               triggerPick(safeCover);
             }}
           >
-            <img src={coverPreview} alt="" className="size-full object-cover border border-gray-200 rounded-2xl" />
+            {coverUrl ? (
+              <img
+                src={coverUrl}
+                alt=""
+                className="size-full object-cover border border-gray-200 rounded-2xl"
+              />
+            ) : (
+              <div
+                className="flex size-full flex-col items-center justify-center border border-gray-200 rounded-2xl bg-muted px-3"
+                aria-label="Add cover image"
+              >
+                <Plus className="size-8 text-primary-500" strokeWidth={1} aria-hidden />
+              </div>
+            )}
             <Badge className="absolute left-3 top-3 rounded-md bg-white border-[0.5px] border-gray-200 text-black text-caption-lg-regular">
               Cover
             </Badge>
           </div>
 
           <div className="grid flex-1 grid-cols-2 gap-4">
-            {GALLERY_IMAGES.map((src, index) => {
+            {Array.from({ length: GALLERY_SLOT_COUNT }, (_, index) => {
               const slotIndex = index + 1;
-              const displaySrc = slotUrls[slotIndex] ?? src;
+              const galleryUrl = slotUrls[slotIndex];
               return (
                 <div
                   key={`gallery-slot-${index}`}
@@ -103,7 +109,13 @@ export default function AdminAddProductMediaSection({
                     triggerPick(slotIndex);
                   }}
                 >
-                  <img src={displaySrc} alt="" className="size-full object-cover" />
+                  {galleryUrl ? (
+                    <img src={galleryUrl} alt="" className="size-full object-cover" />
+                  ) : (
+                    <div className="flex size-full items-center justify-center px-2 text-center text-body-regular text-muted-foreground">
+                      Gallery image {index + 1}
+                    </div>
+                  )}
                 </div>
               );
             })}
