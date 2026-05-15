@@ -56,32 +56,25 @@ export default function CheckoutV2(): JSX.Element {
         <meta name="description" content="Checkout your order" />
       </Helmet>
 
-      <main className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="sr-only">Checkout</h1>
-
-          <form onSubmit={handleSubmit(onSubmit)} className="flex gap-8 lg:gap-12">
+      <main className="relative w-full bg-white px-4 py-6 sm:px-6">
+        <div className="mx-auto w-full max-w-[1140px]">
+          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 lg:flex-row lg:gap-8">
             {/* Left: Shipping Information */}
             <div className="flex-1 min-w-0">
-              <ShippingInformationSection form={form} />
+              <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+                <ShippingInformationSection form={form} />
+              </div>
             </div>
 
             {/* Right: Review Cart */}
-            <div className="hidden lg:block lg:w-96">
-              <ReviewCartSection
-                items={mockCartItems}
-                isSubmitting={isSubmitting}
-                onSubmit={() => handleSubmit(onSubmit)()}
-              />
-            </div>
-
-            {/* Mobile: Review Cart below */}
-            <div className="lg:hidden w-full mt-8 pt-8 border-t border-gray-200">
-              <ReviewCartSection
-                items={mockCartItems}
-                isSubmitting={isSubmitting}
-                onSubmit={() => handleSubmit(onSubmit)()}
-              />
+            <div className="w-full lg:max-w-[380px] lg:shrink-0">
+              <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+                <ReviewCartSection
+                  items={mockCartItems}
+                  isSubmitting={isSubmitting}
+                  onSubmit={() => handleSubmit(onSubmit)()}
+                />
+              </div>
             </div>
           </form>
         </div>
