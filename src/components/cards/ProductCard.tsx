@@ -83,7 +83,7 @@ export function ProductCard({
             backgroundPosition: 'top',
           }}
         />
-        <div className="relative z-10 flex min-h-[400px] flex-1 grow flex-col items-center gap-2.5 self-stretch p-4">
+        <div className="relative z-10 flex flex-1 grow flex-col items-center gap-2.5 self-stretch p-4">
           <div
             className="relative flex w-full items-center justify-between self-stretch"
             data-product-card-interactive
@@ -118,11 +118,11 @@ export function ProductCard({
 
       <CardContent className="relative z-10 flex flex-col gap-2.5 border-0 border-t border-transparent bg-white p-4 transition-colors duration-300 group-hover/card:border-gray-50">
         <div className="relative flex w-full items-center justify-between self-stretch">
-          <div className="relative flex flex-col items-start justify-center gap-1">
+          <div className="relative flex min-w-0 flex-1 flex-col items-start justify-center gap-1 pr-2">
             <CardDescription className="text-caption-lg-regular text-gray-500">
               {description}
             </CardDescription>
-            <CardTitle className="text-body-medium text-gray-black">
+            <CardTitle className="line-clamp-2 text-body-medium text-gray-black">
               {title}
             </CardTitle>
           </div>
