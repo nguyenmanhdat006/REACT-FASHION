@@ -1,74 +1,70 @@
 import { Button } from '@/components/ui/button';
+import { useCart } from '../useCart';
+import { useNavigate } from 'react-router-dom';
+import { ROUTESV2 } from '@/constants';
 
-const summaryItems: {
-  label: string;
-  value: string;
-  valueClassName: string;
-}[] = [
-  {
-    label: 'Subtotal',
-    value: '$560',
-    valueClassName: 'text-gray-900',
-  },
-  {
-    label: 'Discount (-20%)',
-    value: '-$113',
-    valueClassName: 'text-destructive',
-  },
-  {
-    label: 'Delivery Fee',
-    value: '$15',
-    valueClassName: 'text-gray-900',
-  },
-];
+const format = (v?: number | null) => (v == null ? '$0' : `$${v}`);
 
 export const OrderSummarySection = (): JSX.Element => {
+  const { rawCart, isLoading } = useCart();
+  const navigate = useNavigate();
+
+  const subtotal = rawCart?.subtotal ?? 0;
+  const discount = rawCart?.discount ?? 0;
+  const shipping = (rawCart as any)?.shipping ?? 0;
+  const total = rawCart?.total ?? 0;
+
   return (
     <section
       aria-labelledby="order-summary-heading"
       className="flex w-full flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm"
     >
-      <h2
-        id="order-summary-heading"
-        className="text-h4-semi text-gray-900"
-      >
+      <h2 id="order-summary-heading" className="text-h4-semi text-gray-900">
         Order Summary
       </h2>
 
-      <dl className="flex w-full flex-col gap-2 border-b border-gray-200 pb-4">
-        {summaryItems.map((item) => (
-          <div
-            key={item.label}
-            className="flex items-center justify-between gap-4"
-          >
-            <dt className="text-body-regular text-gray-600">
-              {item.label}
-            </dt>
-            <dd
-              className={`text-body-medium font-medium whitespace-nowrap ${item.valueClassName}`}
-            >
-              {item.value}
-            </dd>
+      {isLoading ? (
+        <p className="text-gray-600">Loading summary...</p>
+      ) : (
+        <>
+          <dl className="flex w-full flex-col gap-2 border-b border-gray-200 pb-4">
+            <div className="flex items-center justify-between gap-4">
+              <dt className="text-body-regular text-gray-600">Subtotal</dt>
+              <dd className="text-body-medium font-medium whitespace-nowrap text-gray-900">
+                {format(subtotal)}
+              </dd>
+            </div>
+
+            <div className="flex items-center justify-between gap-4">
+              <dt className="text-body-regular text-gray-600">Discount</dt>
+              <dd className="text-body-medium font-medium whitespace-nowrap text-destructive">
+                -{format(discount)}
+              </dd>
+            </div>
+
+            <div className="flex items-center justify-between gap-4">
+              <dt className="text-body-regular text-gray-600">Delivery Fee</dt>
+              <dd className="text-body-medium font-medium whitespace-nowrap text-gray-900">
+                {format(shipping)}
+              </dd>
+            </div>
+          </dl>
+
+          <div className="flex w-full items-center justify-between pt-1">
+            <div className="text-body-regular text-gray-900">Total</div>
+            <div className="text-h4-semi text-gray-900 whitespace-nowrap">{format(total)}</div>
           </div>
-        ))}
-      </dl>
 
-      <div className="flex w-full items-center justify-between pt-1">
-        <div className="text-body-regular text-gray-900">
-          Total
-        </div>
-        <div className="text-h4-semi text-gray-900 whitespace-nowrap">
-          $400
-        </div>
-      </div>
-
-      <Button
-        type="button"
-        aria-label="Go to checkout"
-        className="h-12 w-full rounded-[32px] text-body-medium font-medium"
-      >
-        Go to Checkout
-      </Button>
+          <Button
+            type="button"
+            aria-label="Go to checkout"
+            className="h-12 w-full rounded-[32px] text-body-medium font-medium"
+            onClick={() => navigate(ROUTESV2.CHECKOUT)}
+          >
+            Go to Checkout
+          </Button>
+        </>
+      )}
     </section>
   );
 };

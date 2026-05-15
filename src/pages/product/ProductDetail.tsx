@@ -3,8 +3,9 @@ import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { ROUTES } from '@/constants';
+import { ROUTES, ROUTESV2 } from '@/constants';
 import { MOCK_PRODUCTS } from '@/mocks/ecommerce/ecommerceMockData';
+import { IS_MOCK_ENABLED } from '@/config/env';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { addToCartThunk, fetchProductBySlugThunk } from '@/store/thunks';
 
@@ -21,10 +22,17 @@ const ProductDetail: React.FC = () => {
   }, [dispatch, slug]);
 
   const product =
-    selectedProduct || MOCK_PRODUCTS.find(item => item.slug === slug) || MOCK_PRODUCTS[0];
+    selectedProduct ||
+    (IS_MOCK_ENABLED
+      ? MOCK_PRODUCTS.find(item => item.slug === slug) || MOCK_PRODUCTS[0]
+      : null);
 
   if (isLoading && !selectedProduct) {
     return <p className="text-gray-600 dark:text-gray-300">Loading product...</p>;
+  }
+
+  if (!product) {
+    return <p className="text-gray-600 dark:text-gray-300">Product not found.</p>;
   }
 
   return (
@@ -64,7 +72,7 @@ const ProductDetail: React.FC = () => {
               >
                 Add to Cart
               </Button>
-              <Button variant="outline" onClick={() => navigate(ROUTES.CART)}>
+              <Button variant="outline" onClick={() => navigate(ROUTESV2.CART)}>
                 Buy Now
               </Button>
             </div>

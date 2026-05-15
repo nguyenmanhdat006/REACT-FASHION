@@ -96,6 +96,7 @@ export function ProductDetails({ onClose, productId }: ProductDetailsProps): JSX
           galleryAriaLabel={view.galleryAriaLabel}
         />
         <ProductDetailsRightSection
+          productId={product?.id}
           productTitle={view.title}
           priceLabel={view.priceLabel}
           description={view.description}
