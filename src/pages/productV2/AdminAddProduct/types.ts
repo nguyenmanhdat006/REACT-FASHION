@@ -7,5 +7,14 @@ export type AdminAddProductFormValues = {
   price: string;
   discount: string;
   description: string;
+  shortDescription: string;
+  sku: string;
+  stockQuantity: string;
   visible: boolean;
+  featured: boolean;
+};
+
+export type AdminAddProductMediaInput = {
+  slotUrls: (string | null)[];
+  coverSlotIndex: number;
 };

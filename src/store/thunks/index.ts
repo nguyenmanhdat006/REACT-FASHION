@@ -43,3 +43,5 @@ export {
   setDefaultAddressThunk,
   deleteAddressThunk,
 } from './userThunks';
+
+export { uploadFileThunk } from './storageThunks';

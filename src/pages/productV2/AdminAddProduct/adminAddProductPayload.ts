@@ -1,8 +1,12 @@
 import { z } from 'zod';
 
-import { ProductStatus, type CreateProductRequest } from '@/types/product/product';
+import {
+  ProductStatus,
+  type CreateProductRequest,
+  type ProductImagePayload,
+} from '@/types/product/product';
 
-import type { AdminAddProductFormValues } from './types';
+import type { AdminAddProductFormValues, AdminAddProductMediaInput } from './types';
 
 const statusToEnum: Record<string, ProductStatus> = {
   draft: ProductStatus.DRAFT,
@@ -20,10 +24,20 @@ export const adminAddProductSubmitSchema = z.object({
     .string()
     .trim()
     .min(1, 'Price is required')
-    .refine((v) => parseMoney(v) !== null, 'Enter a valid price'),
+    .refine(v => parseMoney(v) !== null, 'Enter a valid price'),
   discount: z.string().optional(),
   description: z.string().optional(),
+  shortDescription: z.string().optional(),
+  sku: z.string().optional(),
+  stockQuantity: z
+    .string()
+    .optional()
+    .refine(
+      v => !v?.trim() || (/^\d+$/.test(v.trim()) && Number.parseInt(v.trim(), 10) >= 0),
+      'Stock quantity must be a non-negative whole number'
+    ),
   visible: z.boolean(),
+  featured: z.boolean(),
 });
 
 export type AdminAddProductSubmitInput = z.infer<typeof adminAddProductSubmitSchema>;
@@ -59,8 +73,47 @@ function optionalUuid(value: string | undefined): string | undefined {
   return v ? v : undefined;
 }
 
+function trimOrUndefined(value: string | undefined): string | undefined {
+  const t = value?.trim();
+  return t ? t : undefined;
+}
+
+function optionalNonNegativeInt(value: string | undefined): number | undefined {
+  const t = value?.trim();
+  if (!t) return undefined;
+  const n = Number.parseInt(t, 10);
+  if (!Number.isFinite(n) || n < 0) return undefined;
+  return n;
+}
+
+function buildProductImages(
+  media: AdminAddProductMediaInput | undefined,
+  productName: string
+): ProductImagePayload[] | undefined {
+  if (!media?.slotUrls?.length) return undefined;
+  const filled = media.slotUrls
+    .map((url, slot) => ({ url, slot }))
+    .filter((x): x is { url: string; slot: number } => Boolean(x.url));
+  if (filled.length === 0) return undefined;
+
+  const maxSlot = media.slotUrls.length - 1;
+  const coverSlot = Math.min(Math.max(media.coverSlotIndex, 0), maxSlot);
+  const coverEntry = filled.find(x => x.slot === coverSlot) ?? filled[0];
+  const rest = filled.filter(x => x.slot !== coverEntry.slot).sort((a, b) => a.slot - b.slot);
+  const ordered = [coverEntry, ...rest];
+  const name = productName.trim() || 'Product';
+
+  return ordered.map((entry, idx) => ({
+    imageUrl: entry.url,
+    altText: `${name} — photo ${idx + 1}`,
+    isPrimary: idx === 0,
+    displayOrder: idx,
+  }));
+}
+
 export function adminAddProductFormToCreateRequest(
-  values: AdminAddProductFormValues
+  values: AdminAddProductFormValues,
+  media?: AdminAddProductMediaInput
 ): CreateProductRequest {
   const price = parseMoney(values.price) ?? 0;
   const statusKey = values.status.trim().toLowerCase();
@@ -81,12 +134,16 @@ export function adminAddProductFormToCreateRequest(
     name: values.name.trim(),
     slug: slugFromName(values.name),
     description: description || undefined,
+    shortDescription: trimOrUndefined(values.shortDescription),
     price,
     compareAtPrice,
     categoryId: optionalUuid(values.category),
     brandId: optionalUuid(values.brand),
     status,
     published: values.visible,
-    featured: undefined,
+    featured: values.featured,
+    stockQuantity: optionalNonNegativeInt(values.stockQuantity),
+    sku: trimOrUndefined(values.sku),
+    images: buildProductImages(media, values.name),
   };
 }

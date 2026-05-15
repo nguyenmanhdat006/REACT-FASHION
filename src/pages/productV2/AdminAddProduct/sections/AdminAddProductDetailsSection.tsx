@@ -144,6 +144,35 @@ export default function AdminAddProductDetailsSection({
             />
           </div>
 
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <FormField
+              id="product-sku"
+              label="SKU"
+              type="text"
+              placeholder="Optional product SKU"
+              register={register('sku')}
+              error={errors.sku}
+            />
+            <FormField
+              id="product-stock"
+              label="Stock quantity"
+              type="text"
+              placeholder="e.g. 100"
+              register={register('stockQuantity')}
+              error={errors.stockQuantity}
+            />
+          </div>
+
+          <FormField
+            variant="paragraph"
+            id="product-short-description"
+            label="Short description"
+            placeholder="One-line summary for listings (optional)"
+            register={register('shortDescription')}
+            error={errors.shortDescription}
+            rows={3}
+          />
+
           <FormField
             variant="paragraph"
             id="product-description"

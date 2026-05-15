@@ -1,11 +1,12 @@
 import { Helmet } from 'react-helmet-async';
-import { useEffect, useMemo, useState, type JSX } from 'react';
+import { useCallback, useEffect, useMemo, useState, type JSX } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 import type { SelectOption } from '@/components/FormField';
 import { ROUTESV2 } from '@/constants';
+import { useStorage } from '@/hooks/storage/useStorage';
 import { useProducts } from '@/hooks/product/useProducts';
 import { useAppSelector } from '@/store/hooks';
 
@@ -20,6 +21,8 @@ import type { AdminAddProductFormValues } from './types';
 import type { Category } from '@/types/product/product';
 
 export type { AdminAddProductFormValues };
+
+const EMPTY_SLOTS: (string | null)[] = [null, null, null, null];
 
 function flattenCategories(nodes: Category[]): SelectOption[] {
   const out: SelectOption[] = [];
@@ -36,10 +39,14 @@ function flattenCategories(nodes: Category[]): SelectOption[] {
 export default function AdminAddProduct(): JSX.Element {
   const navigate = useNavigate();
   const { loadMeta, createProduct } = useProducts();
+  const { uploadFile, isUploading } = useStorage();
   const { activeBrands, activeCategories, metaLoading, metaError } = useAppSelector(
     s => s.products
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [slotUrls, setSlotUrls] = useState<(string | null)[]>(() => [...EMPTY_SLOTS]);
+  const [coverSlotIndex, setCoverSlotIndex] = useState(0);
+  const [uploadingSlotIndex, setUploadingSlotIndex] = useState<number | null>(null);
 
   useEffect(() => {
     void loadMeta();
@@ -47,7 +54,7 @@ export default function AdminAddProduct(): JSX.Element {
 
   const brandOptions = useMemo((): SelectOption[] => {
     if (activeBrands.length > 0) {
-      return activeBrands.map((b) => ({ value: b.id, label: b.name }));
+      return activeBrands.map(b => ({ value: b.id, label: b.name }));
     }
     if (metaError) {
       return BRAND_OPTIONS;
@@ -80,11 +87,39 @@ export default function AdminAddProduct(): JSX.Element {
       price: '',
       discount: '',
       description: '',
+      shortDescription: '',
+      sku: '',
+      stockQuantity: '',
       visible: true,
+      featured: false,
     },
   });
 
   const visible = watch('visible');
+  const featured = watch('featured');
+
+  const handleFileForSlot = useCallback(
+    async (slotIndex: number, file: File) => {
+      if (!file.type.startsWith('image/')) {
+        toast.error('Please choose an image file');
+        return;
+      }
+      setUploadingSlotIndex(slotIndex);
+      const result = await uploadFile(file);
+      setUploadingSlotIndex(null);
+      if (result?.url) {
+        setSlotUrls(prev => {
+          const next = [...prev];
+          next[slotIndex] = result.url;
+          return next;
+        });
+      }
+    },
+    [uploadFile]
+  );
+
+  const uploadBusy = isUploading || uploadingSlotIndex !== null;
+  const formBusy = isSubmitting || metaLoading || uploadBusy;
 
   const onSubmit = async (values: AdminAddProductFormValues) => {
     const parsed = adminAddProductSubmitSchema.safeParse(values);
@@ -94,7 +129,12 @@ export default function AdminAddProduct(): JSX.Element {
       return;
     }
     setIsSubmitting(true);
-    const ok = await createProduct(adminAddProductFormToCreateRequest(values));
+    const ok = await createProduct(
+      adminAddProductFormToCreateRequest(values, {
+        slotUrls: [...slotUrls],
+        coverSlotIndex,
+      })
+    );
     setIsSubmitting(false);
     if (ok) {
       navigate(ROUTESV2.ADMIN_PRODUCTS);
@@ -109,14 +149,23 @@ export default function AdminAddProduct(): JSX.Element {
 
       <div className="w-full text-foreground">
         <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-12 gap-4">
-          <AdminAddProductLeftSection control={control} visible={visible} />
+          <AdminAddProductLeftSection
+            control={control}
+            visible={visible}
+            featured={featured}
+            slotUrls={slotUrls}
+            coverSlotIndex={coverSlotIndex}
+            uploadingSlotIndex={uploadingSlotIndex}
+            onFileForSlot={handleFileForSlot}
+            onSetCoverSlot={setCoverSlotIndex}
+          />
           <AdminAddProductDetailsSection
             register={register}
             control={control}
             errors={errors}
             brandOptions={brandOptions}
             categoryOptions={categoryOptions}
-            isSubmitting={isSubmitting || metaLoading}
+            isSubmitting={formBusy}
           />
         </form>
       </div>

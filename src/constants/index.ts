@@ -134,6 +134,15 @@ export const API_ENDPOINTS = {
 export const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api';
 
+/** storage-service (POST /uploads). Default port matches STORAGE-SERVICE-ECOMMERCE. */
+export const STORAGE_BASE_URL =
+  (import.meta.env.VITE_STORAGE_BASE_URL as string | undefined)?.replace(/\/+$/, '') ||
+  'http://localhost:8087';
+
+export const STORAGE_ENDPOINTS = {
+  UPLOAD: '/uploads',
+} as const;
+
 export const KEYCLOAK_CONFIG = {
   REALM_URL: import.meta.env.VITE_KEYCLOAK_REALM_URL || 'https://keycloak.kruzetech.dev/realms/ecommerce',
   CLIENT_ID: import.meta.env.VITE_KEYCLOAK_CLIENT_ID || 'ecommerce-app',
