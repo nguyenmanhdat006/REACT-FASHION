@@ -1,8 +1,18 @@
-import { useEffect, useMemo, useState, type JSX } from 'react';
-import { useForm } from 'react-hook-form';
+/**
+ * CheckoutV2 — Full flow:
+ *
+ * 1. Load cart from server.
+ * 2. When city/province changes → call POST /api/shipping/calculate-fee.
+ * 3. On submit → POST /api/orders (includes items from cart + shippingAddress).
+ * 4. If VNPAY: redirect window to paymentUrl.
+ * 5. If COD: navigate to order detail page.
+ */
+import { useEffect, useMemo, useState, useCallback, type JSX } from 'react';
+import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 import { ShippingInformationSection } from './sections/ShippingInformationSection';
 import { ReviewCartSection } from './sections/ReviewCartSection';
@@ -10,20 +20,36 @@ import {
   shippingInfoSchema,
   emptyShippingInfo,
   type ShippingInfoFormValues,
+  toCreateOrderRequest,
 } from './checkoutForm';
 import { useCart } from '@/hooks/cart/useCart';
-import { useAppDispatch } from '@/store/hooks';
-import { createOrderThunk } from '@/store/thunks';
-import { PaymentMethod } from '@/types/order/order';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { createOrderThunk, calculateShippingFeeThunk } from '@/store/thunks';
 import { ROUTESV2 } from '@/constants';
 import type { CartSummary } from '@/types/cart/cart';
 import { cartService } from '@/services/cart/cartService';
+import { saveVnpayPendingOrderId } from '@/pages/payment/VnpayReturnPage';
+
+// Debounce helper
+function useDebounce<T>(value: T, delay: number): T {
+  const [debounced, setDebounced] = useState<T>(value);
+  useEffect(() => {
+    const timer = setTimeout(() => setDebounced(value), delay);
+    return () => clearTimeout(timer);
+  }, [value, delay]);
+  return debounced;
+}
 
 export default function CheckoutV2(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { cart, fetchCart, isLoading } = useCart();
   const [summary, setSummary] = useState<CartSummary | null>(null);
+
+  // Shipping fee state from Redux
+  const shippingFee = useAppSelector(s => s.orders.shippingFee);
+  const estimatedDays = useAppSelector(s => s.orders.estimatedDays);
+  const isCalculatingShipping = useAppSelector(s => s.orders.isCalculatingShipping);
 
   const form = useForm<ShippingInfoFormValues>({
     resolver: zodResolver(shippingInfoSchema),
@@ -33,25 +59,63 @@ export default function CheckoutV2(): JSX.Element {
 
   const {
     handleSubmit,
+    control,
     formState: { isSubmitting },
   } = form;
 
-  useEffect(() => {
-    void fetchCart();
-  }, [fetchCart]);
+  // Watch city & province to trigger shipping fee calculation
+  const watchedCity = useWatch({ control, name: 'city' });
+  const watchedProvince = useWatch({ control, name: 'province' });
+
+  // Debounce to avoid spamming API on every keystroke
+  const debouncedCity = useDebounce(watchedCity, 600);
+  const debouncedProvince = useDebounce(watchedProvince, 600);
+
+  // Load cart and summary
+  useEffect(() => { void fetchCart(); }, [fetchCart]);
 
   useEffect(() => {
-    const loadSummary = async () => {
-      const res = await cartService.getSummary();
-      if (res.success && res.data) {
-        setSummary(res.data);
-      }
-    };
-
-    void loadSummary();
+    void cartService.getSummary().then(res => {
+      if (res.success && res.data) setSummary(res.data);
+    });
   }, []);
 
-  const items = useMemo(
+  // Calculate total cart weight for shipping fee (fallback: 500g per item)
+  const estimatedWeight = useMemo(() => {
+    const itemCount = (cart?.items ?? []).reduce((sum, item) => sum + item.quantity, 0);
+    return Math.max(500, itemCount * 500);
+  }, [cart]);
+
+  // Recalculate shipping fee whenever city/province changes
+  useEffect(() => {
+    const city = debouncedCity?.trim();
+    const province = debouncedProvince?.trim();
+    if (!city || !province) return;
+
+    void dispatch(
+      calculateShippingFeeThunk({
+        city,
+        province,
+        weight: estimatedWeight,
+        orderValue: summary?.subtotal ?? 0,
+      })
+    );
+  }, [debouncedCity, debouncedProvince, estimatedWeight, summary?.subtotal, dispatch]);
+
+  // Cart items mapped to CreateOrderItemRequest shape
+  const cartOrderItems = useMemo(
+    () =>
+      (cart?.items ?? []).map(item => ({
+        productId: item.productId,
+        productName: item.productName,
+        quantity: item.quantity,
+        price: item.price,
+      })),
+    [cart]
+  );
+
+  // Cart items for display in ReviewCartSection
+  const displayItems = useMemo(
     () =>
       (cart?.items ?? []).map(item => ({
         id: item.id,
@@ -63,50 +127,68 @@ export default function CheckoutV2(): JSX.Element {
     [cart]
   );
 
-  const onSubmit = async (data: ShippingInfoFormValues) => {
-    const result = await dispatch(
-      createOrderThunk({
-        paymentMethod: PaymentMethod.CASH_ON_DELIVERY,
-        shippingAddress: {
-          fullName: data.fullName.trim(),
-          phone: data.phone.trim(),
-          addressLine1: data.streetAddress.trim(),
-          city: data.city.trim(),
-          district: data.district.trim() || undefined,
-          postalCode: data.zipCode.trim() || undefined,
-          country: data.country.trim(),
-          addressType: 'SHIPPING',
-        },
-      })
-    );
+  const onSubmit = useCallback(async (data: ShippingInfoFormValues) => {
+    if (cartOrderItems.length === 0) {
+      toast.error('Giỏ hàng trống. Vui lòng thêm sản phẩm trước khi đặt hàng.');
+      return;
+    }
+
+    const payload = toCreateOrderRequest(data, cartOrderItems);
+    const result = await dispatch(createOrderThunk(payload));
 
     if (createOrderThunk.fulfilled.match(result)) {
-      navigate(ROUTESV2.ORDERS);
+      const order = result.payload.data;
+
+      if (order?.paymentUrl) {
+        // VNPAY: save orderId so VnpayReturnPage can confirm payment
+        if (order.id) saveVnpayPendingOrderId(order.id);
+        window.location.href = order.paymentUrl;
+      } else {
+        // COD: go to order list
+        toast.success('Đặt hàng thành công!');
+        navigate(ROUTESV2.ORDERS);
+      }
+    } else {
+      const errMsg =
+        typeof result.payload === 'string'
+          ? result.payload
+          : 'Đặt hàng thất bại. Vui lòng thử lại.';
+      toast.error(errMsg);
     }
-  };
+  }, [dispatch, navigate, cartOrderItems]);
 
   return (
     <>
       <Helmet>
-        <title>Checkout</title>
-        <meta name="description" content="Checkout your order" />
+        <title>Thanh toán — React Fashion</title>
+        <meta name="description" content="Hoàn tất đơn hàng của bạn" />
       </Helmet>
 
       <main className="relative w-full bg-white px-4 py-6 sm:px-6">
         <div className="mx-auto w-full max-w-[1140px]">
-          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 lg:flex-row lg:gap-8">
+          <h1 className="mb-6 text-h2-semi text-gray-900">Thanh toán</h1>
+
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-col gap-6 lg:flex-row lg:gap-8"
+          >
+            {/* Left — Shipping info */}
             <div className="flex-1 min-w-0">
               <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
                 <ShippingInformationSection form={form} />
               </div>
             </div>
 
+            {/* Right — Order summary */}
             <div className="w-full lg:max-w-[380px] lg:shrink-0">
               <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
                 <ReviewCartSection
-                  items={items}
+                  items={displayItems}
                   summary={summary}
+                  shippingFee={shippingFee}
+                  estimatedDays={estimatedDays}
                   isLoading={isLoading}
+                  isCalculatingShipping={isCalculatingShipping}
                   isSubmitting={isSubmitting}
                 />
               </div>

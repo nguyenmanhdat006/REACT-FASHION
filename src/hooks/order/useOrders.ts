@@ -4,9 +4,12 @@ import toast from 'react-hot-toast';
 import {
   cancelOrderThunk,
   fetchOrdersThunk,
+  confirmOrderPaymentThunk,
+  markOrderDeliveredThunk,
 } from '@/store/thunks';
 import { useAppDispatch } from '@/store/hooks';
 import type { PaginationParams } from '@/types/common/common';
+import type { ConfirmPaymentRequest } from '@/types/payment/payment';
 
 const payloadMessage = (payload: unknown, fallback: string) =>
   typeof payload === 'string' && payload ? payload : fallback;
@@ -18,25 +21,62 @@ export function useOrders() {
     async (params: PaginationParams) => {
       const result = await dispatch(fetchOrdersThunk(params));
       if (fetchOrdersThunk.rejected.match(result)) {
-        toast.error(payloadMessage(result.payload, 'Could not load orders'));
+        toast.error(payloadMessage(result.payload, 'Không thể tải danh sách đơn hàng'));
       }
     },
     [dispatch],
   );
 
+  /**
+   * PUT /api/orders/{id}/status → CANCELLED
+   */
   const cancelOrder = useCallback(
     async (
       id: string,
-      reason: string,
+      notes: string | undefined,
       refetchParams: PaginationParams,
     ): Promise<boolean> => {
-      const result = await dispatch(cancelOrderThunk({ id, reason }));
+      const result = await dispatch(cancelOrderThunk({ id, notes }));
       if (cancelOrderThunk.fulfilled.match(result)) {
-        toast.success('Order cancelled');
+        toast.success('Đơn hàng đã được huỷ');
         await dispatch(fetchOrdersThunk(refetchParams));
         return true;
       }
-      toast.error(payloadMessage(result.payload, 'Could not cancel order'));
+      toast.error(payloadMessage(result.payload, 'Không thể huỷ đơn hàng'));
+      return false;
+    },
+    [dispatch],
+  );
+
+  /**
+   * PUT /api/orders/{id}/payment-confirmed
+   * Called after VNPAY redirect back to FE.
+   */
+  const confirmPayment = useCallback(
+    async (orderId: string, payload: ConfirmPaymentRequest): Promise<boolean> => {
+      const result = await dispatch(confirmOrderPaymentThunk({ orderId, payload }));
+      if (confirmOrderPaymentThunk.fulfilled.match(result)) {
+        toast.success('Thanh toán đã được xác nhận!');
+        return true;
+      }
+      toast.error(payloadMessage(result.payload, 'Xác nhận thanh toán thất bại'));
+      return false;
+    },
+    [dispatch],
+  );
+
+  /**
+   * PUT /api/orders/{id}/delivered
+   * Admin / shipper marks delivery complete. For COD, also triggers payment success.
+   */
+  const markDelivered = useCallback(
+    async (orderId: string): Promise<boolean> => {
+      const result = await dispatch(markOrderDeliveredThunk(orderId));
+      if (markOrderDeliveredThunk.fulfilled.match(result)) {
+        toast.success('Giao hàng thành công!');
+        return true;
+      }
+      toast.error(payloadMessage(result.payload, 'Không thể xác nhận giao hàng'));
       return false;
     },
     [dispatch],
@@ -45,5 +85,7 @@ export function useOrders() {
   return {
     fetchOrdersPage,
     cancelOrder,
+    confirmPayment,
+    markDelivered,
   };
 }

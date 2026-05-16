@@ -19,9 +19,8 @@ import {
   MOCK_ORDERS_DATA,
 } from '@/mocks/order/orderMockData';
 import {
-  MOCK_CONFIRMED_PAYMENT_INTENT,
-  MOCK_CREATE_PAYMENT_REQUEST,
   MOCK_PAYMENT_INTENT,
+  MOCK_CREATE_PAYMENT_REQUEST,
 } from '@/mocks/payment/paymentMockData';
 import {
   MOCK_CREATE_REVIEW_REQUEST,
@@ -31,15 +30,14 @@ import {
 import {
   MOCK_SHIPMENT,
   MOCK_SHIPPING_FEE_REQUEST,
-  MOCK_SHIPPING_FEE_RESPONSE,
 } from '@/mocks/shipping/shippingMockData';
 import {
   MOCK_NOTIFICATIONS,
 } from '@/mocks/notification/notificationMockData';
 import type { ApiResponse, PageMeta } from '@/types/common/common';
 import { PaymentMethod, type Order, OrderStatus, PaymentStatus } from '@/types/order/order';
-import type { Address } from '@/types/auth/auth';
-import type { PaymentIntent } from '@/types/payment/payment';
+import type { OrderShippingAddress } from '@/types/order/order';
+import type { PaymentResponse } from '@/types/payment/payment';
 import type { Product } from '@/types/product/product';
 import type { AxiosRequestConfig } from 'axios';
 
@@ -128,7 +126,7 @@ let mockCategories = clone(MOCK_CATEGORIES);
 let mockBrands = clone(MOCK_BRANDS);
 let mockProducts = clone(MOCK_PRODUCTS_DATA);
 let mockOrders = clone(MOCK_ORDERS_DATA);
-let mockPayment: PaymentIntent = clone(MOCK_PAYMENT_INTENT);
+let mockPayment: PaymentResponse = clone(MOCK_PAYMENT_INTENT);
 let mockReviews = clone(MOCK_REVIEWS);
 let mockNotifications = clone(MOCK_NOTIFICATIONS);
 let mockCart = clone(MOCK_CART_DATA);
@@ -153,55 +151,86 @@ const recalculateCart = (): void => {
   };
 };
 
-const createOrderFromCart = (): Order => {
+
+const createOrderFromCart = (payload: Record<string, unknown> = {}): Order => {
   const now = new Date().toISOString();
-  const shippingAddress: Address = {
-    id: 'addr-temp',
-    fullName: mockUser.fullName || 'Customer',
-    phone: mockUser.phone || '0900000000',
-    addressLine1: 'Mock Address',
-    addressLine2: null,
-    city: 'Ho Chi Minh City',
-    district: null,
-    ward: null,
-    postalCode: null,
-    country: 'Vietnam',
-    isDefault: false,
-    addressType: 'SHIPPING',
-    createdAt: now,
-    updatedAt: now,
+  const payloadShipping = asRecord(payload.shippingAddress);
+
+  // Map new contract shippingAddress fields
+  const shippingAddress: OrderShippingAddress = {
+    recipientName: String(
+      payloadShipping.recipientName ||
+      payloadShipping.fullName ||
+      mockUser.fullName ||
+      'Customer'
+    ),
+    phone: String(payloadShipping.phone || mockUser.phone || '0900000000'),
+    address: String(
+      payloadShipping.address ||
+      payloadShipping.addressLine1 ||
+      '123 Nguyen Hue Street'
+    ),
+    city: String(payloadShipping.city || 'Ho Chi Minh'),
+    province: String(payloadShipping.province || payloadShipping.state || 'Ho Chi Minh'),
+    zipCode: String(payloadShipping.zipCode || '700000'),
   };
+
+  // Use items from payload if provided, otherwise use cart
+  const payloadItems = Array.isArray(payload.items) ? payload.items : [];
+  const orderItems = payloadItems.length > 0
+    ? payloadItems.map((item: Record<string, unknown>, idx: number) => ({
+        id: `oi-${Date.now()}-${idx}`,
+        productId: String(item.productId || `PROD-${idx + 1}`),
+        productName: String(item.productName || 'Product'),
+        quantity: toNumber(item.quantity, 1),
+        price: toNumber(item.price, 0),
+        subtotal: toNumber(item.quantity, 1) * toNumber(item.price, 0),
+      }))
+    : mockCart.items.map(item => ({
+        id: item.id,
+        productId: item.productId,
+        productName: item.productName,
+        quantity: item.quantity,
+        price: item.price,
+        subtotal: item.total,
+      }));
+
+  const subtotal = orderItems.reduce((sum, i) => sum + i.subtotal, 0);
+  const shippingFee = 30000;
+  const tax = Math.round(subtotal * 0.1);
+  const paymentMethod = String(payload.paymentMethod || 'COD') as PaymentMethod;
+  const isVnpay = paymentMethod === PaymentMethod.VNPAY || (paymentMethod as string) === 'VNPAY';
 
   const order: Order = {
     id: `order-${Date.now()}`,
-    orderNumber: `ORD-${Date.now()}`,
-    userId: mockUser.id,
+    orderNumber: `ORD-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${String(mockOrders.length + 1).padStart(4, '0')}`,
     status: OrderStatus.PENDING,
     paymentStatus: PaymentStatus.PENDING,
-    paymentMethod: PaymentMethod.CASH_ON_DELIVERY,
-    items: mockCart.items.map(item => ({
-      id: item.id,
-      productId: item.productId,
-      productName: item.productName,
-      productImageUrl: item.productImageUrl,
-      quantity: item.quantity,
-      price: item.price,
-      subtotal: item.total,
-    })),
-    subtotal: mockCart.subtotal,
-    discount: mockCart.discount,
-    shipping: 0,
-    tax: 0,
-    total: mockCart.total,
+    paymentMethod: PaymentMethod[paymentMethod as keyof typeof PaymentMethod] ?? PaymentMethod.COD,
+    paymentUrl: isVnpay ? 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?mock=1' : null,
+    shipmentId: null,
+    items: orderItems,
+    subtotal,
+    discount: 0,
+    shipping: shippingFee,
+    tax,
+    total: subtotal + shippingFee + tax,
     shippingAddress,
+    createdAt: now,
+    // legacy
+    userId: mockUser.id,
     customerName: mockUser.fullName || mockUser.email || 'Customer',
     customerEmail: mockUser.email,
     customerPhone: mockUser.phone || '0900000000',
+    notes: typeof payload.note === 'string' ? payload.note : undefined,
     orderedAt: now,
-    createdAt: now,
+    updatedAt: now,
   };
 
-  mockCart = clone(MOCK_CART_DATA);
+  if (!isVnpay) {
+    // Only clear cart for non-VNPAY orders (VNPAY still pending until confirmed)
+    mockCart = clone(MOCK_CART_DATA);
+  }
   return order;
 };
 
@@ -603,79 +632,96 @@ export const handleMockApiRequest = async <T>(
   }
 
   if (method === 'post' && cleanUrl === API_ENDPOINTS.ORDERS.ROOT) {
-    if (mockCart.items.length === 0) {
+    if (mockCart.items.length === 0 && !Array.isArray((asRecord(data)).items)) {
       mockCart = clone(MOCK_CART_DATA);
       recalculateCart();
     }
 
-    const created = createOrderFromCart();
     const payload = asRecord(data);
-    if (payload.paymentMethod && Object.values(PaymentMethod).includes(payload.paymentMethod as PaymentMethod)) {
-      created.paymentMethod = payload.paymentMethod as PaymentMethod;
-    }
-
-    if (payload.shippingAddress) {
-      const shippingAddress = asRecord(payload.shippingAddress);
-      created.shippingAddress = {
-        id: 'addr-temp',
-        fullName: String(shippingAddress.fullName || created.shippingAddress.fullName),
-        phone: String(shippingAddress.phone || created.shippingAddress.phone),
-        addressLine1: String(shippingAddress.addressLine1 || created.shippingAddress.addressLine1),
-        addressLine2: typeof shippingAddress.addressLine2 === 'string' ? shippingAddress.addressLine2 : undefined,
-        city: String(shippingAddress.city || created.shippingAddress.city),
-        district: String(
-          shippingAddress.district ??
-            shippingAddress.state ??
-            created.shippingAddress.district ??
-            ''
-        ),
-        ward:
-          typeof shippingAddress.ward === 'string' ? shippingAddress.ward : created.shippingAddress.ward,
-        postalCode: String(
-          shippingAddress.postalCode ??
-            shippingAddress.zipCode ??
-            created.shippingAddress.postalCode ??
-            ''
-        ),
-        country: String(shippingAddress.country || created.shippingAddress.country),
-        isDefault: false,
-        addressType: created.shippingAddress.addressType ?? 'SHIPPING',
-        createdAt: created.shippingAddress.createdAt,
-      };
-    }
+    const created = createOrderFromCart(payload);
+    mockOrders = [created, ...mockOrders];
 
     return toResponse(created) as T;
   }
 
-  if (method === 'post' && cleanUrl.endsWith('/cancel') && cleanUrl.startsWith('/orders/')) {
-    const id = cleanUrl.replace('/orders/', '').replace('/cancel', '');
+  // PUT /orders/{id}/payment-confirmed
+  if (method === 'put' && cleanUrl.match(/^\/orders\/([^/]+)\/payment-confirmed$/)) {
+    const id = cleanUrl.replace('/orders/', '').replace('/payment-confirmed', '');
     mockOrders = mockOrders.map(order =>
-      order.id === id ? { ...order, status: OrderStatus.CANCELLED } : order
+      order.id === id
+        ? { ...order, status: OrderStatus.CONFIRMED, paymentStatus: PaymentStatus.PAID }
+        : order
     );
-    const cancelled = mockOrders.find(order => order.id === id) || mockOrders[0];
-    return toResponse(cancelled) as T;
+    const confirmed = mockOrders.find(o => o.id === id) || mockOrders[0];
+    return toResponse(confirmed) as T;
   }
 
-  if (method === 'post' && cleanUrl === API_ENDPOINTS.PAYMENTS.ROOT) {
+  // PUT /orders/{id}/delivered
+  if (method === 'put' && cleanUrl.match(/^\/orders\/([^/]+)\/delivered$/)) {
+    const id = cleanUrl.replace('/orders/', '').replace('/delivered', '');
+    mockOrders = mockOrders.map(order =>
+      order.id === id
+        ? { ...order, status: OrderStatus.DELIVERED, paymentStatus: PaymentStatus.PAID }
+        : order
+    );
+    const delivered = mockOrders.find(o => o.id === id) || mockOrders[0];
+    return toResponse(delivered) as T;
+  }
+
+  // PUT /orders/{id}/confirm
+  if (method === 'put' && cleanUrl.match(/^\/orders\/([^/]+)\/confirm$/)) {
+    const id = cleanUrl.replace('/orders/', '').replace('/confirm', '');
+    mockOrders = mockOrders.map(order =>
+      order.id === id ? { ...order, status: OrderStatus.CONFIRMED } : order
+    );
+    const confirmed = mockOrders.find(o => o.id === id) || mockOrders[0];
+    return toResponse(confirmed) as T;
+  }
+
+  // PUT /orders/{id}/status (cancel)
+  if (method === 'put' && cleanUrl.match(/^\/orders\/([^/]+)\/status$/)) {
+    const id = cleanUrl.replace('/orders/', '').replace('/status', '');
+    const payload = asRecord(data);
+    const newStatus = String(payload.status || 'CANCELLED') as OrderStatus;
+    mockOrders = mockOrders.map(order =>
+      order.id === id ? { ...order, status: newStatus } : order
+    );
+    const updated = mockOrders.find(o => o.id === id) || mockOrders[0];
+    return toResponse(updated) as T;
+  }
+
+  // POST /payments/create
+  if (method === 'post' && cleanUrl === '/payments/create') {
     const payload = asRecord(data);
     mockPayment = {
       ...MOCK_PAYMENT_INTENT,
-      paymentId: `pay-${Date.now()}`,
+      id: Date.now(),
+      paymentNumber: `PAY-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${String(Date.now()).slice(-4)}`,
+      orderId: String(payload.orderId || mockPayment.orderId),
+      orderNumber: String(payload.orderNumber || mockPayment.orderNumber),
       amount: toNumber(payload.amount, MOCK_CREATE_PAYMENT_REQUEST.amount),
+      paymentMethod: (payload.paymentMethod as 'COD' | 'VNPAY') || 'COD',
+      paymentUrl:
+        payload.paymentMethod === 'VNPAY'
+          ? 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?mock=1'
+          : null,
       status: 'PENDING',
-    };
+    } as PaymentResponse;
     return toResponse(mockPayment) as T;
   }
 
-  if (method === 'post' && cleanUrl.startsWith('/payments/') && cleanUrl.endsWith('/confirm')) {
-    mockPayment = clone(MOCK_CONFIRMED_PAYMENT_INTENT);
+  // PUT /payments/order/{orderNumber}/success
+  if (method === 'put' && cleanUrl.match(/^\/payments\/order\/([^/]+)\/success$/)) {
+    mockPayment = { ...mockPayment, status: 'PAID', paymentUrl: null };
     return toResponse(mockPayment) as T;
   }
 
+  // GET /payments/order/{orderNumber}
   if (method === 'get' && cleanUrl.startsWith('/payments/order/')) {
     return toResponse(mockPayment) as T;
   }
 
+  // GET /payments/{id}
   if (method === 'get' && cleanUrl.startsWith('/payments/')) {
     return toResponse(mockPayment) as T;
   }
@@ -738,21 +784,36 @@ export const handleMockApiRequest = async <T>(
     return undefined;
   }
 
+  // POST /shipping/calculate-fee
   if (method === 'post' && cleanUrl === API_ENDPOINTS.SHIPPING.CALCULATE_FEE) {
     const payload = asRecord(data);
     const weight = toNumber(payload.weight, MOCK_SHIPPING_FEE_REQUEST.weight);
+    const baseFee = weight > 2000 ? 45000 : 30000;
 
     return toResponse({
-      ...MOCK_SHIPPING_FEE_RESPONSE,
-      fee: weight > 2000 ? MOCK_SHIPPING_FEE_RESPONSE.fee + 12000 : MOCK_SHIPPING_FEE_RESPONSE.fee,
+      shippingFee: baseFee,
+      estimatedDays: weight > 5000 ? 4 : 2,
     }) as T;
   }
 
-  if (method === 'get' && cleanUrl.startsWith('/shipping/order/')) {
-    return toResponse(MOCK_SHIPMENT) as T;
+  // POST /shipping/create
+  if (method === 'post' && cleanUrl === '/shipping/create') {
+    const payload = asRecord(data);
+    return toResponse({
+      shipmentId: Date.now(),
+      shipmentNumber: `SHIP-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-0001`,
+      orderId: String(payload.orderId || ''),
+      orderNumber: String(payload.orderNumber || ''),
+      status: 'PENDING',
+      shippingFee: toNumber(payload.shippingFee, 30000),
+      codAmount: toNumber(payload.codAmount, 0),
+      estimatedDelivery: new Date(Date.now() + 2 * 86400000).toISOString(),
+      createdAt: new Date().toISOString(),
+    }) as T;
   }
 
-  if (method === 'get' && cleanUrl.startsWith('/shipping/track/')) {
+  // GET /shipping/{id}
+  if (method === 'get' && cleanUrl.match(/^\/shipping\/\d+$/)) {
     return toResponse(MOCK_SHIPMENT) as T;
   }
 

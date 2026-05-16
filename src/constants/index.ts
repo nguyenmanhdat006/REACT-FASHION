@@ -23,7 +23,8 @@ export const ROUTESV2 = {
   PRODUCTS_INSPIRATIONS: '/v2/products/inspirations',
   CART: '/v2/cart',
   CHECKOUT: '/v2/checkout',
-  ORDERS: '/v2/orders',
+  PAYMENT_RETURN: '/v2/payment/return',
+  ORDERS: '/v2/order',
   ORDER_DETAIL: (id: string) => `/v2/orders/${id}`,
   PROFILE: '/v2/profile',
   LOGIN: '/v2/login',
@@ -107,16 +108,23 @@ export const API_ENDPOINTS = {
   ORDERS: {
     ROOT: '/orders',
     DETAIL: (id: string) => `/orders/${id}`,
+    CONFIRM: (id: string) => `/orders/${id}/confirm`,
+    PAYMENT_CONFIRMED: (id: string) => `/orders/${id}/payment-confirmed`,
+    DELIVERED: (id: string) => `/orders/${id}/delivered`,
+    CANCEL: (id: string) => `/orders/${id}/status`,
     NUMBER: (orderNumber: string) => `/orders/number/${orderNumber}`,
-    CANCEL: (id: string) => `/orders/${id}/cancel`,
     SEARCH: '/orders/search',
     SUMMARY: '/orders/summary',
   },
   PAYMENTS: {
-    ROOT: '/payments',
-    DETAIL: (id: string) => `/payments/${id}`,
-    CONFIRM: (id: string) => `/payments/${id}/confirm`,
-    BY_ORDER: (orderId: string) => `/payments/order/${orderId}`,
+    // All under Payment Service (port 8085, context-path /api)
+    CREATE: '/payments/create',
+    DETAIL: (id: string | number) => `/payments/${id}`,
+    BY_ORDER_NUMBER: (orderNumber: string) => `/payments/order/${orderNumber}`,
+    ORDER_SUCCESS: (orderNumber: string) => `/payments/order/${orderNumber}/success`,
+    // Legacy alias
+    ROOT: '/payments/create',
+    BY_ORDER: (orderNumber: string) => `/payments/order/${orderNumber}`,
   },
   REVIEWS: {
     ROOT: '/reviews',
@@ -130,7 +138,13 @@ export const API_ENDPOINTS = {
     MARK_READ: (id: string) => `/notifications/${id}/mark-read`,
   },
   SHIPPING: {
+    // All under Shipping Service (port 8088)
     CALCULATE_FEE: '/shipping/calculate-fee',
+    CREATE: '/shipping/create',
+    DETAIL: (id: string | number) => `/shipping/${id}`,
+    UPDATE_STATUS: (id: string | number) => `/shipping/${id}/status`,
+    DELIVER: (id: string | number) => `/shipping/${id}/deliver`,
+    // Legacy
     BY_ORDER: (orderId: string) => `/shipping/order/${orderId}`,
     TRACK: (trackingNumber: string) => `/shipping/track/${trackingNumber}`,
   },
@@ -138,6 +152,23 @@ export const API_ENDPOINTS = {
 
 export const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api';
+
+
+export const ORDER_BASE_URL =
+  (import.meta.env.VITE_ORDER_BASE_URL as string | undefined) ||
+  '/order-api';
+
+export const PAYMENT_BASE_URL =
+  (import.meta.env.VITE_PAYMENT_BASE_URL as string | undefined) ||
+  '/payment-api';
+
+export const SHIPPING_BASE_URL =
+  (import.meta.env.VITE_SHIPPING_BASE_URL as string | undefined) ||
+  '/shipping-api';
+
+export const STORAGE_BASE_URL =
+  (import.meta.env.VITE_STORAGE_BASE_URL as string | undefined)?.replace(/\/+$/, '') ||
+  'http://localhost:8087';
 
 export const STORAGE_ENDPOINTS = {
   UPLOAD: '/uploads',

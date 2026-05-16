@@ -1,10 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { Order } from '@/types/order/order';
+import type { ShippingFeeResponse } from '@/services/shipping/shippingService';
 import {
   cancelOrderThunk,
   createOrderThunk,
   fetchOrderByIdThunk,
   fetchOrdersThunk,
+  confirmOrderPaymentThunk,
+  markOrderDeliveredThunk,
+  calculateShippingFeeThunk,
 } from '@/store/thunks/orderThunks';
 
 interface OrdersState {
@@ -16,6 +20,11 @@ interface OrdersState {
   totalPages: number;
   isLoading: boolean;
   error: string | null;
+  /** Shipping fee fetched from Shipping Service during checkout */
+  shippingFee: number | null;
+  /** Estimated delivery days from Shipping Service */
+  estimatedDays: number | null;
+  isCalculatingShipping: boolean;
 }
 
 const initialState: OrdersState = {
@@ -27,14 +36,23 @@ const initialState: OrdersState = {
   totalPages: 0,
   isLoading: false,
   error: null,
+  shippingFee: null,
+  estimatedDays: null,
+  isCalculatingShipping: false,
 };
 
 const ordersSlice = createSlice({
   name: 'orders',
   initialState,
-  reducers: {},
+  reducers: {
+    clearShippingFee: state => {
+      state.shippingFee = null;
+      state.estimatedDays = null;
+    },
+  },
   extraReducers: builder => {
     builder
+      // ── fetchOrders ──────────────────────────────────────────────────────────
       .addCase(fetchOrdersThunk.pending, state => {
         state.isLoading = true;
         state.error = null;
@@ -54,23 +72,74 @@ const ordersSlice = createSlice({
         state.isLoading = false;
         state.error = (action.payload as string) || 'Failed to fetch orders';
       })
+
+      // ── fetchOrderById ────────────────────────────────────────────────────────
+      .addCase(fetchOrderByIdThunk.pending, state => {
+        state.isLoading = true;
+        state.error = null;
+      })
       .addCase(fetchOrderByIdThunk.fulfilled, (state, action) => {
-        const { data } = action.payload;
-        state.selectedOrder = data;
+        state.isLoading = false;
+        state.selectedOrder = action.payload.data;
+      })
+      .addCase(fetchOrderByIdThunk.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = (action.payload as string) || 'Failed to fetch order';
+      })
+
+      // ── createOrder ───────────────────────────────────────────────────────────
+      .addCase(createOrderThunk.pending, state => {
+        state.isLoading = true;
+        state.error = null;
       })
       .addCase(createOrderThunk.fulfilled, (state, action) => {
-        const { data } = action.payload;
-        state.selectedOrder = data;
-        state.items = [data, ...state.items];
+        state.isLoading = false;
+        state.selectedOrder = action.payload.data;
+        state.items = [action.payload.data, ...state.items];
       })
+      .addCase(createOrderThunk.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = (action.payload as string) || 'Failed to create order';
+      })
+
+      // ── confirmOrderPayment ────────────────────────────────────────────────────
+      .addCase(confirmOrderPaymentThunk.fulfilled, (state, action) => {
+        const updated = action.payload.data;
+        state.selectedOrder = updated;
+        state.items = state.items.map(o => (o.id === updated.id ? updated : o));
+      })
+
+      // ── cancelOrder ───────────────────────────────────────────────────────────
       .addCase(cancelOrderThunk.fulfilled, (state, action) => {
-        const { data } = action.payload;
-        state.selectedOrder = data;
-        state.items = state.items.map(order =>
-          order.id === data.id ? data : order
-        );
+        const updated = action.payload.data;
+        state.selectedOrder = updated;
+        state.items = state.items.map(o => (o.id === updated.id ? updated : o));
+      })
+
+      // ── markOrderDelivered ─────────────────────────────────────────────────────
+      .addCase(markOrderDeliveredThunk.fulfilled, (state, action) => {
+        const updated = action.payload.data;
+        state.selectedOrder = updated;
+        state.items = state.items.map(o => (o.id === updated.id ? updated : o));
+      })
+
+      // ── calculateShippingFee ───────────────────────────────────────────────────
+      .addCase(calculateShippingFeeThunk.pending, state => {
+        state.isCalculatingShipping = true;
+      })
+      .addCase(calculateShippingFeeThunk.fulfilled, (state, action) => {
+        state.isCalculatingShipping = false;
+        const result = action.payload.data as ShippingFeeResponse;
+        state.shippingFee = result?.shippingFee ?? null;
+        state.estimatedDays = result?.estimatedDays ?? null;
+      })
+      .addCase(calculateShippingFeeThunk.rejected, state => {
+        state.isCalculatingShipping = false;
+        state.shippingFee = null;
+        state.estimatedDays = null;
       });
   },
 });
 
+export const { clearShippingFee } = ordersSlice.actions;
 export default ordersSlice.reducer;
