@@ -1,9 +1,4 @@
-/**
- * Order Service client — port 8084, context-path /api
- *
- * The Vite dev proxy maps /order-api/** → http://localhost:8084/api/**
- * In production set VITE_ORDER_BASE_URL to the real URL.
- */
+
 import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
 import { ORDER_BASE_URL, AUTH_ENDPOINTS } from '@/constants';
 import type { ApiResponse, PageMeta, PaginationParams } from '@/types/common/common';
@@ -129,13 +124,16 @@ function normalizeOrderListResp(raw: unknown): ApiResponse<Order[], PageMeta> {
   if (typeof r.success === 'boolean') {
     return raw as ApiResponse<Order[], PageMeta>;
   }
-  // Spring Page object: { content: [], totalElements, totalPages, number, size }
+  // /my-orders trả về: { content, page, size, totalElements, totalPages, first, last, numberOfElements }
+  // Spring Page chuẩn trả về: { content, number, size, totalElements, totalPages, first, last }
   const content = Array.isArray(r.content) ? (r.content as Order[]) : (Array.isArray(raw) ? (raw as Order[]) : []);
+  // BE mới dùng field "page", Spring chuẩn dùng "number"
+  const pageNum = typeof r.page === 'number' ? r.page : (typeof r.number === 'number' ? r.number : 0);
   return {
     success: true,
     data: content,
     meta: {
-      page: typeof r.number === 'number' ? r.number : 0,
+      page: pageNum,
       size: typeof r.size === 'number' ? r.size : 10,
       totalElements: typeof r.totalElements === 'number' ? r.totalElements : content.length,
       totalPages: typeof r.totalPages === 'number' ? r.totalPages : 1,
@@ -155,9 +153,9 @@ export const orderService = {
     return normalizeOrderResp(raw);
   },
 
-  /** GET /api/orders — Danh sách đơn hàng của user */
+  /** GET /api/orders/my-orders — Danh sách đơn hàng của user hiện tại (lấy userId từ JWT) */
   getOrders: async (params?: PaginationParams): Promise<ApiResponse<Order[], PageMeta>> => {
-    const raw = await orderApiClient.get<unknown>('/orders', { params });
+    const raw = await orderApiClient.get<unknown>('/orders/my-orders', { params });
     return normalizeOrderListResp(raw);
   },
 

@@ -7,15 +7,14 @@ import { OrderStatus as GlobalOrderStatus } from '@/types/order/order';
 type OrderStatus = 'all' | 'pending' | 'shipping' | 'arrived' | 'cancelled';
 
 const ORDER_FILTERS = [
-  { id: 'all', label: 'Tất cả', count: 0 },
-  { id: 'pending', label: 'Chờ xử lý', count: 0 },
-  { id: 'shipping', label: 'Đang giao', count: 0 },
-  { id: 'arrived', label: 'Đã giao', count: 0 },
-  { id: 'cancelled', label: 'Đã hủy', count: 0 },
+  { id: 'pending', label: 'Pending', count: 0 },
+  { id: 'shipping', label: 'On Shipping', count: 0 },
+  { id: 'arrived', label: 'Arrived', count: 0 },
+  { id: 'cancelled', label: 'Cancelled', count: 0 },
 ];
 
 export const Frame = (): JSX.Element => {
-  const [activeStatus, setActiveStatus] = useState<OrderStatus>('all');
+  const [activeStatus, setActiveStatus] = useState<OrderStatus>('pending');
   const dispatch = useAppDispatch();
   const { items: orders, isLoading } = useAppSelector((state) => state.orders);
 
@@ -49,6 +48,9 @@ export const Frame = (): JSX.Element => {
   return (
     <main className="relative w-full bg-white px-4 py-6 sm:px-6">
       <div className="mx-auto w-full max-w-[1140px]">
+        {/* Title */}
+        <h1 className="text-h2-bold text-gray-900 mb-6">My Orders</h1>
+
         {/* Filter Tabs */}
         <div className="mb-6 flex flex-wrap gap-2">
           {filtersWithCounts.map((filter) => (
@@ -62,7 +64,11 @@ export const Frame = (): JSX.Element => {
               }`}
             >
               {filter.label}
-              <span className="text-caption-sm-regular text-gray-500">{filter.count}</span>
+              <span className={`inline-flex items-center justify-center w-5 h-5 rounded-sm text-caption-xs-regular ${
+                activeStatus === filter.id ? 'bg-black text-white' : 'bg-gray-200 text-gray-600'
+              }`}>
+                {filter.count}
+              </span>
             </button>
           ))}
         </div>
@@ -70,7 +76,7 @@ export const Frame = (): JSX.Element => {
         {/* Order Details List */}
         <section aria-label="Order details" className="w-full">
           {isLoading && orders.length === 0 ? (
-            <div className="text-center py-10">Đang tải đơn hàng...</div>
+            <div className="text-center py-10">Loading orders...</div>
           ) : (
             <OrderDetailsListSection orders={filteredOrders} />
           )}

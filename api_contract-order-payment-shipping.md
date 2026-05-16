@@ -129,6 +129,33 @@
 
 ---
 
+### GET `/api/orders/my-orders` — Lấy tất cả đơn hàng của user hiện tại
+
+**Query params:**
+
+| Param | Kiểu | Mặc định | Mô tả |
+|-------|------|----------|-------|
+| `page` | integer | `0` | Số trang (0-indexed) |
+| `size` | integer | `10` | Số đơn mỗi trang |
+
+**Response `200 OK`:**
+```json
+{
+  "content": [ /* mảng OrderResponse */ ],
+  "page": 0,
+  "size": 10,
+  "totalElements": 42,
+  "totalPages": 5,
+  "first": true,
+  "last": false,
+  "numberOfElements": 10
+}
+```
+
+**Lưu ý:** `userId` được lấy tự động từ JWT — không cần truyền trong request.
+
+---
+
 ### PUT `/api/orders/{id}/confirm` — Xác nhận đơn hàng thủ công
 
 **Path param:** `id` — UUID của đơn hàng  
