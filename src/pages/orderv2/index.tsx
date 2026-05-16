@@ -71,7 +71,7 @@ export const Frame = (): JSX.Element => {
   );
 
   return (
-    <main className="relative w-full bg-white px-4 py-6 sm:px-6">
+    <main className="relative w-full bg-gray-50 px-4 py-6 sm:px-6 min-h-screen">
       {portalTarget ? createPortal(tabsContent, portalTarget) : tabsContent}
       <div className="mx-auto w-full max-w-[1140px]">
 
