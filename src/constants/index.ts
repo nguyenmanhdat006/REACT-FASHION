@@ -153,31 +153,19 @@ export const API_ENDPOINTS = {
 export const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api';
 
-/**
- * Order Service — port 8084.
- * In dev the Vite proxy maps /order-api → http://localhost:8084.
- */
+
 export const ORDER_BASE_URL =
   (import.meta.env.VITE_ORDER_BASE_URL as string | undefined) ||
   '/order-api';
 
-/**
- * Payment Service — port 8085, context-path /api.
- * In dev the Vite proxy maps /payment-api → http://localhost:8085/api.
- */
 export const PAYMENT_BASE_URL =
   (import.meta.env.VITE_PAYMENT_BASE_URL as string | undefined) ||
   '/payment-api';
 
-/**
- * Shipping Service — port 8088.
- * In dev the Vite proxy maps /shipping-api → http://localhost:8088.
- */
 export const SHIPPING_BASE_URL =
   (import.meta.env.VITE_SHIPPING_BASE_URL as string | undefined) ||
   '/shipping-api';
 
-/** storage-service (POST /uploads). Default port matches STORAGE-SERVICE-ECOMMERCE. */
 export const STORAGE_BASE_URL =
   (import.meta.env.VITE_STORAGE_BASE_URL as string | undefined)?.replace(/\/+$/, '') ||
   'http://localhost:8087';
