@@ -39,11 +39,10 @@ export const OrderDetailsListSection = ({ orders }: OrderDetailsListSectionProps
                 <Package size={24} strokeWidth={1.5} className="text-gray-900" />
               </div>
               <h3 className="text-body-semi text-gray-900 font-bold">{order.orderNumber}</h3>
-              <span className={`text-caption-sm-regular px-2 py-1 rounded-full ${
-                order.status === 'DELIVERED' ? 'bg-green-100 text-green-800' :
-                order.status === 'CANCELLED' ? 'bg-red-100 text-red-800' :
-                'bg-blue-100 text-blue-800'
-              }`}>
+              <span className={`text-caption-sm-regular px-2 py-1 rounded-full ${order.status === 'DELIVERED' ? 'bg-green-100 text-green-800' :
+                  order.status === 'CANCELLED' ? 'bg-red-100 text-red-800' :
+                    'bg-blue-100 text-blue-800'
+                }`}>
                 {order.status}
               </span>
             </header>
@@ -53,7 +52,7 @@ export const OrderDetailsListSection = ({ orders }: OrderDetailsListSectionProps
               <div className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1.5">
                 <span className="text-caption-sm-regular text-gray-900 whitespace-nowrap">Cau Giay, HN</span>
               </div>
-              
+
               <div className="flex items-center gap-1 flex-1 max-w-[60px]">
                 <div className="w-1.5 h-1.5 bg-black rounded-full shrink-0"></div>
                 <div className="flex-1 border-t border-dashed border-gray-300"></div>

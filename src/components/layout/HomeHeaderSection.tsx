@@ -85,6 +85,7 @@ export function HomeHeaderSection(): JSX.Element {
           <h3 className="relative z-[1] w-fit shrink-0 whitespace-nowrap text-h3-medium text-gray-black">
             {title}
           </h3>
+          <div id="header-actions-portal" className="flex flex-1 items-center justify-start ml-12 md:ml-24 z-[1]"></div>
 
           {showQuickFilter ? (
             <div
