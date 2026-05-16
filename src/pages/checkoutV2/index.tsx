@@ -123,13 +123,15 @@ export default function CheckoutV2(): JSX.Element {
         price: item.price,
         quantity: item.quantity,
         imageSrc: item.productImageUrl,
+        size: 'XL', // Fallback as requested by design
+        color: 'White', // Fallback as requested by design
       })),
     [cart]
   );
 
   const onSubmit = useCallback(async (data: ShippingInfoFormValues) => {
     if (cartOrderItems.length === 0) {
-      toast.error('Giỏ hàng trống. Vui lòng thêm sản phẩm trước khi đặt hàng.');
+      toast.error('Cart is empty. Please add items before placing an order.');
       return;
     }
 
@@ -145,14 +147,14 @@ export default function CheckoutV2(): JSX.Element {
         window.location.href = order.paymentUrl;
       } else {
         // COD: go to order list
-        toast.success('Đặt hàng thành công!');
+        toast.success('Order placed successfully!');
         navigate(ROUTESV2.ORDERS);
       }
     } else {
       const errMsg =
         typeof result.payload === 'string'
           ? result.payload
-          : 'Đặt hàng thất bại. Vui lòng thử lại.';
+          : 'Order failed. Please try again.';
       toast.error(errMsg);
     }
   }, [dispatch, navigate, cartOrderItems]);
@@ -160,27 +162,26 @@ export default function CheckoutV2(): JSX.Element {
   return (
     <>
       <Helmet>
-        <title>Thanh toán — React Fashion</title>
-        <meta name="description" content="Hoàn tất đơn hàng của bạn" />
+        <title>Checkout — React Fashion</title>
+        <meta name="description" content="Complete your order" />
       </Helmet>
 
-      <main className="relative w-full bg-white px-4 py-6 sm:px-6">
+      <main className="relative w-full bg-gray-50 px-4 py-8 sm:px-8 min-h-screen">
         <div className="mx-auto w-full max-w-[1140px]">
-          <h1 className="mb-6 text-h2-semi text-gray-900">Thanh toán</h1>
 
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col gap-6 lg:flex-row lg:gap-8"
           >
             {/* Left — Shipping info */}
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 min-w-0 w-full">
               <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
                 <ShippingInformationSection form={form} />
               </div>
             </div>
 
             {/* Right — Order summary */}
-            <div className="w-full lg:max-w-[380px] lg:shrink-0">
+            <div className="w-full lg:w-[480px] lg:shrink-0">
               <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
                 <ReviewCartSection
                   items={displayItems}

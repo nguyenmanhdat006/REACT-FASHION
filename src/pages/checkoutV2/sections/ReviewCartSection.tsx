@@ -8,6 +8,8 @@ type CartItem = {
   price: number;
   quantity: number;
   imageSrc: string;
+  size?: string;
+  color?: string;
 };
 
 type ReviewCartSectionProps = {
@@ -20,9 +22,13 @@ type ReviewCartSectionProps = {
   isSubmitting?: boolean;
 };
 
-const formatVND = (value: number | null | undefined): string => {
+const formatUSD = (value: number | null | undefined): string => {
   if (value == null) return '—';
-  return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
+  return new Intl.NumberFormat('en-US', { 
+    style: 'currency', 
+    currency: 'USD',
+    maximumFractionDigits: 0
+  }).format(value);
 };
 
 export const ReviewCartSection = ({
@@ -41,14 +47,14 @@ export const ReviewCartSection = ({
 
   return (
     <div className="flex w-full flex-col items-start gap-6">
-      <h2 className="text-h3-semi text-gray-900">Đơn hàng của bạn</h2>
+      <h2 className="text-lg font-semibold text-gray-900">Review Your Cart</h2>
 
       {/* Cart Items */}
       <div className="flex max-h-80 w-full flex-col items-start gap-3 overflow-y-auto">
         {isLoading ? (
-          <p className="text-body-regular text-gray-600">Đang tải giỏ hàng...</p>
+          <p className="text-body-regular text-gray-600">Loading cart...</p>
         ) : items.length === 0 ? (
-          <p className="text-body-regular text-gray-600">Giỏ hàng trống.</p>
+          <p className="text-body-regular text-gray-600">Cart is empty.</p>
         ) : (
           items.map((item) => (
             <div
@@ -62,15 +68,23 @@ export const ReviewCartSection = ({
               />
 
               <div className="flex min-w-0 flex-1 flex-col items-start gap-1">
-                <h3 className="line-clamp-1 text-body-medium text-gray-900">
+                <h3 className="line-clamp-1 text-body-medium font-medium text-gray-900">
                   {item.title}
                 </h3>
-                <div className="flex w-full items-center justify-between">
+                
+                {(item.size || item.color) && (
+                  <div className="flex flex-col text-caption-sm-regular text-gray-500">
+                    {item.size && <span>Size: <span className="font-medium text-gray-600">{item.size}</span></span>}
+                    {item.color && <span>Color: <span className="font-medium text-gray-600">{item.color}</span></span>}
+                  </div>
+                )}
+
+                <div className="flex w-full items-center justify-between mt-2">
                   <span className="text-body-medium font-medium text-gray-900">
-                    {formatVND(item.price)}
+                    {formatUSD(item.price)}
                   </span>
-                  <span className="text-caption-sm-regular text-gray-600">
-                    ×{item.quantity}
+                  <span className="text-body-medium font-medium text-gray-900">
+                    x{item.quantity}
                   </span>
                 </div>
               </div>
@@ -82,35 +96,35 @@ export const ReviewCartSection = ({
       {/* Summary */}
       <div className="flex w-full flex-col items-start gap-3 border-t border-gray-200 pt-4">
         <div className="flex w-full items-center justify-between">
-          <span className="text-body-regular text-gray-600">Tạm tính</span>
+          <span className="text-body-regular text-gray-600">Subtotal</span>
           <span className="text-body-medium font-medium text-gray-900">
-            {formatVND(subtotal)}
+            {formatUSD(subtotal)}
           </span>
         </div>
 
         {discount > 0 && (
           <div className="flex w-full items-center justify-between">
-            <span className="text-body-regular text-gray-600">Giảm giá</span>
+            <span className="text-body-regular text-gray-600">Discount</span>
             <span className="text-body-medium font-medium text-destructive">
-              -{formatVND(discount)}
+              -{formatUSD(discount)}
             </span>
           </div>
         )}
 
         <div className="flex w-full items-center justify-between">
           <span className="text-body-regular text-gray-600">
-            Phí vận chuyển
+            Delivery Fee
             {estimatedDays != null && (
               <span className="ml-1 text-caption-sm-regular text-gray-500">
-                (dự kiến {estimatedDays} ngày)
+                (estimated {estimatedDays} days)
               </span>
             )}
           </span>
           <span className="text-body-medium font-medium text-gray-900">
             {isCalculatingShipping ? (
-              <span className="animate-pulse text-gray-400">Đang tính...</span>
+              <span className="animate-pulse text-gray-400">Calculating...</span>
             ) : shippingFee != null ? (
-              formatVND(shippingFee)
+              formatUSD(shippingFee)
             ) : (
               <span className="text-gray-400">—</span>
             )}
@@ -118,8 +132,8 @@ export const ReviewCartSection = ({
         </div>
 
         <div className="flex w-full items-center justify-between border-t border-gray-200 pt-3">
-          <span className="text-body-medium font-medium text-gray-900">Tổng cộng</span>
-          <span className="text-h4-semi text-gray-900">{formatVND(total)}</span>
+          <span className="text-body-medium font-medium text-gray-900">Total</span>
+          <span className="text-h4-semi text-gray-900">{formatUSD(total)}</span>
         </div>
       </div>
 
@@ -128,7 +142,7 @@ export const ReviewCartSection = ({
         disabled={isSubmitting || isLoading}
         className="h-12 w-full rounded-3xl !bg-primary-600 text-body-medium font-medium text-white hover:!bg-primary-700 disabled:cursor-not-allowed disabled:opacity-50"
       >
-        {isSubmitting ? 'Đang xử lý...' : 'Đặt hàng'}
+        {isSubmitting ? 'Processing...' : 'Pay Now'}
       </Button>
     </div>
   );
