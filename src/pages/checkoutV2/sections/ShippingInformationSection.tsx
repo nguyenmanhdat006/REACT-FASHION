@@ -7,6 +7,11 @@ type ShippingInformationSectionProps = {
   form: UseFormReturn<ShippingInfoFormValues>;
 };
 
+const PAYMENT_METHOD_OPTIONS = [
+  { value: 'COD', label: 'Thanh toán khi nhận hàng (COD)' },
+  { value: 'VNPAY', label: 'VNPAY (Thanh toán online)' },
+];
+
 export const ShippingInformationSection = ({
   form,
 }: ShippingInformationSectionProps): JSX.Element => {
@@ -16,111 +21,115 @@ export const ShippingInformationSection = ({
     formState: { errors },
   } = form;
 
-  const fullNameId = useId();
-  const emailId = useId();
+  // Stable IDs for accessibility
+  const recipientNameId = useId();
   const phoneId = useId();
-  const countryId = useId();
+  const addressId = useId();
   const cityId = useId();
+  const provinceId = useId();
   const zipCodeId = useId();
-  const districtId = useId();
-  const streetAddressId = useId();
-
-  const countryOptions = [
-    { value: 'Vietnam', label: 'Vietnam' },
-    { value: 'Thailand', label: 'Thailand' },
-    { value: 'Singapore', label: 'Singapore' },
-    { value: 'Malaysia', label: 'Malaysia' },
-  ];
+  const paymentMethodId = useId();
+  const noteId = useId();
 
   return (
     <div className="flex flex-col items-start gap-6 relative w-full">
-      <h2 className="text-h3-semi text-gray-900">Shipping Information</h2>
+      <h2 className="text-h3-semi text-gray-900">Thông tin giao hàng</h2>
 
-      <div className="flex flex-col items-start gap-4 relative w-full">{/* Full Name */}
+      <div className="flex flex-col items-start gap-4 relative w-full">
+        {/* Recipient Name */}
         <FormField
-          id={fullNameId}
-          label="Full Name"
+          id={recipientNameId}
+          label="Họ và tên người nhận"
           type="text"
-          placeholder="Full Name"
-          register={register('fullName')}
-          error={errors.fullName}
-        />
-
-        {/* Email */}
-        <FormField
-          id={emailId}
-          label="Email Address"
-          type="email"
-          placeholder="Email Address"
-          register={register('email')}
-          error={errors.email}
-          autoComplete="email"
+          placeholder="Nguyễn Văn A"
+          register={register('recipientName')}
+          error={errors.recipientName}
+          autoComplete="name"
         />
 
         {/* Phone */}
         <FormField
           id={phoneId}
-          label="Phone Number"
+          label="Số điện thoại"
           type="text"
-          placeholder="Phone Number"
+          placeholder="0901234567"
           register={register('phone')}
           error={errors.phone}
+          autoComplete="tel"
         />
 
-        {/* Country */}
+        {/* Street Address */}
+        <FormField
+          id={addressId}
+          label="Địa chỉ"
+          type="text"
+          placeholder="123 Lê Lợi, Quận 1"
+          register={register('address')}
+          error={errors.address}
+          autoComplete="street-address"
+        />
+
+        {/* City + Province in a row */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+          <FormField
+            id={cityId}
+            label="Thành phố"
+            type="text"
+            placeholder="Hồ Chí Minh"
+            register={register('city')}
+            error={errors.city}
+            autoComplete="address-level2"
+          />
+
+          <FormField
+            id={provinceId}
+            label="Tỉnh / Thành phố"
+            type="text"
+            placeholder="Hồ Chí Minh"
+            register={register('province')}
+            error={errors.province}
+            autoComplete="address-level1"
+          />
+        </div>
+
+        {/* Zip Code */}
+        <FormField
+          id={zipCodeId}
+          label="Mã bưu điện"
+          type="text"
+          placeholder="700000"
+          register={register('zipCode')}
+          error={errors.zipCode}
+          autoComplete="postal-code"
+        />
+
+        {/* Payment Method */}
         <Controller
-          name="country"
+          name="paymentMethod"
           control={control}
           render={({ field }) => (
             <FormField
-              id={countryId}
-              label="Country"
+              id={paymentMethodId}
+              label="Phương thức thanh toán"
               variant="selection"
-              placeholder="Country"
-              options={countryOptions}
+              placeholder="Chọn phương thức thanh toán"
+              options={PAYMENT_METHOD_OPTIONS}
               value={field.value}
               onValueChange={field.onChange}
-              error={errors.country}
+              error={errors.paymentMethod}
             />
           )}
         />
 
-        {/* City / Zip Code / District Row */}
-        <div className="grid grid-cols-3 gap-4 w-full">
-          <FormField
-            id={cityId}
-            label="City"
-            type="text"
-            placeholder="City"
-            register={register('city')}
-            error={errors.city}
-          />
-          <FormField
-            id={zipCodeId}
-            label="Zip Code"
-            type="text"
-            placeholder="Zip Code"
-            register={register('zipCode')}
-            error={errors.zipCode}
-          />
-          <FormField
-            id={districtId}
-            label="District"
-            type="text"
-            placeholder="District"
-            register={register('district')}
-            error={errors.district}
-          />
-        </div>
-
-        {/* Street Address */}
+        {/* Note */}
         <FormField
-          id={streetAddressId}
-          label="Street Address"
-          type="text"
-          placeholder="Street Address"
-          register={register('streetAddress')}
-          error={errors.streetAddress}
+          id={noteId}
+          label="Ghi chú"
+          variant="paragraph"
+          placeholder="Giao sau 5h chiều, gọi trước khi giao..."
+          register={register('note')}
+          error={errors.note}
+          rows={3}
         />
       </div>
     </div>

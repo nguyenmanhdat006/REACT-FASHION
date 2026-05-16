@@ -7,7 +7,6 @@ import Input from '@/components/form/Input';
 import { ROUTES } from '@/constants';
 import { useAppDispatch } from '@/store/hooks';
 import { createOrderThunk } from '@/store/thunks';
-import { PaymentMethod } from '@/types/order/order';
 
 const Checkout: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -16,24 +15,28 @@ const Checkout: React.FC = () => {
   const [phone, setPhone] = useState('');
   const [addressLine1, setAddressLine1] = useState('');
   const [city, setCity] = useState('');
-  const [district, setDistrict] = useState('');
-  const [postalCode, setPostalCode] = useState('');
+  const [state, setState] = useState('');
+  const [zipCode, setZipCode] = useState('');
+  const [addressLine2, setAddressLine2] = useState('');
+  const [districtId, setDistrictId] = useState('');
+  const [wardCode, setWardCode] = useState('');
   const [country, setCountry] = useState('Vietnam');
+  const [notes, setNotes] = useState('');
 
   const submitOrder = async () => {
     const result = await dispatch(
       createOrderThunk({
-        paymentMethod: PaymentMethod.CASH_ON_DELIVERY,
+        items: [], // Cart items resolved server-side
+        paymentMethod: 'COD',
         shippingAddress: {
-          fullName,
+          recipientName: fullName,
           phone,
-          addressLine1,
+          address: addressLine1,
           city,
-          district,
-          postalCode,
-          country,
-          addressType: 'SHIPPING',
+          province: state,
+          zipCode,
         },
+        note: notes || undefined,
       })
     );
 
@@ -54,9 +57,13 @@ const Checkout: React.FC = () => {
             <Input label="Phone" value={phone} onChange={e => setPhone(e.target.value)} />
             <Input label="Address" value={addressLine1} onChange={e => setAddressLine1(e.target.value)} />
             <Input label="City" value={city} onChange={e => setCity(e.target.value)} />
-            <Input label="District" value={district} onChange={e => setDistrict(e.target.value)} />
-            <Input label="Postal code" value={postalCode} onChange={e => setPostalCode(e.target.value)} />
+            <Input label="State / Province" value={state} onChange={e => setState(e.target.value)} />
+            <Input label="Zip code" value={zipCode} onChange={e => setZipCode(e.target.value)} />
+            <Input label="Address line 2" value={addressLine2} onChange={e => setAddressLine2(e.target.value)} />
+            <Input label="District ID" value={districtId} onChange={e => setDistrictId(e.target.value)} />
+            <Input label="Ward code" value={wardCode} onChange={e => setWardCode(e.target.value)} />
             <Input label="Country" value={country} onChange={e => setCountry(e.target.value)} />
+            <Input label="Notes" value={notes} onChange={e => setNotes(e.target.value)} />
             <Button className="w-full" onClick={submitOrder}>
               Place Order
             </Button>

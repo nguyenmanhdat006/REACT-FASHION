@@ -36,6 +36,9 @@ export {
   fetchOrderByIdThunk,
   createOrderThunk,
   cancelOrderThunk,
+  confirmOrderPaymentThunk,
+  markOrderDeliveredThunk,
+  calculateShippingFeeThunk,
 } from './orderThunks';
 
 export {
