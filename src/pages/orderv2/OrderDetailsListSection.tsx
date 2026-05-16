@@ -6,14 +6,14 @@ interface OrderDetailsListSectionProps {
 }
 
 const formatPrice = (price: number) => {
-  return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(price);
 };
 
 export const OrderDetailsListSection = ({ orders }: OrderDetailsListSectionProps): JSX.Element => {
   if (orders.length === 0) {
     return (
       <div className="text-center py-10 text-gray-500 bg-gray-50 rounded-2xl border border-gray-100">
-        Bạn chưa có đơn hàng nào.
+        You have no orders.
       </div>
     );
   }
@@ -51,23 +51,26 @@ export const OrderDetailsListSection = ({ orders }: OrderDetailsListSectionProps
             {/* Shipment Route */}
             <div className="flex flex-wrap items-center gap-2">
               <div className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1.5">
-                <span className="text-caption-sm-regular text-gray-900 whitespace-nowrap">Kho hàng</span>
+                <span className="text-caption-sm-regular text-gray-900 whitespace-nowrap">Cau Giay, HN</span>
               </div>
-              <ChevronRight
-                size={14}
-                strokeWidth={2.5}
-                className="text-gray-400 shrink-0"
-              />
+              
+              <div className="flex items-center gap-1 flex-1 max-w-[60px]">
+                <div className="w-1.5 h-1.5 bg-black rounded-full shrink-0"></div>
+                <div className="flex-1 border-t border-dashed border-gray-300"></div>
+              </div>
+
               <div className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1.5">
                 <span className="text-caption-sm-regular text-gray-600 whitespace-nowrap">
-                  Dự kiến giao: {order.createdAt ? new Date(new Date(order.createdAt).getTime() + 3 * 24 * 60 * 60 * 1000).toLocaleDateString('vi-VN') : 'N/A'}
+                  Estimated Arrival: {order.createdAt ? new Date(new Date(order.createdAt).getTime() + 3 * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' }) : 'N/A'}
                 </span>
               </div>
-              <ChevronRight
-                size={14}
-                strokeWidth={2.5}
-                className="text-gray-400 shrink-0"
-              />
+
+              <div className="flex items-center gap-1 flex-1 max-w-[60px]">
+                <div className="w-1.5 h-1.5 bg-black rounded-full shrink-0"></div>
+                <div className="flex-1 border-t border-dashed border-gray-300"></div>
+                <div className="w-0 h-0 border-t-[4px] border-b-[4px] border-l-[6px] border-t-transparent border-b-transparent border-l-black shrink-0"></div>
+              </div>
+
               <div className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1.5 max-w-[300px] overflow-hidden">
                 <span className="text-caption-sm-regular text-gray-900 truncate" title={destination}>{destination}</span>
               </div>
@@ -89,8 +92,9 @@ export const OrderDetailsListSection = ({ orders }: OrderDetailsListSectionProps
                   <div className="flex flex-1 flex-col justify-between min-w-0">
                     <div className="flex-1">
                       <p className="text-body-medium text-gray-900 font-medium truncate">{item.productName}</p>
-                      <div className="flex gap-3 text-caption-sm-regular text-gray-600 mt-1">
-                        <span>Mặc định</span>
+                      <div className="flex flex-col text-caption-sm-regular text-gray-600 mt-1">
+                        <span>Size: XL</span>
+                        <span>Color: White</span>
                       </div>
                     </div>
                     <div className="flex items-center justify-between pt-2">
@@ -109,14 +113,14 @@ export const OrderDetailsListSection = ({ orders }: OrderDetailsListSectionProps
             {/* Footer: Total and Details Button */}
             <div className="flex items-center justify-between border-t border-gray-200 pt-4">
               <div className="flex items-baseline gap-1">
-                <span className="text-body-regular text-gray-600">Tổng cộng:</span>
+                <span className="text-body-regular text-gray-600">Total:</span>
                 <span className="text-h4-semi text-gray-900 font-bold">{formatPrice(order.total)}</span>
               </div>
               <button
                 type="button"
                 className="inline-flex items-center gap-2 rounded-lg bg-gray-50 px-4 py-2 text-body-medium font-medium text-gray-900 transition-colors hover:bg-gray-100 border border-gray-200"
               >
-                Chi tiết
+                Details
               </button>
             </div>
           </section>
