@@ -8,14 +8,20 @@ import {
   updateCartItemThunk,
 } from '@/store/thunks/cartThunks';
 import type { AddToCartRequest } from '@/types/cart/cart';
+import type { ListQueryParams } from '@/types/common/common';
+import { DEFAULT_LIST_QUERY } from '@/types/common/common';
 
 export const useCart = () => {
   const dispatch = useAppDispatch();
-  const { cart, isLoading, error } = useAppSelector(state => state.cart);
+  const { cart, isLoading, error, itemsPage, itemsSize, itemsTotalElements, itemsTotalPages } =
+    useAppSelector(state => state.cart);
 
-  const fetchCart = useCallback(async () => {
-    return dispatch(fetchCartThunk());
-  }, [dispatch]);
+  const fetchCart = useCallback(
+    async (params?: ListQueryParams) => {
+      return dispatch(fetchCartThunk(params ?? DEFAULT_LIST_QUERY));
+    },
+    [dispatch],
+  );
 
   const addToCart = useCallback(
     async (payload: AddToCartRequest) => {
@@ -46,6 +52,10 @@ export const useCart = () => {
     cart,
     isLoading,
     error,
+    itemsPage,
+    itemsSize,
+    itemsTotalElements,
+    itemsTotalPages,
     fetchCart,
     addToCart,
     updateQuantity,

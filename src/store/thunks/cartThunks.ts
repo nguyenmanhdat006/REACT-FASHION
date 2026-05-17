@@ -1,21 +1,38 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+
 import { cartService } from '@/services/cart/cartService';
 import type { AddToCartRequest } from '@/types/cart/cart';
-import type { ApiResponse } from '@/types/common/common';
 import type { Cart } from '@/types/cart/cart';
+import {
+  DEFAULT_LIST_QUERY,
+  type ApiResponse,
+  type ListQueryParams,
+  type PageMeta,
+} from '@/types/common/common';
 import { apiFailureMessage } from '@/utils/apiEnvelope';
 
-const getErrorMessage = (error: unknown, fallback: string) =>
-  (error as { response?: { data?: { message?: string } } })?.response?.data?.message ||
-  fallback;
+const getErrorMessage = (error: unknown, fallback: string): string => {
+  const data = (error as { response?: { data?: { message?: string; error?: string } } })?.response
+    ?.data;
+  if (data && typeof data.error === 'string' && data.error.trim()) {
+    return data.error.trim();
+  }
+  if (data && typeof data.message === 'string' && data.message.trim()) {
+    return data.message.trim();
+  }
+  if (error instanceof Error && error.message.trim()) {
+    return error.message.trim();
+  }
+  return fallback;
+};
 
 export const fetchCartThunk = createAsyncThunk<
-  ApiResponse<Cart>,
-  void,
+  ApiResponse<Cart, PageMeta>,
+  ListQueryParams | undefined,
   { rejectValue: string }
->('cart/fetchCart', async (_, { rejectWithValue }) => {
+>('cart/fetchCart', async (params, { rejectWithValue }) => {
   try {
-    const res = await cartService.getCart();
+    const res = await cartService.getCart(params ?? DEFAULT_LIST_QUERY);
     if (!res.success) return rejectWithValue(apiFailureMessage(res));
     return res;
   } catch (error) {

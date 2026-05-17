@@ -5,19 +5,22 @@ import type {
   CartSummary,
   UpdateCartItemRequest,
 } from '@/types/cart/cart';
-import type { ApiResponse } from '@/types/common/common';
+import type { ApiResponse, ListQueryParams, PageMeta } from '@/types/common/common';
 import apiClient from '@/utils/api';
+import { toQueryParams } from '@/utils/queryParams';
 
 export const cartService = {
-  getCart: (): Promise<ApiResponse<Cart>> =>
-    apiClient.get<ApiResponse<Cart>>(API_ENDPOINTS.CART.ROOT),
+  getCart: (params?: ListQueryParams): Promise<ApiResponse<Cart, PageMeta>> =>
+    apiClient.get<ApiResponse<Cart, PageMeta>>(API_ENDPOINTS.CART.ROOT, {
+      params: toQueryParams(params),
+    }),
 
   addToCart: (payload: AddToCartRequest): Promise<ApiResponse<Cart>> =>
     apiClient.post<ApiResponse<Cart>>(API_ENDPOINTS.CART.ITEMS, payload),
 
   updateQuantity: (
     itemId: string,
-    payload: UpdateCartItemRequest
+    payload: UpdateCartItemRequest,
   ): Promise<ApiResponse<Cart>> =>
     apiClient.put<ApiResponse<Cart>>(API_ENDPOINTS.CART.ITEM_DETAIL(itemId), payload),
 

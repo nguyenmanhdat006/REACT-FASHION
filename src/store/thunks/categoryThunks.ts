@@ -1,7 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { categoryService } from '@/services/category/categoryService';
-import type { ApiResponse } from '@/types/common/common';
+import {
+  DEFAULT_LIST_QUERY,
+  type ApiResponse,
+  type ListQueryParams,
+  type PageMeta,
+} from '@/types/common/common';
 import type { Category, CategoryPayload } from '@/types/product/product';
 import { apiFailureMessage } from '@/utils/apiEnvelope';
 
@@ -21,18 +26,30 @@ const getErrorMessage = (error: unknown, fallback: string): string => {
 };
 
 export const fetchCategoriesThunk = createAsyncThunk<
-  ApiResponse<Category[]>,
-  void,
+  ApiResponse<Category[], PageMeta>,
+  ListQueryParams | undefined,
   { rejectValue: string }
->('categories/fetchCategories', async (_, { rejectWithValue }) => {
+>('categories/fetchCategories', async (params, { rejectWithValue }) => {
   try {
-    const res = await categoryService.getCategories();
-    if (!res.success || !Array.isArray(res.data)) {
-      return rejectWithValue(apiFailureMessage(res));
-    }
+    const res = await categoryService.getCategories(params ?? DEFAULT_LIST_QUERY);
+    if (!res.success) return rejectWithValue(apiFailureMessage(res));
     return res;
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to fetch categories'));
+  }
+});
+
+export const fetchActiveCategoriesThunk = createAsyncThunk<
+  ApiResponse<Category[], PageMeta>,
+  ListQueryParams | undefined,
+  { rejectValue: string }
+>('categories/fetchActiveCategories', async (params, { rejectWithValue }) => {
+  try {
+    const res = await categoryService.getActiveCategories(params ?? DEFAULT_LIST_QUERY);
+    if (!res.success) return rejectWithValue(apiFailureMessage(res));
+    return res;
+  } catch (error) {
+    return rejectWithValue(getErrorMessage(error, 'Failed to fetch active categories'));
   }
 });
 

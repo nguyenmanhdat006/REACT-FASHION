@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { Cart } from '@/types/cart/cart';
+
 import {
   addToCartThunk,
   clearCartThunk,
@@ -7,15 +7,24 @@ import {
   removeCartItemThunk,
   updateCartItemThunk,
 } from '@/store/thunks/cartThunks';
+import type { Cart } from '@/types/cart/cart';
 
 interface CartState {
   cart: Cart | null;
+  itemsPage: number;
+  itemsSize: number;
+  itemsTotalElements: number;
+  itemsTotalPages: number;
   isLoading: boolean;
   error: string | null;
 }
 
 const initialState: CartState = {
   cart: null,
+  itemsPage: 0,
+  itemsSize: 20,
+  itemsTotalElements: 0,
+  itemsTotalPages: 0,
   isLoading: false,
   error: null,
 };
@@ -32,12 +41,21 @@ const cartSlice = createSlice({
       })
       .addCase(fetchCartThunk.fulfilled, (state, action) => {
         state.isLoading = false;
-        const { data } = action.payload;
+        state.error = null;
+        const { data, meta } = action.payload;
         state.cart = data;
+        if (meta) {
+          state.itemsPage = meta.page;
+          state.itemsSize = meta.size;
+          state.itemsTotalElements = meta.totalElements;
+          state.itemsTotalPages = meta.totalPages;
+        }
       })
       .addCase(fetchCartThunk.rejected, (state, action) => {
         state.isLoading = false;
         state.error = (action.payload as string) || 'Failed to fetch cart';
+        state.itemsTotalElements = 0;
+        state.itemsTotalPages = 0;
       })
       .addCase(addToCartThunk.fulfilled, (state, action) => {
         const { data } = action.payload;
@@ -59,6 +77,8 @@ const cartSlice = createSlice({
           state.cart.discount = 0;
           state.cart.total = 0;
         }
+        state.itemsTotalElements = 0;
+        state.itemsTotalPages = 0;
       });
   },
 });

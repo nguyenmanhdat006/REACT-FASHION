@@ -12,7 +12,8 @@ import { fetchFeaturedProductsThunk, fetchCategoriesThunk } from '@/store/thunks
 const Home: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { featured, categories } = useAppSelector(state => state.products);
+  const { featured } = useAppSelector(state => state.products);
+  const { items: categories } = useAppSelector(state => state.categories);
 
   useEffect(() => {
     void dispatch(fetchFeaturedProductsThunk());

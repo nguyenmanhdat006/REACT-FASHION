@@ -1,19 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import {
-  createBrandThunk,
-  deleteBrandThunk,
-  fetchBrandsThunk,
-} from '@/store/thunks/brandThunks';
-import {
-  createCategoryThunk,
-  deleteCategoryThunk,
-  fetchCategoriesThunk,
-} from '@/store/thunks/categoryThunks';
-import {
   createProductThunk,
   deleteProductThunk,
-  fetchAdminProductMetaThunk,
   fetchFeaturedProductsThunk,
   fetchProductByIdThunk,
   fetchProductBySlugThunk,
@@ -21,14 +10,12 @@ import {
   fetchV2PublishedProductsThunk,
   updateProductThunk,
 } from '@/store/thunks/productThunks';
-import type { Brand, Category, Product, ProductFilters } from '@/types/product/product';
+import type { Product, ProductFilters } from '@/types/product/product';
 
 interface ProductsState {
   items: Product[];
   featured: Product[];
   selectedProduct: Product | null;
-  categories: Category[];
-  brands: Brand[];
   page: number;
   size: number;
   totalElements: number;
@@ -48,24 +35,12 @@ interface ProductsState {
   productDetail: Product | null;
   productDetailLoading: boolean;
   productDetailError: string | null;
-
-  activeCategories: Category[];
-  activeBrands: Brand[];
-  metaLoading: boolean;
-  metaError: string | null;
-
-  categoriesLoading: boolean;
-  categoriesError: string | null;
-  brandsLoading: boolean;
-  brandsError: string | null;
 }
 
 const initialState: ProductsState = {
   items: [],
   featured: [],
   selectedProduct: null,
-  categories: [],
-  brands: [],
   page: 0,
   size: 20,
   totalElements: 0,
@@ -85,16 +60,6 @@ const initialState: ProductsState = {
   productDetail: null,
   productDetailLoading: false,
   productDetailError: null,
-
-  activeCategories: [],
-  activeBrands: [],
-  metaLoading: false,
-  metaError: null,
-
-  categoriesLoading: false,
-  categoriesError: null,
-  brandsLoading: false,
-  brandsError: null,
 };
 
 const productsSlice = createSlice({
@@ -155,33 +120,6 @@ const productsSlice = createSlice({
         state.isLoading = false;
         state.error = (action.payload as string) || 'Failed to fetch product';
       })
-      .addCase(fetchCategoriesThunk.pending, state => {
-        state.categoriesLoading = true;
-        state.categoriesError = null;
-      })
-      .addCase(fetchCategoriesThunk.fulfilled, (state, action) => {
-        state.categoriesLoading = false;
-        const { data } = action.payload;
-        state.categories = data;
-      })
-      .addCase(fetchCategoriesThunk.rejected, (state, action) => {
-        state.categoriesLoading = false;
-        state.categoriesError =
-          (action.payload as string) || 'Failed to fetch categories';
-      })
-      .addCase(fetchBrandsThunk.pending, state => {
-        state.brandsLoading = true;
-        state.brandsError = null;
-      })
-      .addCase(fetchBrandsThunk.fulfilled, (state, action) => {
-        state.brandsLoading = false;
-        const { data } = action.payload;
-        state.brands = data;
-      })
-      .addCase(fetchBrandsThunk.rejected, (state, action) => {
-        state.brandsLoading = false;
-        state.brandsError = (action.payload as string) || 'Failed to fetch brands';
-      })
       .addCase(fetchV2PublishedProductsThunk.pending, (state, action) => {
         if (action.meta.arg.scope === 'home') {
           state.homeTilesLoading = true;
@@ -229,22 +167,6 @@ const productsSlice = createSlice({
         state.productDetailError = (action.payload as string) || 'Failed to load product';
         state.productDetail = null;
       })
-      .addCase(fetchAdminProductMetaThunk.pending, state => {
-        state.metaLoading = true;
-        state.metaError = null;
-      })
-      .addCase(fetchAdminProductMetaThunk.fulfilled, (state, action) => {
-        state.metaLoading = false;
-        const { data } = action.payload;
-        state.activeCategories = data.categories;
-        state.activeBrands = data.brands;
-      })
-      .addCase(fetchAdminProductMetaThunk.rejected, (state, action) => {
-        state.metaLoading = false;
-        state.metaError = (action.payload as string) || 'Failed to load form data';
-        state.activeCategories = [];
-        state.activeBrands = [];
-      })
       .addCase(createProductThunk.fulfilled, (state, action) => {
         const { data } = action.payload;
         state.items = [data, ...state.items];
@@ -265,26 +187,6 @@ const productsSlice = createSlice({
         if (state.productDetail?.id === id) {
           state.productDetail = null;
         }
-      })
-      .addCase(createCategoryThunk.fulfilled, (state, action) => {
-        const { data } = action.payload;
-        state.categories = [data, ...state.categories];
-        state.activeCategories = [data, ...state.activeCategories];
-      })
-      .addCase(deleteCategoryThunk.fulfilled, (state, action) => {
-        const id = action.meta.arg;
-        state.categories = state.categories.filter(c => c.id !== id);
-        state.activeCategories = state.activeCategories.filter(c => c.id !== id);
-      })
-      .addCase(createBrandThunk.fulfilled, (state, action) => {
-        const { data } = action.payload;
-        state.brands = [data, ...state.brands];
-        state.activeBrands = [data, ...state.activeBrands];
-      })
-      .addCase(deleteBrandThunk.fulfilled, (state, action) => {
-        const id = action.meta.arg;
-        state.brands = state.brands.filter(b => b.id !== id);
-        state.activeBrands = state.activeBrands.filter(b => b.id !== id);
       });
   },
 });
