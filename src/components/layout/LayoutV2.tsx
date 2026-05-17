@@ -2,7 +2,7 @@ import type { JSX, ReactNode } from 'react';
 
 import { HomeHeaderSection } from './HomeHeaderSection';
 import { NavigationMenuSection } from './NavigationMenuSection';
-import { ProductDetailsModalProvider } from '@/pages/productV2/ProductDetailsModalContext';
+import { ProductDetailsModalProvider } from '@/pages/UserProductV2/ProductDetailsModalContext';
 
 export type LayoutV2Props = {
   children: ReactNode;

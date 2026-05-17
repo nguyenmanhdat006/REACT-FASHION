@@ -9,7 +9,7 @@ import {
   LAST_ORDERS,
   RECENTS_CHAT,
   SIDEBAR_LOGOUT_ICON,
-} from '@/pages/productV2/homeDemoData';
+} from '@/pages/HomeV2/homeDemoData';
 import { getSidebarNavItems } from '@/routes/v2/appShellRoutes';
 
 import { NavButton } from './components/NavButton';

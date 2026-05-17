@@ -25,8 +25,8 @@ export default defineConfig({
     proxy: {
       // API Gateway / Auth / Product Service (port 8080)
       '/api': {
-        // target: 'https://ecommerce-api-gateway.kruzetech.dev',
-        target: 'http://localhost:8080',
+        target: 'https://ecommerce-api-gateway.kruzetech.dev',
+        // target: 'http://localhost:8080',
         changeOrigin: true,
       },
     },

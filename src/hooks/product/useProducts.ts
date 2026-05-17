@@ -6,12 +6,17 @@ import { clearProductDetail } from '@/store/slices/productsSlice';
 import {
   createProductThunk,
   deleteProductThunk,
+  updateProductThunk,
   fetchAdminProductMetaThunk,
   fetchProductByIdThunk,
   fetchProductsThunk,
   fetchV2PublishedProductsThunk,
 } from '@/store/thunks';
-import type { CreateProductRequest, ProductFilters } from '@/types/product/product';
+import type {
+  CreateProductRequest,
+  ProductFilters,
+  UpdateProductRequest,
+} from '@/types/product/product';
 
 const payloadMessage = (payload: unknown, fallback: string) =>
   typeof payload === 'string' && payload ? payload : fallback;
@@ -91,6 +96,19 @@ export function useProducts() {
     [dispatch]
   );
 
+  const updateProduct = useCallback(
+    async (id: string, payload: UpdateProductRequest): Promise<boolean> => {
+      const result = await dispatch(updateProductThunk({ id, payload }));
+      if (updateProductThunk.fulfilled.match(result)) {
+        toast.success('Product updated');
+        return true;
+      }
+      toast.error(payloadMessage(result.payload, 'Could not update product'));
+      return false;
+    },
+    [dispatch]
+  );
+
   return {
     fetchHomePublished,
     fetchExplorePublished,
@@ -100,5 +118,6 @@ export function useProducts() {
     deleteProduct,
     loadMeta,
     createProduct,
+    updateProduct,
   };
 }

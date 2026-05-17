@@ -16,6 +16,7 @@ export {
   fetchProductByIdThunk,
   fetchAdminProductMetaThunk,
   createProductThunk,
+  updateProductThunk,
   deleteProductThunk,
   createCategoryThunk,
   deleteCategoryThunk,

@@ -7,6 +7,7 @@ import {
   deleteBrandThunk,
   deleteCategoryThunk,
   deleteProductThunk,
+  updateProductThunk,
   fetchAdminProductMetaThunk,
   fetchBrandsThunk,
   fetchCategoriesThunk,
@@ -243,6 +244,14 @@ const productsSlice = createSlice({
       .addCase(createProductThunk.fulfilled, (state, action) => {
         const { data } = action.payload;
         state.items = [data, ...state.items];
+      })
+      .addCase(updateProductThunk.fulfilled, (state, action) => {
+        const { data } = action.payload;
+        const idx = state.items.findIndex(p => p.id === data.id);
+        if (idx >= 0) state.items[idx] = data;
+        if (state.productDetail?.id === data.id) {
+          state.productDetail = data;
+        }
       })
       .addCase(deleteProductThunk.fulfilled, (state, action) => {
         const id = action.meta.arg;
