@@ -14,6 +14,7 @@ import type {
 } from '@/types/product/product';
 import type { ApiResponse, PageMeta } from '@/types/common/common';
 import { apiFailureMessage } from '@/utils/apiEnvelope';
+import { normalizeProduct } from '@/utils/product/normalizeProduct';
 
 const getErrorMessage = (error: unknown, fallback: string): string => {
   const data = (error as { response?: { data?: { message?: string; error?: string } } })?.response
@@ -139,7 +140,7 @@ export const fetchProductByIdThunk = createAsyncThunk<
     if (!res.success || res.data === undefined || res.data === null) {
       return rejectWithValue(apiFailureMessage(res));
     }
-    return res;
+    return { ...res, data: normalizeProduct(res.data) };
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to load product'));
   }
@@ -180,7 +181,7 @@ export const createProductThunk = createAsyncThunk<
     if (!res.success || res.data === undefined || res.data === null) {
       return rejectWithValue(apiFailureMessage(res));
     }
-    return res;
+    return { ...res, data: normalizeProduct(res.data) };
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to create product'));
   }
@@ -196,7 +197,7 @@ export const updateProductThunk = createAsyncThunk<
     if (!res.success || res.data === undefined || res.data === null) {
       return rejectWithValue(apiFailureMessage(res));
     }
-    return res;
+    return { ...res, data: normalizeProduct(res.data) };
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to update product'));
   }

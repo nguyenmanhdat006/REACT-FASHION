@@ -284,6 +284,7 @@ function AdminOrderList({
         setSelectedOrderId(null);
       }
     } catch (e) {
+      console.error(e);
       toast.error('An error occurred while loading order details');
       setSelectedOrderId(null);
     } finally {

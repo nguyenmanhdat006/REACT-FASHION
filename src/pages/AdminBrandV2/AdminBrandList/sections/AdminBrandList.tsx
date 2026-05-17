@@ -1,14 +1,12 @@
 import { useMemo } from 'react';
-import { MoreVertical } from 'lucide-react';
 
 import TableView, { type TableColumn } from '@/components/TableView';
+import TableRowActionsMenuTrigger from '@/components/TableRowActionsMenuTrigger';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 
@@ -112,22 +110,12 @@ function AdminBrandList({
       getRowSelectionAriaLabel={(b) => `Select ${b.name}`}
       renderRowActions={(brand) => (
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon-sm"
-              className="text-muted-foreground"
-              aria-label={`Actions for ${brand.name}`}
-            >
-              <MoreVertical className="size-4" />
-            </Button>
-          </DropdownMenuTrigger>
+          <TableRowActionsMenuTrigger label={`Actions for ${brand.name}`} />
           <DropdownMenuContent align="end">
             <DropdownMenuItem>Edit</DropdownMenuItem>
             <DropdownMenuItem
               variant="destructive"
-              onClick={() => onDeleteBrand?.(brand)}
+              onSelect={() => onDeleteBrand?.(brand)}
             >
               Delete
             </DropdownMenuItem>
