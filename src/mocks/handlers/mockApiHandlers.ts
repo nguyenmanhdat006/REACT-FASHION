@@ -897,16 +897,33 @@ export const handleMockApiRequest = async <T>(
 
   if (method === 'post' && cleanUrl === API_ENDPOINTS.PRODUCTS.CREATE) {
     const payload = asRecord(data);
-    const next = {
+    const description =
+      typeof payload.description === 'string' && payload.description.trim()
+        ? payload.description.trim()
+        : null;
+    const shortDescription =
+      typeof payload.shortDescription === 'string' && payload.shortDescription.trim()
+        ? payload.shortDescription.trim()
+        : null;
+    const next: Product = {
       ...mockProducts[0],
       id: `p-${mockProducts.length + 1}`,
       name: String(payload.name || 'New Product'),
       slug: String(payload.slug || `new-product-${Date.now()}`),
-      description: String(payload.description || 'Mock product description'),
+      description,
+      shortDescription,
       price: toNumber(payload.price, 100),
+      compareAtPrice:
+        payload.compareAtPrice != null ? toNumber(payload.compareAtPrice, 0) : null,
       salePrice: toNumber(payload.salePrice, 80),
       featured: Boolean(payload.featured),
+      published: payload.published !== false,
       stockQuantity: toNumber(payload.stockQuantity, 100),
+      sku: typeof payload.sku === 'string' ? payload.sku : null,
+      status:
+        typeof payload.status === 'string'
+          ? (payload.status as Product['status'])
+          : mockProducts[0].status,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };

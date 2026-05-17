@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { IconButton } from '@/components/buttons/IconButton';
 import { LabelButton } from '@/components/buttons/LabelButton';
+import ConfirmDialog from '@/components/ConfirmDialog';
 import { ROUTESV2 } from '@/constants';
 import { useProducts } from '@/hooks/product/useProducts';
 import AdminProductList from '@/pages/AdminProductV2/AdminProductList/sections/AdminProductList';
@@ -17,6 +18,8 @@ const PAGE_SIZE = 10;
 
 export default function AdminProductListPage(): JSX.Element {
   const [page, setPage] = useState(1);
+  const [deleteTarget, setDeleteTarget] = useState<AdminProductRow | null>(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const navigate = useNavigate();
   const { fetchProductsPage, deleteProduct } = useProducts();
   const { items, totalPages, isLoading, error } = useAppSelector(s => s.products);
@@ -60,13 +63,17 @@ export default function AdminProductListPage(): JSX.Element {
 
   const safeTotalPages = useMemo(() => Math.max(1, totalPages || 1), [totalPages]);
 
-  const onDeleteProduct = useCallback(
-    async (row: AdminProductRow) => {
-      if (!window.confirm(`Delete “${row.name}”?`)) return;
-      await deleteProduct(row.id, listFilters);
-    },
-    [deleteProduct, listFilters]
-  );
+  const onDeleteProduct = useCallback((row: AdminProductRow) => {
+    setDeleteTarget(row);
+  }, []);
+
+  const handleConfirmDelete = useCallback(async () => {
+    if (!deleteTarget) return;
+    setDeleteLoading(true);
+    const ok = await deleteProduct(deleteTarget.id, listFilters);
+    setDeleteLoading(false);
+    if (ok) setDeleteTarget(null);
+  }, [deleteProduct, deleteTarget, listFilters]);
 
   return (
     <>
@@ -90,7 +97,23 @@ export default function AdminProductListPage(): JSX.Element {
         onPageChange={setPage}
         onViewProduct={goToProductDetail}
         onEditProduct={goToEditProduct}
-        onDeleteProduct={(row) => void onDeleteProduct(row)}
+        onDeleteProduct={onDeleteProduct}
+      />
+      <ConfirmDialog
+        open={deleteTarget != null}
+        onOpenChange={open => {
+          if (!open && !deleteLoading) setDeleteTarget(null);
+        }}
+        title="Delete product"
+        description={
+          deleteTarget
+            ? `Are you sure you'd like to delete “${deleteTarget.name}”? This cannot be undone.`
+            : 'Are you sure you want to delete this product? This cannot be undone.'
+        }
+        cancelLabel="Cancel"
+        confirmVariant="destructive"
+        loading={deleteLoading}
+        onConfirm={handleConfirmDelete}
       />
       {isLoading && rows.length === 0 ? (
         <p className="mt-4 text-center text-caption-lg-regular text-muted-foreground">Loading…</p>
