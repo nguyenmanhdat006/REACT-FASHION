@@ -19,17 +19,16 @@ import { useStorage } from '@/hooks/storage/useStorage';
 import { useProducts } from '@/hooks/product/useProducts';
 import { useAppSelector } from '@/store/hooks';
 
-import AdminAddProductDetailsSection from './sections/AdminAddProductDetailsSection';
-import AdminAddProductLeftSection from './sections/AdminAddProductLeftSection';
+import ProductV2Form from '@/forms/ProductV2';
+import type { ProductV2FormValues, ProductV2UploadIntent } from '@/forms/ProductV2/types';
 import {
   adminAddProductFormToCreateRequest,
   adminAddProductSubmitSchema,
 } from './adminAddProductPayload';
 import { BRAND_OPTIONS, CATEGORY_OPTIONS } from './constants';
-import type { AdminAddProductFormValues, AdminProductUploadIntent } from './types';
 import type { Category } from '@/types/product/product';
 
-export type { AdminAddProductFormValues };
+export type { AdminAddProductFormValues, ProductV2FormValues } from './types';
 
 function flattenCategories(nodes: Category[]): SelectOption[] {
   const out: SelectOption[] = [];
@@ -57,7 +56,7 @@ export default function AdminAddProduct(): JSX.Element {
   const [galleryModalOpen, setGalleryModalOpen] = useState(false);
 
   const mainFileInputRef = useRef<HTMLInputElement>(null);
-  const uploadIntentRef = useRef<AdminProductUploadIntent>({ kind: 'append' });
+  const uploadIntentRef = useRef<ProductV2UploadIntent>({ kind: 'append' });
 
   useEffect(() => {
     void loadMeta();
@@ -95,7 +94,7 @@ export default function AdminAddProduct(): JSX.Element {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<AdminAddProductFormValues>({
+  } = useForm<ProductV2FormValues>({
     defaultValues: {
       name: '',
       status: '',
@@ -136,7 +135,7 @@ export default function AdminAddProduct(): JSX.Element {
       ? productImages[Math.min(coverIndex, productImages.length - 1)]
       : null;
 
-  const requestUpload = useCallback((intent: AdminProductUploadIntent) => {
+  const requestUpload = useCallback((intent: ProductV2UploadIntent) => {
     uploadIntentRef.current = intent;
     mainFileInputRef.current?.click();
   }, []);
@@ -211,7 +210,7 @@ export default function AdminAddProduct(): JSX.Element {
     [uploadFile]
   );
 
-  const onSubmit = async (values: AdminAddProductFormValues) => {
+  const onSubmit = async (values: ProductV2FormValues) => {
     const parsed = adminAddProductSubmitSchema.safeParse(values);
     if (!parsed.success) {
       const first = parsed.error.issues[0];
@@ -248,38 +247,35 @@ export default function AdminAddProduct(): JSX.Element {
       />
 
       <div className="w-full text-foreground">
-        <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-12 gap-4">
-          <AdminAddProductLeftSection
-            control={control}
-            visible={visible}
-            featured={featured}
-            coverUrl={coverUrl}
-            galleryPreview1={galleryPreview1}
-            galleryPreview2={galleryPreview2}
-            galleryPreview3={galleryPreview3}
-            galleryMoreBeyondThirdCount={galleryMoreBeyondThirdCount}
-            uploadLocked={uploadBusy}
-            galleryModalOpen={galleryModalOpen}
-            onOpenGalleryModal={() => setGalleryModalOpen(true)}
-            onCloseGalleryModal={() => setGalleryModalOpen(false)}
-            productImages={productImages}
-            coverIndex={coverIndex}
-            onChangeProductImages={setProductImages}
-            onChangeCoverIndex={setCoverIndex}
-            onCoverClick={handleCoverClick}
-            onGalleryCellClick={handleGalleryCellClick}
-            onDashedPlusClick={handleDashedPlusClick}
-            onModalUploadFile={modalUploadSingle}
-          />
-          <AdminAddProductDetailsSection
-            register={register}
-            control={control}
-            errors={errors}
-            brandOptions={brandOptions}
-            categoryOptions={categoryOptions}
-            isSubmitting={formBusy}
-          />
-        </form>
+        <ProductV2Form
+          mode="create"
+          onSubmit={handleSubmit(onSubmit)}
+          register={register}
+          control={control}
+          errors={errors}
+          visible={visible}
+          featured={featured}
+          coverUrl={coverUrl}
+          galleryPreview1={galleryPreview1}
+          galleryPreview2={galleryPreview2}
+          galleryPreview3={galleryPreview3}
+          galleryMoreBeyondThirdCount={galleryMoreBeyondThirdCount}
+          uploadBusy={uploadBusy}
+          galleryModalOpen={galleryModalOpen}
+          onOpenGalleryModal={() => setGalleryModalOpen(true)}
+          onCloseGalleryModal={() => setGalleryModalOpen(false)}
+          productImages={productImages}
+          coverIndex={coverIndex}
+          onChangeProductImages={setProductImages}
+          onChangeCoverIndex={setCoverIndex}
+          onCoverClick={handleCoverClick}
+          onGalleryCellClick={handleGalleryCellClick}
+          onDashedPlusClick={handleDashedPlusClick}
+          onModalUploadFile={modalUploadSingle}
+          brandOptions={brandOptions}
+          categoryOptions={categoryOptions}
+          busy={formBusy}
+        />
       </div>
     </>
   );

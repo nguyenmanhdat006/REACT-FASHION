@@ -10,18 +10,20 @@ import {
 } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 
-import type { AdminAddProductFormValues } from '../types';
+import type { ProductV2FormValues } from '@/forms/ProductV2/types';
 
 type AdminAddProductQuickActionsSectionProps = {
-  control: Control<AdminAddProductFormValues>;
+  control: Control<ProductV2FormValues>;
   visible: boolean;
   featured: boolean;
+  readOnly?: boolean;
 };
 
 export default function AdminAddProductQuickActionsSection({
   control,
   visible,
   featured,
+  readOnly = false,
 }: AdminAddProductQuickActionsSectionProps) {
   return (
     <>
@@ -41,6 +43,7 @@ export default function AdminAddProductQuickActionsSection({
                 <Switch
                   checked={field.value}
                   onCheckedChange={field.onChange}
+                  disabled={readOnly}
                   id="product-visible"
                   aria-labelledby="product-visible-label"
                 />
@@ -65,6 +68,7 @@ export default function AdminAddProductQuickActionsSection({
                 <Switch
                   checked={field.value}
                   onCheckedChange={field.onChange}
+                  disabled={readOnly}
                   id="product-featured"
                   aria-labelledby="product-featured-label"
                 />

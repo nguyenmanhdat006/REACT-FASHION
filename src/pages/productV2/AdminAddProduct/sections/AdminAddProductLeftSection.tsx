@@ -1,14 +1,15 @@
 import type { Control } from 'react-hook-form';
 import type { MouseEvent } from 'react';
 
-import type { AdminAddProductFormValues } from '../types';
+import type { ProductV2FormValues } from '@/forms/ProductV2/types';
 
 import AdminAddProductGalleryModal from './AdminAddProductGalleryModal';
 import AdminAddProductMediaSection from './AdminAddProductMediaSection';
 import AdminAddProductQuickActionsSection from './AdminAddProductQuickActionsSection';
 
 type AdminAddProductLeftSectionProps = {
-  control: Control<AdminAddProductFormValues>;
+  control: Control<ProductV2FormValues>;
+  readOnly?: boolean;
   visible: boolean;
   featured: boolean;
   coverUrl: string | null;
@@ -32,6 +33,7 @@ type AdminAddProductLeftSectionProps = {
 
 export default function AdminAddProductLeftSection({
   control,
+  readOnly = false,
   visible,
   featured,
   coverUrl,
@@ -61,25 +63,29 @@ export default function AdminAddProductLeftSection({
         galleryPreview3={galleryPreview3}
         galleryMoreBeyondThirdCount={galleryMoreBeyondThirdCount}
         uploadLocked={uploadLocked}
+        readOnly={readOnly}
         onCoverClick={onCoverClick}
         onGalleryCellClick={onGalleryCellClick}
         onMoreGalleryClick={onOpenGalleryModal}
         onDashedPlusClick={onDashedPlusClick}
       />
-      <AdminAddProductGalleryModal
-        isOpen={galleryModalOpen}
-        onClose={onCloseGalleryModal}
-        imageUrls={productImages}
-        coverIndex={coverIndex}
-        onChangeImages={onChangeProductImages}
-        onChangeCoverIndex={onChangeCoverIndex}
-        isUploading={uploadLocked}
-        onUploadFile={onModalUploadFile}
-      />
+      {!readOnly ? (
+        <AdminAddProductGalleryModal
+          isOpen={galleryModalOpen}
+          onClose={onCloseGalleryModal}
+          imageUrls={productImages}
+          coverIndex={coverIndex}
+          onChangeImages={onChangeProductImages}
+          onChangeCoverIndex={onChangeCoverIndex}
+          isUploading={uploadLocked}
+          onUploadFile={onModalUploadFile}
+        />
+      ) : null}
       <AdminAddProductQuickActionsSection
         control={control}
         visible={visible}
         featured={featured}
+        readOnly={readOnly}
       />
     </div>
   );

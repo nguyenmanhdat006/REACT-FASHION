@@ -6,7 +6,7 @@ import {
   type ProductImagePayload,
 } from '@/types/product/product';
 
-import type { AdminAddProductFormValues, AdminAddProductMediaInput } from './types';
+import type { ProductV2FormMediaInput, ProductV2FormValues } from '@/forms/ProductV2/types';
 
 const statusToEnum: Record<string, ProductStatus> = {
   draft: ProductStatus.DRAFT,
@@ -87,7 +87,7 @@ function optionalNonNegativeInt(value: string | undefined): number | undefined {
 }
 
 function buildProductImages(
-  media: AdminAddProductMediaInput | undefined,
+  media: ProductV2FormMediaInput | undefined,
   productName: string
 ): ProductImagePayload[] | undefined {
   if (!media?.imageUrls?.length) return undefined;
@@ -109,8 +109,8 @@ function buildProductImages(
 }
 
 export function adminAddProductFormToCreateRequest(
-  values: AdminAddProductFormValues,
-  media?: AdminAddProductMediaInput
+  values: ProductV2FormValues,
+  media?: ProductV2FormMediaInput
 ): CreateProductRequest {
   const price = parseMoney(values.price) ?? 0;
   const statusKey = values.status.trim().toLowerCase();

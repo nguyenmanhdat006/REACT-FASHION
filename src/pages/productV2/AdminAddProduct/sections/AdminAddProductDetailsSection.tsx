@@ -17,25 +17,47 @@ import {
   STATUS_OPTIONS,
   SUBCATEGORY_OPTIONS,
 } from '../constants';
-import type { AdminAddProductFormValues } from '../types';
+import type { ProductV2FormMode, ProductV2FormValues } from '@/forms/ProductV2/types';
+
+const SUBMIT_LABEL: Record<Exclude<ProductV2FormMode, 'read'>, string> = {
+  create: 'Publish',
+  update: 'Save changes',
+};
+
+const SUBMIT_PENDING_LABEL: Record<Exclude<ProductV2FormMode, 'read'>, string> = {
+  create: 'Publishing…',
+  update: 'Saving…',
+};
 
 type AdminAddProductDetailsSectionProps = {
-  register: UseFormRegister<AdminAddProductFormValues>;
-  control: Control<AdminAddProductFormValues>;
-  errors: FieldErrors<AdminAddProductFormValues>;
+  mode?: ProductV2FormMode;
+  register: UseFormRegister<ProductV2FormValues>;
+  control: Control<ProductV2FormValues>;
+  errors: FieldErrors<ProductV2FormValues>;
   brandOptions?: SelectOption[];
   categoryOptions?: SelectOption[];
+  readOnly?: boolean;
   isSubmitting?: boolean;
 };
 
 export default function AdminAddProductDetailsSection({
+  mode = 'create',
   register,
   control,
   errors,
   brandOptions = BRAND_OPTIONS,
   categoryOptions = CATEGORY_OPTIONS,
+  readOnly = false,
   isSubmitting = false,
 }: AdminAddProductDetailsSectionProps) {
+  const fieldsDisabled = readOnly || isSubmitting;
+  const nameRegister = register('name', readOnly ? { disabled: true } : undefined);
+  const priceRegister = register('price', readOnly ? { disabled: true } : undefined);
+  const discountRegister = register('discount', readOnly ? { disabled: true } : undefined);
+  const skuRegister = register('sku', readOnly ? { disabled: true } : undefined);
+  const stockRegister = register('stockQuantity', readOnly ? { disabled: true } : undefined);
+  const shortDescRegister = register('shortDescription', readOnly ? { disabled: true } : undefined);
+  const descRegister = register('description', readOnly ? { disabled: true } : undefined);
   return (
     <div className="col-span-12 lg:col-span-6">
       <Card className="gap-4 overflow-hidden rounded-2xl bg-white p-4">
@@ -51,7 +73,7 @@ export default function AdminAddProductDetailsSection({
             label="Product Name"
             type="text"
             placeholder="e.g. Natural Glow Face Moisturizer"
-            register={register('name')}
+            register={nameRegister}
             error={errors.name}
           />
 
@@ -68,6 +90,7 @@ export default function AdminAddProductDetailsSection({
                   options={STATUS_OPTIONS}
                   value={field.value}
                   onValueChange={field.onChange}
+                  disabled={fieldsDisabled}
                   error={errors.status}
                 />
               )}
@@ -84,6 +107,7 @@ export default function AdminAddProductDetailsSection({
                   options={brandOptions}
                   value={field.value}
                   onValueChange={field.onChange}
+                  disabled={fieldsDisabled}
                   error={errors.brand}
                 />
               )}
@@ -103,6 +127,7 @@ export default function AdminAddProductDetailsSection({
                   options={categoryOptions}
                   value={field.value}
                   onValueChange={field.onChange}
+                  disabled={fieldsDisabled}
                   error={errors.category}
                 />
               )}
@@ -119,6 +144,7 @@ export default function AdminAddProductDetailsSection({
                   options={SUBCATEGORY_OPTIONS}
                   value={field.value}
                   onValueChange={field.onChange}
+                  disabled={fieldsDisabled}
                   error={errors.subcategory}
                 />
               )}
@@ -131,7 +157,7 @@ export default function AdminAddProductDetailsSection({
               label="Price"
               type="text"
               placeholder="e.g. $29.99"
-              register={register('price')}
+              register={priceRegister}
               error={errors.price}
             />
             <FormField
@@ -139,7 +165,7 @@ export default function AdminAddProductDetailsSection({
               label="Discount"
               type="text"
               placeholder="e.g. 15%"
-              register={register('discount')}
+              register={discountRegister}
               error={errors.discount}
             />
           </div>
@@ -150,7 +176,7 @@ export default function AdminAddProductDetailsSection({
               label="SKU"
               type="text"
               placeholder="Optional product SKU"
-              register={register('sku')}
+              register={skuRegister}
               error={errors.sku}
             />
             <FormField
@@ -158,7 +184,7 @@ export default function AdminAddProductDetailsSection({
               label="Stock quantity"
               type="text"
               placeholder="e.g. 100"
-              register={register('stockQuantity')}
+              register={stockRegister}
               error={errors.stockQuantity}
             />
           </div>
@@ -168,7 +194,7 @@ export default function AdminAddProductDetailsSection({
             id="product-short-description"
             label="Short description"
             placeholder="One-line summary for listings (optional)"
-            register={register('shortDescription')}
+            register={shortDescRegister}
             error={errors.shortDescription}
             rows={3}
           />
@@ -178,19 +204,23 @@ export default function AdminAddProductDetailsSection({
             id="product-description"
             label="Description"
             placeholder="Write description highlighting key benefits and features"
-            register={register('description')}
+            register={descRegister}
             error={errors.description}
           />
 
-          <div className="flex justify-end pt-2">
-            <Button
-              type="submit"
-              className="h-12 rounded-2xl px-8 text-body-regular"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? 'Publishing…' : 'Publish'}
-            </Button>
-          </div>
+          {!readOnly && mode !== 'read' ? (
+            <div className="flex justify-end pt-2">
+              <Button
+                type="submit"
+                className="h-12 rounded-2xl px-8 text-body-regular"
+                disabled={isSubmitting}
+              >
+                {isSubmitting
+                  ? SUBMIT_PENDING_LABEL[mode]
+                  : SUBMIT_LABEL[mode]}
+              </Button>
+            </div>
+          ) : null}
         </CardContent>
       </Card>
     </div>

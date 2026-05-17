@@ -12,6 +12,7 @@ export type AdminAddProductMediaSectionProps = {
   galleryPreview3: string | null;
   galleryMoreBeyondThirdCount: number;
   uploadLocked: boolean;
+  readOnly?: boolean;
   onCoverClick: (e: MouseEvent) => void;
   onGalleryCellClick: (which: 0 | 1, e: MouseEvent) => void;
   onMoreGalleryClick: () => void;
@@ -25,6 +26,7 @@ export default function AdminAddProductMediaSection({
   galleryPreview3,
   galleryMoreBeyondThirdCount,
   uploadLocked,
+  readOnly = false,
   onCoverClick,
   onGalleryCellClick,
   onMoreGalleryClick,
@@ -35,8 +37,11 @@ export default function AdminAddProductMediaSection({
       <CardContent className="flex-1 p-5">
         <div className="flex h-full flex-col gap-4 sm:flex-row">
           <div
-            className="relative aspect-square h-full w-full shrink-0 overflow-hidden rounded-2xl bg-muted sm:max-w-[48%]"
-            onClick={onCoverClick}
+            className={cn(
+              'relative aspect-square h-full w-full shrink-0 overflow-hidden rounded-2xl bg-muted sm:max-w-[48%]',
+              readOnly && 'pointer-events-none'
+            )}
+            onClick={readOnly ? undefined : onCoverClick}
           >
             {coverUrl ? (
               <img
@@ -57,10 +62,12 @@ export default function AdminAddProductMediaSection({
             </Badge>
           </div>
 
-          <div className="grid flex-1 grid-cols-2 gap-4">
+          <div
+            className={cn('grid flex-1 grid-cols-2 gap-4', readOnly && 'pointer-events-none')}
+          >
             <div
               className="aspect-square size-full overflow-hidden rounded-xl border border-gray-200 bg-muted"
-              onClick={e => onGalleryCellClick(0, e)}
+              onClick={readOnly ? undefined : e => onGalleryCellClick(0, e)}
             >
               {galleryPreview1 ? (
                 <img src={galleryPreview1} alt="" className="size-full object-cover" />
@@ -72,7 +79,7 @@ export default function AdminAddProductMediaSection({
             </div>
             <div
               className="aspect-square size-full overflow-hidden rounded-xl border border-gray-200 bg-muted"
-              onClick={e => onGalleryCellClick(1, e)}
+              onClick={readOnly ? undefined : e => onGalleryCellClick(1, e)}
             >
               {galleryPreview2 ? (
                 <img src={galleryPreview2} alt="" className="size-full object-cover" />
@@ -96,7 +103,7 @@ export default function AdminAddProductMediaSection({
                   : 'Gallery image 3'
               }
               onClick={() => {
-                if (uploadLocked) return;
+                if (readOnly || uploadLocked) return;
                 if (!galleryPreview3) return;
                 onMoreGalleryClick();
               }}
@@ -128,7 +135,7 @@ export default function AdminAddProductMediaSection({
               )}
               aria-label="Add gallery image"
               onClick={() => {
-                if (uploadLocked) return;
+                if (readOnly || uploadLocked) return;
                 onDashedPlusClick();
               }}
             >
