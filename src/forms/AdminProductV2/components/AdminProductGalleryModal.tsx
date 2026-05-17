@@ -7,7 +7,7 @@ import { LabelButton } from '@/components/buttons/LabelButton';
 import Modal from '@/components/overlay/Modal';
 import { cn } from '@/lib/utils';
 
-export type AdminAddProductGalleryModalProps = {
+export type AdminProductGalleryModalProps = {
   isOpen: boolean;
   onClose: () => void;
   imageUrls: string[];
@@ -18,7 +18,7 @@ export type AdminAddProductGalleryModalProps = {
   onUploadFile: (file: File) => Promise<string | null>;
 };
 
-export default function AdminAddProductGalleryModal({
+export default function AdminProductGalleryModal({
   isOpen,
   onClose,
   imageUrls,
@@ -27,7 +27,7 @@ export default function AdminAddProductGalleryModal({
   onChangeCoverIndex,
   isUploading,
   onUploadFile,
-}: AdminAddProductGalleryModalProps) {
+}: AdminProductGalleryModalProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [batchBusy, setBatchBusy] = useState(false);
   const busy = isUploading || batchBusy;

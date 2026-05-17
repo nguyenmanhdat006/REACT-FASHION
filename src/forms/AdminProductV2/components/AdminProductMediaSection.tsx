@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
-export type AdminAddProductMediaSectionProps = {
+export type AdminProductMediaSectionProps = {
   coverUrl: string | null;
   galleryPreview1: string | null;
   galleryPreview2: string | null;
@@ -19,7 +19,7 @@ export type AdminAddProductMediaSectionProps = {
   onDashedPlusClick: () => void;
 };
 
-export default function AdminAddProductMediaSection({
+export default function AdminProductMediaSection({
   coverUrl,
   galleryPreview1,
   galleryPreview2,
@@ -31,7 +31,7 @@ export default function AdminAddProductMediaSection({
   onGalleryCellClick,
   onMoreGalleryClick,
   onDashedPlusClick,
-}: AdminAddProductMediaSectionProps) {
+}: AdminProductMediaSectionProps) {
   return (
     <Card className="flex max-h-[360px] flex-1 gap-0 self-stretch overflow-hidden rounded-2xl bg-white py-0 dark:bg-gray-800">
       <CardContent className="flex-1 p-5">

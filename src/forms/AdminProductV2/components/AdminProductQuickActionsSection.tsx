@@ -12,19 +12,19 @@ import { Switch } from '@/components/ui/switch';
 
 import type { AdminProductV2FormValues } from '@/forms/AdminProductV2/types';
 
-type AdminAddProductQuickActionsSectionProps = {
+type AdminProductQuickActionsSectionProps = {
   control: Control<AdminProductV2FormValues>;
   visible: boolean;
   featured: boolean;
   readOnly?: boolean;
 };
 
-export default function AdminAddProductQuickActionsSection({
+export default function AdminProductQuickActionsSection({
   control,
   visible,
   featured,
   readOnly = false,
-}: AdminAddProductQuickActionsSectionProps) {
+}: AdminProductQuickActionsSectionProps) {
   return (
     <>
       <Card className="gap-0 overflow-hidden rounded-2xl bg-white py-0 dark:bg-gray-800">

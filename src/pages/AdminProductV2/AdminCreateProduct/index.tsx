@@ -92,7 +92,6 @@ export default function AdminCreateProduct(): JSX.Element {
     register,
     control,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<AdminProductV2FormValues>({
     defaultValues: {
@@ -111,9 +110,6 @@ export default function AdminCreateProduct(): JSX.Element {
       featured: false,
     },
   });
-
-  const visible = watch('visible');
-  const featured = watch('featured');
 
   const otherIndices = useMemo(
     () => productImages.map((_, i) => i).filter(i => i !== coverIndex),
@@ -253,25 +249,25 @@ export default function AdminCreateProduct(): JSX.Element {
           register={register}
           control={control}
           errors={errors}
-          visible={visible}
-          featured={featured}
-          coverUrl={coverUrl}
-          galleryPreview1={galleryPreview1}
-          galleryPreview2={galleryPreview2}
-          galleryPreview3={galleryPreview3}
-          galleryMoreBeyondThirdCount={galleryMoreBeyondThirdCount}
-          uploadBusy={uploadBusy}
-          galleryModalOpen={galleryModalOpen}
-          onOpenGalleryModal={() => setGalleryModalOpen(true)}
-          onCloseGalleryModal={() => setGalleryModalOpen(false)}
-          productImages={productImages}
-          coverIndex={coverIndex}
-          onChangeProductImages={setProductImages}
-          onChangeCoverIndex={setCoverIndex}
-          onCoverClick={handleCoverClick}
-          onGalleryCellClick={handleGalleryCellClick}
-          onDashedPlusClick={handleDashedPlusClick}
-          onModalUploadFile={modalUploadSingle}
+          media={{
+            coverUrl,
+            galleryPreview1,
+            galleryPreview2,
+            galleryPreview3,
+            galleryMoreBeyondThirdCount,
+            uploadBusy,
+            galleryModalOpen,
+            productImages,
+            coverIndex,
+            onOpenGalleryModal: () => setGalleryModalOpen(true),
+            onCloseGalleryModal: () => setGalleryModalOpen(false),
+            onChangeProductImages: setProductImages,
+            onChangeCoverIndex: setCoverIndex,
+            onCoverClick: handleCoverClick,
+            onGalleryCellClick: handleGalleryCellClick,
+            onDashedPlusClick: handleDashedPlusClick,
+            onModalUploadFile: modalUploadSingle,
+          }}
           brandOptions={brandOptions}
           categoryOptions={categoryOptions}
           busy={formBusy}

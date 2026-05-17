@@ -1,13 +1,21 @@
-import type { FormEventHandler, JSX, MouseEvent } from 'react';
+import type { FormEventHandler, JSX } from 'react';
 import type { Control, FieldErrors, UseFormRegister } from 'react-hook-form';
+import { useWatch } from 'react-hook-form';
 
 import type { SelectOption } from '@/components/FormField';
-import AdminProductFormDetailsSection from './components/AdminAddProductDetailsSection';
-import AdminProductFormLeftSection from './components/AdminAddProductLeftSection';
 
-import type { AdminProductV2FormMode, AdminProductV2FormValues } from './types';
+import AdminProductDetailSection from './components/AdminProductDetailSection';
+import AdminProductGalleryModal from './components/AdminProductGalleryModal';
+import AdminProductMediaSection from './components/AdminProductMediaSection';
+import AdminProductQuickActionsSection from './components/AdminProductQuickActionsSection';
+import type {
+  AdminProductV2FormMedia,
+  AdminProductV2FormMode,
+  AdminProductV2FormValues,
+} from './types';
 
 export type {
+  AdminProductV2FormMedia,
   AdminProductV2FormMode,
   AdminProductV2FormValues,
   AdminProductV2FormMediaInput,
@@ -22,25 +30,7 @@ export type AdminProductV2FormProps = {
   register: UseFormRegister<AdminProductV2FormValues>;
   control: Control<AdminProductV2FormValues>;
   errors: FieldErrors<AdminProductV2FormValues>;
-  visible: boolean;
-  featured: boolean;
-  coverUrl: string | null;
-  galleryPreview1: string | null;
-  galleryPreview2: string | null;
-  galleryPreview3: string | null;
-  galleryMoreBeyondThirdCount: number;
-  uploadBusy: boolean;
-  galleryModalOpen: boolean;
-  onOpenGalleryModal: () => void;
-  onCloseGalleryModal: () => void;
-  productImages: string[];
-  coverIndex: number;
-  onChangeProductImages: (next: string[]) => void;
-  onChangeCoverIndex: (index: number) => void;
-  onCoverClick: (e: MouseEvent) => void;
-  onGalleryCellClick: (which: 0 | 1, e: MouseEvent) => void;
-  onDashedPlusClick: () => void;
-  onModalUploadFile: (file: File) => Promise<string | null>;
+  media: AdminProductV2FormMedia;
   brandOptions: SelectOption[];
   categoryOptions: SelectOption[];
   busy?: boolean;
@@ -56,25 +46,7 @@ export default function AdminProductV2Form({
   register,
   control,
   errors,
-  visible,
-  featured,
-  coverUrl,
-  galleryPreview1,
-  galleryPreview2,
-  galleryPreview3,
-  galleryMoreBeyondThirdCount,
-  uploadBusy,
-  galleryModalOpen,
-  onOpenGalleryModal,
-  onCloseGalleryModal,
-  productImages,
-  coverIndex,
-  onChangeProductImages,
-  onChangeCoverIndex,
-  onCoverClick,
-  onGalleryCellClick,
-  onDashedPlusClick,
-  onModalUploadFile,
+  media,
   brandOptions,
   categoryOptions,
   busy = false,
@@ -82,7 +54,10 @@ export default function AdminProductV2Form({
 }: AdminProductV2FormProps): JSX.Element {
   const readOnly = mode === 'read';
   const fieldsLocked = readOnly || busy;
-  const uploadLocked = readOnly || uploadBusy;
+  const uploadLocked = readOnly || media.uploadBusy;
+
+  const visible = useWatch({ control, name: 'visible' }) ?? false;
+  const featured = useWatch({ control, name: 'featured' }) ?? false;
 
   return (
     <form
@@ -90,30 +65,41 @@ export default function AdminProductV2Form({
       noValidate
       className={className ?? 'grid grid-cols-12 gap-4'}
     >
-      <AdminProductFormLeftSection
-        control={control}
-        visible={visible}
-        featured={featured}
-        coverUrl={coverUrl}
-        galleryPreview1={galleryPreview1}
-        galleryPreview2={galleryPreview2}
-        galleryPreview3={galleryPreview3}
-        galleryMoreBeyondThirdCount={galleryMoreBeyondThirdCount}
-        uploadLocked={uploadLocked}
-        readOnly={readOnly}
-        galleryModalOpen={galleryModalOpen}
-        onOpenGalleryModal={onOpenGalleryModal}
-        onCloseGalleryModal={onCloseGalleryModal}
-        productImages={productImages}
-        coverIndex={coverIndex}
-        onChangeProductImages={onChangeProductImages}
-        onChangeCoverIndex={onChangeCoverIndex}
-        onCoverClick={onCoverClick}
-        onGalleryCellClick={onGalleryCellClick}
-        onDashedPlusClick={onDashedPlusClick}
-        onModalUploadFile={onModalUploadFile}
-      />
-      <AdminProductFormDetailsSection
+      <div className="col-span-12 flex flex-col gap-4 self-stretch lg:col-span-6">
+        <AdminProductMediaSection
+          coverUrl={media.coverUrl}
+          galleryPreview1={media.galleryPreview1}
+          galleryPreview2={media.galleryPreview2}
+          galleryPreview3={media.galleryPreview3}
+          galleryMoreBeyondThirdCount={media.galleryMoreBeyondThirdCount}
+          uploadLocked={uploadLocked}
+          readOnly={readOnly}
+          onCoverClick={media.onCoverClick}
+          onGalleryCellClick={media.onGalleryCellClick}
+          onMoreGalleryClick={media.onOpenGalleryModal}
+          onDashedPlusClick={media.onDashedPlusClick}
+        />
+        {!readOnly ? (
+          <AdminProductGalleryModal
+            isOpen={media.galleryModalOpen}
+            onClose={media.onCloseGalleryModal}
+            imageUrls={media.productImages}
+            coverIndex={media.coverIndex}
+            onChangeImages={media.onChangeProductImages}
+            onChangeCoverIndex={media.onChangeCoverIndex}
+            isUploading={uploadLocked}
+            onUploadFile={media.onModalUploadFile}
+          />
+        ) : null}
+        <AdminProductQuickActionsSection
+          control={control}
+          visible={visible}
+          featured={featured}
+          readOnly={readOnly}
+        />
+      </div>
+
+      <AdminProductDetailSection
         mode={mode}
         register={register}
         control={control}

@@ -29,7 +29,7 @@ const SUBMIT_PENDING_LABEL: Record<Exclude<AdminProductV2FormMode, 'read'>, stri
   update: 'Saving…',
 };
 
-type AdminAddProductDetailsSectionProps = {
+type AdminProductDetailSectionProps = {
   mode?: AdminProductV2FormMode;
   register: UseFormRegister<AdminProductV2FormValues>;
   control: Control<AdminProductV2FormValues>;
@@ -40,7 +40,7 @@ type AdminAddProductDetailsSectionProps = {
   isSubmitting?: boolean;
 };
 
-export default function AdminAddProductDetailsSection({
+export default function AdminProductDetailSection({
   mode = 'create',
   register,
   control,
@@ -49,7 +49,7 @@ export default function AdminAddProductDetailsSection({
   categoryOptions = CATEGORY_OPTIONS,
   readOnly = false,
   isSubmitting = false,
-}: AdminAddProductDetailsSectionProps) {
+}: AdminProductDetailSectionProps) {
   const fieldsDisabled = readOnly || isSubmitting;
   const nameRegister = register('name', readOnly ? { disabled: true } : undefined);
   const priceRegister = register('price', readOnly ? { disabled: true } : undefined);
