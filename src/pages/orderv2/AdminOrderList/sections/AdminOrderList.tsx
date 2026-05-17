@@ -1,10 +1,9 @@
 import { useMemo } from 'react';
-import { MoreVertical } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 import TableView, { type TableColumn } from '@/components/TableView';
+import TableRowActionsMenuTrigger from '@/components/TableRowActionsMenuTrigger';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import {
   Select,
   SelectContent,
@@ -16,7 +15,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
@@ -220,20 +218,12 @@ function AdminOrderList({
       getRowSelectionAriaLabel={(o) => `Select order ${o.orderNumber}`}
       renderRowActions={(order) => (
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon-sm"
-              className="text-muted-foreground"
-              aria-label={`Actions for ${order.orderNumber}`}
-            >
-              <MoreVertical className="size-4" />
-            </Button>
-          </DropdownMenuTrigger>
+          <TableRowActionsMenuTrigger
+            label={`Actions for ${order.orderNumber}`}
+          />
           <DropdownMenuContent align="end">
             <DropdownMenuItem
-              onClick={() => navigate(ROUTESV2.ORDER_DETAIL(order.id))}
+              onSelect={() => navigate(ROUTESV2.ORDER_DETAIL(order.id))}
             >
               View details
             </DropdownMenuItem>

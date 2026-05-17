@@ -1,14 +1,12 @@
 import { useMemo } from 'react';
-import { MoreVertical } from 'lucide-react';
 
 import TableView, { type TableColumn } from '@/components/TableView';
+import TableRowActionsMenuTrigger from '@/components/TableRowActionsMenuTrigger';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 
@@ -165,19 +163,9 @@ function AdminUserList({
       getRowSelectionAriaLabel={(u) => `Select ${u.fullName}`}
       renderRowActions={(user) => (
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon-sm"
-              className="text-muted-foreground"
-              aria-label={`Actions for ${user.fullName}`}
-            >
-              <MoreVertical className="size-4" />
-            </Button>
-          </DropdownMenuTrigger>
+          <TableRowActionsMenuTrigger label={`Actions for ${user.fullName}`} />
           <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => onEditRoles?.(user)}>
+            <DropdownMenuItem onSelect={() => onEditRoles?.(user)}>
               Edit roles
             </DropdownMenuItem>
           </DropdownMenuContent>

@@ -1,14 +1,12 @@
 import { useMemo } from 'react';
-import { MoreVertical } from 'lucide-react';
 
 import TableView, { type TableColumn } from '@/components/TableView';
+import TableRowActionsMenuTrigger from '@/components/TableRowActionsMenuTrigger';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
 export type AdminProductRow = {
@@ -135,27 +133,27 @@ function AdminProductList({
       getRowSelectionAriaLabel={(p) => `Select ${p.name}`}
       renderRowActions={(product) => (
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon-sm"
-              className="text-muted-foreground"
-              aria-label={`Actions for ${product.name}`}
+          <TableRowActionsMenuTrigger label={`Actions for ${product.name}`} />
+          <DropdownMenuContent align="end" className="min-w-36">
+            <DropdownMenuItem
+              onSelect={() => {
+                onViewProduct?.(product);
+              }}
             >
-              <MoreVertical className="size-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => onViewProduct?.(product)}>
               Detail
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => onEditProduct?.(product)}>
+            <DropdownMenuItem
+              onSelect={() => {
+                onEditProduct?.(product);
+              }}
+            >
               Edit
             </DropdownMenuItem>
             <DropdownMenuItem
               variant="destructive"
-              onClick={() => onDeleteProduct?.(product)}
+              onSelect={() => {
+                onDeleteProduct?.(product);
+              }}
             >
               Delete
             </DropdownMenuItem>
