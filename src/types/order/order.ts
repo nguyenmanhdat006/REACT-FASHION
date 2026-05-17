@@ -98,6 +98,7 @@ export interface Order {
   paymentMethod: PaymentMethod;
   paymentUrl: string | null;          // redirect URL for VNPAY; null for COD
   shipmentId: number | null;
+  shipmentStatus?: ShipmentStatus;
   items: OrderItem[];
   subtotal: number;
   discount: number;

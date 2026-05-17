@@ -41,6 +41,7 @@ export {
   confirmOrderPaymentThunk,
   markOrderDeliveredThunk,
   calculateShippingFeeThunk,
+  updateShipmentStatusThunk,
 } from './orderThunks';
 
 export {

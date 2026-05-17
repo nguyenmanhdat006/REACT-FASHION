@@ -212,12 +212,17 @@ export const orderService = {
     return normalizeOrderResp(raw);
   },
 
-  /**
-   * PUT /api/orders/{id}/delivered
-   * Marks order DELIVERED + triggers Payment Service to mark success (for COD).
-   */
   markDelivered: async (id: string): Promise<ApiResponse<Order>> => {
     const raw = await orderApiClient.put<unknown>(`/orders/${id}/delivered`);
+    return normalizeOrderResp(raw);
+  },
+
+  /**
+   * PUT /api/orders/{id}/shipping-status
+   * Keep shipping status in sync in order-service.
+   */
+  updateShippingStatus: async (id: string, status: string): Promise<ApiResponse<Order>> => {
+    const raw = await orderApiClient.put<unknown>(`/orders/${id}/shipping-status`, { status });
     return normalizeOrderResp(raw);
   },
 };
