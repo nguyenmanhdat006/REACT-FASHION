@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
 import { X, Loader2 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { orderService } from '@/services/order/orderService';
 import type { Order } from '@/types/order/order';
@@ -15,15 +14,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-} from '@/components/ui/dropdown-menu';
-import { ROUTESV2 } from '@/constants';
 import { cn } from '@/lib/utils';
 import type { OrderStatus, PaymentStatus, ShipmentStatus } from '@/types/order/order';
 import { OrderStatus as OrderStatusEnum, ShipmentStatus as ShipmentStatusEnum } from '@/types/order/order';
@@ -73,7 +63,7 @@ const SHIPMENT_STATUS_TRANSITIONS: Partial<Record<ShipmentStatus, ShipmentStatus
   [ShipmentStatusEnum.FAILED_DELIVERY]: [ShipmentStatusEnum.OUT_FOR_DELIVERY, ShipmentStatusEnum.CANCELLED],
 };
 
-const formatStatusLabel = (status: OrderStatus) =>
+const formatStatusLabel = (status: string) =>
   status
     .split('_')
     .map((part) => part.charAt(0) + part.slice(1).toLowerCase())
@@ -275,7 +265,6 @@ function AdminOrderList({
   onUpdateStatus,
   onUpdateShipmentStatus,
 }: AdminOrderListProps) {
-  const navigate = useNavigate();
   const columns = useMemo(() => buildOrderColumns(onUpdateStatus, onUpdateShipmentStatus), [onUpdateStatus, onUpdateShipmentStatus]);
 
   const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
