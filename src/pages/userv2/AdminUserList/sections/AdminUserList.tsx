@@ -26,8 +26,9 @@ export type AdminUserRow = {
 
 export type AdminUserListProps = {
   users: AdminUserRow[];
+  currentPage: number;
   totalPages: number;
-  onPageChange?: (page: number) => void;
+  onPageChange: (page: number) => void;
   selectedIds?: string[];
   onSelectedIdsChange?: (ids: string[]) => void;
   className?: string;
@@ -138,6 +139,7 @@ function buildUserColumns(): TableColumn<AdminUserRow>[] {
 
 function AdminUserList({
   users,
+  currentPage,
   totalPages,
   onPageChange,
   selectedIds,
@@ -152,6 +154,7 @@ function AdminUserList({
       className={className}
       rows={users}
       columns={columns}
+      currentPage={currentPage}
       totalPages={totalPages}
       onPageChange={onPageChange}
       selectedIds={selectedIds}

@@ -25,8 +25,9 @@ export type AdminOrderRow = {
 
 export type AdminOrderListProps = {
   orders: AdminOrderRow[];
+  currentPage: number;
   totalPages: number;
-  onPageChange?: (page: number) => void;
+  onPageChange: (page: number) => void;
   selectedIds?: string[];
   onSelectedIdsChange?: (ids: string[]) => void;
   className?: string;
@@ -166,6 +167,7 @@ function buildOrderColumns(): TableColumn<AdminOrderRow>[] {
 
 function AdminOrderList({
   orders,
+  currentPage,
   totalPages,
   onPageChange,
   selectedIds,
@@ -180,6 +182,7 @@ function AdminOrderList({
       className={className}
       rows={orders}
       columns={columns}
+      currentPage={currentPage}
       totalPages={totalPages}
       onPageChange={onPageChange}
       selectedIds={selectedIds}

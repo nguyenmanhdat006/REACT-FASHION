@@ -14,15 +14,47 @@ import { useAppSelector } from '@/store/hooks';
 
 import type { AdminProductRow } from './sections/AdminProductList';
 
-const PAGE_SIZE = 10;
+const LIST_PAGE_SIZE = 10;
+
+const productListQuery = (page: number, size: number) => ({
+  page,
+  size,
+  sortBy: 'createdAt',
+  sortDirection: 'desc' as const,
+});
 
 export default function AdminProductListPage(): JSX.Element {
-  const [page, setPage] = useState(1);
   const [deleteTarget, setDeleteTarget] = useState<AdminProductRow | null>(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const navigate = useNavigate();
   const { fetchProductsPage, deleteProduct } = useProducts();
-  const { items, totalPages, isLoading, error } = useAppSelector(s => s.products);
+  const { items, page, size, totalPages, isLoading, error } = useAppSelector(
+    (s) => s.products,
+  );
+
+  useEffect(() => {
+    void fetchProductsPage(productListQuery(0, LIST_PAGE_SIZE));
+  }, [fetchProductsPage]);
+
+  const listFilters = useMemo(
+    () => productListQuery(page, size || LIST_PAGE_SIZE),
+    [page, size],
+  );
+
+  const rows: AdminProductRow[] = useMemo(
+    () => items.map(productToAdminProductRow),
+    [items],
+  );
+
+  const currentPage = page + 1;
+  const safeTotalPages = Math.max(1, totalPages || 1);
+
+  const onPageChange = useCallback(
+    (nextPage: number) => {
+      void fetchProductsPage(productListQuery(nextPage - 1, size || LIST_PAGE_SIZE));
+    },
+    [fetchProductsPage, size],
+  );
 
   const goToAddProduct = useCallback(() => {
     navigate(ROUTESV2.ADMIN_PRODUCT_ADD);
@@ -32,36 +64,15 @@ export default function AdminProductListPage(): JSX.Element {
     (row: AdminProductRow) => {
       navigate(ROUTESV2.ADMIN_PRODUCT_DETAIL(row.id));
     },
-    [navigate]
+    [navigate],
   );
 
   const goToEditProduct = useCallback(
     (row: AdminProductRow) => {
       navigate(ROUTESV2.ADMIN_PRODUCT_EDIT(row.id));
     },
-    [navigate]
+    [navigate],
   );
-
-  const listFilters = useMemo(
-    () => ({
-      page: page - 1,
-      size: PAGE_SIZE,
-      sortBy: 'createdAt',
-      sortDirection: 'desc' as const,
-    }),
-    [page]
-  );
-
-  useEffect(() => {
-    void fetchProductsPage(listFilters);
-  }, [fetchProductsPage, listFilters]);
-
-  const rows: AdminProductRow[] = useMemo(
-    () => items.map(productToAdminProductRow),
-    [items]
-  );
-
-  const safeTotalPages = useMemo(() => Math.max(1, totalPages || 1), [totalPages]);
 
   const onDeleteProduct = useCallback((row: AdminProductRow) => {
     setDeleteTarget(row);
@@ -81,7 +92,12 @@ export default function AdminProductListPage(): JSX.Element {
         <title>Products — Admin</title>
       </Helmet>
       <div className="mb-4 flex justify-start gap-3">
-        <LabelButton label="Filters" type="button" className="bg-gray-white hover:bg-gray-100" ariaLabel="Open product filters" />
+        <LabelButton
+          label="Filters"
+          type="button"
+          className="bg-gray-white hover:bg-gray-100"
+          ariaLabel="Open product filters"
+        />
         <IconButton
           icon={Plus}
           ariaLabel="Add product"
@@ -92,15 +108,16 @@ export default function AdminProductListPage(): JSX.Element {
       </div>
       <AdminProductList
         products={rows}
+        currentPage={currentPage}
         totalPages={safeTotalPages}
-        onPageChange={setPage}
+        onPageChange={onPageChange}
         onViewProduct={goToProductDetail}
         onEditProduct={goToEditProduct}
         onDeleteProduct={onDeleteProduct}
       />
       <ConfirmDialog
         open={deleteTarget != null}
-        onOpenChange={open => {
+        onOpenChange={(open) => {
           if (!open && !deleteLoading) setDeleteTarget(null);
         }}
         title="Delete product"
@@ -115,10 +132,14 @@ export default function AdminProductListPage(): JSX.Element {
         onConfirm={handleConfirmDelete}
       />
       {isLoading && rows.length === 0 ? (
-        <p className="mt-4 text-center text-caption-lg-regular text-muted-foreground">Loading…</p>
+        <p className="mt-4 text-center text-caption-lg-regular text-muted-foreground">
+          Loading…
+        </p>
       ) : null}
       {error && !isLoading ? (
-        <p className="mt-4 text-center text-caption-sm-regular text-destructive">{error}</p>
+        <p className="mt-4 text-center text-caption-sm-regular text-destructive">
+          {error}
+        </p>
       ) : null}
     </>
   );

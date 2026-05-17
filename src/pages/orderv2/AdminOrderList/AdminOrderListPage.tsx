@@ -24,31 +24,38 @@ import { orderService } from '@/services/order/orderService';
 
 import type { AdminOrderRow } from './sections/AdminOrderList';
 
-const PAGE_SIZE = 10;
+const LIST_PAGE_SIZE = 10;
 
 export default function AdminOrderListPage(): JSX.Element {
-  const [page, setPage] = useState(1);
   const { fetchOrdersPage, confirmOrder, markDelivered, updateOrderStatus, updateShipmentStatus } = useOrders();
-  const { items, totalPages, isLoading, error } = useAppSelector((s) => s.orders);
+  const { items, page, size, totalPages, isLoading, error } = useAppSelector((s) => s.orders);
+
+  useEffect(() => {
+    void fetchOrdersPage({ page: 0, size: LIST_PAGE_SIZE });
+  }, [fetchOrdersPage]);
 
   const listParams = useMemo(
     () => ({
-      page: page - 1,
-      size: PAGE_SIZE,
+      page,
+      size: size || LIST_PAGE_SIZE,
     }),
-    [page],
+    [page, size],
   );
-
-  useEffect(() => {
-    void fetchOrdersPage(listParams);
-  }, [fetchOrdersPage, listParams]);
 
   const rows: AdminOrderRow[] = useMemo(
     () => items.map(orderToAdminOrderRow),
     [items],
   );
 
-  const safeTotalPages = useMemo(() => Math.max(1, totalPages || 1), [totalPages]);
+  const currentPage = page + 1;
+  const safeTotalPages = Math.max(1, totalPages || 1);
+
+  const onPageChange = useCallback(
+    (nextPage: number) => {
+      void fetchOrdersPage({ page: nextPage - 1, size: size || LIST_PAGE_SIZE });
+    },
+    [fetchOrdersPage, size],
+  );
 
   const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
   const [orderDetails, setOrderDetails] = useState<Order | null>(null);
@@ -169,8 +176,9 @@ export default function AdminOrderListPage(): JSX.Element {
       </div>
       <AdminOrderList
         orders={rows}
+        currentPage={currentPage}
         totalPages={safeTotalPages}
-        onPageChange={setPage}
+        onPageChange={onPageChange}
         onEditOrder={(row) => void openEditModal(row)}
       />
       {isLoading && rows.length === 0 ? (

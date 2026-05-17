@@ -13,11 +13,11 @@ import { useAdminCatalog } from '@/hooks/product/useAdminCatalog';
 import {
   categoryToAdminCategoryRow,
   type AdminCategoryRow,
-} from '@/pages/AdminCategoryV2/AdminCategoryList/categoryDisplayMappers';
+} from '@/pages/AdminCategoryV2/categoryDisplayMappers';
 import { useAppSelector } from '@/store/hooks';
 import { cn } from '@/lib/utils';
 
-const PAGE_SIZE = 10;
+const LIST_PAGE_SIZE = 10;
 const RESOURCE_LABEL = 'category';
 
 function buildCategoryColumns(): TableColumn<AdminCategoryRow>[] {
@@ -81,21 +81,32 @@ function buildCategoryColumns(): TableColumn<AdminCategoryRow>[] {
 export default function AdminCategoryListPage(): JSX.Element {
   const [panel, setPanel] = useState<AdminEntityPanelState>({ open: false });
   const { fetchCategories, deleteCategory } = useAdminCatalog();
-  const { items: categories, isLoading: categoriesLoading, error: categoriesError } =
-    useAppSelector((s) => s.categories);
+  const {
+    items: categories,
+    page,
+    size,
+    totalPages,
+    isLoading: categoriesLoading,
+    error: categoriesError,
+  } = useAppSelector((s) => s.categories);
 
   useEffect(() => {
-    void fetchCategories();
+    void fetchCategories({ page: 0, size: LIST_PAGE_SIZE });
   }, [fetchCategories]);
 
-  const allRows: AdminCategoryRow[] = useMemo(
+  const rows: AdminCategoryRow[] = useMemo(
     () => categories.map(categoryToAdminCategoryRow),
     [categories],
   );
 
-  const totalPages = useMemo(
-    () => Math.max(1, Math.ceil(allRows.length / PAGE_SIZE)),
-    [allRows.length],
+  const currentPage = page + 1;
+  const safeTotalPages = Math.max(1, totalPages || 1);
+
+  const onPageChange = useCallback(
+    (nextPage: number) => {
+      void fetchCategories({ page: nextPage - 1, size: size || LIST_PAGE_SIZE });
+    },
+    [fetchCategories, size],
   );
 
   const closePanel = useCallback(() => {
@@ -135,7 +146,7 @@ export default function AdminCategoryListPage(): JSX.Element {
         panelOpen={panel.open}
         panelTitle={panelTitle}
         onPanelClose={closePanel}
-        loading={categoriesLoading && allRows.length === 0}
+        loading={categoriesLoading && rows.length === 0}
         error={categoriesError}
         panelFooter={
           <AdminFormFooter
@@ -155,10 +166,11 @@ export default function AdminCategoryListPage(): JSX.Element {
         }
       >
         <TableView
-          rows={allRows}
+          rows={rows}
           columns={columns}
-          pageSize={PAGE_SIZE}
-          totalPages={totalPages}
+          currentPage={currentPage}
+          totalPages={safeTotalPages}
+          onPageChange={onPageChange}
           onEdit={openEditPanel}
           onDelete={onDeleteCategory}
         />

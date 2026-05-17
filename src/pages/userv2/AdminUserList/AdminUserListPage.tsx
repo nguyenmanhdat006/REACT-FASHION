@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { useCallback, useEffect, useMemo, useState, type JSX } from 'react';
+import { useCallback, useEffect, useMemo, type JSX } from 'react';
 
 import { LabelButton } from '@/components/buttons/LabelButton';
 import { useAdminUsers } from '@/hooks/user/useAdminUsers';
@@ -9,35 +9,44 @@ import { useAppSelector } from '@/store/hooks';
 
 import type { AdminUserRow } from './sections/AdminUserList';
 
-const PAGE_SIZE = 10;
+const LIST_PAGE_SIZE = 10;
 
 export default function AdminUserListPage(): JSX.Element {
-  const [page, setPage] = useState(1);
   const { fetchUsersPage, updateUserRoles } = useAdminUsers();
-  const { listItems, listTotalPages, isListLoading, listError } = useAppSelector(
-    (s) => s.user,
-  );
+  const {
+    listItems,
+    listPage,
+    listSize,
+    listTotalPages,
+    isListLoading,
+    listError,
+  } = useAppSelector((s) => s.user);
+
+  useEffect(() => {
+    void fetchUsersPage({ page: 0, size: LIST_PAGE_SIZE });
+  }, [fetchUsersPage]);
 
   const listParams = useMemo(
     () => ({
-      page: page - 1,
-      size: PAGE_SIZE,
+      page: listPage,
+      size: listSize || LIST_PAGE_SIZE,
     }),
-    [page],
+    [listPage, listSize],
   );
-
-  useEffect(() => {
-    void fetchUsersPage(listParams);
-  }, [fetchUsersPage, listParams]);
 
   const rows: AdminUserRow[] = useMemo(
     () => listItems.map(userToAdminUserRow),
     [listItems],
   );
 
-  const safeTotalPages = useMemo(
-    () => Math.max(1, listTotalPages || 1),
-    [listTotalPages],
+  const currentPage = listPage + 1;
+  const safeTotalPages = Math.max(1, listTotalPages || 1);
+
+  const onPageChange = useCallback(
+    (nextPage: number) => {
+      void fetchUsersPage({ page: nextPage - 1, size: listSize || LIST_PAGE_SIZE });
+    },
+    [fetchUsersPage, listSize],
   );
 
   const onEditRoles = useCallback(
@@ -72,8 +81,9 @@ export default function AdminUserListPage(): JSX.Element {
       </div>
       <AdminUserList
         users={rows}
+        currentPage={currentPage}
         totalPages={safeTotalPages}
-        onPageChange={setPage}
+        onPageChange={onPageChange}
         onEditRoles={(row) => void onEditRoles(row)}
       />
       {isListLoading && rows.length === 0 ? (
