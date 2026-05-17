@@ -59,29 +59,12 @@ export default function AdminProductV2Form({
       >
         <div className="col-span-12 flex flex-col gap-4 self-stretch lg:col-span-6">
           <AdminProductMediaSection
-            coverUrl={media.coverUrl}
-            galleryPreview1={media.galleryPreview1}
-            galleryPreview2={media.galleryPreview2}
-            galleryPreview3={media.galleryPreview3}
-            galleryMoreBeyondThirdCount={media.galleryMoreBeyondThirdCount}
-            uploadLocked={uploadLocked}
+            media={media}
             readOnly={readOnly}
-            onCoverClick={media.onCoverClick}
-            onGalleryCellClick={media.onGalleryCellClick}
-            onMoreGalleryClick={media.onOpenGalleryModal}
-            onDashedPlusClick={media.onDashedPlusClick}
+            uploadLocked={uploadLocked}
           />
           {!readOnly ? (
-            <AdminProductGalleryModal
-              isOpen={media.galleryModalOpen}
-              onClose={media.onCloseGalleryModal}
-              imageUrls={media.productImages}
-              coverIndex={media.coverIndex}
-              onChangeImages={media.setProductImages}
-              onChangeCoverIndex={media.setCoverIndex}
-              isUploading={uploadLocked}
-              onUploadFile={media.onModalUploadFile}
-            />
+            <AdminProductGalleryModal media={media} uploadLocked={uploadLocked} />
           ) : null}
           <AdminProductQuickActionsSection
             control={control}

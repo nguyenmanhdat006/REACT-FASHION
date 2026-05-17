@@ -1,37 +1,25 @@
 import { Plus } from 'lucide-react';
-import type { MouseEvent } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
+import type { UseAdminProductFormMediaResult } from '../useAdminProductFormMedia';
+
 export type AdminProductMediaSectionProps = {
-  coverUrl: string | null;
-  galleryPreview1: string | null;
-  galleryPreview2: string | null;
-  galleryPreview3: string | null;
-  galleryMoreBeyondThirdCount: number;
-  uploadLocked: boolean;
+  media: UseAdminProductFormMediaResult;
   readOnly?: boolean;
-  onCoverClick: (e: MouseEvent) => void;
-  onGalleryCellClick: (which: 0 | 1, e: MouseEvent) => void;
-  onMoreGalleryClick: () => void;
-  onDashedPlusClick: () => void;
+  uploadLocked: boolean;
 };
 
 export default function AdminProductMediaSection({
-  coverUrl,
-  galleryPreview1,
-  galleryPreview2,
-  galleryPreview3,
-  galleryMoreBeyondThirdCount,
-  uploadLocked,
+  media,
   readOnly = false,
-  onCoverClick,
-  onGalleryCellClick,
-  onMoreGalleryClick,
-  onDashedPlusClick,
+  uploadLocked,
 }: AdminProductMediaSectionProps) {
+  const { coverUrl, galleryPreviews } = media;
+  const { slot0, slot1, slot2, moreCount } = galleryPreviews;
+
   return (
     <Card className="flex max-h-[360px] flex-1 gap-0 self-stretch overflow-hidden rounded-2xl bg-white py-0 dark:bg-gray-800">
       <CardContent className="flex-1 p-5">
@@ -41,7 +29,7 @@ export default function AdminProductMediaSection({
               'relative aspect-square h-full w-full shrink-0 overflow-hidden rounded-2xl bg-muted sm:max-w-[48%]',
               readOnly && 'pointer-events-none'
             )}
-            onClick={readOnly ? undefined : onCoverClick}
+            onClick={readOnly ? undefined : media.onCoverClick}
           >
             {coverUrl ? (
               <img
@@ -67,10 +55,10 @@ export default function AdminProductMediaSection({
           >
             <div
               className="aspect-square size-full overflow-hidden rounded-xl border border-gray-200 bg-muted"
-              onClick={readOnly ? undefined : e => onGalleryCellClick(0, e)}
+              onClick={readOnly ? undefined : e => media.onGalleryCellClick(0, e)}
             >
-              {galleryPreview1 ? (
-                <img src={galleryPreview1} alt="" className="size-full object-cover" />
+              {slot0 ? (
+                <img src={slot0} alt="" className="size-full object-cover" />
               ) : (
                 <div className="flex size-full items-center justify-center px-2 text-center text-body-regular text-muted-foreground">
                   Gallery image 1
@@ -79,10 +67,10 @@ export default function AdminProductMediaSection({
             </div>
             <div
               className="aspect-square size-full overflow-hidden rounded-xl border border-gray-200 bg-muted"
-              onClick={readOnly ? undefined : e => onGalleryCellClick(1, e)}
+              onClick={readOnly ? undefined : e => media.onGalleryCellClick(1, e)}
             >
-              {galleryPreview2 ? (
-                <img src={galleryPreview2} alt="" className="size-full object-cover" />
+              {slot1 ? (
+                <img src={slot1} alt="" className="size-full object-cover" />
               ) : (
                 <div className="flex size-full items-center justify-center px-2 text-center text-body-regular text-muted-foreground">
                   Gallery image 2
@@ -96,28 +84,24 @@ export default function AdminProductMediaSection({
                 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
               )}
               aria-label={
-                galleryPreview3
-                  ? galleryMoreBeyondThirdCount > 0
-                    ? `View gallery, ${galleryMoreBeyondThirdCount} more images`
+                slot2
+                  ? moreCount > 0
+                    ? `View gallery, ${moreCount} more images`
                     : 'Manage gallery images'
                   : 'Gallery image 3'
               }
               onClick={() => {
                 if (readOnly || uploadLocked) return;
-                if (!galleryPreview3) return;
-                onMoreGalleryClick();
+                if (!slot2) return;
+                media.onOpenGalleryModal();
               }}
             >
-              {galleryPreview3 ? (
+              {slot2 ? (
                 <>
-                  <img
-                    src={galleryPreview3}
-                    alt=""
-                    className="size-full object-cover"
-                  />
-                  {galleryMoreBeyondThirdCount > 0 ? (
+                  <img src={slot2} alt="" className="size-full object-cover" />
+                  {moreCount > 0 ? (
                     <Badge className="pointer-events-none absolute bottom-2 right-2 rounded-md border-0 bg-black/70 px-2 py-0.5 text-caption-lg-medium text-white tabular-nums dark:bg-black/80">
-                      +{galleryMoreBeyondThirdCount}
+                      +{moreCount}
                     </Badge>
                   ) : null}
                 </>
@@ -136,7 +120,7 @@ export default function AdminProductMediaSection({
               aria-label="Add gallery image"
               onClick={() => {
                 if (readOnly || uploadLocked) return;
-                onDashedPlusClick();
+                media.onDashedPlusClick();
               }}
             >
               <Plus className="size-8 text-primary-500" strokeWidth={1} />

@@ -7,38 +7,30 @@ import { LabelButton } from '@/components/buttons/LabelButton';
 import Modal from '@/components/overlay/Modal';
 import { cn } from '@/lib/utils';
 
+import type { UseAdminProductFormMediaResult } from '../useAdminProductFormMedia';
+
 export type AdminProductGalleryModalProps = {
-  isOpen: boolean;
-  onClose: () => void;
-  imageUrls: string[];
-  coverIndex: number;
-  onChangeImages: (next: string[]) => void;
-  onChangeCoverIndex: (index: number) => void;
-  isUploading: boolean;
-  onUploadFile: (file: File) => Promise<string | null>;
+  media: UseAdminProductFormMediaResult;
+  uploadLocked: boolean;
 };
 
 export default function AdminProductGalleryModal({
-  isOpen,
-  onClose,
-  imageUrls,
-  coverIndex,
-  onChangeImages,
-  onChangeCoverIndex,
-  isUploading,
-  onUploadFile,
+  media,
+  uploadLocked,
 }: AdminProductGalleryModalProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [batchBusy, setBatchBusy] = useState(false);
-  const busy = isUploading || batchBusy;
+  const busy = uploadLocked || batchBusy;
+
+  const { productImages, coverIndex, setProductImages, setCoverIndex } = media;
 
   const removeAt = (index: number) => {
-    const next = imageUrls.filter((_, i) => i !== index);
-    onChangeImages(next);
+    const next = productImages.filter((_, i) => i !== index);
+    setProductImages(next);
     if (index === coverIndex) {
-      onChangeCoverIndex(0);
+      setCoverIndex(0);
     } else if (index < coverIndex) {
-      onChangeCoverIndex(Math.max(0, coverIndex - 1));
+      setCoverIndex(Math.max(0, coverIndex - 1));
     }
   };
 
@@ -51,11 +43,11 @@ export default function AdminProductGalleryModal({
       const appended: string[] = [];
       for (const file of Array.from(files)) {
         if (!file.type.startsWith('image/')) continue;
-        const url = await onUploadFile(file);
+        const url = await media.onModalUploadFile(file);
         if (url) appended.push(url);
       }
       if (appended.length) {
-        onChangeImages([...imageUrls, ...appended]);
+        setProductImages([...productImages, ...appended]);
       }
     } finally {
       setBatchBusy(false);
@@ -64,12 +56,12 @@ export default function AdminProductGalleryModal({
 
   return (
     <Modal
-      isOpen={isOpen}
-      onClose={onClose}
+      isOpen={media.galleryModalOpen}
+      onClose={media.onCloseGalleryModal}
       title="Product images"
       size="lg"
       footer={
-        <LabelButton label="Done" type="button" onClick={onClose} tone="primary" />
+        <LabelButton label="Done" type="button" onClick={media.onCloseGalleryModal} tone="primary" />
       }
     >
       <input
@@ -98,12 +90,12 @@ export default function AdminProductGalleryModal({
             'grid-cols-2 sm:grid-cols-3 md:grid-cols-4'
           )}
         >
-          {imageUrls.length === 0 ? (
+          {productImages.length === 0 ? (
             <li className="col-span-full rounded-lg bg-muted/40 px-4 py-10 text-center text-body-regular text-muted-foreground">
               No images yet. Use Add images or close and upload from the card.
             </li>
           ) : (
-            imageUrls.map((url, index) => {
+            productImages.map((url, index) => {
               const isCover = index === coverIndex;
               return (
                 <li
@@ -124,7 +116,7 @@ export default function AdminProductGalleryModal({
                       variant="ghost"
                       className="!h-7 !min-h-0 !w-7 !p-0"
                       iconClassName={cn('size-4', isCover ? 'text-primary-600' : 'text-foreground')}
-                      onClick={() => onChangeCoverIndex(index)}
+                      onClick={() => setCoverIndex(index)}
                     />
                     <IconButton
                       type="button"

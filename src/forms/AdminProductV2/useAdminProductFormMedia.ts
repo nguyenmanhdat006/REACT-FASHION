@@ -12,7 +12,7 @@ import toast from 'react-hot-toast';
 
 import { useStorage } from '@/hooks/storage/useStorage';
 
-import type { AdminProductV2UploadIntent } from './types';
+import type { AdminProductGalleryPreviews, AdminProductV2UploadIntent } from './types';
 
 export type UseAdminProductFormMediaOptions = {
   readOnly?: boolean;
@@ -28,10 +28,7 @@ export type UseAdminProductFormMediaResult = {
   coverIndex: number;
   setCoverIndex: (index: number) => void;
   coverUrl: string | null;
-  galleryPreview1: string | null;
-  galleryPreview2: string | null;
-  galleryPreview3: string | null;
-  galleryMoreBeyondThirdCount: number;
+  galleryPreviews: AdminProductGalleryPreviews;
   galleryModalOpen: boolean;
   onOpenGalleryModal: () => void;
   onCloseGalleryModal: () => void;
@@ -78,10 +75,15 @@ export function useAdminProductFormMedia({
     [otherIndices, productImages]
   );
 
-  const galleryPreview1 = othersUrls[0] ?? null;
-  const galleryPreview2 = othersUrls[1] ?? null;
-  const galleryPreview3 = othersUrls[2] ?? null;
-  const galleryMoreBeyondThirdCount = Math.max(0, othersUrls.length - 3);
+  const galleryPreviews: AdminProductGalleryPreviews = useMemo(
+    () => ({
+      slot0: othersUrls[0] ?? null,
+      slot1: othersUrls[1] ?? null,
+      slot2: othersUrls[2] ?? null,
+      moreCount: Math.max(0, othersUrls.length - 3),
+    }),
+    [othersUrls]
+  );
 
   const coverUrl =
     productImages.length > 0
@@ -173,10 +175,7 @@ export function useAdminProductFormMedia({
     coverIndex,
     setCoverIndex,
     coverUrl,
-    galleryPreview1,
-    galleryPreview2,
-    galleryPreview3,
-    galleryMoreBeyondThirdCount,
+    galleryPreviews,
     galleryModalOpen,
     onOpenGalleryModal: () => setGalleryModalOpen(true),
     onCloseGalleryModal: () => setGalleryModalOpen(false),
