@@ -1,41 +1,23 @@
-/**
- * Shipping Service client — port 8088
- *
- * Requests should go through the API Gateway via /api/shipping/**.
- * In local dev VITE_SHIPPING_BASE_URL should point at the gateway (/api).
- *
- * NOTE: Shipping Service does NOT require Auth headers.
- */
-import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig } from 'axios';
 import type { ApiResponse } from '@/types/common/common';
 import { ShipmentStatus } from '@/types/order/order';
+import { apiClient } from '@/utils/api';
 
-// ─── Request types ───────────────────────────────────────────────────────────
-
-/**
- * POST /api/shipping/calculate-fee
- * FE can call this to preview shipping cost before placing an order.
- */
 export interface ShippingFeeRequest {
-  city: string;       // e.g. "Ho Chi Minh"
-  province: string;   // e.g. "Ho Chi Minh"
-  weight: number;     // grams ≥ 1
-  orderValue: number; // VND ≥ 0
+  city: string;
+  province: string;
+  weight: number;
+  orderValue: number;
 }
 
-/**
- * POST /api/shipping/create
- * Called after order is CONFIRMED and admin prepares shipment.
- */
 export interface CreateShipmentRequest {
-  orderId: string;          // UUID
-  orderNumber: string;      // e.g. "ORD-20260516-0001"
+  orderId: string;
+  orderNumber: string;
   recipientName: string;
-  phone: string;            // VN format: 0xx or +84xx
-  address: string;          // full street address
-  shippingFee: number;      // VND ≥ 0
-  codAmount: number;        // VND ≥ 0 (0 if already paid online)
-  estimatedDays: number;    // ≥ 1
+  phone: string;
+  address: string;
+  shippingFee: number;
+  codAmount: number;
+  estimatedDays: number;
   note?: string;
 }
 
@@ -46,11 +28,10 @@ export interface UpdateShipmentStatusRequest {
 
 /** PUT /api/shipping/{id}/deliver */
 export interface DeliverShipmentRequest {
-  deliveredAt?: string; // LocalDateTime (null = now)
-  signature?: string;   // recipient's signature
+  deliveredAt?: string;
+  signature?: string;
 }
 
-// ─── Response types ──────────────────────────────────────────────────────────
 
 /** Response from POST /api/shipping/calculate-fee */
 export interface ShippingFeeResponse {
@@ -61,7 +42,7 @@ export interface ShippingFeeResponse {
 /** Response from POST /api/shipping/create and GET /api/shipping/{id} */
 export interface ShipmentResponse {
   shipmentId?: number;
-  id?: number;            // alias — some endpoints use 'id'
+  id?: number;
   shipmentNumber?: string;
   orderId: string;
   orderNumber: string;
@@ -75,8 +56,6 @@ export interface ShipmentResponse {
   createdAt: string;
   updatedAt?: string;
 }
-
-// ─── Legacy aliases kept for mock compatibility ───────────────────────────────
 
 /** @deprecated Use ShippingFeeRequest */
 export type ShippingFeeRequestLegacy = ShippingFeeRequest;
@@ -92,84 +71,82 @@ export interface Shipment {
   estimatedDelivery: string;
 }
 
-// ─── API Client ───────────────────────────────────────────────────────────────
-
-class ShippingApiClient {
-  private client: AxiosInstance;
-
-  constructor() {
-    this.client = axios.create({
-      baseURL: '/api',
-      timeout: 15000,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  }
-
-  public async get<T = unknown>(url: string, config?: AxiosRequestConfig): Promise<T> {
-    return this.client.get<T, AxiosResponse<T>>(url, config).then(r => r.data);
-  }
-
-  public async post<T = unknown>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T> {
-    return this.client.post<T, AxiosResponse<T>>(url, data, config).then(r => r.data);
-  }
-
-  public async put<T = unknown>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T> {
-    return this.client.put<T, AxiosResponse<T>>(url, data, config).then(r => r.data);
-  }
-}
-
-const shippingApiClient = new ShippingApiClient();
-
 export const shippingService = {
-  /**
-   * POST /api/shipping/calculate-fee
-   * Preview shipping cost before placing order.
-   */
-  calculateFee: (payload: ShippingFeeRequest): Promise<ApiResponse<ShippingFeeResponse>> =>
-    shippingApiClient.post<ApiResponse<ShippingFeeResponse>>('/shipping/calculate-fee', payload),
 
-  /**
-   * POST /api/shipping/create
-   * Create a shipment after order is CONFIRMED.
-   */
-  createShipment: (payload: CreateShipmentRequest): Promise<ApiResponse<ShipmentResponse>> =>
-    shippingApiClient.post<ApiResponse<ShipmentResponse>>('/shipping/create', payload),
+  calculateFee: async (payload: ShippingFeeRequest): Promise<ApiResponse<ShippingFeeResponse>> => {
+    const raw = await apiClient.post<unknown>('/shipping/calculate-fee', payload);
+    return normalizeShippingFeeResp(raw);
+  },
 
-  /**
-   * GET /api/shipping/{id}
-   * Get shipment details by numeric ID.
-   */
-  getShipmentById: (id: number | string): Promise<ApiResponse<ShipmentResponse>> =>
-    shippingApiClient.get<ApiResponse<ShipmentResponse>>(`/shipping/${id}`),
+  createShipment: async (payload: CreateShipmentRequest): Promise<ApiResponse<ShipmentResponse>> => {
+    const raw = await apiClient.post<unknown>('/shipping/create', payload);
+    return normalizeShipmentResp(raw);
+  },
 
-  /**
-   * PUT /api/shipping/{id}/status
-   * Update shipment status (PICKED_UP → IN_TRANSIT → OUT_FOR_DELIVERY …).
-   */
-  updateShipmentStatus: (
+  getShipmentById: async (id: number | string): Promise<ApiResponse<ShipmentResponse>> => {
+    const raw = await apiClient.get<unknown>(`/shipping/${id}`);
+    return normalizeShipmentResp(raw);
+  },
+
+  updateShipmentStatus: async (
     id: number | string,
     payload: UpdateShipmentStatusRequest
-  ): Promise<ApiResponse<ShipmentResponse>> =>
-    shippingApiClient.put<ApiResponse<ShipmentResponse>>(`/shipping/${id}/status`, payload),
+  ): Promise<ApiResponse<ShipmentResponse>> => {
+    const raw = await apiClient.put<unknown>(`/shipping/${id}/status`, payload);
+    return normalizeShipmentResp(raw);
+  },
 
-  /**
-   * PUT /api/shipping/{id}/deliver
-   * Confirm successful delivery.
-   */
-  confirmDelivery: (
+  confirmDelivery: async (
     id: number | string,
     payload?: DeliverShipmentRequest
-  ): Promise<ApiResponse<ShipmentResponse>> =>
-    shippingApiClient.put<ApiResponse<ShipmentResponse>>(`/shipping/${id}/deliver`, payload ?? {}),
+  ): Promise<ApiResponse<ShipmentResponse>> => {
+    const raw = await apiClient.put<unknown>(`/shipping/${id}/deliver`, payload ?? {});
+    return normalizeShipmentResp(raw);
+  },
 
-  // ─── Legacy / fallback methods ────────────────────────────────────────────
-  /** @deprecated Use getShipmentById */
-  getShipmentByOrder: (orderId: string): Promise<ApiResponse<ShipmentResponse>> =>
-    shippingApiClient.get<ApiResponse<ShipmentResponse>>(`/shipping/order/${orderId}`),
+  getShipmentByOrder: async (orderId: string): Promise<ApiResponse<ShipmentResponse>> => {
+    const raw = await apiClient.get<unknown>(`/shipping/order/${orderId}`);
+    return normalizeShipmentResp(raw);
+  },
 
-  /** @deprecated */
-  trackShipment: (trackingNumber: string): Promise<ApiResponse<Shipment>> =>
-    shippingApiClient.get<ApiResponse<Shipment>>(`/shipping/track/${trackingNumber}`),
+  trackShipment: async (trackingNumber: string): Promise<ApiResponse<Shipment>> => {
+    const raw = await apiClient.get<unknown>(`/shipping/track/${trackingNumber}`);
+    return normalizeTrackResp(raw);
+  },
 };
+
+function normalizeShipmentResp(raw: unknown): ApiResponse<ShipmentResponse> {
+  const r = raw as Record<string, unknown>;
+  if (typeof r.success === 'boolean') return raw as ApiResponse<ShipmentResponse>;
+  return {
+    success: true,
+    data: raw as ShipmentResponse,
+    error: null,
+    message: null,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+function normalizeShippingFeeResp(raw: unknown): ApiResponse<ShippingFeeResponse> {
+  const r = raw as Record<string, unknown>;
+  if (typeof r.success === 'boolean') return raw as ApiResponse<ShippingFeeResponse>;
+  return {
+    success: true,
+    data: raw as ShippingFeeResponse,
+    error: null,
+    message: null,
+    timestamp: new Date().toISOString(),
+  };
+}
+
+function normalizeTrackResp(raw: unknown): ApiResponse<Shipment> {
+  const r = raw as Record<string, unknown>;
+  if (typeof r.success === 'boolean') return raw as ApiResponse<Shipment>;
+  return {
+    success: true,
+    data: raw as Shipment,
+    error: null,
+    message: null,
+    timestamp: new Date().toISOString(),
+  };
+}

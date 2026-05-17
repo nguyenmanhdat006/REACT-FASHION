@@ -15,7 +15,7 @@ export function orderToAdminOrderRow(order: Order): AdminOrderRow {
   return {
     id: order.id,
     orderNumber: order.orderNumber,
-    customerName: order.customerName?.trim() || '—',
+    customerName: order.customerName?.trim() || order.shippingAddress?.recipientName?.trim() || '—',
     customerEmail: order.customerEmail?.trim() || '—',
     itemsCount: order.items?.length ?? 0,
     totalFormatted: formatProductPriceUsd(order.total),
@@ -24,6 +24,8 @@ export function orderToAdminOrderRow(order: Order): AdminOrderRow {
     paymentStatus: order.paymentStatus,
     paymentStatusLabel: formatEnumLabel(order.paymentStatus),
     orderedAtFormatted: formatDateTime(order.orderedAt || order.createdAt),
+    shipmentId: order.shipmentId ?? null,
+    shipmentStatus: order.shipmentStatus,
     canCancel:
       order.status !== OrderStatus.CANCELLED &&
       order.status !== OrderStatus.DELIVERED &&
