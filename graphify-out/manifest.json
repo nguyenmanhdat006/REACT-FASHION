@@ -595,26 +595,6 @@
     "mtime": 1778981869.0992954,
     "hash": "61103d3e020bf2ddf48cd28ab13cf8f2"
   },
-  "/home/thang/Workspace/ecommerce-services/REACT-FASHION/src/pages/AdminProductV2/shared/sections/AdminAddProductGalleryModal.tsx": {
-    "mtime": 1778815066.9841056,
-    "hash": "7634847ee14346e37d0897871429244f"
-  },
-  "/home/thang/Workspace/ecommerce-services/REACT-FASHION/src/pages/AdminProductV2/shared/sections/AdminAddProductDetailsSection.tsx": {
-    "mtime": 1778981911.7103455,
-    "hash": "0f4a374f8d0bbaed8d9d3cb22544fb2d"
-  },
-  "/home/thang/Workspace/ecommerce-services/REACT-FASHION/src/pages/AdminProductV2/shared/sections/AdminAddProductLeftSection.tsx": {
-    "mtime": 1778981913.2833474,
-    "hash": "0c3ed27d63638b3fcdf5f800c4b445f9"
-  },
-  "/home/thang/Workspace/ecommerce-services/REACT-FASHION/src/pages/AdminProductV2/shared/sections/AdminAddProductMediaSection.tsx": {
-    "mtime": 1778981498.4648004,
-    "hash": "f328a6c9a47423a8de43026c511173be"
-  },
-  "/home/thang/Workspace/ecommerce-services/REACT-FASHION/src/pages/AdminProductV2/shared/sections/AdminAddProductQuickActionsSection.tsx": {
-    "mtime": 1778981914.773349,
-    "hash": "d396fdfccaa10f7786ac6ab55a90c15e"
-  },
   "/home/thang/Workspace/ecommerce-services/REACT-FASHION/src/pages/AdminProductV2/AdminUpdateProduct/index.tsx": {
     "mtime": 1778981872.1692991,
     "hash": "add07661bd0c77c4cc30c8ddd6689193"
@@ -623,17 +603,13 @@
     "mtime": 1778981873.5373304,
     "hash": "8af3b23a8ca9d1a150fd309433066de3"
   },
-  "/home/thang/Workspace/ecommerce-services/REACT-FASHION/src/pages/AdminProductV2/AdminCreateProduct/constants.ts": {
-    "mtime": 1778813209.1802266,
-    "hash": "6642231344a5d0edee00ed380cd99657"
-  },
   "/home/thang/Workspace/ecommerce-services/REACT-FASHION/src/pages/AdminProductV2/AdminCreateProduct/adminAddProductPayload.ts": {
     "mtime": 1778981920.6313558,
     "hash": "5296854ac14d7731884a74a8d53ebd37"
   },
   "/home/thang/Workspace/ecommerce-services/REACT-FASHION/src/pages/AdminProductV2/AdminCreateProduct/index.tsx": {
-    "mtime": 1778981928.1644838,
-    "hash": "6ee4e959f8a2b8ff021806a67481d392"
+    "mtime": 1778982433.1359563,
+    "hash": "a45361196295dfc2012e7bd0c3082b1f"
   },
   "/home/thang/Workspace/ecommerce-services/REACT-FASHION/src/pages/AdminProductV2/AdminCreateProduct/types.ts": {
     "mtime": 1778981917.9013526,
@@ -892,12 +868,36 @@
     "hash": "f69bb566f0a0c23997d96af5849308c3"
   },
   "/home/thang/Workspace/ecommerce-services/REACT-FASHION/src/forms/AdminProductV2/index.tsx": {
-    "mtime": 1778981907.3549657,
-    "hash": "08c4ed43ebfd4aafc39511edf5611d80"
+    "mtime": 1778982431.9159548,
+    "hash": "beec419c0a191d78a10ad9821716c390"
   },
   "/home/thang/Workspace/ecommerce-services/REACT-FASHION/src/forms/AdminProductV2/types.ts": {
     "mtime": 1778981891.3173215,
     "hash": "c36348c86ecf9b21e462bdccf98c4eab"
+  },
+  "/home/thang/Workspace/ecommerce-services/REACT-FASHION/src/forms/AdminProductV2/constants.ts": {
+    "mtime": 1778813209.1802266,
+    "hash": "6642231344a5d0edee00ed380cd99657"
+  },
+  "/home/thang/Workspace/ecommerce-services/REACT-FASHION/src/forms/AdminProductV2/components/AdminAddProductDetailsSection.tsx": {
+    "mtime": 1778982432.4549556,
+    "hash": "32c28d8bd0278d5f261d179ef5851edc"
+  },
+  "/home/thang/Workspace/ecommerce-services/REACT-FASHION/src/forms/AdminProductV2/components/AdminAddProductGalleryModal.tsx": {
+    "mtime": 1778815066.9841056,
+    "hash": "7634847ee14346e37d0897871429244f"
+  },
+  "/home/thang/Workspace/ecommerce-services/REACT-FASHION/src/forms/AdminProductV2/components/AdminAddProductLeftSection.tsx": {
+    "mtime": 1778981913.2833474,
+    "hash": "0c3ed27d63638b3fcdf5f800c4b445f9"
+  },
+  "/home/thang/Workspace/ecommerce-services/REACT-FASHION/src/forms/AdminProductV2/components/AdminAddProductMediaSection.tsx": {
+    "mtime": 1778981498.4648004,
+    "hash": "f328a6c9a47423a8de43026c511173be"
+  },
+  "/home/thang/Workspace/ecommerce-services/REACT-FASHION/src/forms/AdminProductV2/components/AdminAddProductQuickActionsSection.tsx": {
+    "mtime": 1778981914.773349,
+    "hash": "d396fdfccaa10f7786ac6ab55a90c15e"
   },
   "/home/thang/Workspace/ecommerce-services/REACT-FASHION/README.md": {
     "mtime": 1778409844.2656536,

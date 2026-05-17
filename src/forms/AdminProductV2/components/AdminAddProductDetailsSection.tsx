@@ -16,7 +16,7 @@ import {
   CATEGORY_OPTIONS,
   STATUS_OPTIONS,
   SUBCATEGORY_OPTIONS,
-} from '@/pages/AdminProductV2/AdminCreateProduct/constants';
+} from '@/forms/AdminProductV2/constants';
 import type { AdminProductV2FormMode, AdminProductV2FormValues } from '@/forms/AdminProductV2/types';
 
 const SUBMIT_LABEL: Record<Exclude<AdminProductV2FormMode, 'read'>, string> = {

@@ -2,8 +2,8 @@ import type { FormEventHandler, JSX, MouseEvent } from 'react';
 import type { Control, FieldErrors, UseFormRegister } from 'react-hook-form';
 
 import type { SelectOption } from '@/components/FormField';
-import AdminProductFormDetailsSection from '@/pages/AdminProductV2/shared/sections/AdminAddProductDetailsSection';
-import AdminProductFormLeftSection from '@/pages/AdminProductV2/shared/sections/AdminAddProductLeftSection';
+import AdminProductFormDetailsSection from './components/AdminAddProductDetailsSection';
+import AdminProductFormLeftSection from './components/AdminAddProductLeftSection';
 
 import type { AdminProductV2FormMode, AdminProductV2FormValues } from './types';
 

@@ -25,7 +25,7 @@ import {
   adminAddProductFormToCreateRequest,
   adminAddProductSubmitSchema,
 } from './adminAddProductPayload';
-import { BRAND_OPTIONS, CATEGORY_OPTIONS } from './constants';
+import { BRAND_OPTIONS, CATEGORY_OPTIONS } from '@/forms/AdminProductV2/constants';
 import type { Category } from '@/types/product/product';
 
 export type { AdminAddProductFormValues, AdminProductV2FormValues } from './types';
