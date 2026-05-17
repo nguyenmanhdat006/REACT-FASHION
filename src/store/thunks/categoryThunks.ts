@@ -36,6 +36,22 @@ export const fetchCategoriesThunk = createAsyncThunk<
   }
 });
 
+export const fetchActiveCategoriesThunk = createAsyncThunk<
+  ApiResponse<Category[]>,
+  void,
+  { rejectValue: string }
+>('categories/fetchActiveCategories', async (_, { rejectWithValue }) => {
+  try {
+    const res = await categoryService.getActiveCategories();
+    if (!res.success || !Array.isArray(res.data)) {
+      return rejectWithValue(apiFailureMessage(res));
+    }
+    return res;
+  } catch (error) {
+    return rejectWithValue(getErrorMessage(error, 'Failed to fetch active categories'));
+  }
+});
+
 export const createCategoryThunk = createAsyncThunk<
   ApiResponse<Category>,
   CategoryPayload,

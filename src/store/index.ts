@@ -14,6 +14,8 @@ import { combineReducers } from '@reduxjs/toolkit';
 import authReducer from './slices/authSlice';
 import themeReducer from './slices/themeSlice';
 import productsReducer from './slices/productsSlice';
+import categoriesReducer from './slices/categoriesSlice';
+import brandsReducer from './slices/brandsSlice';
 import cartReducer from './slices/cartSlice';
 import ordersReducer from './slices/ordersSlice';
 import userReducer from './slices/userSlice';
@@ -30,6 +32,8 @@ const rootReducer = combineReducers({
   auth: authReducer,
   theme: themeReducer,
   products: productsReducer,
+  categories: categoriesReducer,
+  brands: brandsReducer,
   cart: cartReducer,
   orders: ordersReducer,
   user: userReducer,

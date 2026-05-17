@@ -45,13 +45,18 @@ export function useAdminProductV2Form({
   const readOnly = mode === 'read';
   const { loadMeta, createProduct, updateProduct, fetchProductById, clearDetail } = useProducts();
   const {
-    activeBrands,
-    activeCategories,
-    metaLoading,
-    metaError,
-    productDetail,
-    productDetailLoading,
-  } = useAppSelector(s => s.products);
+    activeItems: activeBrands,
+    activeLoading: brandsMetaLoading,
+    activeError: brandsMetaError,
+  } = useAppSelector(s => s.brands);
+  const {
+    activeItems: activeCategories,
+    activeLoading: categoriesMetaLoading,
+    activeError: categoriesMetaError,
+  } = useAppSelector(s => s.categories);
+  const { productDetail, productDetailLoading } = useAppSelector(s => s.products);
+  const metaLoading = brandsMetaLoading || categoriesMetaLoading;
+  const metaError = brandsMetaError ?? categoriesMetaError;
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [mediaSeed, setMediaSeed] = useState({ urls: [] as string[], coverIndex: 0 });

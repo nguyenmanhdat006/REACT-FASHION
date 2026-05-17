@@ -8,12 +8,14 @@ export {
 
 export {
   fetchCategoriesThunk,
+  fetchActiveCategoriesThunk,
   createCategoryThunk,
   deleteCategoryThunk,
 } from './categoryThunks';
 
 export {
   fetchBrandsThunk,
+  fetchActiveBrandsThunk,
   createBrandThunk,
   deleteBrandThunk,
 } from './brandThunks';
@@ -24,7 +26,6 @@ export {
   fetchProductBySlugThunk,
   fetchV2PublishedProductsThunk,
   fetchProductByIdThunk,
-  fetchAdminProductMetaThunk,
   createProductThunk,
   updateProductThunk,
   deleteProductThunk,

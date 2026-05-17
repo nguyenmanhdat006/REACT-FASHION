@@ -12,7 +12,9 @@ import { addToCartThunk, fetchProductsThunk, fetchCategoriesThunk, fetchBrandsTh
 const Products: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { items, isLoading, categories, brands } = useAppSelector(state => state.products);
+  const { items, isLoading } = useAppSelector(state => state.products);
+  const { items: categories } = useAppSelector(state => state.categories);
+  const { items: brands } = useAppSelector(state => state.brands);
   const [searchParams] = useSearchParams();
   const searchKeyword = searchParams.get('search')?.trim().toLowerCase() || '';
   const selectedCategoryId = searchParams.get('categoryId') || '';

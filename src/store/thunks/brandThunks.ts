@@ -36,6 +36,22 @@ export const fetchBrandsThunk = createAsyncThunk<
   }
 });
 
+export const fetchActiveBrandsThunk = createAsyncThunk<
+  ApiResponse<Brand[]>,
+  void,
+  { rejectValue: string }
+>('brands/fetchActiveBrands', async (_, { rejectWithValue }) => {
+  try {
+    const res = await brandService.getActiveBrands();
+    if (!res.success || !Array.isArray(res.data)) {
+      return rejectWithValue(apiFailureMessage(res));
+    }
+    return res;
+  } catch (error) {
+    return rejectWithValue(getErrorMessage(error, 'Failed to fetch active brands'));
+  }
+});
+
 export const createBrandThunk = createAsyncThunk<
   ApiResponse<Brand>,
   BrandPayload,

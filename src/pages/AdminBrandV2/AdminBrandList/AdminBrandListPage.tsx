@@ -23,7 +23,9 @@ function slugify(value: string): string {
 
 export default function AdminBrandListPage(): JSX.Element {
   const { fetchBrands, createBrand, deleteBrand } = useAdminCatalog();
-  const { brands, brandsLoading, brandsError } = useAppSelector((s) => s.products);
+  const { items: brands, isLoading: brandsLoading, error: brandsError } = useAppSelector(
+    (s) => s.brands,
+  );
 
   useEffect(() => {
     void fetchBrands();

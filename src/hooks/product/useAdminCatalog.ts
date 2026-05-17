@@ -37,7 +37,6 @@ export function useAdminCatalog() {
       const result = await dispatch(createCategoryThunk(payload));
       if (createCategoryThunk.fulfilled.match(result)) {
         toast.success('Category created');
-        await dispatch(fetchCategoriesThunk());
         return true;
       }
       toast.error(payloadMessage(result.payload, 'Could not create category'));
@@ -51,7 +50,6 @@ export function useAdminCatalog() {
       const result = await dispatch(deleteCategoryThunk(id));
       if (deleteCategoryThunk.fulfilled.match(result)) {
         toast.success('Category deleted');
-        await dispatch(fetchCategoriesThunk());
         return true;
       }
       toast.error(payloadMessage(result.payload, 'Could not delete category'));
@@ -65,7 +63,6 @@ export function useAdminCatalog() {
       const result = await dispatch(createBrandThunk(payload));
       if (createBrandThunk.fulfilled.match(result)) {
         toast.success('Brand created');
-        await dispatch(fetchBrandsThunk());
         return true;
       }
       toast.error(payloadMessage(result.payload, 'Could not create brand'));
@@ -79,7 +76,6 @@ export function useAdminCatalog() {
       const result = await dispatch(deleteBrandThunk(id));
       if (deleteBrandThunk.fulfilled.match(result)) {
         toast.success('Brand deleted');
-        await dispatch(fetchBrandsThunk());
         return true;
       }
       toast.error(payloadMessage(result.payload, 'Could not delete brand'));

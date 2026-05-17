@@ -1,11 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { brandService } from '@/services/brand/brandService';
-import { categoryService } from '@/services/category/categoryService';
 import { productService } from '@/services/product/productService';
 import type {
-  Brand,
-  Category,
   CreateProductRequest,
   Product,
   ProductFilters,
@@ -111,31 +107,6 @@ export const fetchProductByIdThunk = createAsyncThunk<
     return { ...res, data: normalizeProduct(res.data) };
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to load product'));
-  }
-});
-
-export const fetchAdminProductMetaThunk = createAsyncThunk<
-  ApiResponse<{ categories: Category[]; brands: Brand[] }>,
-  void,
-  { rejectValue: string }
->('products/fetchAdminProductMeta', async (_, { rejectWithValue }) => {
-  try {
-    const [catRes, brandRes] = await Promise.all([
-      categoryService.getActiveCategories(),
-      brandService.getActiveBrands(),
-    ]);
-    if (!catRes.success || !Array.isArray(catRes.data)) {
-      return rejectWithValue(apiFailureMessage(catRes));
-    }
-    if (!brandRes.success || !Array.isArray(brandRes.data)) {
-      return rejectWithValue(apiFailureMessage(brandRes));
-    }
-    return {
-      success: true,
-      data: { categories: catRes.data, brands: brandRes.data },
-    };
-  } catch (error) {
-    return rejectWithValue(getErrorMessage(error, 'Failed to load categories and brands'));
   }
 });
 

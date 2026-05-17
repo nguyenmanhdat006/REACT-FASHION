@@ -81,9 +81,8 @@ function buildCategoryColumns(): TableColumn<AdminCategoryRow>[] {
 export default function AdminCategoryListPage(): JSX.Element {
   const [panel, setPanel] = useState<AdminEntityPanelState>({ open: false });
   const { fetchCategories, deleteCategory } = useAdminCatalog();
-  const { categories, categoriesLoading, categoriesError } = useAppSelector(
-    (s) => s.products,
-  );
+  const { items: categories, isLoading: categoriesLoading, error: categoriesError } =
+    useAppSelector((s) => s.categories);
 
   useEffect(() => {
     void fetchCategories();
