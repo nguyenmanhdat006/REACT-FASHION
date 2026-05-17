@@ -9,9 +9,8 @@ import {
   type RefObject,
   type SetStateAction,
 } from 'react';
-import toast from 'react-hot-toast';
 
-import { useStorage } from '@/hooks/storage/useStorage';
+import { useImageUpload } from '@/hooks/storage/useImageUpload';
 
 import { buildGalleryPreviews, coverIndexAfterRemove } from '../utils/adminProductMedia';
 import type { AdminProductGalleryPreviews, AdminProductV2UploadIntent } from '../types';
@@ -38,7 +37,7 @@ export type UseAdminProductFormMediaResult = {
   onCoverClick: () => void;
   onDashedPlusClick: () => void;
   onGalleryPreviewClick: () => void;
-  uploadProductImage: (file: File) => Promise<string | null>;
+  uploadImage: (file: File) => Promise<string | null>;
   removeImageAt: (index: number) => void;
 };
 
@@ -47,10 +46,9 @@ export function useAdminProductFormMedia({
   initialImageUrls = [],
   initialCoverIndex = 0,
 }: UseAdminProductFormMediaOptions = {}): UseAdminProductFormMediaResult {
-  const { uploadFile, isUploading } = useStorage();
+  const { uploadImage, uploadBusy } = useImageUpload({ readOnly });
   const [productImages, setProductImages] = useState<string[]>(initialImageUrls);
   const [coverIndex, setCoverIndex] = useState(initialCoverIndex);
-  const [uploadingCount, setUploadingCount] = useState(0);
   const [galleryModalOpen, setGalleryModalOpen] = useState(false);
 
   const mainFileInputRef = useRef<HTMLInputElement>(null!);
@@ -78,26 +76,6 @@ export function useAdminProductFormMedia({
       ? productImages[Math.min(coverIndex, productImages.length - 1)]
       : null;
 
-  const uploadBusy = isUploading || uploadingCount > 0;
-
-  const uploadProductImage = useCallback(
-    async (file: File): Promise<string | null> => {
-      if (readOnly) return null;
-      if (!file.type.startsWith('image/')) {
-        toast.error('Please choose an image file');
-        return null;
-      }
-      setUploadingCount(c => c + 1);
-      try {
-        const result = await uploadFile(file);
-        return result?.url ?? null;
-      } finally {
-        setUploadingCount(c => Math.max(0, c - 1));
-      }
-    },
-    [readOnly, uploadFile]
-  );
-
   const requestUpload = useCallback(
     (intent: AdminProductV2UploadIntent) => {
       if (readOnly || uploadBusy) return;
@@ -113,7 +91,7 @@ export function useAdminProductFormMedia({
       e.target.value = '';
       if (!file || readOnly) return;
 
-      const url = await uploadProductImage(file);
+      const url = await uploadImage(file);
       if (!url) return;
 
       const intent = uploadIntentRef.current;
@@ -128,7 +106,7 @@ export function useAdminProductFormMedia({
         return next;
       });
     },
-    [readOnly, uploadProductImage, coverIndex]
+    [readOnly, uploadImage, coverIndex]
   );
 
   const removeImageAt = useCallback((index: number) => {
@@ -173,7 +151,7 @@ export function useAdminProductFormMedia({
     onCoverClick,
     onDashedPlusClick,
     onGalleryPreviewClick,
-    uploadProductImage,
+    uploadImage,
     removeImageAt,
   };
 }

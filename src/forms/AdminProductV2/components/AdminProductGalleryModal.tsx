@@ -30,7 +30,7 @@ export default function AdminProductGalleryModal({
 
     const appended: string[] = [];
     for (const file of Array.from(files)) {
-      const url = await media.uploadProductImage(file);
+      const url = await media.uploadImage(file);
       if (url) appended.push(url);
     }
     if (appended.length) {
