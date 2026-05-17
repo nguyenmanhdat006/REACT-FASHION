@@ -25,31 +25,30 @@ const getErrorMessage = (error: unknown, fallback: string): string => {
   return fallback;
 };
 
+export type FetchBrandsParams = ListQueryParams & {
+  /** When true, calls GET /api/brands/active instead of GET /api/brands */
+  activeOnly?: boolean;
+};
+
 export const fetchBrandsThunk = createAsyncThunk<
   ApiResponse<Brand[], PageMeta>,
-  ListQueryParams | undefined,
+  FetchBrandsParams | undefined,
   { rejectValue: string }
 >('brands/fetchBrands', async (params, { rejectWithValue }) => {
-  try {
-    const res = await brandService.getBrands(params ?? DEFAULT_LIST_QUERY);
-    if (!res.success) return rejectWithValue(apiFailureMessage(res));
-    return res;
-  } catch (error) {
-    return rejectWithValue(getErrorMessage(error, 'Failed to fetch brands'));
-  }
-});
+  const { activeOnly: activeOnlyFlag, ...listParams } = { ...DEFAULT_LIST_QUERY, ...params };
+  const activeOnly = activeOnlyFlag === true;
+  const query = listParams;
 
-export const fetchActiveBrandsThunk = createAsyncThunk<
-  ApiResponse<Brand[], PageMeta>,
-  ListQueryParams | undefined,
-  { rejectValue: string }
->('brands/fetchActiveBrands', async (params, { rejectWithValue }) => {
   try {
-    const res = await brandService.getActiveBrands(params ?? DEFAULT_LIST_QUERY);
+    const res = activeOnly
+      ? await brandService.getActiveBrands(query)
+      : await brandService.getBrands(query);
     if (!res.success) return rejectWithValue(apiFailureMessage(res));
     return res;
   } catch (error) {
-    return rejectWithValue(getErrorMessage(error, 'Failed to fetch active brands'));
+    return rejectWithValue(
+      getErrorMessage(error, activeOnly ? 'Failed to fetch active brands' : 'Failed to fetch brands'),
+    );
   }
 });
 

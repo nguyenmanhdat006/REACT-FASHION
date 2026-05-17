@@ -7,8 +7,8 @@ import {
   createProductThunk,
   deleteProductThunk,
   updateProductThunk,
-  fetchActiveBrandsThunk,
-  fetchActiveCategoriesThunk,
+  fetchBrandsThunk,
+  fetchCategoriesThunk,
   fetchProductByIdThunk,
   fetchProductsThunk,
   fetchV2PublishedProductsThunk,
@@ -80,13 +80,13 @@ export function useProducts() {
 
   const loadMeta = useCallback(async () => {
     const [categoriesResult, brandsResult] = await Promise.all([
-      dispatch(fetchActiveCategoriesThunk(DEFAULT_LIST_QUERY)),
-      dispatch(fetchActiveBrandsThunk(DEFAULT_LIST_QUERY)),
+      dispatch(fetchCategoriesThunk({ ...DEFAULT_LIST_QUERY, activeOnly: true })),
+      dispatch(fetchBrandsThunk({ ...DEFAULT_LIST_QUERY, activeOnly: true })),
     ]);
-    if (fetchActiveCategoriesThunk.rejected.match(categoriesResult)) {
+    if (fetchCategoriesThunk.rejected.match(categoriesResult)) {
       toast.error(payloadMessage(categoriesResult.payload, 'Could not load categories'));
     }
-    if (fetchActiveBrandsThunk.rejected.match(brandsResult)) {
+    if (fetchBrandsThunk.rejected.match(brandsResult)) {
       toast.error(payloadMessage(brandsResult.payload, 'Could not load brands'));
     }
   }, [dispatch]);

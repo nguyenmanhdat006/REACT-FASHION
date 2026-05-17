@@ -45,14 +45,14 @@ export function useAdminProductV2Form({
   const readOnly = mode === 'read';
   const { loadMeta, createProduct, updateProduct, fetchProductById, clearDetail } = useProducts();
   const {
-    activeItems: activeBrands,
-    activeLoading: brandsMetaLoading,
-    activeError: brandsMetaError,
+    items: brands,
+    isLoading: brandsMetaLoading,
+    error: brandsMetaError,
   } = useAppSelector(s => s.brands);
   const {
-    activeItems: activeCategories,
-    activeLoading: categoriesMetaLoading,
-    activeError: categoriesMetaError,
+    items: categories,
+    isLoading: categoriesMetaLoading,
+    error: categoriesMetaError,
   } = useAppSelector(s => s.categories);
   const { productDetail, productDetailLoading } = useAppSelector(s => s.products);
   const metaLoading = brandsMetaLoading || categoriesMetaLoading;
@@ -100,19 +100,19 @@ export function useAdminProductV2Form({
   }, [mode, productId, productDetail, reset]);
 
   const brandOptions = useMemo((): SelectOption[] => {
-    if (activeBrands.length > 0) {
-      return activeBrands.map(b => ({ value: b.id, label: b.name }));
+    if (brands.length > 0) {
+      return brands.map(b => ({ value: b.id, label: b.name }));
     }
     if (metaError) return BRAND_OPTIONS;
     return [];
-  }, [activeBrands, metaError]);
+  }, [brands, metaError]);
 
   const categoryOptions = useMemo((): SelectOption[] => {
-    const fromApi = flattenCategories(activeCategories);
+    const fromApi = flattenCategories(categories);
     if (fromApi.length > 0) return fromApi;
     if (metaError) return CATEGORY_OPTIONS;
     return [];
-  }, [activeCategories, metaError]);
+  }, [categories, metaError]);
 
   const onSubmit = useCallback(
     async (values: AdminProductV2FormValues) => {

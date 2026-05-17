@@ -8,14 +8,12 @@ export {
 
 export {
   fetchCategoriesThunk,
-  fetchActiveCategoriesThunk,
   createCategoryThunk,
   deleteCategoryThunk,
 } from './categoryThunks';
 
 export {
   fetchBrandsThunk,
-  fetchActiveBrandsThunk,
   createBrandThunk,
   deleteBrandThunk,
 } from './brandThunks';
