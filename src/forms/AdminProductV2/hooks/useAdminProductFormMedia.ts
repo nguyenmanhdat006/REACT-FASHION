@@ -13,8 +13,8 @@ import toast from 'react-hot-toast';
 
 import { useStorage } from '@/hooks/storage/useStorage';
 
-import { buildGalleryPreviews, coverIndexAfterRemove } from './utils/adminProductMedia';
-import type { AdminProductGalleryPreviews, AdminProductV2UploadIntent } from './types';
+import { buildGalleryPreviews, coverIndexAfterRemove } from '../utils/adminProductMedia';
+import type { AdminProductGalleryPreviews, AdminProductV2UploadIntent } from '../types';
 
 export type UseAdminProductFormMediaOptions = {
   readOnly?: boolean;

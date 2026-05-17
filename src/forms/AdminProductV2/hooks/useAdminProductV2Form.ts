@@ -8,14 +8,14 @@ import { useProducts } from '@/hooks/product/useProducts';
 import { useAppSelector } from '@/store/hooks';
 import type { Category } from '@/types/product/product';
 
-import { adminProductSubmitSchema, emptyAdminProductFormValues } from './adminProductForm';
+import { BRAND_OPTIONS, CATEGORY_OPTIONS } from '../constants';
 import {
   adminProductFormToCreateRequest,
   productImagesFromProduct,
   productToAdminProductFormValues,
-} from './adminProductMapper';
-import { BRAND_OPTIONS, CATEGORY_OPTIONS } from './constants';
-import type { AdminProductV2FormMode, AdminProductV2FormValues } from './types';
+} from '../mapper';
+import { adminProductSubmitSchema, emptyAdminProductFormValues } from '../schema';
+import type { AdminProductV2FormMode, AdminProductV2FormValues } from '../types';
 import { useAdminProductFormMedia } from './useAdminProductFormMedia';
 
 function flattenCategories(nodes: Category[]): SelectOption[] {

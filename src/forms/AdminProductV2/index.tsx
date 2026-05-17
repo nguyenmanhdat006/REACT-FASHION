@@ -6,7 +6,7 @@ import AdminProductGalleryModal from './components/AdminProductGalleryModal';
 import AdminProductMediaSection from './components/AdminProductMediaSection';
 import AdminProductQuickActionsSection from './components/AdminProductQuickActionsSection';
 import type { AdminProductV2FormMode } from './types';
-import { useAdminProductV2Form } from './useAdminProductV2Form';
+import { useAdminProductV2Form } from './hooks/useAdminProductV2Form';
 
 export type AdminProductV2FormProps = {
   mode: AdminProductV2FormMode;

@@ -7,7 +7,7 @@ import { LabelButton } from '@/components/buttons/LabelButton';
 import Modal from '@/components/overlay/Modal';
 import { cn } from '@/lib/utils';
 
-import type { UseAdminProductFormMediaResult } from '../useAdminProductFormMedia';
+import type { UseAdminProductFormMediaResult } from '../hooks/useAdminProductFormMedia';
 
 export type AdminProductGalleryModalProps = {
   media: UseAdminProductFormMediaResult;

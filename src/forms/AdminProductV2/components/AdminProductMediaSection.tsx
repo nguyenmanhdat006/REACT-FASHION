@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
-import type { UseAdminProductFormMediaResult } from '../useAdminProductFormMedia';
+import type { UseAdminProductFormMediaResult } from '../hooks/useAdminProductFormMedia';
 
 export type AdminProductMediaSectionProps = {
   media: UseAdminProductFormMediaResult;

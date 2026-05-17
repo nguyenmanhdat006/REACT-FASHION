@@ -4,12 +4,6 @@ import { parseMoney } from '@/utils/formFields';
 
 import type { AdminProductV2FormValues } from './types';
 
-export {
-  adminProductFormToCreateRequest,
-  productImagesFromProduct,
-  productToAdminProductFormValues,
-} from './adminProductMapper';
-
 export const adminProductSubmitSchema = z.object({
   name: z.string().trim().min(1, 'Product name is required'),
   status: z.string().trim().min(1, 'Status is required'),
