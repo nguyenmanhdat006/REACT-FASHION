@@ -11,7 +11,7 @@ import { useAppSelector } from '@/store/hooks';
 
 import type { AdminBrandRow } from './sections/AdminBrandList';
 
-const PAGE_SIZE = 10;
+const LIST_PAGE_SIZE = 10;
 
 function slugify(value: string): string {
   return value
@@ -23,22 +23,32 @@ function slugify(value: string): string {
 
 export default function AdminBrandListPage(): JSX.Element {
   const { fetchBrands, createBrand, deleteBrand } = useAdminCatalog();
-  const { items: brands, isLoading: brandsLoading, error: brandsError } = useAppSelector(
-    (s) => s.brands,
-  );
+  const {
+    items: brands,
+    page,
+    size,
+    totalPages,
+    isLoading: brandsLoading,
+    error: brandsError,
+  } = useAppSelector((s) => s.brands);
 
   useEffect(() => {
-    void fetchBrands();
+    void fetchBrands({ page: 0, size: LIST_PAGE_SIZE });
   }, [fetchBrands]);
 
-  const allRows: AdminBrandRow[] = useMemo(
+  const rows: AdminBrandRow[] = useMemo(
     () => brands.map(brandToAdminBrandRow),
     [brands],
   );
 
-  const totalPages = useMemo(
-    () => Math.max(1, Math.ceil(allRows.length / PAGE_SIZE)),
-    [allRows.length],
+  const currentPage = page + 1;
+  const safeTotalPages = Math.max(1, totalPages || 1);
+
+  const onPageChange = useCallback(
+    (nextPage: number) => {
+      void fetchBrands({ page: nextPage - 1, size: size || LIST_PAGE_SIZE });
+    },
+    [fetchBrands, size],
   );
 
   const onAddBrand = useCallback(async () => {
@@ -79,12 +89,13 @@ export default function AdminBrandListPage(): JSX.Element {
         />
       </div>
       <AdminBrandList
-        brands={allRows}
-        pageSize={PAGE_SIZE}
-        totalPages={totalPages}
+        brands={rows}
+        currentPage={currentPage}
+        totalPages={safeTotalPages}
+        onPageChange={onPageChange}
         onDeleteBrand={(row) => void onDeleteBrand(row)}
       />
-      {brandsLoading && allRows.length === 0 ? (
+      {brandsLoading && rows.length === 0 ? (
         <p className="mt-4 text-center text-caption-lg-regular text-muted-foreground">
           Loading…
         </p>

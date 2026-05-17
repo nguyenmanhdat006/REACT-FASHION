@@ -15,8 +15,9 @@ export type AdminBrandRow = {
 
 export type AdminBrandListProps = {
   brands: AdminBrandRow[];
-  pageSize?: number;
+  currentPage: number;
   totalPages: number;
+  onPageChange: (page: number) => void;
   selectedIds?: string[];
   onSelectedIdsChange?: (ids: string[]) => void;
   className?: string;
@@ -79,8 +80,9 @@ function buildBrandColumns(): TableColumn<AdminBrandRow>[] {
 
 function AdminBrandList({
   brands,
-  pageSize,
+  currentPage,
   totalPages,
+  onPageChange,
   selectedIds,
   onSelectedIdsChange,
   className,
@@ -93,8 +95,9 @@ function AdminBrandList({
       className={className}
       rows={brands}
       columns={columns}
-      pageSize={pageSize}
+      currentPage={currentPage}
       totalPages={totalPages}
+      onPageChange={onPageChange}
       selectedIds={selectedIds}
       onSelectedIdsChange={onSelectedIdsChange}
       onDelete={onDeleteBrand}

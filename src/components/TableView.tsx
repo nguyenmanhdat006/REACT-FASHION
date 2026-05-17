@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 import TableRowActionsMenuTrigger from '@/components/TableRowActionsMenuTrigger';
@@ -37,20 +37,17 @@ export type TableRowExtraAction<T> = {
 export type TableViewProps<T extends TableRowBase> = {
   rows: T[];
   columns: TableColumn<T>[];
-  /** Built-in row menu — item shown only when matching callback is passed. */
   onDetail?: (row: T) => void;
   onEdit?: (row: T) => void;
   onDelete?: (row: T) => void;
   extraRowActions?: TableRowExtraAction<T>[];
   rowActionsMenuClassName?: string;
-  /** Custom actions cell (e.g. Order inline buttons). Overrides built-in menu. */
   renderRowActions?: (row: T) => React.ReactNode;
   actionsHeaderClassName?: string;
 
-  /** Client-side slice: pass full `rows` and set `pageSize`. Omit for server-paginated rows. */
-  pageSize?: number;
+  currentPage: number;
   totalPages: number;
-  onPageChange?: (page: number) => void;
+  onPageChange: (page: number) => void;
 
   selectable?: boolean;
   selectedIds?: string[];
@@ -69,7 +66,7 @@ function TableView<T extends TableRowBase>({
   rowActionsMenuClassName,
   renderRowActions,
   actionsHeaderClassName,
-  pageSize,
+  currentPage,
   totalPages,
   onPageChange,
   selectable = true,
@@ -77,37 +74,24 @@ function TableView<T extends TableRowBase>({
   onSelectedIdsChange,
   className,
 }: TableViewProps<T>) {
-  const [page, setPageState] = useState(1);
   const [internalSelected, setInternalSelected] = useState<string[]>([]);
 
   const safeTotalPages = Math.max(1, totalPages);
+  // Page không đuoc nhỏ hơn 1 và lớn hơn total page
+  const page = Math.max(1, Math.min(currentPage, safeTotalPages));
 
   const selectedList = controlledSelected ?? internalSelected;
   const selectedSet = useMemo(() => new Set(selectedList), [selectedList]);
 
-  const setPage = useCallback(
+  const goToPage = useCallback(
     (next: number) => {
       const clamped = Math.max(1, Math.min(next, safeTotalPages));
-      setPageState(clamped);
-      onPageChange?.(clamped);
+      if (clamped !== page) {
+        onPageChange(clamped);
+      }
     },
-    [onPageChange, safeTotalPages],
+    [onPageChange, page, safeTotalPages],
   );
-
-  useEffect(() => {
-    if (page > safeTotalPages) {
-      setPageState(safeTotalPages);
-      onPageChange?.(safeTotalPages);
-    }
-  }, [page, safeTotalPages, onPageChange]);
-
-  const displayRows = useMemo(() => {
-    if (!pageSize || pageSize < 1) {
-      return rows;
-    }
-    const start = (page - 1) * pageSize;
-    return rows.slice(start, start + pageSize);
-  }, [rows, page, pageSize]);
 
   const setSelectedIds = useCallback(
     (next: string[]) => {
@@ -119,7 +103,7 @@ function TableView<T extends TableRowBase>({
     [controlledSelected, onSelectedIdsChange],
   );
 
-  const allIds = useMemo(() => displayRows.map((r) => r.id), [displayRows]);
+  const allIds = useMemo(() => rows.map((r) => r.id), [rows]);
   const allSelected =
     selectable && allIds.length > 0 && allIds.every((id) => selectedSet.has(id));
   const someSelected =
@@ -155,12 +139,12 @@ function TableView<T extends TableRowBase>({
   );
 
   const goPrev = useCallback(() => {
-    setPage(Math.max(1, page - 1));
-  }, [page, setPage]);
+    goToPage(page - 1);
+  }, [page, goToPage]);
 
   const goNext = useCallback(() => {
-    setPage(Math.min(safeTotalPages, page + 1));
-  }, [page, setPage, safeTotalPages]);
+    goToPage(page + 1);
+  }, [page, goToPage]);
 
   const pageNumbers = useMemo(
     () => Array.from({ length: safeTotalPages }, (_, i) => i + 1),
@@ -256,7 +240,7 @@ function TableView<T extends TableRowBase>({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {displayRows.map((row) => (
+            {rows.map((row) => (
               <TableRow key={row.id} className="border-none">
                 {selectable ? (
                   <TableCell className="pl-4">
@@ -308,7 +292,7 @@ function TableView<T extends TableRowBase>({
                 n === page &&
                   'bg-primary text-primary-foreground hover:bg-primary/90',
               )}
-              onClick={() => setPage(n)}
+              onClick={() => goToPage(n)}
             >
               {n}
             </Button>

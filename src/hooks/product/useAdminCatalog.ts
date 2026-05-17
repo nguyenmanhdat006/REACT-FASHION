@@ -12,6 +12,8 @@ import {
 } from '@/store/thunks';
 import { DEFAULT_LIST_QUERY } from '@/types/common/common';
 import type { BrandPayload, CategoryPayload } from '@/types/product/product';
+import type { FetchBrandsParams } from '@/store/thunks/brandThunks';
+import type { FetchCategoriesParams } from '@/store/thunks/categoryThunks';
 
 const payloadMessage = (payload: unknown, fallback: string) =>
   typeof payload === 'string' && payload ? payload : fallback;
@@ -19,19 +21,29 @@ const payloadMessage = (payload: unknown, fallback: string) =>
 export function useAdminCatalog() {
   const dispatch = useAppDispatch();
 
-  const fetchCategories = useCallback(async () => {
-    const result = await dispatch(fetchCategoriesThunk(DEFAULT_LIST_QUERY));
-    if (fetchCategoriesThunk.rejected.match(result)) {
-      toast.error(payloadMessage(result.payload, 'Could not load categories'));
-    }
-  }, [dispatch]);
+  const fetchCategories = useCallback(
+    async (params?: FetchCategoriesParams) => {
+      const result = await dispatch(
+        fetchCategoriesThunk({ ...DEFAULT_LIST_QUERY, ...params }),
+      );
+      if (fetchCategoriesThunk.rejected.match(result)) {
+        toast.error(payloadMessage(result.payload, 'Could not load categories'));
+      }
+    },
+    [dispatch],
+  );
 
-  const fetchBrands = useCallback(async () => {
-    const result = await dispatch(fetchBrandsThunk(DEFAULT_LIST_QUERY));
-    if (fetchBrandsThunk.rejected.match(result)) {
-      toast.error(payloadMessage(result.payload, 'Could not load brands'));
-    }
-  }, [dispatch]);
+  const fetchBrands = useCallback(
+    async (params?: FetchBrandsParams) => {
+      const result = await dispatch(
+        fetchBrandsThunk({ ...DEFAULT_LIST_QUERY, ...params }),
+      );
+      if (fetchBrandsThunk.rejected.match(result)) {
+        toast.error(payloadMessage(result.payload, 'Could not load brands'));
+      }
+    },
+    [dispatch],
+  );
 
   const createCategory = useCallback(
     async (payload: CategoryPayload): Promise<boolean> => {
