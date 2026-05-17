@@ -3,9 +3,9 @@ import { orderService } from '@/services/order/orderService';
 import { shippingService } from '@/services/shipping/shippingService';
 import type { CreateOrderRequest } from '@/types/order/order';
 import type { ConfirmPaymentRequest } from '@/types/payment/payment';
-import type { ShippingFeeRequest, ShippingFeeResponse } from '@/services/shipping/shippingService';
+import type { ShippingFeeRequest, ShippingFeeResponse, ShipmentResponse } from '@/services/shipping/shippingService';
 import type { ApiResponse, PageMeta, PaginationParams } from '@/types/common/common';
-import type { Order } from '@/types/order/order';
+import type { Order, ShipmentStatus } from '@/types/order/order';
 import { apiFailureMessage } from '@/utils/apiEnvelope';
 
 const getErrorMessage = (error: unknown, fallback: string) =>
@@ -176,5 +176,24 @@ export const calculateShippingFeeThunk = createAsyncThunk<
     return res;
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to calculate shipping fee'));
+  }
+});
+
+/**
+ * PUT /api/shipping/{id}/status
+ */
+export const updateShipmentStatusThunk = createAsyncThunk<
+  ApiResponse<ShipmentResponse>,
+  { id: number | string; orderId: string; status: ShipmentStatus },
+  { rejectValue: string }
+>('shipping/updateStatus', async ({ id, orderId, status }, { rejectWithValue }) => {
+  try {
+    const res = await shippingService.updateShipmentStatus(id, { status });
+    if (!res.success) return rejectWithValue(apiFailureMessage(res));
+    // Keep order service in sync
+    await orderService.updateShippingStatus(orderId, status);
+    return res;
+  } catch (error) {
+    return rejectWithValue(getErrorMessage(error, 'Failed to update shipment status'));
   }
 });

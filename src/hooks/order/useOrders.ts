@@ -8,10 +8,12 @@ import {
   markOrderDeliveredThunk,
   updateOrderStatusThunk,
   confirmOrderThunk,
+  updateShipmentStatusThunk,
 } from '@/store/thunks';
 import { useAppDispatch } from '@/store/hooks';
 import type { PaginationParams } from '@/types/common/common';
 import type { ConfirmPaymentRequest } from '@/types/payment/payment';
+import type { ShipmentStatus } from '@/types/order/order';
 
 const payloadMessage = (payload: unknown, fallback: string) =>
   typeof payload === 'string' && payload ? payload : fallback;
@@ -85,6 +87,25 @@ export function useOrders() {
     [dispatch],
   );
 
+  const updateShipmentStatus = useCallback(
+    async (
+      id: number | string,
+      orderId: string,
+      status: ShipmentStatus,
+      refetchParams: PaginationParams,
+    ): Promise<boolean> => {
+      const result = await dispatch(updateShipmentStatusThunk({ id, orderId, status }));
+      if (updateShipmentStatusThunk.fulfilled.match(result)) {
+        toast.success(`Đã cập nhật trạng thái vận đơn thành ${status}`);
+        await dispatch(fetchOrdersThunk(refetchParams));
+        return true;
+      }
+      toast.error(payloadMessage(result.payload, 'Không thể cập nhật trạng thái vận đơn'));
+      return false;
+    },
+    [dispatch],
+  );
+
   /**
    * PUT /api/orders/{id}/payment-confirmed
    * Called after VNPAY redirect back to FE.
@@ -124,6 +145,7 @@ export function useOrders() {
     cancelOrder,
     confirmOrder,
     updateOrderStatus,
+    updateShipmentStatus,
     confirmPayment,
     markDelivered,
   };
