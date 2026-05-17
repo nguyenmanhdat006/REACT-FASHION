@@ -26,8 +26,7 @@ export type AdminUserRow = {
 
 export type AdminUserListProps = {
   users: AdminUserRow[];
-  page?: number;
-  totalPages?: number;
+  totalPages: number;
   onPageChange?: (page: number) => void;
   selectedIds?: string[];
   onSelectedIdsChange?: (ids: string[]) => void;
@@ -139,8 +138,7 @@ function buildUserColumns(): TableColumn<AdminUserRow>[] {
 
 function AdminUserList({
   users,
-  page,
-  totalPages = 1,
+  totalPages,
   onPageChange,
   selectedIds,
   onSelectedIdsChange,
@@ -154,13 +152,10 @@ function AdminUserList({
       className={className}
       rows={users}
       columns={columns}
-      page={page}
       totalPages={totalPages}
       onPageChange={onPageChange}
       selectedIds={selectedIds}
       onSelectedIdsChange={onSelectedIdsChange}
-      selectAllAriaLabel="Select all users"
-      getRowSelectionAriaLabel={(u) => `Select ${u.fullName}`}
       renderRowActions={(user) => (
         <DropdownMenu>
           <TableRowActionsMenuTrigger label={`Actions for ${user.fullName}`} />

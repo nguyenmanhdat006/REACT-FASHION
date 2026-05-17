@@ -1,13 +1,7 @@
 import { useMemo } from 'react';
 
 import TableView, { type TableColumn } from '@/components/TableView';
-import TableRowActionsMenuTrigger from '@/components/TableRowActionsMenuTrigger';
 import { Badge } from '@/components/ui/badge';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-} from '@/components/ui/dropdown-menu';
 
 export type AdminProductRow = {
   id: string;
@@ -22,8 +16,7 @@ export type AdminProductRow = {
 
 export type AdminProductListProps = {
   products: AdminProductRow[];
-  page?: number;
-  totalPages?: number;
+  totalPages: number;
   onPageChange?: (page: number) => void;
   selectedIds?: string[];
   onSelectedIdsChange?: (ids: string[]) => void;
@@ -107,8 +100,7 @@ function buildProductColumns(): TableColumn<AdminProductRow>[] {
 
 function AdminProductList({
   products,
-  page,
-  totalPages = 3,
+  totalPages,
   onPageChange,
   selectedIds,
   onSelectedIdsChange,
@@ -124,42 +116,14 @@ function AdminProductList({
       className={className}
       rows={products}
       columns={columns}
-      page={page}
       totalPages={totalPages}
       onPageChange={onPageChange}
       selectedIds={selectedIds}
       onSelectedIdsChange={onSelectedIdsChange}
-      selectAllAriaLabel="Select all products"
-      getRowSelectionAriaLabel={(p) => `Select ${p.name}`}
-      renderRowActions={(product) => (
-        <DropdownMenu>
-          <TableRowActionsMenuTrigger label={`Actions for ${product.name}`} />
-          <DropdownMenuContent align="end" className="min-w-36">
-            <DropdownMenuItem
-              onSelect={() => {
-                onViewProduct?.(product);
-              }}
-            >
-              Detail
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onSelect={() => {
-                onEditProduct?.(product);
-              }}
-            >
-              Edit
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              variant="destructive"
-              onSelect={() => {
-                onDeleteProduct?.(product);
-              }}
-            >
-              Delete
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )}
+      onDetail={onViewProduct}
+      onEdit={onEditProduct}
+      onDelete={onDeleteProduct}
+      rowActionsMenuClassName="min-w-36"
     />
   );
 }

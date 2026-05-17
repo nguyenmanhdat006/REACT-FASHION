@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { Plus } from 'lucide-react';
-import { useCallback, useEffect, useMemo, useState, type JSX } from 'react';
+import { useCallback, useEffect, useMemo, type JSX } from 'react';
 
 import { IconButton } from '@/components/buttons/IconButton';
 import { LabelButton } from '@/components/buttons/LabelButton';
@@ -22,7 +22,6 @@ function slugify(value: string): string {
 }
 
 export default function AdminBrandListPage(): JSX.Element {
-  const [page, setPage] = useState(1);
   const { fetchBrands, createBrand, deleteBrand } = useAdminCatalog();
   const { brands, brandsLoading, brandsError } = useAppSelector((s) => s.products);
 
@@ -39,15 +38,6 @@ export default function AdminBrandListPage(): JSX.Element {
     () => Math.max(1, Math.ceil(allRows.length / PAGE_SIZE)),
     [allRows.length],
   );
-
-  const rows = useMemo(() => {
-    const start = (page - 1) * PAGE_SIZE;
-    return allRows.slice(start, start + PAGE_SIZE);
-  }, [allRows, page]);
-
-  useEffect(() => {
-    if (page > totalPages) setPage(totalPages);
-  }, [page, totalPages]);
 
   const onAddBrand = useCallback(async () => {
     const name = window.prompt('Brand name:');
@@ -87,10 +77,9 @@ export default function AdminBrandListPage(): JSX.Element {
         />
       </div>
       <AdminBrandList
-        brands={rows}
-        page={page}
+        brands={allRows}
+        pageSize={PAGE_SIZE}
         totalPages={totalPages}
-        onPageChange={setPage}
         onDeleteBrand={(row) => void onDeleteBrand(row)}
       />
       {brandsLoading && allRows.length === 0 ? (

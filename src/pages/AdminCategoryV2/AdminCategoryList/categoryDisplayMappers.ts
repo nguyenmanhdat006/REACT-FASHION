@@ -1,5 +1,14 @@
-import type { AdminCategoryRow } from '@/pages/AdminCategoryV2/AdminCategoryList/sections/AdminCategoryList';
 import type { Category } from '@/types/product/product';
+
+export type AdminCategoryRow = {
+  id: string;
+  name: string;
+  slug: string;
+  parentLabel: string;
+  productCount: number;
+  displayOrder: number;
+  active: boolean;
+};
 
 export function categoryToAdminCategoryRow(category: Category): AdminCategoryRow {
   return {

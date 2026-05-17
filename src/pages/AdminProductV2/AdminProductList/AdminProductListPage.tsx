@@ -92,7 +92,6 @@ export default function AdminProductListPage(): JSX.Element {
       </div>
       <AdminProductList
         products={rows}
-        page={page}
         totalPages={safeTotalPages}
         onPageChange={setPage}
         onViewProduct={goToProductDetail}

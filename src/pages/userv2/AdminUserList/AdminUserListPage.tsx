@@ -72,7 +72,6 @@ export default function AdminUserListPage(): JSX.Element {
       </div>
       <AdminUserList
         users={rows}
-        page={page}
         totalPages={safeTotalPages}
         onPageChange={setPage}
         onEditRoles={(row) => void onEditRoles(row)}
