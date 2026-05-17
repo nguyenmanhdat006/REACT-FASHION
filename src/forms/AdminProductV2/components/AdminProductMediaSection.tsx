@@ -12,6 +12,11 @@ export type AdminProductMediaSectionProps = {
   uploadLocked: boolean;
 };
 
+const galleryPreviewButtonClass = cn(
+  'relative aspect-square size-full overflow-hidden rounded-xl border border-gray-200 bg-muted transition-colors',
+  'hover:bg-muted/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
+);
+
 export default function AdminProductMediaSection({
   media,
   readOnly = false,
@@ -19,6 +24,11 @@ export default function AdminProductMediaSection({
 }: AdminProductMediaSectionProps) {
   const { coverUrl, galleryPreviews } = media;
   const { slot0, slot1, slot2, moreCount } = galleryPreviews;
+
+  const openGallery = () => {
+    if (readOnly || uploadLocked) return;
+    media.onGalleryPreviewClick();
+  };
 
   return (
     <Card className="flex max-h-[360px] flex-1 gap-0 self-stretch overflow-hidden rounded-2xl bg-white py-0 dark:bg-gray-800">
@@ -53,7 +63,12 @@ export default function AdminProductMediaSection({
           <div
             className={cn('grid flex-1 grid-cols-2 gap-4', readOnly && 'pointer-events-none')}
           >
-            <div className="aspect-square size-full overflow-hidden rounded-xl border border-gray-200 bg-muted">
+            <button
+              type="button"
+              className={galleryPreviewButtonClass}
+              aria-label={slot0 ? 'Manage gallery images' : 'Open gallery to add images'}
+              onClick={openGallery}
+            >
               {slot0 ? (
                 <img src={slot0} alt="" className="size-full object-cover" />
               ) : (
@@ -61,8 +76,13 @@ export default function AdminProductMediaSection({
                   Gallery image 1
                 </div>
               )}
-            </div>
-            <div className="aspect-square size-full overflow-hidden rounded-xl border border-gray-200 bg-muted">
+            </button>
+            <button
+              type="button"
+              className={galleryPreviewButtonClass}
+              aria-label={slot1 ? 'Manage gallery images' : 'Open gallery to add images'}
+              onClick={openGallery}
+            >
               {slot1 ? (
                 <img src={slot1} alt="" className="size-full object-cover" />
               ) : (
@@ -70,25 +90,18 @@ export default function AdminProductMediaSection({
                   Gallery image 2
                 </div>
               )}
-            </div>
+            </button>
             <button
               type="button"
-              className={cn(
-                'relative aspect-square size-full overflow-hidden rounded-xl border border-gray-200 bg-muted transition-colors hover:bg-muted/80',
-                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
-              )}
+              className={galleryPreviewButtonClass}
               aria-label={
                 slot2
                   ? moreCount > 0
                     ? `View gallery, ${moreCount} more images`
                     : 'Manage gallery images'
-                  : 'Gallery image 3'
+                  : 'Open gallery to add images'
               }
-              onClick={() => {
-                if (readOnly || uploadLocked) return;
-                if (!slot2) return;
-                media.onOpenGalleryModal();
-              }}
+              onClick={openGallery}
             >
               {slot2 ? (
                 <>

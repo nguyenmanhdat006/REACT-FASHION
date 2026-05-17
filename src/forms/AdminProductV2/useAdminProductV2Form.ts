@@ -8,13 +8,12 @@ import { useProducts } from '@/hooks/product/useProducts';
 import { useAppSelector } from '@/store/hooks';
 import type { Category } from '@/types/product/product';
 
+import { adminProductSubmitSchema, emptyAdminProductFormValues } from './adminProductForm';
 import {
   adminProductFormToCreateRequest,
-  adminProductSubmitSchema,
-  emptyAdminProductFormValues,
   productImagesFromProduct,
   productToAdminProductFormValues,
-} from './adminProductForm';
+} from './adminProductMapper';
 import { BRAND_OPTIONS, CATEGORY_OPTIONS } from './constants';
 import type { AdminProductV2FormMode, AdminProductV2FormValues } from './types';
 import { useAdminProductFormMedia } from './useAdminProductFormMedia';

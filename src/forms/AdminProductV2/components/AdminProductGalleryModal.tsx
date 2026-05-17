@@ -1,4 +1,4 @@
-import { useRef, useState, type ChangeEvent } from 'react';
+import { useRef, type ChangeEvent } from 'react';
 import { Plus, Star, Trash2 } from 'lucide-react';
 
 import { IconButton } from '@/components/buttons/IconButton';
@@ -19,38 +19,22 @@ export default function AdminProductGalleryModal({
   uploadLocked,
 }: AdminProductGalleryModalProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [batchBusy, setBatchBusy] = useState(false);
-  const busy = uploadLocked || batchBusy;
+  const busy = uploadLocked;
 
   const { productImages, coverIndex, setProductImages, setCoverIndex } = media;
-
-  const removeAt = (index: number) => {
-    const next = productImages.filter((_, i) => i !== index);
-    setProductImages(next);
-    if (index === coverIndex) {
-      setCoverIndex(0);
-    } else if (index < coverIndex) {
-      setCoverIndex(Math.max(0, coverIndex - 1));
-    }
-  };
 
   const onAddFilesChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     e.target.value = '';
     if (!files?.length) return;
-    setBatchBusy(true);
-    try {
-      const appended: string[] = [];
-      for (const file of Array.from(files)) {
-        if (!file.type.startsWith('image/')) continue;
-        const url = await media.onModalUploadFile(file);
-        if (url) appended.push(url);
-      }
-      if (appended.length) {
-        setProductImages([...productImages, ...appended]);
-      }
-    } finally {
-      setBatchBusy(false);
+
+    const appended: string[] = [];
+    for (const file of Array.from(files)) {
+      const url = await media.uploadProductImage(file);
+      if (url) appended.push(url);
+    }
+    if (appended.length) {
+      setProductImages(prev => [...prev, ...appended]);
     }
   };
 
@@ -92,14 +76,14 @@ export default function AdminProductGalleryModal({
         >
           {productImages.length === 0 ? (
             <li className="col-span-full rounded-lg bg-muted/40 px-4 py-10 text-center text-body-regular text-muted-foreground">
-              No images yet. Use Add images or close and upload from the card.
+              No images yet. Use Add images, the + button on the card, or upload a cover image.
             </li>
           ) : (
             productImages.map((url, index) => {
               const isCover = index === coverIndex;
               return (
                 <li
-                  key={index}
+                  key={`${url}-${index}`}
                   className={cn(
                     'group relative aspect-square overflow-hidden rounded-lg border border-border bg-muted',
                     isCover && 'border-primary-500 border-2'
@@ -127,7 +111,7 @@ export default function AdminProductGalleryModal({
                       variant="ghost"
                       className="!h-7 !min-h-0 !w-7 !p-0"
                       iconClassName="size-4 text-destructive"
-                      onClick={() => removeAt(index)}
+                      onClick={() => media.removeImageAt(index)}
                     />
                   </div>
                 </li>
