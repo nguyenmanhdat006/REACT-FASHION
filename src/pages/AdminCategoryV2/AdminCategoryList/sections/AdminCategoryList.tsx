@@ -28,6 +28,7 @@ export type AdminCategoryListProps = {
   selectedIds?: string[];
   onSelectedIdsChange?: (ids: string[]) => void;
   className?: string;
+  onEditCategory?: (category: AdminCategoryRow) => void;
   onDeleteCategory?: (category: AdminCategoryRow) => void;
 };
 
@@ -97,6 +98,7 @@ function AdminCategoryList({
   selectedIds,
   onSelectedIdsChange,
   className,
+  onEditCategory,
   onDeleteCategory,
 }: AdminCategoryListProps) {
   const columns = useMemo(() => buildCategoryColumns(), []);
@@ -117,7 +119,9 @@ function AdminCategoryList({
         <DropdownMenu>
           <TableRowActionsMenuTrigger label={`Actions for ${category.name}`} />
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>Edit</DropdownMenuItem>
+            <DropdownMenuItem onSelect={() => onEditCategory?.(category)}>
+              Edit
+            </DropdownMenuItem>
             <DropdownMenuItem
               variant="destructive"
               onSelect={() => onDeleteCategory?.(category)}
