@@ -19,10 +19,7 @@ export type AdminProductV2FormMediaInput = {
   coverIndex: number;
 };
 
-export type AdminProductV2UploadIntent =
-  | { kind: 'cover' }
-  | { kind: 'append' }
-  | { kind: 'replace'; index: number };
+export type AdminProductV2UploadIntent = { kind: 'cover' } | { kind: 'append' };
 
 export type AdminProductV2FormMode = 'create' | 'update' | 'read';
 

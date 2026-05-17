@@ -53,10 +53,7 @@ export default function AdminProductMediaSection({
           <div
             className={cn('grid flex-1 grid-cols-2 gap-4', readOnly && 'pointer-events-none')}
           >
-            <div
-              className="aspect-square size-full overflow-hidden rounded-xl border border-gray-200 bg-muted"
-              onClick={readOnly ? undefined : e => media.onGalleryCellClick(0, e)}
-            >
+            <div className="aspect-square size-full overflow-hidden rounded-xl border border-gray-200 bg-muted">
               {slot0 ? (
                 <img src={slot0} alt="" className="size-full object-cover" />
               ) : (
@@ -65,10 +62,7 @@ export default function AdminProductMediaSection({
                 </div>
               )}
             </div>
-            <div
-              className="aspect-square size-full overflow-hidden rounded-xl border border-gray-200 bg-muted"
-              onClick={readOnly ? undefined : e => media.onGalleryCellClick(1, e)}
-            >
+            <div className="aspect-square size-full overflow-hidden rounded-xl border border-gray-200 bg-muted">
               {slot1 ? (
                 <img src={slot1} alt="" className="size-full object-cover" />
               ) : (

@@ -34,7 +34,6 @@ export type UseAdminProductFormMediaResult = {
   onCloseGalleryModal: () => void;
   uploadBusy: boolean;
   onCoverClick: (e: MouseEvent) => void;
-  onGalleryCellClick: (which: 0 | 1, e: MouseEvent) => void;
   onDashedPlusClick: () => void;
   onModalUploadFile: (file: File) => Promise<string | null>;
 };
@@ -115,18 +114,10 @@ export function useAdminProductFormMedia({
       setProductImages(prev => [...prev, result.url]);
       return;
     }
-    if (intent.kind === 'cover') {
-      setProductImages(prev => {
-        if (prev.length === 0) return [result.url];
-        const next = [...prev];
-        next[coverIndex] = result.url;
-        return next;
-      });
-      return;
-    }
     setProductImages(prev => {
+      if (prev.length === 0) return [result.url];
       const next = [...prev];
-      next[intent.index] = result.url;
+      next[coverIndex] = result.url;
       return next;
     });
   };
@@ -138,18 +129,6 @@ export function useAdminProductFormMedia({
       return;
     }
     requestUpload({ kind: 'cover' });
-  };
-
-  const handleGalleryCellClick = (which: 0 | 1, e: MouseEvent) => {
-    if (readOnly || uploadBusy) return;
-    if (e.shiftKey) {
-      const idx = otherIndices[which];
-      if (idx !== undefined) setCoverIndex(idx);
-      return;
-    }
-    const idx = otherIndices[which];
-    if (idx === undefined) requestUpload({ kind: 'append' });
-    else requestUpload({ kind: 'replace', index: idx });
   };
 
   const handleDashedPlusClick = () => {
@@ -181,7 +160,6 @@ export function useAdminProductFormMedia({
     onCloseGalleryModal: () => setGalleryModalOpen(false),
     uploadBusy,
     onCoverClick: handleCoverClick,
-    onGalleryCellClick: handleGalleryCellClick,
     onDashedPlusClick: handleDashedPlusClick,
     onModalUploadFile: modalUploadSingle,
   };
