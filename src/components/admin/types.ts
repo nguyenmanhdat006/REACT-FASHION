@@ -13,3 +13,18 @@ export function adminEntityPanelTitle(
     ? `Create ${resourceLabel}`
     : `Edit ${resourceLabel}`;
 }
+
+export function adminEntityPanelSubmitLabel(
+  resourceLabel: string,
+  panel: AdminEntityPanelState,
+): string {
+  if (panel.open && panel.mode === 'create') {
+    return `Create ${resourceLabel}`;
+  }
+  return 'Save changes';
+}
+
+export type AdminEntityPanelSubmitContext = {
+  mode: AdminEntityPanelMode;
+  entityId?: string;
+};
