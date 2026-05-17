@@ -159,8 +159,6 @@ function AdminUserList({
       onPageChange={onPageChange}
       selectedIds={selectedIds}
       onSelectedIdsChange={onSelectedIdsChange}
-      selectAllAriaLabel="Select all users"
-      getRowSelectionAriaLabel={(u) => `Select ${u.fullName}`}
       renderRowActions={(user) => (
         <DropdownMenu>
           <TableRowActionsMenuTrigger label={`Actions for ${user.fullName}`} />

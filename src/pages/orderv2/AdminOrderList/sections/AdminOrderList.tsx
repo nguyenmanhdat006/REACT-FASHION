@@ -319,8 +319,6 @@ function AdminOrderList({
         onPageChange={onPageChange}
         selectedIds={selectedIds}
         onSelectedIdsChange={onSelectedIdsChange}
-        selectAllAriaLabel="Select all orders"
-        getRowSelectionAriaLabel={(o) => `Select order ${o.orderNumber}`}
         renderRowActions={(order) => (
           <div className="flex items-center gap-2">
             <Button

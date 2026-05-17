@@ -7,15 +7,76 @@ import {
   adminEntityPanelTitle,
   type AdminEntityPanelState,
 } from '@/components/admin/types';
+import TableView, { type TableColumn } from '@/components/TableView';
+import { Badge } from '@/components/ui/badge';
 import { useAdminCatalog } from '@/hooks/product/useAdminCatalog';
-import AdminCategoryList from '@/pages/AdminCategoryV2/AdminCategoryList/sections/AdminCategoryList';
-import { categoryToAdminCategoryRow } from '@/pages/AdminCategoryV2/AdminCategoryList/categoryDisplayMappers';
+import {
+  categoryToAdminCategoryRow,
+  type AdminCategoryRow,
+} from '@/pages/AdminCategoryV2/AdminCategoryList/categoryDisplayMappers';
 import { useAppSelector } from '@/store/hooks';
-
-import type { AdminCategoryRow } from './sections/AdminCategoryList';
+import { cn } from '@/lib/utils';
 
 const PAGE_SIZE = 10;
 const RESOURCE_LABEL = 'category';
+
+function buildCategoryColumns(): TableColumn<AdminCategoryRow>[] {
+  return [
+    {
+      id: 'name',
+      header: 'Category',
+      cellClassName: 'whitespace-normal py-4',
+      cell: (category) => (
+        <div className="min-w-0 max-w-xs">
+          <p className="line-clamp-2 text-body-regular text-foreground">
+            {category.name}
+          </p>
+          <p className="text-caption-sm-regular text-gray-500">{category.slug}</p>
+        </div>
+      ),
+    },
+    {
+      id: 'parent',
+      header: 'Parent',
+      headerClassName: 'text-center text-body-medium text-foreground',
+      cellClassName: 'text-center text-caption-lg-regular text-gray-900',
+      cell: (category) => category.parentLabel,
+    },
+    {
+      id: 'products',
+      header: 'Products',
+      headerClassName: 'text-center text-body-medium text-foreground',
+      cellClassName: 'text-center text-caption-lg-medium text-foreground',
+      cell: (category) => category.productCount.toLocaleString(),
+    },
+    {
+      id: 'order',
+      header: 'Order',
+      headerClassName: 'text-center text-body-medium text-foreground',
+      cellClassName: 'text-center text-caption-lg-regular text-gray-900',
+      cell: (category) => category.displayOrder,
+    },
+    {
+      id: 'status',
+      header: 'Status',
+      headerClassName: 'text-center text-body-medium',
+      cellClassName: 'text-center',
+      cell: (category) => (
+        <Badge
+          variant="outline"
+          className={cn(
+            'rounded-sm text-caption-sm-regular',
+            category.active
+              ? 'border-emerald-200 bg-emerald-50 text-emerald-800'
+              : 'border-gray-200 bg-gray-100 text-gray-700',
+          )}
+        >
+          {category.active ? 'Active' : 'Inactive'}
+        </Badge>
+      ),
+    },
+  ];
+}
 
 export default function AdminCategoryListPage(): JSX.Element {
   const [page, setPage] = useState(1);
@@ -68,6 +129,8 @@ export default function AdminCategoryListPage(): JSX.Element {
     [deleteCategory],
   );
 
+  const columns = useMemo(() => buildCategoryColumns(), []);
+
   const panelTitle = adminEntityPanelTitle(RESOURCE_LABEL, panel) ?? '';
   const submitLabel =
     panel.open && panel.mode === 'create' ? 'Create category' : 'Save changes';
@@ -102,13 +165,14 @@ export default function AdminCategoryListPage(): JSX.Element {
           </p>
         }
       >
-        <AdminCategoryList
-          categories={rows}
+        <TableView
+          rows={rows}
+          columns={columns}
           page={page}
           totalPages={totalPages}
           onPageChange={setPage}
-          onEditCategory={openEditPanel}
-          onDeleteCategory={(row) => void onDeleteCategory(row)}
+          onEdit={openEditPanel}
+          onDelete={onDeleteCategory}
         />
       </AdminListPageLayout>
     </>

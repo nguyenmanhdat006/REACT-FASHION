@@ -1,13 +1,7 @@
 import { useMemo } from 'react';
 
 import TableView, { type TableColumn } from '@/components/TableView';
-import TableRowActionsMenuTrigger from '@/components/TableRowActionsMenuTrigger';
 import { Badge } from '@/components/ui/badge';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-} from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 
 export type AdminBrandRow = {
@@ -106,22 +100,7 @@ function AdminBrandList({
       onPageChange={onPageChange}
       selectedIds={selectedIds}
       onSelectedIdsChange={onSelectedIdsChange}
-      selectAllAriaLabel="Select all brands"
-      getRowSelectionAriaLabel={(b) => `Select ${b.name}`}
-      renderRowActions={(brand) => (
-        <DropdownMenu>
-          <TableRowActionsMenuTrigger label={`Actions for ${brand.name}`} />
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem
-              variant="destructive"
-              onSelect={() => onDeleteBrand?.(brand)}
-            >
-              Delete
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )}
+      onDelete={onDeleteBrand}
     />
   );
 }

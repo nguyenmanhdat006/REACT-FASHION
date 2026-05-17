@@ -1,8 +1,14 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
+import TableRowActionsMenuTrigger from '@/components/TableRowActionsMenuTrigger';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from '@/components/ui/dropdown-menu';
 import {
   Table,
   TableBody,
@@ -23,9 +29,21 @@ export type TableColumn<T extends TableRowBase> = {
   cell: (row: T) => React.ReactNode;
 };
 
+export type TableRowExtraAction<T> = {
+  label: string;
+  onSelect: (row: T) => void;
+};
+
 export type TableViewProps<T extends TableRowBase> = {
   rows: T[];
   columns: TableColumn<T>[];
+  /** Built-in row menu — item shown only when matching callback is passed. */
+  onDetail?: (row: T) => void;
+  onEdit?: (row: T) => void;
+  onDelete?: (row: T) => void;
+  extraRowActions?: TableRowExtraAction<T>[];
+  rowActionsMenuClassName?: string;
+  /** Custom actions cell (e.g. Order inline buttons). Overrides built-in menu. */
   renderRowActions?: (row: T) => React.ReactNode;
   actionsHeaderClassName?: string;
 
@@ -37,14 +55,17 @@ export type TableViewProps<T extends TableRowBase> = {
   selectedIds?: string[];
   onSelectedIdsChange?: (ids: string[]) => void;
 
-  selectAllAriaLabel?: string;
-  getRowSelectionAriaLabel?: (row: T) => string;
   className?: string;
 };
 
 function TableView<T extends TableRowBase>({
   rows,
   columns,
+  onDetail,
+  onEdit,
+  onDelete,
+  extraRowActions,
+  rowActionsMenuClassName,
   renderRowActions,
   actionsHeaderClassName,
   page: controlledPage,
@@ -53,8 +74,6 @@ function TableView<T extends TableRowBase>({
   selectable = true,
   selectedIds: controlledSelected,
   onSelectedIdsChange,
-  selectAllAriaLabel = 'Select all rows',
-  getRowSelectionAriaLabel,
   className,
 }: TableViewProps<T>) {
   const [internalPage, setInternalPage] = useState(1);
@@ -132,10 +151,60 @@ function TableView<T extends TableRowBase>({
     [totalPages],
   );
 
-  const rowSelectionLabel = useCallback(
-    (row: T) =>
-      getRowSelectionAriaLabel?.(row) ?? `Select row ${row.id}`,
-    [getRowSelectionAriaLabel],
+  const hasBuiltInRowActions = Boolean(
+    onDetail ?? onEdit ?? onDelete ?? (extraRowActions && extraRowActions.length > 0),
+  );
+  const showActionsColumn = Boolean(renderRowActions ?? hasBuiltInRowActions);
+
+  const renderActionsCell = useCallback(
+    (row: T) => {
+      if (renderRowActions) {
+        return renderRowActions(row);
+      }
+      if (!hasBuiltInRowActions) {
+        return null;
+      }
+      const extra = extraRowActions ?? [];
+
+      return (
+        <DropdownMenu>
+          <TableRowActionsMenuTrigger label="Actions" />
+          <DropdownMenuContent align="end" className={rowActionsMenuClassName}>
+            {onDetail ? (
+              <DropdownMenuItem onSelect={() => onDetail(row)}>Detail</DropdownMenuItem>
+            ) : null}
+            {onEdit ? (
+              <DropdownMenuItem onSelect={() => onEdit(row)}>Edit</DropdownMenuItem>
+            ) : null}
+            {extra.map((action) => (
+              <DropdownMenuItem
+                key={action.label}
+                onSelect={() => action.onSelect(row)}
+              >
+                {action.label}
+              </DropdownMenuItem>
+            ))}
+            {onDelete ? (
+              <DropdownMenuItem
+                variant="destructive"
+                onSelect={() => void onDelete(row)}
+              >
+                Delete
+              </DropdownMenuItem>
+            ) : null}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
+    [
+      renderRowActions,
+      hasBuiltInRowActions,
+      onDetail,
+      onEdit,
+      onDelete,
+      extraRowActions,
+      rowActionsMenuClassName,
+    ],
   );
 
   return (
@@ -149,7 +218,6 @@ function TableView<T extends TableRowBase>({
                   <Checkbox
                     checked={headerCheckboxState}
                     onCheckedChange={toggleAll}
-                    aria-label={selectAllAriaLabel}
                   />
                 </TableHead>
               ) : null}
@@ -164,12 +232,10 @@ function TableView<T extends TableRowBase>({
                   {col.header}
                 </TableHead>
               ))}
-              {renderRowActions ? (
+              {showActionsColumn ? (
                 <TableHead
                   className={cn('w-12 pr-4 text-right', actionsHeaderClassName)}
-                >
-                  <span className="sr-only">Actions</span>
-                </TableHead>
+                />
               ) : null}
             </TableRow>
           </TableHeader>
@@ -181,7 +247,6 @@ function TableView<T extends TableRowBase>({
                     <Checkbox
                       checked={selectedSet.has(row.id)}
                       onCheckedChange={() => toggleRow(row.id)}
-                      aria-label={rowSelectionLabel(row)}
                     />
                   </TableCell>
                 ) : null}
@@ -193,9 +258,9 @@ function TableView<T extends TableRowBase>({
                     {col.cell(row)}
                   </TableCell>
                 ))}
-                {renderRowActions ? (
+                {showActionsColumn ? (
                   <TableCell className="pr-4 text-right">
-                    {renderRowActions(row)}
+                    {renderActionsCell(row)}
                   </TableCell>
                 ) : null}
               </TableRow>
@@ -213,7 +278,6 @@ function TableView<T extends TableRowBase>({
             className="rounded-full"
             disabled={page <= 1}
             onClick={goPrev}
-            aria-label="Previous page"
           >
             <ChevronLeft className="size-4" />
           </Button>
@@ -229,8 +293,6 @@ function TableView<T extends TableRowBase>({
                   'bg-primary text-primary-foreground hover:bg-primary/90',
               )}
               onClick={() => setPage(n)}
-              aria-label={`Page ${n}`}
-              aria-current={n === page ? 'page' : undefined}
             >
               {n}
             </Button>
@@ -242,7 +304,6 @@ function TableView<T extends TableRowBase>({
             className="rounded-full"
             disabled={page >= totalPages}
             onClick={goNext}
-            aria-label="Next page"
           >
             <ChevronRight className="size-4" />
           </Button>
