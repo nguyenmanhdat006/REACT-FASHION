@@ -113,14 +113,14 @@ function adminProductFormToPayload(
   const compareAtPrice =
     pct !== null ? Math.round((price / (1 - pct / 100)) * 100) / 100 : undefined;
 
-  const description = trimOrUndefined(values.description);
-  const shortDescription = trimOrUndefined(values.shortDescription);
+  const description = values.description?.trim() ?? '';
+  const shortDescription = values.shortDescription?.trim() ?? '';
 
   return {
     name: values.name.trim(),
     slug: slugFromName(values.name),
-    ...(description ? { description } : {}),
-    ...(shortDescription ? { shortDescription } : {}),
+    description,
+    shortDescription,
     price,
     compareAtPrice,
     categoryId: optionalUuid(values.category),

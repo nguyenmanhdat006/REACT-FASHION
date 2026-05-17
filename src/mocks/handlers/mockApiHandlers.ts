@@ -934,6 +934,14 @@ export const handleMockApiRequest = async <T>(
   if (method === 'put' && cleanUrl.startsWith('/products/') && !cleanUrl.includes('/images/upload')) {
     const id = cleanUrl.replace('/products/', '');
     const payload = asRecord(data);
+    const description =
+      typeof payload.description === 'string'
+        ? payload.description.trim() || null
+        : undefined;
+    const shortDescription =
+      typeof payload.shortDescription === 'string'
+        ? payload.shortDescription.trim() || null
+        : undefined;
 
     mockProducts = mockProducts.map(product => {
       if (product.id !== id) {
@@ -943,6 +951,8 @@ export const handleMockApiRequest = async <T>(
       return {
         ...product,
         ...(payload as Partial<Product>),
+        ...(description !== undefined ? { description } : {}),
+        ...(shortDescription !== undefined ? { shortDescription } : {}),
         updatedAt: new Date().toISOString(),
       };
     });
