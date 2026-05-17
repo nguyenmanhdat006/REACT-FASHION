@@ -82,7 +82,6 @@ export default function AdminOrderListPage(): JSX.Element {
       </div>
       <AdminOrderList
         orders={rows}
-        page={page}
         totalPages={safeTotalPages}
         onPageChange={setPage}
         onCancelOrder={(row) => void onCancelOrder(row)}

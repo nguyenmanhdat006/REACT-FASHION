@@ -79,7 +79,6 @@ function buildCategoryColumns(): TableColumn<AdminCategoryRow>[] {
 }
 
 export default function AdminCategoryListPage(): JSX.Element {
-  const [page, setPage] = useState(1);
   const [panel, setPanel] = useState<AdminEntityPanelState>({ open: false });
   const { fetchCategories, deleteCategory } = useAdminCatalog();
   const { categories, categoriesLoading, categoriesError } = useAppSelector(
@@ -99,15 +98,6 @@ export default function AdminCategoryListPage(): JSX.Element {
     () => Math.max(1, Math.ceil(allRows.length / PAGE_SIZE)),
     [allRows.length],
   );
-
-  const rows = useMemo(() => {
-    const start = (page - 1) * PAGE_SIZE;
-    return allRows.slice(start, start + PAGE_SIZE);
-  }, [allRows, page]);
-
-  useEffect(() => {
-    if (page > totalPages) setPage(totalPages);
-  }, [page, totalPages]);
 
   const closePanel = useCallback(() => {
     setPanel({ open: false });
@@ -166,11 +156,10 @@ export default function AdminCategoryListPage(): JSX.Element {
         }
       >
         <TableView
-          rows={rows}
+          rows={allRows}
           columns={columns}
-          page={page}
+          pageSize={PAGE_SIZE}
           totalPages={totalPages}
-          onPageChange={setPage}
           onEdit={openEditPanel}
           onDelete={onDeleteCategory}
         />

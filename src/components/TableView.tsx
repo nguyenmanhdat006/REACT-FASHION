@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 import TableRowActionsMenuTrigger from '@/components/TableRowActionsMenuTrigger';
@@ -47,8 +47,9 @@ export type TableViewProps<T extends TableRowBase> = {
   renderRowActions?: (row: T) => React.ReactNode;
   actionsHeaderClassName?: string;
 
-  page?: number;
-  totalPages?: number;
+  /** Client-side slice: pass full `rows` and set `pageSize`. Omit for server-paginated rows. */
+  pageSize?: number;
+  totalPages: number;
   onPageChange?: (page: number) => void;
 
   selectable?: boolean;
@@ -68,20 +69,45 @@ function TableView<T extends TableRowBase>({
   rowActionsMenuClassName,
   renderRowActions,
   actionsHeaderClassName,
-  page: controlledPage,
-  totalPages = 1,
+  pageSize,
+  totalPages,
   onPageChange,
   selectable = true,
   selectedIds: controlledSelected,
   onSelectedIdsChange,
   className,
 }: TableViewProps<T>) {
-  const [internalPage, setInternalPage] = useState(1);
+  const [page, setPageState] = useState(1);
   const [internalSelected, setInternalSelected] = useState<string[]>([]);
 
-  const page = controlledPage ?? internalPage;
+  const safeTotalPages = Math.max(1, totalPages);
+
   const selectedList = controlledSelected ?? internalSelected;
   const selectedSet = useMemo(() => new Set(selectedList), [selectedList]);
+
+  const setPage = useCallback(
+    (next: number) => {
+      const clamped = Math.max(1, Math.min(next, safeTotalPages));
+      setPageState(clamped);
+      onPageChange?.(clamped);
+    },
+    [onPageChange, safeTotalPages],
+  );
+
+  useEffect(() => {
+    if (page > safeTotalPages) {
+      setPageState(safeTotalPages);
+      onPageChange?.(safeTotalPages);
+    }
+  }, [page, safeTotalPages, onPageChange]);
+
+  const displayRows = useMemo(() => {
+    if (!pageSize || pageSize < 1) {
+      return rows;
+    }
+    const start = (page - 1) * pageSize;
+    return rows.slice(start, start + pageSize);
+  }, [rows, page, pageSize]);
 
   const setSelectedIds = useCallback(
     (next: string[]) => {
@@ -93,17 +119,7 @@ function TableView<T extends TableRowBase>({
     [controlledSelected, onSelectedIdsChange],
   );
 
-  const setPage = useCallback(
-    (next: number) => {
-      onPageChange?.(next);
-      if (controlledPage === undefined) {
-        setInternalPage(next);
-      }
-    },
-    [controlledPage, onPageChange],
-  );
-
-  const allIds = useMemo(() => rows.map((r) => r.id), [rows]);
+  const allIds = useMemo(() => displayRows.map((r) => r.id), [displayRows]);
   const allSelected =
     selectable && allIds.length > 0 && allIds.every((id) => selectedSet.has(id));
   const someSelected =
@@ -143,12 +159,12 @@ function TableView<T extends TableRowBase>({
   }, [page, setPage]);
 
   const goNext = useCallback(() => {
-    setPage(Math.min(totalPages, page + 1));
-  }, [page, setPage, totalPages]);
+    setPage(Math.min(safeTotalPages, page + 1));
+  }, [page, setPage, safeTotalPages]);
 
   const pageNumbers = useMemo(
-    () => Array.from({ length: totalPages }, (_, i) => i + 1),
-    [totalPages],
+    () => Array.from({ length: safeTotalPages }, (_, i) => i + 1),
+    [safeTotalPages],
   );
 
   const hasBuiltInRowActions = Boolean(
@@ -240,7 +256,7 @@ function TableView<T extends TableRowBase>({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {rows.map((row) => (
+            {displayRows.map((row) => (
               <TableRow key={row.id} className="border-none">
                 {selectable ? (
                   <TableCell className="pl-4">
@@ -302,7 +318,7 @@ function TableView<T extends TableRowBase>({
             variant="ghost"
             size="icon-sm"
             className="rounded-full"
-            disabled={page >= totalPages}
+            disabled={page >= safeTotalPages}
             onClick={goNext}
           >
             <ChevronRight className="size-4" />

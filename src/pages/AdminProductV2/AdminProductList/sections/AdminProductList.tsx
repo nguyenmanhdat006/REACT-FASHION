@@ -16,8 +16,7 @@ export type AdminProductRow = {
 
 export type AdminProductListProps = {
   products: AdminProductRow[];
-  page?: number;
-  totalPages?: number;
+  totalPages: number;
   onPageChange?: (page: number) => void;
   selectedIds?: string[];
   onSelectedIdsChange?: (ids: string[]) => void;
@@ -101,8 +100,7 @@ function buildProductColumns(): TableColumn<AdminProductRow>[] {
 
 function AdminProductList({
   products,
-  page,
-  totalPages = 3,
+  totalPages,
   onPageChange,
   selectedIds,
   onSelectedIdsChange,
@@ -118,7 +116,6 @@ function AdminProductList({
       className={className}
       rows={products}
       columns={columns}
-      page={page}
       totalPages={totalPages}
       onPageChange={onPageChange}
       selectedIds={selectedIds}
