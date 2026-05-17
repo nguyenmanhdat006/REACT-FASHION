@@ -35,6 +35,7 @@ export {
   fetchOrdersThunk,
   fetchOrderByIdThunk,
   createOrderThunk,
+  confirmOrderThunk,
   updateOrderStatusThunk,
   cancelOrderThunk,
   confirmOrderPaymentThunk,

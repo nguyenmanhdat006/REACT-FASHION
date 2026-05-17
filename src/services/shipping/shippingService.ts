@@ -7,7 +7,6 @@
  * NOTE: Shipping Service does NOT require Auth headers.
  */
 import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig } from 'axios';
-import { SHIPPING_BASE_URL } from '@/constants';
 import type { ApiResponse } from '@/types/common/common';
 import { ShipmentStatus } from '@/types/order/order';
 
@@ -100,7 +99,7 @@ class ShippingApiClient {
 
   constructor() {
     this.client = axios.create({
-      baseURL: SHIPPING_BASE_URL,
+      baseURL: '/api',
       timeout: 15000,
       headers: {
         'Content-Type': 'application/json',

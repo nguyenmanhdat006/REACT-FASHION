@@ -101,6 +101,25 @@ export const cancelOrderThunk = createAsyncThunk<
 });
 
 /**
+ * PUT /api/orders/{id}/confirm
+ */
+export const confirmOrderThunk = createAsyncThunk<
+  ApiResponse<Order>,
+  string,
+  { rejectValue: string }
+>('orders/confirmOrder', async (id, { rejectWithValue }) => {
+  try {
+    const res = await orderService.confirmOrder(id);
+    if (!res.success || res.data === undefined || res.data === null) {
+      return rejectWithValue(apiFailureMessage(res));
+    }
+    return res;
+  } catch (error) {
+    return rejectWithValue(getErrorMessage(error, 'Failed to confirm order'));
+  }
+});
+
+/**
  * PUT /api/orders/{id}/status
  */
 export const updateOrderStatusThunk = createAsyncThunk<

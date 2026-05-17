@@ -14,7 +14,7 @@ const PAGE_SIZE = 10;
 
 export default function AdminOrderListPage(): JSX.Element {
   const [page, setPage] = useState(1);
-  const { fetchOrdersPage, cancelOrder, updateOrderStatus } = useOrders();
+  const { fetchOrdersPage, cancelOrder, confirmOrder, updateOrderStatus } = useOrders();
   const { items, totalPages, isLoading, error } = useAppSelector((s) => s.orders);
 
   const listParams = useMemo(
@@ -49,9 +49,13 @@ export default function AdminOrderListPage(): JSX.Element {
 
   const onUpdateStatus = useCallback(
     async (row: AdminOrderRow, newStatus: OrderStatus) => {
-      await updateOrderStatus(row.id, newStatus, listParams);
+      if (newStatus === 'CONFIRMED') {
+        await confirmOrder(row.id, listParams);
+      } else {
+        await updateOrderStatus(row.id, newStatus, listParams);
+      }
     },
-    [updateOrderStatus, listParams],
+    [confirmOrder, updateOrderStatus, listParams],
   );
 
   return (
