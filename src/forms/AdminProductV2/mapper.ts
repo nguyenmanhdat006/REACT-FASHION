@@ -3,6 +3,7 @@ import {
   type CreateProductRequest,
   type Product,
   type ProductImagePayload,
+  type UpdateProductRequest,
 } from '@/types/product/product';
 import {
   optionalNonNegativeInt,
@@ -101,7 +102,7 @@ export function productToAdminProductFormValues(product: Product): AdminProductV
   };
 }
 
-export function adminProductFormToCreateRequest(
+function adminProductFormToPayload(
   values: AdminProductV2FormValues,
   media?: AdminProductV2FormMediaInput
 ): CreateProductRequest {
@@ -136,4 +137,18 @@ export function adminProductFormToCreateRequest(
     sku: trimOrUndefined(values.sku),
     images: buildProductImages(media, values.name),
   };
+}
+
+export function adminProductFormToCreateRequest(
+  values: AdminProductV2FormValues,
+  media?: AdminProductV2FormMediaInput
+): CreateProductRequest {
+  return adminProductFormToPayload(values, media);
+}
+
+export function adminProductFormToUpdateRequest(
+  values: AdminProductV2FormValues,
+  media?: AdminProductV2FormMediaInput
+): UpdateProductRequest {
+  return adminProductFormToPayload(values, media);
 }

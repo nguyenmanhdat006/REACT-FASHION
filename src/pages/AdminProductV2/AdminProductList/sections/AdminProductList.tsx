@@ -30,6 +30,8 @@ export type AdminProductListProps = {
   selectedIds?: string[];
   onSelectedIdsChange?: (ids: string[]) => void;
   className?: string;
+  onViewProduct?: (product: AdminProductRow) => void;
+  onEditProduct?: (product: AdminProductRow) => void;
   onDeleteProduct?: (product: AdminProductRow) => void;
 };
 
@@ -113,6 +115,8 @@ function AdminProductList({
   selectedIds,
   onSelectedIdsChange,
   className,
+  onViewProduct,
+  onEditProduct,
   onDeleteProduct,
 }: AdminProductListProps) {
   const columns = useMemo(() => buildProductColumns(), []);
@@ -143,8 +147,12 @@ function AdminProductList({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>Duplicate</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onViewProduct?.(product)}>
+              Detail
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onEditProduct?.(product)}>
+              Edit
+            </DropdownMenuItem>
             <DropdownMenuItem
               variant="destructive"
               onClick={() => onDeleteProduct?.(product)}

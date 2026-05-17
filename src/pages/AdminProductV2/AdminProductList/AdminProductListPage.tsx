@@ -25,6 +25,20 @@ export default function AdminProductListPage(): JSX.Element {
     navigate(ROUTESV2.ADMIN_PRODUCT_ADD);
   }, [navigate]);
 
+  const goToProductDetail = useCallback(
+    (row: AdminProductRow) => {
+      navigate(ROUTESV2.ADMIN_PRODUCT_DETAIL(row.id));
+    },
+    [navigate]
+  );
+
+  const goToEditProduct = useCallback(
+    (row: AdminProductRow) => {
+      navigate(ROUTESV2.ADMIN_PRODUCT_EDIT(row.id));
+    },
+    [navigate]
+  );
+
   const listFilters = useMemo(
     () => ({
       page: page - 1,
@@ -74,6 +88,8 @@ export default function AdminProductListPage(): JSX.Element {
         page={page}
         totalPages={safeTotalPages}
         onPageChange={setPage}
+        onViewProduct={goToProductDetail}
+        onEditProduct={goToEditProduct}
         onDeleteProduct={(row) => void onDeleteProduct(row)}
       />
       {isLoading && rows.length === 0 ? (

@@ -11,6 +11,7 @@ import type { Category } from '@/types/product/product';
 import { BRAND_OPTIONS, CATEGORY_OPTIONS } from '../constants';
 import {
   adminProductFormToCreateRequest,
+  adminProductFormToUpdateRequest,
   productImagesFromProduct,
   productToAdminProductFormValues,
 } from '../mapper';
@@ -42,7 +43,7 @@ export function useAdminProductV2Form({
   onSuccess,
 }: UseAdminProductV2FormOptions) {
   const readOnly = mode === 'read';
-  const { loadMeta, createProduct, fetchProductById, clearDetail } = useProducts();
+  const { loadMeta, createProduct, updateProduct, fetchProductById, clearDetail } = useProducts();
   const {
     activeBrands,
     activeCategories,
@@ -112,22 +113,38 @@ export function useAdminProductV2Form({
     async (values: AdminProductV2FormValues) => {
       if (readOnly) return;
 
-      if (mode === 'update') {
-        toast.error('Update product is not available yet');
-        return;
-      }
+      const mediaInput = {
+        imageUrls: [...media.productImages],
+        coverIndex: media.coverIndex,
+      };
 
       setIsSubmitting(true);
-      const ok = await createProduct(
-        adminProductFormToCreateRequest(values, {
-          imageUrls: [...media.productImages],
-          coverIndex: media.coverIndex,
-        })
-      );
+      let ok = false;
+      if (mode === 'update') {
+        if (!productId) {
+          toast.error('Product id is missing');
+        } else {
+          ok = await updateProduct(
+            productId,
+            adminProductFormToUpdateRequest(values, mediaInput)
+          );
+        }
+      } else {
+        ok = await createProduct(adminProductFormToCreateRequest(values, mediaInput));
+      }
       setIsSubmitting(false);
       if (ok) onSuccess?.();
     },
-    [readOnly, mode, createProduct, media.productImages, media.coverIndex, onSuccess]
+    [
+      readOnly,
+      mode,
+      productId,
+      createProduct,
+      updateProduct,
+      media.productImages,
+      media.coverIndex,
+      onSuccess,
+    ]
   );
 
   const busy =

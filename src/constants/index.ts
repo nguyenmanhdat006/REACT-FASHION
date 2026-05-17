@@ -34,6 +34,8 @@ export const ROUTESV2 = {
   ADMIN_DASHBOARD: '/v2/admin',
   ADMIN_PRODUCTS: '/v2/admin/products',
   ADMIN_PRODUCT_ADD: '/v2/admin/products/add',
+  ADMIN_PRODUCT_DETAIL: (id: string) => `/v2/admin/products/${id}`,
+  ADMIN_PRODUCT_EDIT: (id: string) => `/v2/admin/products/${id}/edit`,
   ADMIN_CATEGORY: '/v2/admin/category',
   ADMIN_ORDERS: '/v2/admin/orders',
   ADMIN_BRAND: '/v2/admin/brand',

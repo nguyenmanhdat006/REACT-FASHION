@@ -10,6 +10,7 @@ import type {
   Product,
   ProductFilters,
   ProductListParams,
+  UpdateProductRequest,
 } from '@/types/product/product';
 import type { ApiResponse, PageMeta } from '@/types/common/common';
 import { apiFailureMessage } from '@/utils/apiEnvelope';
@@ -182,6 +183,22 @@ export const createProductThunk = createAsyncThunk<
     return res;
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to create product'));
+  }
+});
+
+export const updateProductThunk = createAsyncThunk<
+  ApiResponse<Product>,
+  { id: string; payload: UpdateProductRequest },
+  { rejectValue: string }
+>('products/updateProduct', async ({ id, payload }, { rejectWithValue }) => {
+  try {
+    const res = await productService.updateProduct(id, payload);
+    if (!res.success || res.data === undefined || res.data === null) {
+      return rejectWithValue(apiFailureMessage(res));
+    }
+    return res;
+  } catch (error) {
+    return rejectWithValue(getErrorMessage(error, 'Failed to update product'));
   }
 });
 
