@@ -5,9 +5,7 @@ import { categoryService } from '@/services/category/categoryService';
 import { productService } from '@/services/product/productService';
 import type {
   Brand,
-  BrandPayload,
   Category,
-  CategoryPayload,
   CreateProductRequest,
   Product,
   ProductFilters,
@@ -74,38 +72,6 @@ export const fetchProductBySlugThunk = createAsyncThunk<
     return res;
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to fetch product'));
-  }
-});
-
-export const fetchCategoriesThunk = createAsyncThunk<
-  ApiResponse<Category[]>,
-  void,
-  { rejectValue: string }
->('products/fetchCategories', async (_, { rejectWithValue }) => {
-  try {
-    const res = await categoryService.getCategories();
-    if (!res.success || !Array.isArray(res.data)) {
-      return rejectWithValue(apiFailureMessage(res));
-    }
-    return res;
-  } catch (error) {
-    return rejectWithValue(getErrorMessage(error, 'Failed to fetch categories'));
-  }
-});
-
-export const fetchBrandsThunk = createAsyncThunk<
-  ApiResponse<Brand[]>,
-  void,
-  { rejectValue: string }
->('products/fetchBrands', async (_, { rejectWithValue }) => {
-  try {
-    const res = await brandService.getBrands();
-    if (!res.success || !Array.isArray(res.data)) {
-      return rejectWithValue(apiFailureMessage(res));
-    }
-    return res;
-  } catch (error) {
-    return rejectWithValue(getErrorMessage(error, 'Failed to fetch brands'));
   }
 });
 
@@ -216,65 +182,5 @@ export const deleteProductThunk = createAsyncThunk<
     return res;
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to delete product'));
-  }
-});
-
-export const createCategoryThunk = createAsyncThunk<
-  ApiResponse<Category>,
-  CategoryPayload,
-  { rejectValue: string }
->('products/createCategory', async (payload, { rejectWithValue }) => {
-  try {
-    const res = await categoryService.createCategory(payload);
-    if (!res.success || res.data === undefined || res.data === null) {
-      return rejectWithValue(apiFailureMessage(res));
-    }
-    return res;
-  } catch (error) {
-    return rejectWithValue(getErrorMessage(error, 'Failed to create category'));
-  }
-});
-
-export const deleteCategoryThunk = createAsyncThunk<
-  ApiResponse<unknown>,
-  string,
-  { rejectValue: string }
->('products/deleteCategory', async (id, { rejectWithValue }) => {
-  try {
-    const res = await categoryService.deleteCategory(id);
-    if (!res.success) return rejectWithValue(apiFailureMessage(res));
-    return res;
-  } catch (error) {
-    return rejectWithValue(getErrorMessage(error, 'Failed to delete category'));
-  }
-});
-
-export const createBrandThunk = createAsyncThunk<
-  ApiResponse<Brand>,
-  BrandPayload,
-  { rejectValue: string }
->('products/createBrand', async (payload, { rejectWithValue }) => {
-  try {
-    const res = await brandService.createBrand(payload);
-    if (!res.success || res.data === undefined || res.data === null) {
-      return rejectWithValue(apiFailureMessage(res));
-    }
-    return res;
-  } catch (error) {
-    return rejectWithValue(getErrorMessage(error, 'Failed to create brand'));
-  }
-});
-
-export const deleteBrandThunk = createAsyncThunk<
-  ApiResponse<unknown>,
-  string,
-  { rejectValue: string }
->('products/deleteBrand', async (id, { rejectWithValue }) => {
-  try {
-    const res = await brandService.deleteBrand(id);
-    if (!res.success) return rejectWithValue(apiFailureMessage(res));
-    return res;
-  } catch (error) {
-    return rejectWithValue(getErrorMessage(error, 'Failed to delete brand'));
   }
 });

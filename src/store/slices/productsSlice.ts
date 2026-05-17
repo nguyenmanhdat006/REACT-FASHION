@@ -2,20 +2,24 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import {
   createBrandThunk,
-  createCategoryThunk,
-  createProductThunk,
   deleteBrandThunk,
-  deleteCategoryThunk,
-  deleteProductThunk,
-  updateProductThunk,
-  fetchAdminProductMetaThunk,
   fetchBrandsThunk,
+} from '@/store/thunks/brandThunks';
+import {
+  createCategoryThunk,
+  deleteCategoryThunk,
   fetchCategoriesThunk,
+} from '@/store/thunks/categoryThunks';
+import {
+  createProductThunk,
+  deleteProductThunk,
+  fetchAdminProductMetaThunk,
   fetchFeaturedProductsThunk,
   fetchProductByIdThunk,
   fetchProductBySlugThunk,
   fetchProductsThunk,
   fetchV2PublishedProductsThunk,
+  updateProductThunk,
 } from '@/store/thunks/productThunks';
 import type { Brand, Category, Product, ProductFilters } from '@/types/product/product';
 

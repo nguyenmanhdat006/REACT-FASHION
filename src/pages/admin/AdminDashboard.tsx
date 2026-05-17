@@ -449,7 +449,7 @@ const AdminDashboard: React.FC = () => {
     }
 
     try {
-      const res = await productService.deleteCategory(id);
+      const res = await categoryService.deleteCategory(id);
       if (!res.success) {
         toast.error(apiFailureMessage(res));
         return;
@@ -496,14 +496,14 @@ const AdminDashboard: React.FC = () => {
       };
 
       if (editingBrand) {
-        const res = await productService.updateBrand(editingBrand.id, payload);
+        const res = await brandService.updateBrand(editingBrand.id, payload);
         if (!res.success) {
           toast.error(apiFailureMessage(res));
           return;
         }
         toast.success('Cap nhat thuong hieu thanh cong');
       } else {
-        const res = await productService.createBrand(payload);
+        const res = await brandService.createBrand(payload);
         if (!res.success) {
           toast.error(apiFailureMessage(res));
           return;
@@ -527,7 +527,7 @@ const AdminDashboard: React.FC = () => {
     }
 
     try {
-      const res = await productService.deleteBrand(id);
+      const res = await brandService.deleteBrand(id);
       if (!res.success) {
         toast.error(apiFailureMessage(res));
         return;
