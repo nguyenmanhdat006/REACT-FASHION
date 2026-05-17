@@ -28,8 +28,6 @@ import {
 import { BRAND_OPTIONS, CATEGORY_OPTIONS } from '@/forms/AdminProductV2/constants';
 import type { Category } from '@/types/product/product';
 
-export type { AdminAddProductFormValues, AdminProductV2FormValues } from './types';
-
 function flattenCategories(nodes: Category[]): SelectOption[] {
   const out: SelectOption[] = [];
   const walk = (list: Category[]) => {

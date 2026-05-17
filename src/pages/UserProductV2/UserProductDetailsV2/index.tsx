@@ -111,7 +111,4 @@ export function UserProductDetailsV2({
   );
 }
 
-/** @deprecated Use UserProductDetailsV2 */
-export const ProductDetails = UserProductDetailsV2;
-
 export default UserProductDetailsV2;

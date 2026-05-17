@@ -20,8 +20,6 @@ export type {
   AdminProductV2FormValues,
   AdminProductV2FormMediaInput,
   AdminProductV2UploadIntent,
-  ProductV2FormMode,
-  ProductV2FormValues,
 } from './types';
 
 export type AdminProductV2FormProps = {
@@ -36,9 +34,6 @@ export type AdminProductV2FormProps = {
   busy?: boolean;
   className?: string;
 };
-
-/** @deprecated Use AdminProductV2FormProps */
-export type ProductV2FormProps = AdminProductV2FormProps;
 
 export default function AdminProductV2Form({
   mode,

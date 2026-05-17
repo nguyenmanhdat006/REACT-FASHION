@@ -564,8 +564,8 @@
     "hash": "dcc2a9a2ae472437bbc7bffe0db47403"
   },
   "/home/thang/Workspace/ecommerce-services/REACT-FASHION/src/pages/UserProductV2/UserProductDetailsV2/index.tsx": {
-    "mtime": 1778981972.910417,
-    "hash": "8be70048ed7992d41758ae85951dafeb"
+    "mtime": 1778982947.597563,
+    "hash": "a11588bc3e7587f310d90542ef1e1c1f"
   },
   "/home/thang/Workspace/ecommerce-services/REACT-FASHION/src/pages/UserProductV2/UserProductDetailsV2/sections/ProductDetailsHeaderSection.tsx": {
     "mtime": 1778831642.6882434,
@@ -608,12 +608,8 @@
     "hash": "5296854ac14d7731884a74a8d53ebd37"
   },
   "/home/thang/Workspace/ecommerce-services/REACT-FASHION/src/pages/AdminProductV2/AdminCreateProduct/index.tsx": {
-    "mtime": 1778982776.804247,
-    "hash": "8fdec27fe36c06a4ce17e40eb06d5f40"
-  },
-  "/home/thang/Workspace/ecommerce-services/REACT-FASHION/src/pages/AdminProductV2/AdminCreateProduct/types.ts": {
-    "mtime": 1778981917.9013526,
-    "hash": "53082c8d4ddf9903d055eca9953e468c"
+    "mtime": 1778982946.3855617,
+    "hash": "9313a7493dca2758e06fe47d6bbbb2a6"
   },
   "/home/thang/Workspace/ecommerce-services/REACT-FASHION/src/pages/AdminProductV2/AdminProductList/adminProductList.ts": {
     "mtime": 1778981945.2543848,
@@ -868,12 +864,12 @@
     "hash": "f69bb566f0a0c23997d96af5849308c3"
   },
   "/home/thang/Workspace/ecommerce-services/REACT-FASHION/src/forms/AdminProductV2/index.tsx": {
-    "mtime": 1778982769.0549757,
-    "hash": "26add3bf3af110748188ea1bdbdb94a6"
+    "mtime": 1778982945.8936086,
+    "hash": "6a6220f6d08c38ab76184c155714ae26"
   },
   "/home/thang/Workspace/ecommerce-services/REACT-FASHION/src/forms/AdminProductV2/types.ts": {
-    "mtime": 1778982738.2693138,
-    "hash": "6b5c1d2ebbe6b0572ccb235fa210b06f"
+    "mtime": 1778982950.8924935,
+    "hash": "a4e188e135201d1acc1f113e8e0ea527"
   },
   "/home/thang/Workspace/ecommerce-services/REACT-FASHION/src/forms/AdminProductV2/constants.ts": {
     "mtime": 1778813209.1802266,
