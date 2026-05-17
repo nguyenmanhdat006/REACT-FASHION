@@ -3,10 +3,11 @@ import { z } from 'zod';
 import {
   ProductStatus,
   type CreateProductRequest,
+  type Product,
   type ProductImagePayload,
 } from '@/types/product/product';
 
-import type { AdminProductV2FormMediaInput, AdminProductV2FormValues } from '@/forms/AdminProductV2/types';
+import type { AdminProductV2FormMediaInput, AdminProductV2FormValues } from './types';
 
 const statusToEnum: Record<string, ProductStatus> = {
   draft: ProductStatus.DRAFT,
@@ -14,7 +15,14 @@ const statusToEnum: Record<string, ProductStatus> = {
   archived: ProductStatus.ARCHIVED,
 };
 
-export const adminAddProductSubmitSchema = z.object({
+const statusFromEnum: Record<ProductStatus, string> = {
+  [ProductStatus.DRAFT]: 'draft',
+  [ProductStatus.PUBLISHED]: 'published',
+  [ProductStatus.ARCHIVED]: 'archived',
+  [ProductStatus.OUT_OF_STOCK]: 'draft',
+};
+
+export const adminProductSubmitSchema = z.object({
   name: z.string().trim().min(1, 'Product name is required'),
   status: z.string().trim().min(1, 'Status is required'),
   brand: z.string().optional(),
@@ -40,7 +48,68 @@ export const adminAddProductSubmitSchema = z.object({
   featured: z.boolean(),
 });
 
-export type AdminAddProductSubmitInput = z.infer<typeof adminAddProductSubmitSchema>;
+export const emptyAdminProductFormValues = (): AdminProductV2FormValues => ({
+  name: '',
+  status: '',
+  brand: '',
+  category: '',
+  subcategory: '',
+  price: '',
+  discount: '',
+  description: '',
+  shortDescription: '',
+  sku: '',
+  stockQuantity: '',
+  visible: true,
+  featured: false,
+});
+
+export function productToAdminProductFormValues(product: Product): AdminProductV2FormValues {
+  const compareAt = product.compareAtPrice;
+  const price = product.price;
+  let discount = '';
+  if (compareAt != null && compareAt > price && price > 0) {
+    const pct = Math.round((1 - price / compareAt) * 100);
+    if (pct > 0 && pct < 100) discount = `${pct}%`;
+  }
+
+  return {
+    name: product.name?.trim() ?? '',
+    status: statusFromEnum[product.status] ?? 'draft',
+    brand: product.brand?.id ?? '',
+    category: product.category?.id ?? '',
+    subcategory: '',
+    price: price > 0 ? String(price) : '',
+    discount,
+    description: product.description?.trim() ?? '',
+    shortDescription: product.shortDescription?.trim() ?? '',
+    sku: product.sku?.trim() ?? '',
+    stockQuantity:
+      product.stockQuantity != null ? String(product.stockQuantity) : '',
+    visible: product.published ?? true,
+    featured: product.featured ?? false,
+  };
+}
+
+export function productImagesFromProduct(product: Product): {
+  imageUrls: string[];
+  coverIndex: number;
+} {
+  const sorted = [...(product.images ?? [])].sort(
+    (a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0)
+  );
+  const imageUrls = sorted
+    .map(img => img.imageUrl)
+    .filter((u): u is string => Boolean(u?.trim()));
+
+  if (imageUrls.length === 0) {
+    return { imageUrls: [], coverIndex: 0 };
+  }
+
+  const primaryIdx = sorted.findIndex(img => img.isPrimary);
+  const coverIndex = primaryIdx >= 0 ? primaryIdx : 0;
+  return { imageUrls, coverIndex };
+}
 
 function parseMoney(input: string): number | null {
   const cleaned = input.replace(/[$€£,\s]/g, '').trim();
@@ -108,7 +177,7 @@ function buildProductImages(
   }));
 }
 
-export function adminAddProductFormToCreateRequest(
+export function adminProductFormToCreateRequest(
   values: AdminProductV2FormValues,
   media?: AdminProductV2FormMediaInput
 ): CreateProductRequest {

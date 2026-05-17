@@ -1,109 +1,107 @@
-import type { FormEventHandler, JSX } from 'react';
-import type { Control, FieldErrors, UseFormRegister } from 'react-hook-form';
+import type { JSX } from 'react';
 import { useWatch } from 'react-hook-form';
-
-import type { SelectOption } from '@/components/FormField';
 
 import AdminProductDetailSection from './components/AdminProductDetailSection';
 import AdminProductGalleryModal from './components/AdminProductGalleryModal';
 import AdminProductMediaSection from './components/AdminProductMediaSection';
 import AdminProductQuickActionsSection from './components/AdminProductQuickActionsSection';
-import type {
-  AdminProductV2FormMedia,
-  AdminProductV2FormMode,
-  AdminProductV2FormValues,
-} from './types';
-
-export type {
-  AdminProductV2FormMedia,
-  AdminProductV2FormMode,
-  AdminProductV2FormValues,
-  AdminProductV2FormMediaInput,
-  AdminProductV2UploadIntent,
-} from './types';
+import type { AdminProductV2FormMode } from './types';
+import { useAdminProductV2Form } from './useAdminProductV2Form';
 
 export type AdminProductV2FormProps = {
   mode: AdminProductV2FormMode;
-  onSubmit: FormEventHandler<HTMLFormElement>;
-  register: UseFormRegister<AdminProductV2FormValues>;
-  control: Control<AdminProductV2FormValues>;
-  errors: FieldErrors<AdminProductV2FormValues>;
-  media: AdminProductV2FormMedia;
-  brandOptions: SelectOption[];
-  categoryOptions: SelectOption[];
-  busy?: boolean;
+  productId?: string;
+  onSuccess?: () => void;
   className?: string;
 };
 
 export default function AdminProductV2Form({
   mode,
-  onSubmit,
-  register,
-  control,
-  errors,
-  media,
-  brandOptions,
-  categoryOptions,
-  busy = false,
+  productId,
+  onSuccess,
   className,
 }: AdminProductV2FormProps): JSX.Element {
-  const readOnly = mode === 'read';
+  const {
+    readOnly,
+    register,
+    control,
+    errors,
+    handleSubmit,
+    brandOptions,
+    categoryOptions,
+    busy,
+    media,
+  } = useAdminProductV2Form({ mode, productId, onSuccess });
+
   const fieldsLocked = readOnly || busy;
   const uploadLocked = readOnly || media.uploadBusy;
-
   const visible = useWatch({ control, name: 'visible' }) ?? false;
   const featured = useWatch({ control, name: 'featured' }) ?? false;
 
   return (
-    <form
-      onSubmit={readOnly ? e => e.preventDefault() : onSubmit}
-      noValidate
-      className={className ?? 'grid grid-cols-12 gap-4'}
-    >
-      <div className="col-span-12 flex flex-col gap-4 self-stretch lg:col-span-6">
-        <AdminProductMediaSection
-          coverUrl={media.coverUrl}
-          galleryPreview1={media.galleryPreview1}
-          galleryPreview2={media.galleryPreview2}
-          galleryPreview3={media.galleryPreview3}
-          galleryMoreBeyondThirdCount={media.galleryMoreBeyondThirdCount}
-          uploadLocked={uploadLocked}
-          readOnly={readOnly}
-          onCoverClick={media.onCoverClick}
-          onGalleryCellClick={media.onGalleryCellClick}
-          onMoreGalleryClick={media.onOpenGalleryModal}
-          onDashedPlusClick={media.onDashedPlusClick}
+    <>
+      {!readOnly ? (
+        <input
+          ref={media.mainFileInputRef}
+          type="file"
+          accept="image/jpeg,image/png,image/webp,image/gif"
+          className="sr-only"
+          aria-hidden
+          tabIndex={-1}
+          onChange={media.onMainFileChange}
         />
-        {!readOnly ? (
-          <AdminProductGalleryModal
-            isOpen={media.galleryModalOpen}
-            onClose={media.onCloseGalleryModal}
-            imageUrls={media.productImages}
-            coverIndex={media.coverIndex}
-            onChangeImages={media.onChangeProductImages}
-            onChangeCoverIndex={media.onChangeCoverIndex}
-            isUploading={uploadLocked}
-            onUploadFile={media.onModalUploadFile}
-          />
-        ) : null}
-        <AdminProductQuickActionsSection
-          control={control}
-          visible={visible}
-          featured={featured}
-          readOnly={readOnly}
-        />
-      </div>
+      ) : null}
 
-      <AdminProductDetailSection
-        mode={mode}
-        register={register}
-        control={control}
-        errors={errors}
-        brandOptions={brandOptions}
-        categoryOptions={categoryOptions}
-        readOnly={readOnly}
-        isSubmitting={fieldsLocked}
-      />
-    </form>
+      <form
+        onSubmit={readOnly ? e => e.preventDefault() : handleSubmit}
+        noValidate
+        className={className ?? 'grid grid-cols-12 gap-4'}
+      >
+        <div className="col-span-12 flex flex-col gap-4 self-stretch lg:col-span-6">
+          <AdminProductMediaSection
+            coverUrl={media.coverUrl}
+            galleryPreview1={media.galleryPreview1}
+            galleryPreview2={media.galleryPreview2}
+            galleryPreview3={media.galleryPreview3}
+            galleryMoreBeyondThirdCount={media.galleryMoreBeyondThirdCount}
+            uploadLocked={uploadLocked}
+            readOnly={readOnly}
+            onCoverClick={media.onCoverClick}
+            onGalleryCellClick={media.onGalleryCellClick}
+            onMoreGalleryClick={media.onOpenGalleryModal}
+            onDashedPlusClick={media.onDashedPlusClick}
+          />
+          {!readOnly ? (
+            <AdminProductGalleryModal
+              isOpen={media.galleryModalOpen}
+              onClose={media.onCloseGalleryModal}
+              imageUrls={media.productImages}
+              coverIndex={media.coverIndex}
+              onChangeImages={media.setProductImages}
+              onChangeCoverIndex={media.setCoverIndex}
+              isUploading={uploadLocked}
+              onUploadFile={media.onModalUploadFile}
+            />
+          ) : null}
+          <AdminProductQuickActionsSection
+            control={control}
+            visible={visible}
+            featured={featured}
+            readOnly={readOnly}
+          />
+        </div>
+
+        <AdminProductDetailSection
+          mode={mode}
+          register={register}
+          control={control}
+          errors={errors}
+          brandOptions={brandOptions}
+          categoryOptions={categoryOptions}
+          readOnly={readOnly}
+          isSubmitting={fieldsLocked}
+        />
+      </form>
+    </>
   );
 }
