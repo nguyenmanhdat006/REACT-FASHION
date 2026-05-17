@@ -10,10 +10,7 @@ import type {
   UpdateProductRequest,
 } from '@/types/product/product';
 import apiClient from '@/utils/api';
-
-const toQueryParams = (
-  params?: ProductFilters | ProductListParams | SearchProductsParams,
-) => ({ ...params });
+import { toQueryParams } from '@/utils/queryParams';
 
 const getFeaturedPage = (params?: ProductListParams) =>
   apiClient.get<ApiResponse<Product[], PageMeta>>(API_ENDPOINTS.PRODUCTS.FEATURED, {

@@ -1,18 +1,25 @@
 import { API_ENDPOINTS } from '@/constants';
-import type { ApiResponse } from '@/types/common/common';
+import type { ApiResponse, ListQueryParams, PageMeta } from '@/types/common/common';
 import type {
   Category,
   CategoryPayload,
   UpdateCategoryRequest,
 } from '@/types/product/product';
 import apiClient from '@/utils/api';
+import { toQueryParams } from '@/utils/queryParams';
 
 export const categoryService = {
-  getCategories: (): Promise<ApiResponse<Category[]>> =>
-    apiClient.get<ApiResponse<Category[]>>(API_ENDPOINTS.CATEGORIES.LIST),
+  getCategories: (params?: ListQueryParams): Promise<ApiResponse<Category[], PageMeta>> =>
+    apiClient.get<ApiResponse<Category[], PageMeta>>(API_ENDPOINTS.CATEGORIES.LIST, {
+      params: toQueryParams(params),
+    }),
 
-  getActiveCategories: (): Promise<ApiResponse<Category[]>> =>
-    apiClient.get<ApiResponse<Category[]>>(API_ENDPOINTS.CATEGORIES.ACTIVE),
+  getActiveCategories: (
+    params?: ListQueryParams,
+  ): Promise<ApiResponse<Category[], PageMeta>> =>
+    apiClient.get<ApiResponse<Category[], PageMeta>>(API_ENDPOINTS.CATEGORIES.ACTIVE, {
+      params: toQueryParams(params),
+    }),
 
   getCategoryTree: (): Promise<ApiResponse<Category[]>> =>
     apiClient.get<ApiResponse<Category[]>>(API_ENDPOINTS.CATEGORIES.TREE),

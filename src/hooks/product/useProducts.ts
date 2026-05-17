@@ -13,6 +13,7 @@ import {
   fetchProductsThunk,
   fetchV2PublishedProductsThunk,
 } from '@/store/thunks';
+import { DEFAULT_LIST_QUERY } from '@/types/common/common';
 import type {
   CreateProductRequest,
   ProductFilters,
@@ -79,8 +80,8 @@ export function useProducts() {
 
   const loadMeta = useCallback(async () => {
     const [categoriesResult, brandsResult] = await Promise.all([
-      dispatch(fetchActiveCategoriesThunk()),
-      dispatch(fetchActiveBrandsThunk()),
+      dispatch(fetchActiveCategoriesThunk(DEFAULT_LIST_QUERY)),
+      dispatch(fetchActiveBrandsThunk(DEFAULT_LIST_QUERY)),
     ]);
     if (fetchActiveCategoriesThunk.rejected.match(categoriesResult)) {
       toast.error(payloadMessage(categoriesResult.payload, 'Could not load categories'));

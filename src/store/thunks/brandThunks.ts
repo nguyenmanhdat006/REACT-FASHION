@@ -1,7 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { brandService } from '@/services/brand/brandService';
-import type { ApiResponse } from '@/types/common/common';
+import {
+  DEFAULT_LIST_QUERY,
+  type ApiResponse,
+  type ListQueryParams,
+  type PageMeta,
+} from '@/types/common/common';
 import type { Brand, BrandPayload } from '@/types/product/product';
 import { apiFailureMessage } from '@/utils/apiEnvelope';
 
@@ -21,15 +26,13 @@ const getErrorMessage = (error: unknown, fallback: string): string => {
 };
 
 export const fetchBrandsThunk = createAsyncThunk<
-  ApiResponse<Brand[]>,
-  void,
+  ApiResponse<Brand[], PageMeta>,
+  ListQueryParams | undefined,
   { rejectValue: string }
->('brands/fetchBrands', async (_, { rejectWithValue }) => {
+>('brands/fetchBrands', async (params, { rejectWithValue }) => {
   try {
-    const res = await brandService.getBrands();
-    if (!res.success || !Array.isArray(res.data)) {
-      return rejectWithValue(apiFailureMessage(res));
-    }
+    const res = await brandService.getBrands(params ?? DEFAULT_LIST_QUERY);
+    if (!res.success) return rejectWithValue(apiFailureMessage(res));
     return res;
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to fetch brands'));
@@ -37,15 +40,13 @@ export const fetchBrandsThunk = createAsyncThunk<
 });
 
 export const fetchActiveBrandsThunk = createAsyncThunk<
-  ApiResponse<Brand[]>,
-  void,
+  ApiResponse<Brand[], PageMeta>,
+  ListQueryParams | undefined,
   { rejectValue: string }
->('brands/fetchActiveBrands', async (_, { rejectWithValue }) => {
+>('brands/fetchActiveBrands', async (params, { rejectWithValue }) => {
   try {
-    const res = await brandService.getActiveBrands();
-    if (!res.success || !Array.isArray(res.data)) {
-      return rejectWithValue(apiFailureMessage(res));
-    }
+    const res = await brandService.getActiveBrands(params ?? DEFAULT_LIST_QUERY);
+    if (!res.success) return rejectWithValue(apiFailureMessage(res));
     return res;
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to fetch active brands'));

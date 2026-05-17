@@ -1,14 +1,19 @@
 import { API_ENDPOINTS } from '@/constants';
-import type { ApiResponse } from '@/types/common/common';
+import type { ApiResponse, ListQueryParams, PageMeta } from '@/types/common/common';
 import type { Brand, BrandPayload, UpdateBrandRequest } from '@/types/product/product';
 import apiClient from '@/utils/api';
+import { toQueryParams } from '@/utils/queryParams';
 
 export const brandService = {
-  getBrands: (): Promise<ApiResponse<Brand[]>> =>
-    apiClient.get<ApiResponse<Brand[]>>(API_ENDPOINTS.BRANDS.LIST),
+  getBrands: (params?: ListQueryParams): Promise<ApiResponse<Brand[], PageMeta>> =>
+    apiClient.get<ApiResponse<Brand[], PageMeta>>(API_ENDPOINTS.BRANDS.LIST, {
+      params: toQueryParams(params),
+    }),
 
-  getActiveBrands: (): Promise<ApiResponse<Brand[]>> =>
-    apiClient.get<ApiResponse<Brand[]>>(API_ENDPOINTS.BRANDS.ACTIVE),
+  getActiveBrands: (params?: ListQueryParams): Promise<ApiResponse<Brand[], PageMeta>> =>
+    apiClient.get<ApiResponse<Brand[], PageMeta>>(API_ENDPOINTS.BRANDS.ACTIVE, {
+      params: toQueryParams(params),
+    }),
 
   getBrandById: (id: string): Promise<ApiResponse<Brand>> =>
     apiClient.get<ApiResponse<Brand>>(API_ENDPOINTS.BRANDS.DETAIL(id)),

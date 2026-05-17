@@ -10,6 +10,7 @@ import {
   fetchBrandsThunk,
   fetchCategoriesThunk,
 } from '@/store/thunks';
+import { DEFAULT_LIST_QUERY } from '@/types/common/common';
 import type { BrandPayload, CategoryPayload } from '@/types/product/product';
 
 const payloadMessage = (payload: unknown, fallback: string) =>
@@ -19,14 +20,14 @@ export function useAdminCatalog() {
   const dispatch = useAppDispatch();
 
   const fetchCategories = useCallback(async () => {
-    const result = await dispatch(fetchCategoriesThunk());
+    const result = await dispatch(fetchCategoriesThunk(DEFAULT_LIST_QUERY));
     if (fetchCategoriesThunk.rejected.match(result)) {
       toast.error(payloadMessage(result.payload, 'Could not load categories'));
     }
   }, [dispatch]);
 
   const fetchBrands = useCallback(async () => {
-    const result = await dispatch(fetchBrandsThunk());
+    const result = await dispatch(fetchBrandsThunk(DEFAULT_LIST_QUERY));
     if (fetchBrandsThunk.rejected.match(result)) {
       toast.error(payloadMessage(result.payload, 'Could not load brands'));
     }
