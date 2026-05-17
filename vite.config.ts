@@ -19,18 +19,6 @@ export default defineConfig({
       '@/config': path.resolve(__dirname, './src/config'),
     },
   },
-  server: {
-    port: 3000,
-    open: true,
-    proxy: {
-      // API Gateway / Auth / Product Service (port 8080)
-      '/api': {
-        target: 'https://ecommerce-api-gateway.kruzetech.dev',
-        // target: 'http://localhost:8080',
-        changeOrigin: true,
-      },
-    },
-  },
   build: {
     outDir: 'dist',
     sourcemap: true,
