@@ -7,21 +7,27 @@ export {
 } from './authThunks';
 
 export {
+  fetchCategoriesThunk,
+  createCategoryThunk,
+  deleteCategoryThunk,
+} from './categoryThunks';
+
+export {
+  fetchBrandsThunk,
+  createBrandThunk,
+  deleteBrandThunk,
+} from './brandThunks';
+
+export {
   fetchProductsThunk,
   fetchFeaturedProductsThunk,
   fetchProductBySlugThunk,
-  fetchCategoriesThunk,
-  fetchBrandsThunk,
   fetchV2PublishedProductsThunk,
   fetchProductByIdThunk,
   fetchAdminProductMetaThunk,
   createProductThunk,
   updateProductThunk,
   deleteProductThunk,
-  createCategoryThunk,
-  deleteCategoryThunk,
-  createBrandThunk,
-  deleteBrandThunk,
 } from './productThunks';
 
 export {

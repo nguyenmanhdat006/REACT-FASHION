@@ -458,15 +458,19 @@ export const handleMockApiRequest = async <T>(
     return toResponse(null) as T;
   }
 
-  if (method === 'get' && cleanUrl === API_ENDPOINTS.PRODUCTS.CATEGORIES) {
+  if (method === 'get' && cleanUrl === API_ENDPOINTS.CATEGORIES.LIST) {
     return toResponse(mockCategories) as T;
   }
 
-  if (method === 'get' && cleanUrl === API_ENDPOINTS.PRODUCTS.BRANDS) {
+  if (method === 'get' && cleanUrl === API_ENDPOINTS.CATEGORIES.ACTIVE) {
+    return toResponse(mockCategories.filter((category) => category.active !== false)) as T;
+  }
+
+  if (method === 'get' && cleanUrl === API_ENDPOINTS.BRANDS.LIST) {
     return toResponse(mockBrands) as T;
   }
 
-  if (method === 'get' && cleanUrl === API_ENDPOINTS.PRODUCTS.BRANDS_ACTIVE) {
+  if (method === 'get' && cleanUrl === API_ENDPOINTS.BRANDS.ACTIVE) {
     return toResponse(mockBrands.filter((brand) => brand.active)) as T;
   }
 
@@ -844,7 +848,7 @@ export const handleMockApiRequest = async <T>(
     return undefined;
   }
 
-  if (method === 'get' && cleanUrl === API_ENDPOINTS.PRODUCTS.CATEGORIES_TREE) {
+  if (method === 'get' && cleanUrl === API_ENDPOINTS.CATEGORIES.TREE) {
     return toResponse(mockCategories) as T;
   }
 
@@ -876,7 +880,7 @@ export const handleMockApiRequest = async <T>(
     }
   }
 
-  if (method === 'post' && cleanUrl === API_ENDPOINTS.PRODUCTS.CATEGORIES) {
+  if (method === 'post' && cleanUrl === API_ENDPOINTS.CATEGORIES.LIST) {
     const payload = asRecord(data);
     const next = {
       id: `c-${mockCategories.length + 1}`,
@@ -891,7 +895,7 @@ export const handleMockApiRequest = async <T>(
     return toResponse(next) as T;
   }
 
-  if (method === 'post' && cleanUrl === API_ENDPOINTS.PRODUCTS.BRANDS) {
+  if (method === 'post' && cleanUrl === API_ENDPOINTS.BRANDS.LIST) {
     const payload = asRecord(data);
     const next = {
       id: `b-${mockBrands.length + 1}`,

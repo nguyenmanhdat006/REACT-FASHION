@@ -1,11 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
+import { brandService } from '@/services/brand/brandService';
+import { categoryService } from '@/services/category/categoryService';
 import { productService } from '@/services/product/productService';
 import type {
   Brand,
-  BrandPayload,
   Category,
-  CategoryPayload,
   CreateProductRequest,
   Product,
   ProductFilters,
@@ -75,38 +75,6 @@ export const fetchProductBySlugThunk = createAsyncThunk<
   }
 });
 
-export const fetchCategoriesThunk = createAsyncThunk<
-  ApiResponse<Category[]>,
-  void,
-  { rejectValue: string }
->('products/fetchCategories', async (_, { rejectWithValue }) => {
-  try {
-    const res = await productService.getCategories();
-    if (!res.success || !Array.isArray(res.data)) {
-      return rejectWithValue(apiFailureMessage(res));
-    }
-    return res;
-  } catch (error) {
-    return rejectWithValue(getErrorMessage(error, 'Failed to fetch categories'));
-  }
-});
-
-export const fetchBrandsThunk = createAsyncThunk<
-  ApiResponse<Brand[]>,
-  void,
-  { rejectValue: string }
->('products/fetchBrands', async (_, { rejectWithValue }) => {
-  try {
-    const res = await productService.getBrands();
-    if (!res.success || !Array.isArray(res.data)) {
-      return rejectWithValue(apiFailureMessage(res));
-    }
-    return res;
-  } catch (error) {
-    return rejectWithValue(getErrorMessage(error, 'Failed to fetch brands'));
-  }
-});
-
 export type V2PublishedScope = 'home' | 'explore';
 
 export const fetchV2PublishedProductsThunk = createAsyncThunk<
@@ -153,8 +121,8 @@ export const fetchAdminProductMetaThunk = createAsyncThunk<
 >('products/fetchAdminProductMeta', async (_, { rejectWithValue }) => {
   try {
     const [catRes, brandRes] = await Promise.all([
-      productService.getActiveCategories(),
-      productService.getActiveBrands(),
+      categoryService.getActiveCategories(),
+      brandService.getActiveBrands(),
     ]);
     if (!catRes.success || !Array.isArray(catRes.data)) {
       return rejectWithValue(apiFailureMessage(catRes));
@@ -214,65 +182,5 @@ export const deleteProductThunk = createAsyncThunk<
     return res;
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to delete product'));
-  }
-});
-
-export const createCategoryThunk = createAsyncThunk<
-  ApiResponse<Category>,
-  CategoryPayload,
-  { rejectValue: string }
->('products/createCategory', async (payload, { rejectWithValue }) => {
-  try {
-    const res = await productService.createCategory(payload);
-    if (!res.success || res.data === undefined || res.data === null) {
-      return rejectWithValue(apiFailureMessage(res));
-    }
-    return res;
-  } catch (error) {
-    return rejectWithValue(getErrorMessage(error, 'Failed to create category'));
-  }
-});
-
-export const deleteCategoryThunk = createAsyncThunk<
-  ApiResponse<unknown>,
-  string,
-  { rejectValue: string }
->('products/deleteCategory', async (id, { rejectWithValue }) => {
-  try {
-    const res = await productService.deleteCategory(id);
-    if (!res.success) return rejectWithValue(apiFailureMessage(res));
-    return res;
-  } catch (error) {
-    return rejectWithValue(getErrorMessage(error, 'Failed to delete category'));
-  }
-});
-
-export const createBrandThunk = createAsyncThunk<
-  ApiResponse<Brand>,
-  BrandPayload,
-  { rejectValue: string }
->('products/createBrand', async (payload, { rejectWithValue }) => {
-  try {
-    const res = await productService.createBrand(payload);
-    if (!res.success || res.data === undefined || res.data === null) {
-      return rejectWithValue(apiFailureMessage(res));
-    }
-    return res;
-  } catch (error) {
-    return rejectWithValue(getErrorMessage(error, 'Failed to create brand'));
-  }
-});
-
-export const deleteBrandThunk = createAsyncThunk<
-  ApiResponse<unknown>,
-  string,
-  { rejectValue: string }
->('products/deleteBrand', async (id, { rejectWithValue }) => {
-  try {
-    const res = await productService.deleteBrand(id);
-    if (!res.success) return rejectWithValue(apiFailureMessage(res));
-    return res;
-  } catch (error) {
-    return rejectWithValue(getErrorMessage(error, 'Failed to delete brand'));
   }
 });
