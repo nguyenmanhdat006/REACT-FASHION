@@ -178,20 +178,29 @@ const createOrderFromCart = (payload: Record<string, unknown> = {}): Order => {
   // Use items from payload if provided, otherwise use cart
   const payloadItems = Array.isArray(payload.items) ? payload.items : [];
   const orderItems = payloadItems.length > 0
-    ? payloadItems.map((item: Record<string, unknown>, idx: number) => ({
-        id: `oi-${Date.now()}-${idx}`,
-        productId: String(item.productId || `PROD-${idx + 1}`),
-        productName: String(item.productName || 'Product'),
-        quantity: toNumber(item.quantity, 1),
-        price: toNumber(item.price, 0),
-        subtotal: toNumber(item.quantity, 1) * toNumber(item.price, 0),
-      }))
+    ? payloadItems.map((item: Record<string, unknown>, idx: number) => {
+        const pid = String(item.productId || `PROD-${idx + 1}`);
+        const explicitImage = typeof item.productImageUrl === 'string' ? String(item.productImageUrl) : undefined;
+        const productFromCatalog = findProductById(pid);
+        const inferredImage = productFromCatalog?.images?.[0]?.imageUrl;
+
+        return {
+          id: `oi-${Date.now()}-${idx}`,
+          productId: pid,
+          productName: String(item.productName || 'Product'),
+          quantity: toNumber(item.quantity, 1),
+          price: toNumber(item.price, 0),
+          productImageUrl: explicitImage ?? inferredImage,
+          subtotal: toNumber(item.quantity, 1) * toNumber(item.price, 0),
+        };
+      })
     : mockCart.items.map(item => ({
         id: item.id,
         productId: item.productId,
         productName: item.productName,
         quantity: item.quantity,
         price: item.price,
+        productImageUrl: item.productImageUrl,
         subtotal: item.total,
       }));
 

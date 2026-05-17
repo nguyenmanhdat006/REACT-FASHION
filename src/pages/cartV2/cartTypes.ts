@@ -27,7 +27,7 @@ export const initialCartItems: CartItem[] = [
     color: 'White',
     price: '$145',
     quantity: 1,
-    imageSrc: '/image.png',
+    imageSrc: '/images/2164f1ee2b6a236aea160f5c3012a58b.jpg',
   },
   {
     id: 'item-3',
