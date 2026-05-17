@@ -31,8 +31,15 @@ const OrderDetail: React.FC = () => {
           <p className="text-sm text-gray-500 mb-4">Status: {selectedOrder.status}</p>
           <div className="space-y-2">
             {selectedOrder.items.map(item => (
-              <div key={item.id} className="flex justify-between">
-                <span>{item.productName} × {item.quantity}</span>
+              <div key={item.id} className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <img
+                    src={(!item.productImageUrl || item.productImageUrl === 'null' || item.productImageUrl === 'undefined') ? '/images/2164f1ee2b6a236aea160f5c3012a58b.jpg' : item.productImageUrl}
+                    alt={item.productName}
+                    className="h-12 w-12 rounded-md object-cover"
+                  />
+                  <span>{item.productName} × {item.quantity}</span>
+                </div>
                 <span>${item.subtotal}</span>
               </div>
             ))}

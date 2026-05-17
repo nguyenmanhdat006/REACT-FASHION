@@ -27,7 +27,7 @@ const orderItems: OrderItem[] = [
     color: "White",
     price: "$145",
     quantity: "x3",
-    imageSrc: "/image.png",
+    imageSrc: "/images/2164f1ee2b6a236aea160f5c3012a58b.jpg",
   },
 ];
 

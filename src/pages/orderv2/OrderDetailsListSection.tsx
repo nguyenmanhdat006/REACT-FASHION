@@ -14,7 +14,7 @@ const formatPrice = (price: number) => {
 
 const getImageUrl = (url?: string | null) => {
   if (!url || url === 'null' || url === 'undefined' || url.trim() === '') {
-    return '/image.png'; // local fallback
+    return '/images/2164f1ee2b6a236aea160f5c3012a58b.jpg'; // local fallback
   }
   return url;
 };
