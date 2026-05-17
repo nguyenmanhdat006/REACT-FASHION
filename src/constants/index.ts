@@ -156,15 +156,15 @@ export const API_BASE_URL =
 
 export const ORDER_BASE_URL =
   (import.meta.env.VITE_ORDER_BASE_URL as string | undefined) ||
-  '/order-api';
+  '/api';
 
 export const PAYMENT_BASE_URL =
   (import.meta.env.VITE_PAYMENT_BASE_URL as string | undefined) ||
-  '/payment-api';
+  '/api';
 
 export const SHIPPING_BASE_URL =
   (import.meta.env.VITE_SHIPPING_BASE_URL as string | undefined) ||
-  '/shipping-api';
+  '/api';
 
 export const STORAGE_BASE_URL =
   (import.meta.env.VITE_STORAGE_BASE_URL as string | undefined)?.replace(/\/+$/, '') ||

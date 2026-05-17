@@ -184,6 +184,16 @@ export const orderService = {
   },
 
   /**
+   * PUT /api/orders/{id}/status
+   * General status update endpoint (e.g., to CANCELLED, PROCESSING, SHIPPED).
+   */
+  updateOrderStatus: async (id: string, status: string, notes?: string): Promise<ApiResponse<Order>> => {
+    const body = { status, notes };
+    const raw = await orderApiClient.put<unknown>(`/orders/${id}/status`, body);
+    return normalizeOrderResp(raw);
+  },
+
+  /**
    * PUT /api/orders/{id}/status  (CANCELLED)
    * Only allowed when status is PENDING or CONFIRMED.
    */

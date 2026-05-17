@@ -6,6 +6,7 @@ import { useOrders } from '@/hooks/order/useOrders';
 import AdminOrderList from '@/pages/orderv2/AdminOrderList/sections/AdminOrderList';
 import { orderToAdminOrderRow } from '@/pages/orderv2/AdminOrderList/orderDisplayMappers';
 import { useAppSelector } from '@/store/hooks';
+import type { OrderStatus } from '@/types/order/order';
 
 import type { AdminOrderRow } from './sections/AdminOrderList';
 
@@ -13,7 +14,7 @@ const PAGE_SIZE = 10;
 
 export default function AdminOrderListPage(): JSX.Element {
   const [page, setPage] = useState(1);
-  const { fetchOrdersPage, cancelOrder } = useOrders();
+  const { fetchOrdersPage, cancelOrder, updateOrderStatus } = useOrders();
   const { items, totalPages, isLoading, error } = useAppSelector((s) => s.orders);
 
   const listParams = useMemo(
@@ -46,6 +47,13 @@ export default function AdminOrderListPage(): JSX.Element {
     [cancelOrder, listParams],
   );
 
+  const onUpdateStatus = useCallback(
+    async (row: AdminOrderRow, newStatus: OrderStatus) => {
+      await updateOrderStatus(row.id, newStatus, listParams);
+    },
+    [updateOrderStatus, listParams],
+  );
+
   return (
     <>
       <Helmet>
@@ -65,6 +73,7 @@ export default function AdminOrderListPage(): JSX.Element {
         totalPages={safeTotalPages}
         onPageChange={setPage}
         onCancelOrder={(row) => void onCancelOrder(row)}
+        onUpdateStatus={(row, status) => void onUpdateStatus(row, status)}
       />
       {isLoading && rows.length === 0 ? (
         <p className="mt-4 text-center text-caption-lg-regular text-muted-foreground">

@@ -101,6 +101,25 @@ export const cancelOrderThunk = createAsyncThunk<
 });
 
 /**
+ * PUT /api/orders/{id}/status
+ */
+export const updateOrderStatusThunk = createAsyncThunk<
+  ApiResponse<Order>,
+  { id: string; status: string; notes?: string },
+  { rejectValue: string }
+>('orders/updateOrderStatus', async ({ id, status, notes }, { rejectWithValue }) => {
+  try {
+    const res = await orderService.updateOrderStatus(id, status, notes);
+    if (!res.success || res.data === undefined || res.data === null) {
+      return rejectWithValue(apiFailureMessage(res));
+    }
+    return res;
+  } catch (error) {
+    return rejectWithValue(getErrorMessage(error, 'Failed to update order status'));
+  }
+});
+
+/**
  * PUT /api/orders/{id}/delivered
  * Marks order as delivered (for admin / shipper).
  * Order Service internally calls Payment Service to mark PAID (COD).

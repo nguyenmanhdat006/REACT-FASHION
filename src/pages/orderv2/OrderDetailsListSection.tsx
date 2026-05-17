@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Package, ChevronRight, X, Loader2 } from "lucide-react";
+import { Package, X, Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
 import { orderService } from "@/services/order/orderService";
 import type { Order } from "@/types/order/order";

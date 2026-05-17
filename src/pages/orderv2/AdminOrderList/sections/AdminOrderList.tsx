@@ -6,10 +6,19 @@ import TableView, { type TableColumn } from '@/components/TableView';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 import { ROUTESV2 } from '@/constants';
 import { cn } from '@/lib/utils';
@@ -40,7 +49,21 @@ export type AdminOrderListProps = {
   onSelectedIdsChange?: (ids: string[]) => void;
   className?: string;
   onCancelOrder?: (order: AdminOrderRow) => void;
+  onUpdateStatus?: (order: AdminOrderRow, status: OrderStatus) => void;
 };
+
+const ORDER_STATUS_TRANSITIONS: Partial<Record<OrderStatus, OrderStatus[]>> = {
+  [OrderStatusEnum.PENDING]: [OrderStatusEnum.CONFIRMED, OrderStatusEnum.CANCELLED],
+  [OrderStatusEnum.CONFIRMED]: [OrderStatusEnum.PROCESSING, OrderStatusEnum.CANCELLED],
+  [OrderStatusEnum.PROCESSING]: [OrderStatusEnum.SHIPPED, OrderStatusEnum.CANCELLED],
+  [OrderStatusEnum.SHIPPED]: [OrderStatusEnum.DELIVERED],
+};
+
+const formatStatusLabel = (status: OrderStatus) =>
+  status
+    .split('_')
+    .map((part) => part.charAt(0) + part.slice(1).toLowerCase())
+    .join(' ');
 
 const ORDER_STATUS_BADGE: Partial<Record<OrderStatus, string>> = {
   [OrderStatusEnum.PENDING]: 'border-amber-200 bg-amber-50 text-amber-800',
@@ -52,7 +75,9 @@ const ORDER_STATUS_BADGE: Partial<Record<OrderStatus, string>> = {
   [OrderStatusEnum.REFUNDED]: 'border-rose-200 bg-rose-50 text-rose-800',
 };
 
-function buildOrderColumns(): TableColumn<AdminOrderRow>[] {
+function buildOrderColumns(
+  onUpdateStatus?: (order: AdminOrderRow, status: OrderStatus) => void,
+): TableColumn<AdminOrderRow>[] {
   return [
     {
       id: 'order',
@@ -101,18 +126,54 @@ function buildOrderColumns(): TableColumn<AdminOrderRow>[] {
       header: 'Status',
       headerClassName: 'text-center text-body-medium',
       cellClassName: 'text-center',
-      cell: (order) => (
-        <Badge
-          variant="outline"
-          className={cn(
-            'rounded-sm text-caption-sm-regular',
-            ORDER_STATUS_BADGE[order.status] ??
-              'border-primary/40 bg-primary/5 text-primary',
-          )}
-        >
-          {order.statusLabel}
-        </Badge>
-      ),
+      cell: (order) => {
+        const allowedStatuses = ORDER_STATUS_TRANSITIONS[order.status] ?? [];
+
+        if (!onUpdateStatus || allowedStatuses.length === 0) {
+          return (
+            <Badge
+              variant="outline"
+              className={cn(
+                'rounded-sm text-caption-sm-regular',
+                ORDER_STATUS_BADGE[order.status] ??
+                  'border-primary/40 bg-primary/5 text-primary',
+              )}
+            >
+              {order.statusLabel}
+            </Badge>
+          );
+        }
+
+        return (
+          <Select
+            value={order.status}
+            onValueChange={(status) => onUpdateStatus(order, status as OrderStatus)}
+            disabled={allowedStatuses.length === 0}
+          >
+            <SelectTrigger
+              size="sm"
+              className={cn(
+                'mx-auto min-w-[11rem] rounded-sm border text-caption-sm-regular',
+                ORDER_STATUS_BADGE[order.status] ??
+                  'border-primary/40 bg-primary/5 text-primary',
+              )}
+              aria-label={`Update status for ${order.orderNumber}`}
+            >
+              <SelectValue>{formatStatusLabel(order.status)}</SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value={order.status} disabled>
+                Current: {formatStatusLabel(order.status)}
+              </SelectItem>
+              {allowedStatuses.map((status) => (
+                <SelectItem key={status} value={status}>
+                  {formatStatusLabel(status)}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        );
+      },
     },
     {
       id: 'payment',
@@ -140,9 +201,10 @@ function AdminOrderList({
   onSelectedIdsChange,
   className,
   onCancelOrder,
+  onUpdateStatus,
 }: AdminOrderListProps) {
   const navigate = useNavigate();
-  const columns = useMemo(() => buildOrderColumns(), []);
+  const columns = useMemo(() => buildOrderColumns(onUpdateStatus), [onUpdateStatus]);
 
   return (
     <TableView
@@ -175,6 +237,18 @@ function AdminOrderList({
             >
               View details
             </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel>Update status</DropdownMenuLabel>
+            {Object.values(OrderStatusEnum).map((status) => (
+              <DropdownMenuItem
+                key={status}
+                onSelect={() => onUpdateStatus?.(order, status)}
+              >
+                Set to {status}
+              </DropdownMenuItem>
+            ))}
+            <DropdownMenuSeparator />
+
             {order.canCancel ? (
               <DropdownMenuItem
                 variant="destructive"
