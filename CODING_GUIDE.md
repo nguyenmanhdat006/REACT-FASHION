@@ -33,9 +33,9 @@ Khi implement một feature mới, hãy làm theo thứ tự sau:
    ↓
 6. Custom Hooks — **bắt buộc** khi page/feature gọi Redux thunk và cần phản hồi UX (toast, v.v.). Chi tiết: **BƯỚC 6** trong mục [Chi Tiết Từng Bước](#chi-tiết-từng-bước).
    ↓
-6.5. Module form thuần (zod + mapper) — **tách riêng một file** cạnh page (ví dụ `profileForm.ts`). Xem [Forms & Validation](#forms--validation-react-hook-form--zod)
+6.5. Module form — folder `src/forms/<Feature>/` (`schema`, `mapper`, `types`, `hooks`, `components`). Chuẩn: [Forms & Validation](#forms--validation-react-hook-form--zod) · tham chiếu `src/forms/AdminProductV2/`
    ↓
-7. Components (Reusable UI) — form UI bind qua `react-hook-form` (`register` / `Controller`) + `FormField` / `LabeledInputField`
+7. Components (Reusable UI) — section form trong `src/forms/<Feature>/components/`; bind RHF qua `register` / `Controller` + `FormField` / `LabeledInputField`
    ↓
 8. Pages (Page Components)
    ↓
@@ -87,7 +87,7 @@ Trong repo hiện có đoạn khai báo `colors.secondary` và `colors.accent` *
 
 ## Forms & Validation (react-hook-form + zod)
 
-**Quy tắc bắt buộc:** Mọi form trong ứng dụng (login, signup, address, profile, admin create/update, …) phải dùng [`react-hook-form`](https://react-hook-form.com/) (`useForm`) kết hợp [`zod`](https://zod.dev/) qua `@hookform/resolvers/zod`. **Không** dùng `useState` rời để giữ form values / errors / submitting flags.
+**Quy tắc bắt buộc:** Mọi form trong ứng dụng (login, signup, profile, admin create/update, …) phải dùng [`react-hook-form`](https://react-hook-form.com/) (`useForm`) kết hợp [`zod`](https://zod.dev/) qua `@hookform/resolvers/zod`. **Không** dùng `useState` rời để giữ form values / errors / submitting flags.
 
 Các dependency đã có sẵn trong `package.json`:
 
@@ -98,109 +98,211 @@ Các dependency đã có sẵn trong `package.json`:
 ### Khi nào áp dụng
 
 - ✅ Form có ≥ 2 input, hoặc cần validate (`required`, format, length, async).
-- ✅ Mọi form trong page CRUD (create / edit) — kể cả form chỉ có 1 field text nhưng có validate.
-- ❌ Toggle / select đơn lẻ không có submit (ví dụ dropdown chuyển trang, theme switch) — vẫn dùng `useState` thường.
+- ✅ Mọi form trong page CRUD (create / edit / read).
+- ❌ Toggle / select đơn lẻ không có submit (dropdown chuyển trang, theme switch) — vẫn dùng `useState` thường.
 
-### Bố cục file
+### Chuẩn dự án: folder `src/forms/<Feature>/`
 
-**Bắt buộc:** Schema zod, type suy ra, giá trị mặc định, map entity → form, map form → payload API — **không** viết trong `index.tsx` / component JSX. Gom vào **một module TypeScript thuần** (không JSX, không `react-hook-form`, không React) đặt cạnh page hoặc feature folder.
+**Tham chiếu bắt buộc:** `src/forms/AdminProductV2/` — mọi form CRUD mới (đặc biệt admin) nên theo cùng flow và cấu trúc này.
 
-- **Chuẩn tham chiếu:** `src/pages/user/ProfileV2/profileForm.ts` — nhiều form cùng màn (profile + address) có thể nằm **chung một file** `*Form.ts` thay vì tách nhiều `.schema.ts` rời nếu chúng luôn đi cùng nhau.
-- **Tên file gợi ý:** `<Feature>Form.ts`, `<Area>Form.ts`, hoặc `<feature>.schema.ts` nếu chỉ có một schema đơn — quan trọng là **một nơi** cho toàn bộ “logic form tĩnh”, page chỉ wire RHF + UI.
+Form **không** nhét logic vào page. Page chỉ render shell (Helmet, layout, navigate) và import component form:
 
-| File | Nội dung |
-| ---- | -------- |
-| `src/.../<feature>Form.ts` *(hoặc `<feature>.schema.ts` khi đủ một schema)* | `zod` schema(s), `z.infer<…>`, `empty*()`, `*ToFormValues` / `profileToFormValues`, `to*Payload` / `toCreatePayload`. **Không** import React / RHF ở đây. |
-| `src/.../<Feature>Page.tsx` (hoặc `index.tsx`, section) | Import từ module form thuần. Gọi `useForm<FormValues>({ resolver: zodResolver(schema), defaultValues })`. Truyền `control` / `register` / `errors` xuống UI. |
-| `src/components/FormField.tsx` *(text/password/textarea/select)* | Helper bind sẵn với `register: UseFormRegisterReturn` và `error: FieldError`. **Dùng cho form mới** trong app shell V2. |
-| `src/components/form/LabeledInputField.tsx` | Field text dạng readonly/edit (icon + label) — bind RHF qua `<Controller>`. Dùng cho trang profile / setting. |
+```tsx
+// src/pages/AdminProductV2/AdminCreateProduct/index.tsx
+import AdminProductV2Form from '@/forms/AdminProductV2';
 
-### Pattern chuẩn
+<AdminProductV2Form mode="create" onSuccess={() => navigate(ROUTESV2.ADMIN_PRODUCTS)} />
+```
 
-#### 1. Module form thuần — schema + mapper (nguồn sự thật duy nhất)
+#### Cấu trúc thư mục
 
-Đặt trong file kiểu `src/pages/user/ProfileV2/profileForm.ts` (rút gọn minh họa; file thật còn schema address + `toCreatePayload`, v.v.):
+```txt
+src/forms/AdminProductV2/
+├── index.tsx                 # Shell JSX: <form>, ghép sections, hidden file input
+├── types.ts                  # FormValues, mode (create|update|read), media input types
+├── schema.ts                 # zod schema + empty*() — KHÔNG React
+├── mapper.ts                 # entity ↔ form ↔ API payload — KHÔNG React
+├── constants.ts              # OPTIONS fallback, labels (nếu cần)
+├── hooks/
+│   ├── useAdminProductV2Form.ts    # useForm + load meta + submit + compose media
+│   └── useAdminProductFormMedia.ts # state gallery (cover, urls) — KHÔNG nằm trong RHF
+├── utils/
+│   └── adminProductMedia.ts        # pure helpers (preview slots, cover index sau xóa)
+└── components/
+    ├── AdminProductDetailSection.tsx
+    ├── AdminProductMediaSection.tsx
+    ├── AdminProductGalleryModal.tsx
+    └── AdminProductQuickActionsSection.tsx
+```
+
+**Dùng chung toàn app (không copy vào form folder):**
+
+| File | Vai trò |
+| ---- | ------- |
+| `src/utils/formFields.ts` | Parse/format field chung: `parseMoney`, `parseDiscountPercent`, `slugFromName`, `trimOrUndefined`, `optionalNonNegativeInt` |
+| `src/hooks/storage/useImageUpload.ts` | Upload ảnh generic (`uploadImage`, `uploadBusy`) — build trên `useStorage` |
+| `src/components/FormField.tsx` | Text / password / textarea / select — bind `register` + `error` |
+| `src/components/form/LabeledInputField.tsx` | Profile / settings — bind qua `<Controller>` |
+
+#### Luồng dữ liệu
+
+```txt
+Page (mỏng)
+  └── <AdminProductV2Form />          index.tsx
+        └── useAdminProductV2Form()   hooks/useAdminProductV2Form.ts
+              ├── useForm + schema.ts + mapper.ts
+              ├── useProducts()       toast + thunk (BƯỚC 6)
+              └── useAdminProductFormMedia()
+                    └── useImageUpload()   src/hooks/storage/
+        └── components/*              nhận register | control | errors | media
+```
+
+Submit: `handleSubmit` → `adminProductFormToCreateRequest(values, { imageUrls, coverIndex })` trong `mapper.ts` — media gộp vào payload tại hook, không đưa `imageUrls` vào zod schema.
+
+#### Trách nhiệm từng file
+
+| File | Được phép | Không được |
+| ---- | --------- | ---------- |
+| `types.ts` | Kiểu form values, mode, input phụ (media) | Logic, zod, React |
+| `schema.ts` | `zod` schema, `empty*()`, refine gọi `formFields` | React, RHF, API, JSX |
+| `mapper.ts` | `*ToFormValues`, `*ToCreateRequest`, map ảnh từ `Product` | React, RHF, toast |
+| `hooks/use*Form.ts` | `useForm`, `reset`, effects load record, `handleSubmit`, gọi domain hook | JSX dài, schema zod |
+| `hooks/use*Media.ts` | State ngoài RHF (gallery, modal), compose `useImageUpload` | Trùng logic upload generic |
+| `index.tsx` | Layout, truyền props xuống sections | Schema, mapper, dispatch thunk |
+| `components/*` | UI + bind field | `useForm`, gọi API trực tiếp |
+
+Form **đơn giản** (login, 1 section): có thể gom `schema` + `mapper` vào một file `*Form.ts` cạnh page — xem [Form đơn giản (legacy)](#form-đơn-giản-legacy). Form **CRUD nhiều section** → bắt buộc folder `src/forms/<Feature>/` như AdminProductV2.
+
+### Pattern chuẩn (AdminProductV2)
+
+#### 1. `schema.ts` — validation + default values
 
 ```typescript
-// src/pages/user/ProfileV2/profileForm.ts
+// src/forms/AdminProductV2/schema.ts
 import { z } from 'zod';
+import { parseMoney } from '@/utils/formFields';
+import type { AdminProductV2FormValues } from './types';
 
-import type { User } from '@/types/auth/auth';
-import { VIETNAMESE_PHONE_REGEX } from '@/utils/phone';
-
-export const profileAccountSchema = z.object({
-  fullName: z.string().trim().min(1, 'Full name is required'),
-  phone: z
+export const adminProductSubmitSchema = z.object({
+  name: z.string().trim().min(1, 'Product name is required'),
+  price: z
     .string()
     .trim()
-    .refine(v => v === '' || VIETNAMESE_PHONE_REGEX.test(v), {
-      message: 'Phone number must be valid Vietnamese phone number',
-    }),
+    .min(1, 'Price is required')
+    .refine(v => parseMoney(v) !== null, 'Enter a valid price'),
+  // ...
 });
 
-export type ProfileAccountFormValues = z.infer<typeof profileAccountSchema>;
-
-export const emptyProfileAccount = (): ProfileAccountFormValues => ({
-  fullName: '',
-  phone: '',
-});
-
-export const profileToFormValues = (
-  profile: Pick<User, 'fullName' | 'phone'> | null | undefined
-): ProfileAccountFormValues => ({
-  fullName: profile?.fullName?.trim() ?? '',
-  phone: profile?.phone?.trim() ?? '',
-});
-
-export const toUpdateProfilePayload = (
-  values: ProfileAccountFormValues
-): Partial<User> => ({
-  fullName: values.fullName.trim(),
-  phone: values.phone.trim() || null,
+export const emptyAdminProductFormValues = (): AdminProductV2FormValues => ({
+  name: '',
+  price: '',
+  // ... đủ mọi key, không undefined
 });
 ```
 
-- Validate trim/format **trong schema**, không validate inline trong handler.
-- Payload gửi API: hàm `toUpdateProfilePayload` / `toCreatePayload` **cùng module** với schema → khi đổi field chỉ sửa một file.
+- Validate trim/format **trong schema**; helper parse dùng `@/utils/formFields`, không duplicate trong schema file.
 
-#### 2. Khởi tạo `useForm`
+#### 2. `mapper.ts` — entity ↔ form ↔ API
 
 ```typescript
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  profileAccountSchema,
-  emptyProfileAccount,
-  type ProfileAccountFormValues,
-} from '@/pages/user/ProfileV2/profileForm';
-
-const profileForm = useForm<ProfileAccountFormValues>({
-  resolver: zodResolver(profileAccountSchema),
-  defaultValues: emptyProfileAccount(),
-  mode: 'onSubmit', // hoặc 'onBlur' cho realtime validation
-});
-
-const { register, control, handleSubmit, reset, formState: { errors, isSubmitting } }
-  = profileForm;
+// src/forms/AdminProductV2/mapper.ts
+export function productToAdminProductFormValues(product: Product): AdminProductV2FormValues { /* ... */ }
+export function productImagesFromProduct(product: Product): { imageUrls: string[]; coverIndex: number } { /* ... */ }
+export function adminProductFormToCreateRequest(
+  values: AdminProductV2FormValues,
+  media?: AdminProductV2FormMediaInput
+): CreateProductRequest { /* ... */ }
 ```
 
-- **`defaultValues` luôn có giá trị đầy đủ** (không để `undefined`) để RHF chuyển sang controlled mode ngay từ đầu.
-- `mode: 'onSubmit'` cho form ngắn; `mode: 'onBlur'` hoặc `'onChange'` cho form dài / wizard.
+- Payload API và map từ `Product` khi edit/read — **một file mapper**, không scatter trong hook.
 
-#### 3. Reset khi load data / đổi record
+#### 3. `hooks/useAdminProductV2Form.ts` — orchestration
 
 ```typescript
-// Đồng bộ form với data từ store khi vào edit mode hoặc đổi record
+const form = useForm<AdminProductV2FormValues>({
+  resolver: zodResolver(adminProductSubmitSchema),
+  defaultValues: emptyAdminProductFormValues(),
+  mode: 'onSubmit',
+});
+
+const media = useAdminProductFormMedia({ readOnly, initialImageUrls, initialCoverIndex });
+
+// Load record → reset(form) + setMediaSeed
 useEffect(() => {
-  if (!editingProfile) return;
-  reset(profileToFormValues(profile));
-}, [editingProfile, profile, reset]);
+  if (!productDetail) return;
+  reset(productToAdminProductFormValues(productDetail));
+  setMediaSeed(productImagesFromProduct(productDetail));
+}, [productDetail, reset]);
+
+const onSubmit = async (values: AdminProductV2FormValues) => {
+  const ok = await createProduct(
+    adminProductFormToCreateRequest(values, {
+      imageUrls: [...media.productImages],
+      coverIndex: media.coverIndex,
+    })
+  );
+  if (ok) onSuccess?.();
+};
 ```
 
-- **Không** dùng `useEffect` set từng field bằng `setValue` — luôn dùng `reset(values)`.
-- Khi cancel: nếu cần khôi phục giá trị ban đầu, gọi `reset(profileToFormValues(profile))` (hoặc mapper tương ứng từ module `*Form.ts`).
+- **`defaultValues` luôn đầy đủ** — không để `undefined`.
+- **Reset bằng `reset(values)`** — không `setValue` từng field khi load record.
+- Toast + `dispatch` thunk: trong `useProducts()` (domain hook), không trong `index.tsx`.
+- `busy` = submitting + meta loading + `media.uploadBusy`.
 
-#### 4. Bind UI
+#### 4. State ngoài RHF (media / gallery)
+
+Field không thuộc zod (upload ảnh, danh sách URL) → hook riêng `useAdminProductFormMedia`:
+
+```typescript
+const { uploadImage, uploadBusy } = useImageUpload({ readOnly });
+// productImages, coverIndex, gallery modal, intent cover|append — logic gallery ở đây
+```
+
+- Upload file **generic** → `useImageUpload`; hook media chỉ quản lý gallery product.
+- Các flow khác (avatar, banner, logo): tái dùng `useImageUpload`, không copy paste `uploadFile` + `uploadingCount`.
+
+#### 5. `index.tsx` — shell + sections
+
+```tsx
+export default function AdminProductV2Form({ mode, productId, onSuccess }: Props) {
+  const { register, control, errors, handleSubmit, media, readOnly, busy, ... } =
+    useAdminProductV2Form({ mode, productId, onSuccess });
+
+  return (
+    <>
+      <input ref={media.mainFileInputRef} type="file" className="sr-only" onChange={media.onMainFileChange} />
+      <form onSubmit={readOnly ? e => e.preventDefault() : handleSubmit}>
+        <AdminProductMediaSection media={media} readOnly={readOnly} uploadLocked={readOnly || media.uploadBusy} />
+        <AdminProductDetailSection register={register} control={control} errors={errors} />
+      </form>
+    </>
+  );
+}
+```
+
+- `mode: 'create' | 'update' | 'read'` — `readOnly` derive từ mode; sections nhận `readOnly` / `isSubmitting`.
+
+#### 6. Reset khi load data / đổi record
+
+```typescript
+useEffect(() => {
+  if (mode === 'create' || !productId) {
+    reset(emptyAdminProductFormValues());
+    setMediaSeed({ urls: [], coverIndex: 0 });
+    return;
+  }
+  void fetchProductById(productId);
+}, [mode, productId, ...]);
+
+useEffect(() => {
+  if (!productDetail || productDetail.id !== productId) return;
+  reset(productToAdminProductFormValues(productDetail));
+  setMediaSeed(productImagesFromProduct(productDetail));
+}, [productDetail, productId, reset]);
+```
+
+#### 7. Bind UI
 
 **Với `<FormField />`** (text/password/textarea/select trong form V2):
 
@@ -257,42 +359,65 @@ useEffect(() => {
 />
 ```
 
-#### 5. Submit handler — page gọi hook (toast nằm trong hook)
+#### 8. Submit — trong `hooks/use*Form.ts`, không ở page
 
-```tsx
-import { useProfileExample } from '@/hooks/user/useProfileExample';
+```typescript
+// hooks/useAdminProductV2Form.ts — onSubmit nội bộ, export handleSubmit(onSubmit)
+const onSubmit = useCallback(async (values: AdminProductV2FormValues) => {
+  if (readOnly) return;
+  setIsSubmitting(true);
+  const ok = await createProduct(
+    adminProductFormToCreateRequest(values, {
+      imageUrls: [...media.productImages],
+      coverIndex: media.coverIndex,
+    })
+  );
+  setIsSubmitting(false);
+  if (ok) onSuccess?.();
+}, [/* ... */]);
 
-const { updateProfile } = useProfileExample();
-
-const onValid = async (values: ProfileAccountFormValues) => {
-  const ok = await updateProfile(toUpdateProfilePayload(values));
-  if (ok) setEditing(false);
-};
-
-// Gắn vào <form>:
-<form onSubmit={handleSubmit(onValid)}>...</form>
-
-// Hoặc gắn vào button không có <form>:
-<Button onClick={handleSubmit(onValid)} disabled={isSubmitting}>Save</Button>
+return { handleSubmit: handleSubmit(onSubmit), busy, /* ... */ };
 ```
 
-- Dùng `isSubmitting` thay vì `useState` cho saving flag.
-- **`toUpdateProfilePayload` / schema** vẫn ở module form thuần; **không** gọi `toast` trong handler submit của page.
+```tsx
+// index.tsx
+<form onSubmit={readOnly ? e => e.preventDefault() : handleSubmit}>...</form>
+```
 
-#### 6. Những điều **không** nên làm
+- Mapper (`adminProductFormToCreateRequest`) ở `mapper.ts`; **toast** trong domain hook (`useProducts`), không trong `index.tsx` hay page.
+- Dùng `busy` / `isSubmitting` từ hook — không `useState` saving riêng ở page.
 
-- ❌ `useState` cho `fieldErrors: Record<string, string>` → đã có `formState.errors`.
-- ❌ Tạo `validate*` thủ công khi đã có schema → đưa hết vào zod.
-- ❌ Quên `defaultValues` → field thành uncontrolled, sẽ warn console.
-- ❌ `setValue` để khởi tạo nhiều field → dùng `reset(values)`.
-- ❌ Trộn UI state (modal open, current id, edit mode) vào `useForm`. Các state đó vẫn `useState` ở page và **độc lập** với form values.
-- ❌ `dispatch(thunk(...))` kèm `toast` trong page khi feature đã có hook theo BƯỚC 6 — toast sau thunk **chỉ** trong hook.
+#### 9. Những điều **không** nên làm
 
-### Ví dụ rút gọn
+- ❌ `useState` cho `fieldErrors` → đã có `formState.errors`.
+- ❌ Validate thủ công khi đã có zod schema.
+- ❌ Schema / mapper / `useForm` trong page hoặc section component.
+- ❌ Quên `defaultValues` đầy đủ → uncontrolled warnings.
+- ❌ `setValue` hàng loạt khi load record → `reset(mapper(entity))`.
+- ❌ Nhét `imageUrls` vào zod — media là hook riêng, gộp lúc submit qua mapper.
+- ❌ Copy logic `uploadFile` + `uploadingCount` — dùng `useImageUpload`.
+- ❌ Trộn gallery modal state vào `useForm` — modal/upload là hook media hoặc `useState` feature hook.
+- ❌ `dispatch(thunk)` + `toast` trong page khi đã có domain hook (BƯỚC 6).
 
-- **Login form (1 form đơn giản):** `src/pages/authV2/LoginV2/sections/FormSection.tsx`
-- **Form nhiều section (`register` + `Controller`):** `src/pages/productV2/AdminAddProduct/`
-- **Form readonly/edit toggle + module `profileForm.ts` + nhiều form cùng page:** `src/pages/user/ProfileV2/`
+### Form đơn giản (legacy)
+
+Form **một section**, ít field (login, profile account): có thể gom schema + mapper trong **một file** `profileForm.ts` cạnh page, `useForm` gọi trực tiếp trong page/section — **không** bắt buộc folder `src/forms/`.
+
+| Mức độ | Cấu trúc | Ví dụ |
+| ------ | --------- | ----- |
+| **Chuẩn CRUD** | `src/forms/<Feature>/` đầy đủ | `src/forms/AdminProductV2/` |
+| **Đơn giản** | `src/pages/.../<feature>Form.ts` + section | `src/pages/user/ProfileV2/profileForm.ts` |
+| **Tối giản** | schema inline trong section | `src/pages/authV2/LoginV2/sections/FormSection.tsx` |
+
+### Tham chiếu trong repo
+
+| Use case | Đường dẫn |
+| -------- | --------- |
+| **Form CRUD chuẩn (ưu tiên)** | `src/forms/AdminProductV2/` — page: `src/pages/AdminProductV2/AdminCreateProduct/`, `AdminReadProduct/` |
+| Upload ảnh generic | `src/hooks/storage/useImageUpload.ts` |
+| Parse field form | `src/utils/formFields.ts` |
+| Profile + nhiều schema trong một file | `src/pages/user/ProfileV2/profileForm.ts` |
+| Login tối giản | `src/pages/authV2/LoginV2/sections/FormSection.tsx` |
 
 ---
 
@@ -656,12 +781,16 @@ export const store = configureStore({
 
 **Mục đích:** Hook **bọc `useAppDispatch` / `useAppSelector`**, gọi thunk qua `dispatch`, bọc trong `useCallback`, và **xử lý toast** bằng `Thunk.fulfilled.match(result)` / `Thunk.rejected.match(result)` (hoặc pattern tương đương). Page/component **không** gọi `dispatch(someThunk(...))` kèm `toast.success` / `toast.error` trực tiếp.
 
-**Phân tách với form (page):**
+**Phân tách với form:**
 
-| Ở **custom hook** | Ở **page** (hoặc section chứa form) |
-| --- | --- |
-| `dispatch` thunk, kiểm tra `fulfilled` / `rejected`, `toast` | `useForm`, `zodResolver`, `defaultValues`, `reset` / `setValue`, `handleSubmit`, state edit mode / id đang chọn |
-| Hàm async trả về `boolean` hoặc `ActionResult` để page biết thành công (vd. đóng panel) | Map `values` → payload API (từ module `*Form.ts`), gọi `await updateX(payload)` từ hook, rồi `if (ok) setEditing(false)` |
+| Layer | Vai trò | Ví dụ AdminProductV2 |
+| --- | --- | --- |
+| **Domain hook** (`src/hooks/<domain>/`) | `dispatch` thunk, `toast`, trả `boolean` | `useProducts()` → `createProduct`, `fetchProductById` |
+| **Form hook** (`src/forms/<Feature>/hooks/`) | `useForm`, `reset`, `handleSubmit`, compose media, gọi mapper + domain hook | `useAdminProductV2Form` |
+| **Form shell** (`src/forms/<Feature>/index.tsx`) | JSX sections, không schema/API | `AdminProductV2Form` |
+| **Page** (`src/pages/...`) | Helmet, layout, `navigate`, props `mode` / `onSuccess` | `AdminCreateProduct/index.tsx` |
+
+- Mapper (`adminProductFormToCreateRequest`) ở `mapper.ts`; gọi từ form hook lúc submit, không từ page.
 
 - **SRP trong hook:** mỗi hàm export tương ứng **một** thunk (hoặc một luồng nghiệp vụ đơn). Ví dụ `fetchProfile` và `fetchAddresses` là hai hàm riêng — **không** gộp `Promise.all` nhiều thunk chỉ để “tiện gọi một lần”; page gọi lần lượt hoặc hai `useEffect` nếu cần tải độc lập lúc mount.
 
@@ -1010,13 +1139,13 @@ URL đầy đủ sẽ là `/v2/my-feature`. Các route được bọc bởi `ele
 
 ## Tham chiếu trong repo (end-to-end)
 
-Ưu tiên đọc code thật thay vì copy mẫu tổng hợp. Các đường dẫn sau khớp workflow (types → constants → service → thunks → slice → hook → form module → page → route):
+Ưu tiên đọc code thật thay vì copy mẫu tổng hợp. Các đường dẫn sau khớp workflow (types → constants → service → thunks → slice → domain hook → `src/forms/<Feature>/` → page → route):
 
 | Luồng | File / thư mục |
 | ----- | -------------- |
-| Profile + địa chỉ, `*Form.ts`, hook có toast | `src/pages/user/ProfileV2/profileForm.ts`, `sections/`, `index.tsx`; `src/hooks/user/useProfile.ts`; `src/store/thunks/userThunks.ts`; `src/store/slices/userSlice.ts`; `src/services/userService.ts` |
+| **Form CRUD chuẩn** (`src/forms/`) | `src/forms/AdminProductV2/`; `src/pages/AdminProductV2/`; `src/hooks/product/useProducts.ts`; `src/hooks/storage/useImageUpload.ts`; `src/utils/formFields.ts` |
+| Profile + địa chỉ, `profileForm.ts` | `src/pages/user/ProfileV2/profileForm.ts`, `sections/`, `index.tsx`; `src/hooks/user/useProfile.ts` |
 | Auth | `src/hooks/auth/useAuth.ts`; `src/pages/auth/Login.tsx` hoặc `src/pages/authV2/LoginV2/` |
-| Form nhiều field (admin) | `src/pages/productV2/AdminAddProduct/` |
 | Route `/` và `/v2`, shell | `src/routes/index.tsx`; `src/routes/v2/userRoute.tsx`; `src/routes/v2/appShellRoutes.ts` |
 
 Chi tiết từng bước: [Chi Tiết Từng Bước](#chi-tiết-từng-bước).
@@ -1053,7 +1182,9 @@ Khi implement một feature mới, đảm bảo:
 - [ ] Đã handle loading và error states
 - [ ] Code đã pass linting và type checking
 - [ ] UI dùng token Tailwind / design system (`docs/TAILWIND_DESIGN_SYSTEM.md`, `tailwind.config.js`)
-- [ ] Form (nếu có): module thuần kiểu `<feature>Form.ts` / `profileForm.ts` (zod + mapper) + page dùng `useForm({ resolver: zodResolver(...) })` — không tự `useState` cho values / errors / submitting; không nhét schema vào JSX
+- [ ] Form CRUD: folder `src/forms/<Feature>/` (`types`, `schema`, `mapper`, `hooks/`, `components/`, `index.tsx`) theo `AdminProductV2`; page mỏng chỉ import form component
+- [ ] Form: `useForm` + `zodResolver`; schema/mapper không React; field ngoài RHF (media) = hook riêng; upload ảnh = `useImageUpload`; parse chung = `@/utils/formFields`
+- [ ] Không `useState` cho values/errors/submitting; không toast/dispatch thunk trong page khi đã có domain hook
 - [ ] Đã chạy `graphify update .` sau khi sửa code (đồng bộ `graphify-out/`)
 
 ---
