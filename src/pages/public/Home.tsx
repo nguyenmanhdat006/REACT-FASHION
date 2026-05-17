@@ -7,6 +7,7 @@ import { Card } from '@/components/ui/card';
 import { ROUTES, ROUTESV2 } from '@/constants';
 import { MOCK_PRODUCTS } from '@/mocks/ecommerce/ecommerceMockData';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { DEFAULT_LIST_QUERY } from '@/types/common/common';
 import { fetchFeaturedProductsThunk, fetchCategoriesThunk } from '@/store/thunks';
 
 const Home: React.FC = () => {
@@ -17,7 +18,7 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     void dispatch(fetchFeaturedProductsThunk());
-    void dispatch(fetchCategoriesThunk());
+    void dispatch(fetchCategoriesThunk({ ...DEFAULT_LIST_QUERY, activeOnly: true }));
   }, [dispatch]);
 
   const featuredProducts =

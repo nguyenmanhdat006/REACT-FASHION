@@ -25,31 +25,33 @@ const getErrorMessage = (error: unknown, fallback: string): string => {
   return fallback;
 };
 
+export type FetchCategoriesParams = ListQueryParams & {
+  /** When true, calls GET /api/categories/active instead of GET /api/categories */
+  activeOnly?: boolean;
+};
+
 export const fetchCategoriesThunk = createAsyncThunk<
   ApiResponse<Category[], PageMeta>,
-  ListQueryParams | undefined,
+  FetchCategoriesParams | undefined,
   { rejectValue: string }
 >('categories/fetchCategories', async (params, { rejectWithValue }) => {
-  try {
-    const res = await categoryService.getCategories(params ?? DEFAULT_LIST_QUERY);
-    if (!res.success) return rejectWithValue(apiFailureMessage(res));
-    return res;
-  } catch (error) {
-    return rejectWithValue(getErrorMessage(error, 'Failed to fetch categories'));
-  }
-});
+  const { activeOnly: activeOnlyFlag, ...listParams } = { ...DEFAULT_LIST_QUERY, ...params };
+  const activeOnly = activeOnlyFlag === true;
+  const query = listParams;
 
-export const fetchActiveCategoriesThunk = createAsyncThunk<
-  ApiResponse<Category[], PageMeta>,
-  ListQueryParams | undefined,
-  { rejectValue: string }
->('categories/fetchActiveCategories', async (params, { rejectWithValue }) => {
   try {
-    const res = await categoryService.getActiveCategories(params ?? DEFAULT_LIST_QUERY);
+    const res = activeOnly
+      ? await categoryService.getActiveCategories(query)
+      : await categoryService.getCategories(query);
     if (!res.success) return rejectWithValue(apiFailureMessage(res));
     return res;
   } catch (error) {
-    return rejectWithValue(getErrorMessage(error, 'Failed to fetch active categories'));
+    return rejectWithValue(
+      getErrorMessage(
+        error,
+        activeOnly ? 'Failed to fetch active categories' : 'Failed to fetch categories',
+      ),
+    );
   }
 });
 

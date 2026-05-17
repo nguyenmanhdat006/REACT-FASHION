@@ -7,6 +7,7 @@ import Input from '@/components/form/Input';
 import { ROUTES } from '@/constants';
 import { MOCK_PRODUCTS } from '@/mocks/ecommerce/ecommerceMockData';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { DEFAULT_LIST_QUERY } from '@/types/common/common';
 import { addToCartThunk, fetchProductsThunk, fetchCategoriesThunk, fetchBrandsThunk } from '@/store/thunks';
 
 const Products: React.FC = () => {
@@ -27,8 +28,8 @@ const Products: React.FC = () => {
 
   useEffect(() => {
     void dispatch(fetchProductsThunk({ page: 0, size: 12, published: true }));
-    void dispatch(fetchCategoriesThunk());
-    void dispatch(fetchBrandsThunk());
+    void dispatch(fetchCategoriesThunk({ ...DEFAULT_LIST_QUERY, activeOnly: true }));
+    void dispatch(fetchBrandsThunk({ ...DEFAULT_LIST_QUERY, activeOnly: true }));
   }, [dispatch]);
 
   const loadFilteredProducts = async () => {
