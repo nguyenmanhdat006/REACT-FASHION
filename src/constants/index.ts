@@ -154,18 +154,6 @@ export const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api';
 
 
-export const ORDER_BASE_URL =
-  (import.meta.env.VITE_ORDER_BASE_URL as string | undefined) ||
-  '/api';
-
-export const PAYMENT_BASE_URL =
-  (import.meta.env.VITE_PAYMENT_BASE_URL as string | undefined) ||
-  '/api';
-
-export const SHIPPING_BASE_URL =
-  (import.meta.env.VITE_SHIPPING_BASE_URL as string | undefined) ||
-  '/api';
-
 export const STORAGE_BASE_URL =
   (import.meta.env.VITE_STORAGE_BASE_URL as string | undefined)?.replace(/\/+$/, '') ||
   'http://localhost:8087';

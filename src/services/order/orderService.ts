@@ -1,6 +1,6 @@
 
 import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
-import { ORDER_BASE_URL, AUTH_ENDPOINTS } from '@/constants';
+import { AUTH_ENDPOINTS } from '@/constants';
 import type { ApiResponse, PageMeta, PaginationParams } from '@/types/common/common';
 import type {
   CreateOrderRequest,
@@ -18,7 +18,7 @@ class OrderApiClient {
 
   constructor() {
     this.client = axios.create({
-      baseURL: ORDER_BASE_URL,
+      baseURL: '/api',
       timeout: 15000,
       headers: {
         'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ class OrderApiClient {
 
             try {
               const refreshResponse = await axios.post<ApiResponse<AuthResponse>>(
-                `${ORDER_BASE_URL}${AUTH_ENDPOINTS.REFRESH}`,
+                `/api${AUTH_ENDPOINTS.REFRESH}`,
                 { refreshToken }
               );
               const envelope = refreshResponse.data;

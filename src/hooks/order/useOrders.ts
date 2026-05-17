@@ -7,6 +7,7 @@ import {
   confirmOrderPaymentThunk,
   markOrderDeliveredThunk,
   updateOrderStatusThunk,
+  confirmOrderThunk,
 } from '@/store/thunks';
 import { useAppDispatch } from '@/store/hooks';
 import type { PaginationParams } from '@/types/common/common';
@@ -44,6 +45,23 @@ export function useOrders() {
         return true;
       }
       toast.error(payloadMessage(result.payload, 'Không thể huỷ đơn hàng'));
+      return false;
+    },
+    [dispatch],
+  );
+
+  const confirmOrder = useCallback(
+    async (
+      id: string,
+      refetchParams: PaginationParams,
+    ): Promise<boolean> => {
+      const result = await dispatch(confirmOrderThunk(id));
+      if (confirmOrderThunk.fulfilled.match(result)) {
+        toast.success('Đơn hàng đã được xác nhận');
+        await dispatch(fetchOrdersThunk(refetchParams));
+        return true;
+      }
+      toast.error(payloadMessage(result.payload, 'Không thể xác nhận đơn hàng'));
       return false;
     },
     [dispatch],
@@ -104,6 +122,7 @@ export function useOrders() {
   return {
     fetchOrdersPage,
     cancelOrder,
+    confirmOrder,
     updateOrderStatus,
     confirmPayment,
     markDelivered,

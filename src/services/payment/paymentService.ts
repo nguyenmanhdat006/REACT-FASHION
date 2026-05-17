@@ -7,7 +7,6 @@
  * NOTE: Payment Service currently does NOT require Auth headers.
  */
 import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig } from 'axios';
-import { PAYMENT_BASE_URL } from '@/constants';
 import type { ApiResponse } from '@/types/common/common';
 import type {
   CreatePaymentRequest,
@@ -19,7 +18,7 @@ class PaymentApiClient {
 
   constructor() {
     this.client = axios.create({
-      baseURL: PAYMENT_BASE_URL,
+      baseURL: '/api',
       timeout: 15000,
       headers: {
         'Content-Type': 'application/json',
