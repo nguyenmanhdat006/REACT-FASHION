@@ -1,24 +1,18 @@
 import { API_ENDPOINTS } from '@/constants';
 import type { ApiResponse, PageMeta } from '@/types/common/common';
 import type {
-  Brand,
-  BrandPayload,
-  Category,
-  CategoryPayload,
   CreateProductRequest,
   Product,
   ProductDocument,
   ProductFilters,
   ProductListParams,
   SearchProductsParams,
-  UpdateBrandRequest,
-  UpdateCategoryRequest,
   UpdateProductRequest,
 } from '@/types/product/product';
 import apiClient from '@/utils/api';
 
 const toQueryParams = (
-  params?: ProductFilters | ProductListParams | SearchProductsParams
+  params?: ProductFilters | ProductListParams | SearchProductsParams,
 ) => ({ ...params });
 
 const getFeaturedPage = (params?: ProductListParams) =>
@@ -27,54 +21,6 @@ const getFeaturedPage = (params?: ProductListParams) =>
   });
 
 export const productService = {
-  getCategories: (): Promise<ApiResponse<Category[]>> =>
-    apiClient.get<ApiResponse<Category[]>>(API_ENDPOINTS.PRODUCTS.CATEGORIES),
-
-  getActiveCategories: (): Promise<ApiResponse<Category[]>> =>
-    apiClient.get<ApiResponse<Category[]>>(API_ENDPOINTS.PRODUCTS.CATEGORIES_ACTIVE),
-
-  getCategoryTree: (): Promise<ApiResponse<Category[]>> =>
-    apiClient.get<ApiResponse<Category[]>>(API_ENDPOINTS.PRODUCTS.CATEGORIES_TREE),
-
-  getCategoryById: (id: string): Promise<ApiResponse<Category>> =>
-    apiClient.get<ApiResponse<Category>>(API_ENDPOINTS.PRODUCTS.CATEGORY_DETAIL(id)),
-
-  getCategoryBySlug: (slug: string): Promise<ApiResponse<Category>> =>
-    apiClient.get<ApiResponse<Category>>(API_ENDPOINTS.PRODUCTS.CATEGORY_SLUG(slug)),
-
-  createCategory: (payload: CategoryPayload): Promise<ApiResponse<Category>> =>
-    apiClient.post<ApiResponse<Category>>(API_ENDPOINTS.PRODUCTS.CATEGORIES, payload),
-
-  updateCategory: (
-    id: string,
-    payload: UpdateCategoryRequest
-  ): Promise<ApiResponse<Category>> =>
-    apiClient.put<ApiResponse<Category>>(API_ENDPOINTS.PRODUCTS.CATEGORY_DETAIL(id), payload),
-
-  deleteCategory: (id: string): Promise<ApiResponse<unknown>> =>
-    apiClient.delete<ApiResponse<unknown>>(API_ENDPOINTS.PRODUCTS.CATEGORY_DETAIL(id)),
-
-  getBrands: (): Promise<ApiResponse<Brand[]>> =>
-    apiClient.get<ApiResponse<Brand[]>>(API_ENDPOINTS.PRODUCTS.BRANDS),
-
-  getActiveBrands: (): Promise<ApiResponse<Brand[]>> =>
-    apiClient.get<ApiResponse<Brand[]>>(API_ENDPOINTS.PRODUCTS.BRANDS_ACTIVE),
-
-  getBrandById: (id: string): Promise<ApiResponse<Brand>> =>
-    apiClient.get<ApiResponse<Brand>>(API_ENDPOINTS.PRODUCTS.BRAND_DETAIL(id)),
-
-  getBrandBySlug: (slug: string): Promise<ApiResponse<Brand>> =>
-    apiClient.get<ApiResponse<Brand>>(API_ENDPOINTS.PRODUCTS.BRAND_SLUG(slug)),
-
-  createBrand: (payload: BrandPayload): Promise<ApiResponse<Brand>> =>
-    apiClient.post<ApiResponse<Brand>>(API_ENDPOINTS.PRODUCTS.BRANDS, payload),
-
-  updateBrand: (id: string, payload: UpdateBrandRequest): Promise<ApiResponse<Brand>> =>
-    apiClient.put<ApiResponse<Brand>>(API_ENDPOINTS.PRODUCTS.BRAND_DETAIL(id), payload),
-
-  deleteBrand: (id: string): Promise<ApiResponse<unknown>> =>
-    apiClient.delete<ApiResponse<unknown>>(API_ENDPOINTS.PRODUCTS.BRAND_DETAIL(id)),
-
   getProducts: (filters?: ProductFilters): Promise<ApiResponse<Product[], PageMeta>> =>
     apiClient.get<ApiResponse<Product[], PageMeta>>(API_ENDPOINTS.PRODUCTS.LIST, {
       params: toQueryParams(filters),
@@ -87,7 +33,7 @@ export const productService = {
     apiClient.get<ApiResponse<Product>>(API_ENDPOINTS.PRODUCTS.SLUG(slug)),
 
   getPublishedProducts: (
-    params?: ProductListParams
+    params?: ProductListParams,
   ): Promise<ApiResponse<Product[], PageMeta>> =>
     apiClient.get<ApiResponse<Product[], PageMeta>>(API_ENDPOINTS.PRODUCTS.PUBLISHED, {
       params: toQueryParams(params),
@@ -95,20 +41,20 @@ export const productService = {
 
   getProductsByCategory: (
     categoryId: string,
-    params?: ProductListParams
+    params?: ProductListParams,
   ): Promise<ApiResponse<Product[], PageMeta>> =>
     apiClient.get<ApiResponse<Product[], PageMeta>>(
       API_ENDPOINTS.PRODUCTS.BY_CATEGORY(categoryId),
-      { params: toQueryParams(params) }
+      { params: toQueryParams(params) },
     ),
 
   getProductsByBrand: (
     brandId: string,
-    params?: ProductListParams
+    params?: ProductListParams,
   ): Promise<ApiResponse<Product[], PageMeta>> =>
     apiClient.get<ApiResponse<Product[], PageMeta>>(
       API_ENDPOINTS.PRODUCTS.BY_BRAND(brandId),
-      { params: toQueryParams(params) }
+      { params: toQueryParams(params) },
     ),
 
   getFeaturedProductsPage: getFeaturedPage,
@@ -118,7 +64,7 @@ export const productService = {
   getProductsByPriceRange: (
     minPrice: number,
     maxPrice: number,
-    params?: ProductListParams
+    params?: ProductListParams,
   ): Promise<ApiResponse<Product[], PageMeta>> =>
     apiClient.get<ApiResponse<Product[], PageMeta>>(API_ENDPOINTS.PRODUCTS.PRICE_RANGE, {
       params: {
@@ -129,7 +75,7 @@ export const productService = {
     }),
 
   searchProducts: (
-    filters: SearchProductsParams
+    filters: SearchProductsParams,
   ): Promise<ApiResponse<ProductDocument[], PageMeta>> =>
     apiClient.get<ApiResponse<ProductDocument[], PageMeta>>(API_ENDPOINTS.PRODUCTS.SEARCH, {
       params: toQueryParams(filters),
@@ -140,7 +86,7 @@ export const productService = {
 
   updateProduct: (
     id: string,
-    payload: UpdateProductRequest
+    payload: UpdateProductRequest,
   ): Promise<ApiResponse<Product>> =>
     apiClient.put<ApiResponse<Product>>(API_ENDPOINTS.PRODUCTS.UPDATE(id), payload),
 
@@ -152,7 +98,7 @@ export const productService = {
     formData.append('file', file);
     return apiClient.post<ApiResponse<string>>(
       API_ENDPOINTS.PRODUCTS.UPLOAD_IMAGE(id),
-      formData
+      formData,
     );
   },
 

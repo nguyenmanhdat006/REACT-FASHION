@@ -6,6 +6,8 @@ import Table from '@/components/data-display/Table';
 import { Button } from '@/components/ui/button';
 import Input from '@/components/form/Input';
 import Modal from '@/components/overlay/Modal';
+import { brandService } from '@/services/brand/brandService';
+import { categoryService } from '@/services/category/categoryService';
 import { productService } from '@/services/product/productService';
 import { ProductStatus, type Brand, type Category, type Product } from '@/types/product/product';
 import { productDocumentToProduct } from '@/utils/productApiAdapters';
@@ -197,7 +199,7 @@ const AdminDashboard: React.FC = () => {
   const loadCategories = async () => {
     setCategoriesLoading(true);
     try {
-      const response = await productService.getCategories();
+      const response = await categoryService.getCategories();
       if (!response.success || !Array.isArray(response.data)) {
         toast.error(apiFailureMessage(response));
         return;
@@ -213,7 +215,7 @@ const AdminDashboard: React.FC = () => {
   const loadBrands = async () => {
     setBrandsLoading(true);
     try {
-      const response = await productService.getBrands();
+      const response = await brandService.getBrands();
       if (!response.success || !Array.isArray(response.data)) {
         toast.error(apiFailureMessage(response));
         return;
@@ -416,14 +418,14 @@ const AdminDashboard: React.FC = () => {
       };
 
       if (editingCategory) {
-        const res = await productService.updateCategory(editingCategory.id, payload);
+        const res = await categoryService.updateCategory(editingCategory.id, payload);
         if (!res.success) {
           toast.error(apiFailureMessage(res));
           return;
         }
         toast.success('Cap nhat danh muc thanh cong');
       } else {
-        const res = await productService.createCategory(payload);
+        const res = await categoryService.createCategory(payload);
         if (!res.success) {
           toast.error(apiFailureMessage(res));
           return;

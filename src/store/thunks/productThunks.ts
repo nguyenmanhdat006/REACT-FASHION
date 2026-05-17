@@ -1,5 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
+import { brandService } from '@/services/brand/brandService';
+import { categoryService } from '@/services/category/categoryService';
 import { productService } from '@/services/product/productService';
 import type {
   Brand,
@@ -81,7 +83,7 @@ export const fetchCategoriesThunk = createAsyncThunk<
   { rejectValue: string }
 >('products/fetchCategories', async (_, { rejectWithValue }) => {
   try {
-    const res = await productService.getCategories();
+    const res = await categoryService.getCategories();
     if (!res.success || !Array.isArray(res.data)) {
       return rejectWithValue(apiFailureMessage(res));
     }
@@ -97,7 +99,7 @@ export const fetchBrandsThunk = createAsyncThunk<
   { rejectValue: string }
 >('products/fetchBrands', async (_, { rejectWithValue }) => {
   try {
-    const res = await productService.getBrands();
+    const res = await brandService.getBrands();
     if (!res.success || !Array.isArray(res.data)) {
       return rejectWithValue(apiFailureMessage(res));
     }
@@ -153,8 +155,8 @@ export const fetchAdminProductMetaThunk = createAsyncThunk<
 >('products/fetchAdminProductMeta', async (_, { rejectWithValue }) => {
   try {
     const [catRes, brandRes] = await Promise.all([
-      productService.getActiveCategories(),
-      productService.getActiveBrands(),
+      categoryService.getActiveCategories(),
+      brandService.getActiveBrands(),
     ]);
     if (!catRes.success || !Array.isArray(catRes.data)) {
       return rejectWithValue(apiFailureMessage(catRes));
@@ -223,7 +225,7 @@ export const createCategoryThunk = createAsyncThunk<
   { rejectValue: string }
 >('products/createCategory', async (payload, { rejectWithValue }) => {
   try {
-    const res = await productService.createCategory(payload);
+    const res = await categoryService.createCategory(payload);
     if (!res.success || res.data === undefined || res.data === null) {
       return rejectWithValue(apiFailureMessage(res));
     }
@@ -239,7 +241,7 @@ export const deleteCategoryThunk = createAsyncThunk<
   { rejectValue: string }
 >('products/deleteCategory', async (id, { rejectWithValue }) => {
   try {
-    const res = await productService.deleteCategory(id);
+    const res = await categoryService.deleteCategory(id);
     if (!res.success) return rejectWithValue(apiFailureMessage(res));
     return res;
   } catch (error) {
@@ -253,7 +255,7 @@ export const createBrandThunk = createAsyncThunk<
   { rejectValue: string }
 >('products/createBrand', async (payload, { rejectWithValue }) => {
   try {
-    const res = await productService.createBrand(payload);
+    const res = await brandService.createBrand(payload);
     if (!res.success || res.data === undefined || res.data === null) {
       return rejectWithValue(apiFailureMessage(res));
     }
@@ -269,7 +271,7 @@ export const deleteBrandThunk = createAsyncThunk<
   { rejectValue: string }
 >('products/deleteBrand', async (id, { rejectWithValue }) => {
   try {
-    const res = await productService.deleteBrand(id);
+    const res = await brandService.deleteBrand(id);
     if (!res.success) return rejectWithValue(apiFailureMessage(res));
     return res;
   } catch (error) {
