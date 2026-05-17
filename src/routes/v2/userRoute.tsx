@@ -3,11 +3,13 @@ import { Outlet, type RouteObject } from 'react-router-dom';
 
 import LayoutV2 from '@/components/layout/LayoutV2';
 import ProtectedRoute from '@/components/navigation/ProtectedRoute';
-import HomeV2 from '@/pages/productV2';
+import HomeV2 from '@/pages/HomeV2';
 
 import { adminRoute } from './adminRoute';
 
-const Products = React.lazy(() => import('@/pages/productV2/ProductV2'));
+const UserProductListV2 = React.lazy(
+  () => import('@/pages/UserProductV2/UserProductListV2'),
+);
 const Cart = React.lazy(() => import('@/pages/cart/Cart'));
 const Checkout = React.lazy(() => import('@/pages/cart/Checkout'));
 const Orders = React.lazy(() => import('@/pages/order/Orders'));
@@ -30,10 +32,10 @@ export const userRoute: RouteObject = {
     { path: 'checkout', element: <CheckoutV2 /> },
     { path: 'payment/return', element: <VnpayReturnPage /> },
     { path: 'order', element: <OrderV2 /> },
-    { path: 'products', element: <Products /> },
-    { path: 'products/clothing', element: <Products /> },
-    { path: 'products/deal', element: <Products /> },
-    { path: 'products/inspirations', element: <Products /> },
+    { path: 'products', element: <UserProductListV2 /> },
+    { path: 'products/clothing', element: <UserProductListV2 /> },
+    { path: 'products/deal', element: <UserProductListV2 /> },
+    { path: 'products/inspirations', element: <UserProductListV2 /> },
     {
       element: (
         <ProtectedRoute>

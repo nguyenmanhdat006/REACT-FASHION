@@ -5,9 +5,11 @@ import { Outlet, type RouteObject } from 'react-router-dom';
 
 const AdminDashboard = React.lazy(() => import('@/pages/admin/AdminDashboard'));
 const AdminProductListPage = React.lazy(
-  () => import('@/pages/productV2/AdminProductList/AdminProductListPage'),
+  () => import('@/pages/AdminProductV2/AdminProductList/AdminProductListPage'),
 );
-const AdminAddProduct = React.lazy(() => import('@/pages/productV2/AdminAddProduct'));
+const AdminCreateProduct = React.lazy(
+  () => import('@/pages/AdminProductV2/AdminCreateProduct'),
+);
 const AdminOrderListPage = React.lazy(
   () => import('@/pages/orderv2/AdminOrderList/AdminOrderListPage'),
 );
@@ -15,10 +17,10 @@ const AdminUserListPage = React.lazy(
   () => import('@/pages/userv2/AdminUserList/AdminUserListPage'),
 );
 const AdminCategoryListPage = React.lazy(
-  () => import('@/pages/productV2/AdminCategoryList/AdminCategoryListPage'),
+  () => import('@/pages/AdminCategoryV2/AdminCategoryList/AdminCategoryListPage'),
 );
 const AdminBrandListPage = React.lazy(
-  () => import('@/pages/productV2/AdminBrandList/AdminBrandListPage'),
+  () => import('@/pages/AdminBrandV2/AdminBrandList/AdminBrandListPage'),
 );
 
 export const adminRoute: RouteObject = {
@@ -34,7 +36,7 @@ export const adminRoute: RouteObject = {
       children: [
         { index: true, element: <AdminDashboard /> },
         { path: 'products', element: <AdminProductListPage /> },
-        { path: 'products/add', element: <AdminAddProduct /> },
+        { path: 'products/add', element: <AdminCreateProduct /> },
         { path: 'category', element: <AdminCategoryListPage /> },
         { path: 'orders', element: <AdminOrderListPage /> },
         { path: 'brand', element: <AdminBrandListPage /> },

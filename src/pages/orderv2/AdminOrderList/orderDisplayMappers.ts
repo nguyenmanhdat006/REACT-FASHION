@@ -1,4 +1,4 @@
-import { formatProductPriceUsd } from '@/pages/productV2/productDisplayMappers';
+import { formatProductPriceUsd } from '@/utils/product';
 import type { AdminOrderRow } from '@/pages/orderv2/AdminOrderList/sections/AdminOrderList';
 import type { Order } from '@/types/order/order';
 import { OrderStatus } from '@/types/order/order';
