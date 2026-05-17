@@ -6,6 +6,7 @@ import {
   fetchOrdersThunk,
   confirmOrderPaymentThunk,
   markOrderDeliveredThunk,
+  updateOrderStatusThunk,
 } from '@/store/thunks';
 import { useAppDispatch } from '@/store/hooks';
 import type { PaginationParams } from '@/types/common/common';
@@ -48,6 +49,24 @@ export function useOrders() {
     [dispatch],
   );
 
+  const updateOrderStatus = useCallback(
+    async (
+      id: string,
+      status: string,
+      refetchParams: PaginationParams,
+    ): Promise<boolean> => {
+      const result = await dispatch(updateOrderStatusThunk({ id, status }));
+      if (updateOrderStatusThunk.fulfilled.match(result)) {
+        toast.success(`Đã cập nhật trạng thái thành ${status}`);
+        await dispatch(fetchOrdersThunk(refetchParams));
+        return true;
+      }
+      toast.error(payloadMessage(result.payload, 'Không thể cập nhật trạng thái đơn hàng'));
+      return false;
+    },
+    [dispatch],
+  );
+
   /**
    * PUT /api/orders/{id}/payment-confirmed
    * Called after VNPAY redirect back to FE.
@@ -85,6 +104,7 @@ export function useOrders() {
   return {
     fetchOrdersPage,
     cancelOrder,
+    updateOrderStatus,
     confirmPayment,
     markDelivered,
   };

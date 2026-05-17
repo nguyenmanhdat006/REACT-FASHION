@@ -1,8 +1,8 @@
 /**
  * Shipping Service client — port 8088
  *
- * The Vite dev proxy maps /shipping-api/** → http://localhost:8088/api/**
- * In production set VITE_SHIPPING_BASE_URL.
+ * Requests should go through the API Gateway via /api/shipping/**.
+ * In local dev VITE_SHIPPING_BASE_URL should point at the gateway (/api).
  *
  * NOTE: Shipping Service does NOT require Auth headers.
  */
