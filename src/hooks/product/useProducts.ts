@@ -11,6 +11,7 @@ import {
   fetchCategoriesThunk,
   fetchProductByIdThunk,
   fetchProductsThunk,
+  fetchExploreProductsThunk,
   fetchV2PublishedProductsThunk,
 } from '@/store/thunks';
 import { DEFAULT_LIST_QUERY } from '@/types/common/common';
@@ -34,8 +35,8 @@ export function useProducts() {
   }, [dispatch]);
 
   const fetchExplorePublished = useCallback(async () => {
-    const result = await dispatch(fetchV2PublishedProductsThunk({ scope: 'explore' }));
-    if (fetchV2PublishedProductsThunk.rejected.match(result)) {
+    const result = await dispatch(fetchExploreProductsThunk());
+    if (fetchExploreProductsThunk.rejected.match(result)) {
       toast.error(payloadMessage(result.payload, 'Could not load products'));
     }
   }, [dispatch]);

@@ -2,6 +2,7 @@ import type { JSX, ReactNode } from 'react';
 
 import { HomeHeaderSection } from './HomeHeaderSection';
 import { NavigationMenuSection } from './NavigationMenuSection';
+import { ExploreFilterProvider } from '@/pages/UserProductV2/exploreFilters';
 import { ProductDetailsModalProvider } from '@/pages/UserProductV2/ProductDetailsModalContext';
 
 export type LayoutV2Props = {
@@ -20,13 +21,15 @@ export default function LayoutV2({
     >
       <NavigationMenuSection />
 
-      <div className="relative flex h-screen flex-1 min-w-0 flex-col items-start overflow-hidden">
-        <HomeHeaderSection />
+      <ExploreFilterProvider>
+        <div className="relative flex h-screen flex-1 min-w-0 flex-col items-start overflow-hidden">
+          <HomeHeaderSection />
 
-        <div className="relative flex w-full max-w-[1212px] mx-auto flex-1 flex-col overflow-y-auto p-8 scrollbar-hide">
-          <ProductDetailsModalProvider>{children}</ProductDetailsModalProvider>
+          <div className="relative flex w-full max-w-[1212px] mx-auto flex-1 flex-col overflow-y-auto p-8 scrollbar-hide">
+            <ProductDetailsModalProvider>{children}</ProductDetailsModalProvider>
+          </div>
         </div>
-      </div>
+      </ExploreFilterProvider>
     </main>
   );
 }

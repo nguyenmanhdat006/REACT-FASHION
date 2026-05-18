@@ -7,9 +7,14 @@ import {
   fetchProductByIdThunk,
   fetchProductBySlugThunk,
   fetchProductsThunk,
+  fetchExploreProductsThunk,
   fetchV2PublishedProductsThunk,
   updateProductThunk,
 } from '@/store/thunks/productThunks';
+import {
+  DEFAULT_EXPLORE_FILTERS,
+  type ExploreFilters,
+} from '@/pages/UserProductV2/exploreFilters/constants';
 import type { Product, ProductFilters } from '@/types/product/product';
 
 interface ProductsState {
@@ -28,6 +33,7 @@ interface ProductsState {
   homeTilesLoading: boolean;
   homeTilesError: string | null;
 
+  exploreAppliedFilters: ExploreFilters;
   explorePublishedProducts: Product[];
   exploreTilesLoading: boolean;
   exploreTilesError: string | null;
@@ -53,6 +59,7 @@ const initialState: ProductsState = {
   homeTilesLoading: false,
   homeTilesError: null,
 
+  exploreAppliedFilters: DEFAULT_EXPLORE_FILTERS,
   explorePublishedProducts: [],
   exploreTilesLoading: false,
   exploreTilesError: null,
@@ -76,6 +83,12 @@ const productsSlice = createSlice({
       state.productDetail = null;
       state.productDetailLoading = false;
       state.productDetailError = null;
+    },
+    setExploreAppliedFilters: (state, action: PayloadAction<ExploreFilters>) => {
+      state.exploreAppliedFilters = action.payload;
+    },
+    resetExploreAppliedFilters: state => {
+      state.exploreAppliedFilters = DEFAULT_EXPLORE_FILTERS;
     },
   },
   extraReducers: builder => {
@@ -120,37 +133,31 @@ const productsSlice = createSlice({
         state.isLoading = false;
         state.error = (action.payload as string) || 'Failed to fetch product';
       })
-      .addCase(fetchV2PublishedProductsThunk.pending, (state, action) => {
-        if (action.meta.arg.scope === 'home') {
-          state.homeTilesLoading = true;
-          state.homeTilesError = null;
-        } else {
-          state.exploreTilesLoading = true;
-          state.exploreTilesError = null;
-        }
+      .addCase(fetchV2PublishedProductsThunk.pending, state => {
+        state.homeTilesLoading = true;
+        state.homeTilesError = null;
       })
       .addCase(fetchV2PublishedProductsThunk.fulfilled, (state, action) => {
-        const { data } = action.payload;
-        if (action.meta.arg.scope === 'home') {
-          state.homeTilesLoading = false;
-          state.homePublishedProducts = data;
-        } else {
-          state.exploreTilesLoading = false;
-          state.explorePublishedProducts = data;
-        }
+        state.homeTilesLoading = false;
+        state.homePublishedProducts = action.payload.data;
       })
       .addCase(fetchV2PublishedProductsThunk.rejected, (state, action) => {
-        const scope = action.meta.arg.scope;
-        const msg = (action.payload as string) || 'Failed to load products';
-        if (scope === 'home') {
-          state.homeTilesLoading = false;
-          state.homeTilesError = msg;
-          state.homePublishedProducts = [];
-        } else {
-          state.exploreTilesLoading = false;
-          state.exploreTilesError = msg;
-          state.explorePublishedProducts = [];
-        }
+        state.homeTilesLoading = false;
+        state.homeTilesError = (action.payload as string) || 'Failed to load products';
+        state.homePublishedProducts = [];
+      })
+      .addCase(fetchExploreProductsThunk.pending, state => {
+        state.exploreTilesLoading = true;
+        state.exploreTilesError = null;
+      })
+      .addCase(fetchExploreProductsThunk.fulfilled, (state, action) => {
+        state.exploreTilesLoading = false;
+        state.explorePublishedProducts = action.payload.data;
+      })
+      .addCase(fetchExploreProductsThunk.rejected, (state, action) => {
+        state.exploreTilesLoading = false;
+        state.exploreTilesError = (action.payload as string) || 'Failed to load products';
+        state.explorePublishedProducts = [];
       })
       .addCase(fetchProductByIdThunk.pending, state => {
         state.productDetailLoading = true;
@@ -191,6 +198,11 @@ const productsSlice = createSlice({
   },
 });
 
-export const { setProductFilters, clearSelectedProduct, clearProductDetail } =
-  productsSlice.actions;
+export const {
+  setProductFilters,
+  clearSelectedProduct,
+  clearProductDetail,
+  setExploreAppliedFilters,
+  resetExploreAppliedFilters,
+} = productsSlice.actions;
 export default productsSlice.reducer;
