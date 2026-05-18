@@ -1,5 +1,5 @@
 /**
- * CheckoutV2 — Full flow:
+ * UserCheckoutV2 — Full flow:
  *
  * 1. Load cart from server.
  * 2. When city/province changes → call POST /api/shipping/calculate-fee.
@@ -40,7 +40,7 @@ function useDebounce<T>(value: T, delay: number): T {
   return debounced;
 }
 
-export default function CheckoutV2(): JSX.Element {
+export default function UserCheckoutV2(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { cart, fetchCart, isLoading } = useCart();

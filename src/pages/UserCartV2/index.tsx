@@ -3,7 +3,7 @@ import { CartItemListSection } from './sections/CartItemListSection';
 import { OrderSummarySection } from './sections/OrderSummarySection';
 import { useCart } from './useCart';
 
-export const FrameScreen = (): JSX.Element => {
+export default function UserCartV2(): JSX.Element {
   const { items, selectedIds, toggleSelected, updateQuantity, removeItem } = useCart();
 
   return (
@@ -25,6 +25,4 @@ export const FrameScreen = (): JSX.Element => {
       </div>
     </main>
   );
-};
-
-export default FrameScreen;
+}

@@ -9,7 +9,7 @@
  *    → Navigate to order detail page.
  * 4. If failed → Show error, let user retry.
  *
- * The orderId is stored in localStorage by CheckoutV2 before redirecting to VNPAY.
+ * The orderId is stored in localStorage by UserCheckoutV2 before redirecting to VNPAY.
  */
 import { useEffect, useRef, type JSX } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -22,7 +22,7 @@ import { ROUTES } from '@/constants';
 const VNPAY_SUCCESS_CODE = '00';
 const PENDING_ORDER_ID_KEY = 'vnpay_pending_order_id';
 
-/** Called by CheckoutV2 before redirecting to VNPAY payment URL. */
+/** Called by UserCheckoutV2 before redirecting to VNPAY payment URL. */
 export const saveVnpayPendingOrderId = (orderId: string): void => {
   localStorage.setItem(PENDING_ORDER_ID_KEY, orderId);
 };

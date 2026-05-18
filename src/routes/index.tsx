@@ -10,8 +10,8 @@ const HomeV2 = React.lazy(() => import('@/pages/UserHomeV2'));
 const UserProductListV2 = React.lazy(
   () => import('@/pages/UserProductV2/UserProductListV2'),
 );
-const CartV2 = React.lazy(() => import('@/pages/cartV2/index'));
-const CheckoutV2 = React.lazy(() => import('@/pages/checkoutV2/index'));
+const UserCartV2 = React.lazy(() => import('@/pages/UserCartV2'));
+const UserCheckoutV2 = React.lazy(() => import('@/pages/UserCheckoutV2'));
 const UserOrderV2 = React.lazy(() => import('@/pages/UserOrderV2'));
 const UserProfileV2 = React.lazy(() => import('@/pages/UserProfileV2'));
 const VnpayReturnPage = React.lazy(() => import('@/pages/VnpayReturnPage'));
@@ -43,8 +43,8 @@ export const routes: RouteObject[] = [
       { path: 'products/clothing', element: <UserProductListV2 /> },
       { path: 'products/deal', element: <UserProductListV2 /> },
       { path: 'products/inspirations', element: <UserProductListV2 /> },
-      { path: 'cart', element: <CartV2 /> },
-      { path: 'checkout', element: <CheckoutV2 /> },
+      { path: 'cart', element: <UserCartV2 /> },
+      { path: 'checkout', element: <UserCheckoutV2 /> },
       { path: 'payment/return', element: <VnpayReturnPage /> },
       { path: 'orders', element: <UserOrderV2 /> },
       {
