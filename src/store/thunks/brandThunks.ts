@@ -7,7 +7,7 @@ import {
   type ListQueryParams,
   type PageMeta,
 } from '@/types/common/common';
-import type { Brand, BrandPayload } from '@/types/product/product';
+import type { Brand, BrandPayload, UpdateBrandRequest } from '@/types/product/product';
 import { apiFailureMessage } from '@/utils/apiEnvelope';
 
 const getErrorMessage = (error: unknown, fallback: string): string => {
@@ -65,6 +65,38 @@ export const createBrandThunk = createAsyncThunk<
     return res;
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to create brand'));
+  }
+});
+
+export const fetchBrandByIdThunk = createAsyncThunk<
+  ApiResponse<Brand>,
+  string,
+  { rejectValue: string }
+>('brands/fetchBrandById', async (id, { rejectWithValue }) => {
+  try {
+    const res = await brandService.getBrandById(id);
+    if (!res.success || res.data === undefined || res.data === null) {
+      return rejectWithValue(apiFailureMessage(res));
+    }
+    return res;
+  } catch (error) {
+    return rejectWithValue(getErrorMessage(error, 'Failed to fetch brand'));
+  }
+});
+
+export const updateBrandThunk = createAsyncThunk<
+  ApiResponse<Brand>,
+  { id: string; data: UpdateBrandRequest },
+  { rejectValue: string }
+>('brands/updateBrand', async ({ id, data }, { rejectWithValue }) => {
+  try {
+    const res = await brandService.updateBrand(id, data);
+    if (!res.success || res.data === undefined || res.data === null) {
+      return rejectWithValue(apiFailureMessage(res));
+    }
+    return res;
+  } catch (error) {
+    return rejectWithValue(getErrorMessage(error, 'Failed to update brand'));
   }
 });
 
