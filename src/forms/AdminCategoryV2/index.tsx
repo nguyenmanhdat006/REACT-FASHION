@@ -54,12 +54,6 @@ export default function AdminCategoryV2Form({
       className={className ?? 'flex flex-col gap-4'}
     >
       <Card className="gap-4 overflow-hidden rounded-2xl bg-white p-4">
-        <CardHeader className="p-0">
-          <CardTitle className="text-h6-medium">Category details</CardTitle>
-          <CardDescription className="text-body-regular text-gray-500">
-            Name, slug, hierarchy, and visibility for the catalog.
-          </CardDescription>
-        </CardHeader>
         <CardContent className="flex flex-col gap-4 p-0">
           <FormField
             id="category-name"
