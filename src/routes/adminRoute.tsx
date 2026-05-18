@@ -16,9 +16,7 @@ const AdminReadProduct = React.lazy(
 const AdminUpdateProduct = React.lazy(
   () => import('@/pages/AdminProductV2/AdminUpdateProduct'),
 );
-const AdminOrderListPage = React.lazy(
-  () => import('@/pages/orderv2/AdminOrderList/AdminOrderListPage'),
-);
+const AdminOrderV2 = React.lazy(() => import('@/pages/AdminOrderV2'));
 const AdminUserListPage = React.lazy(() => import('@/pages/AdminUserV2'));
 const AdminCategoryListPage = React.lazy(
   () => import('@/pages/AdminCategoryV2'),
@@ -42,7 +40,7 @@ export const adminRoute: RouteObject = {
         { path: 'products/:id/edit', element: <AdminUpdateProduct /> },
         { path: 'products/:id', element: <AdminReadProduct /> },
         { path: 'category', element: <AdminCategoryListPage /> },
-        { path: 'orders', element: <AdminOrderListPage /> },
+        { path: 'orders', element: <AdminOrderV2 /> },
         { path: 'brand', element: <AdminBrandListPage /> },
         { path: 'users', element: <AdminUserListPage /> },
       ],

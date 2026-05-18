@@ -1,5 +1,5 @@
 import { formatProductPriceUsd } from '@/utils/product';
-import type { AdminOrderRow } from '@/pages/orderv2/AdminOrderList/sections/AdminOrderList';
+import type { AdminOrderRow } from '@/pages/AdminOrderV2/sections/AdminOrderList';
 import type { Order } from '@/types/order/order';
 import { OrderStatus } from '@/types/order/order';
 import { formatDateTime } from '@/utils/date';

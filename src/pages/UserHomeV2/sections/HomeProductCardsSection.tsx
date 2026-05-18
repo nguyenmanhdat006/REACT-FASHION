@@ -6,7 +6,7 @@ import { useAppSelector } from '@/store/hooks';
 
 import { useProductDetailsModal } from '@/pages/UserProductV2/ProductDetailsModalContext';
 import { productToProductTile } from '@/pages/UserProductV2/userProductDisplayMappers';
-import type { ProductTile } from '@/pages/HomeV2/homeDemoData';
+import type { ProductTile } from '@/pages/UserHomeV2/homeDemoData';
 
 export function HomeProductCardsSection(): JSX.Element {
   const { openProductDetails } = useProductDetailsModal();

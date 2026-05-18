@@ -1,3 +1,4 @@
+import { type JSX } from 'react';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { OrderDetailsListSection } from "./OrderDetailsListSection";
@@ -14,7 +15,7 @@ const ORDER_FILTERS = [
   { id: 'cancelled', label: 'Cancelled', count: 0 },
 ];
 
-export const Frame = (): JSX.Element => {
+export default function UserOrderV2(): JSX.Element {
   const [activeStatus, setActiveStatus] = useState<OrderStatus>('pending');
   const [portalTarget, setPortalTarget] = useState<HTMLElement | null>(null);
   const dispatch = useAppDispatch();
@@ -86,6 +87,4 @@ export const Frame = (): JSX.Element => {
       </div>
     </main>
   );
-};
-
-export default Frame;
+}

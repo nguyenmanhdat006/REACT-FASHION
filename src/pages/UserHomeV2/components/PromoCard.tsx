@@ -5,7 +5,7 @@ import { LabelButton } from '@/components/buttons/LabelButton';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
-import type { PromoCardModel } from '@/pages/HomeV2/homeDemoData';
+import type { PromoCardModel } from '@/pages/UserHomeV2/homeDemoData';
 
 type PromoCardProps = {
   model: PromoCardModel;

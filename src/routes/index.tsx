@@ -12,7 +12,7 @@ const UserProductListV2 = React.lazy(
 );
 const CartV2 = React.lazy(() => import('@/pages/cartV2/index'));
 const CheckoutV2 = React.lazy(() => import('@/pages/checkoutV2/index'));
-const OrderV2 = React.lazy(() => import('@/pages/orderv2/index'));
+const UserOrderV2 = React.lazy(() => import('@/pages/UserOrderV2'));
 const UserProfileV2 = React.lazy(() => import('@/pages/UserProfileV2'));
 const VnpayReturnPage = React.lazy(() => import('@/pages/VnpayReturnPage'));
 const NotFound = React.lazy(() => import('@/pages/NotFound'));
@@ -46,7 +46,7 @@ export const routes: RouteObject[] = [
       { path: 'cart', element: <CartV2 /> },
       { path: 'checkout', element: <CheckoutV2 /> },
       { path: 'payment/return', element: <VnpayReturnPage /> },
-      { path: 'orders', element: <OrderV2 /> },
+      { path: 'orders', element: <UserOrderV2 /> },
       {
         element: (
           <ProtectedRoute>

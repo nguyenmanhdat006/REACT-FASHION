@@ -12,9 +12,9 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useOrders } from '@/hooks/order/useOrders';
-import AdminOrderList from '@/pages/orderv2/AdminOrderList/sections/AdminOrderList';
-import { orderToAdminOrderRow } from '@/pages/orderv2/AdminOrderList/orderDisplayMappers';
-import { formatStatusLabel } from '@/pages/orderv2/AdminOrderList/sections/AdminOrderList';
+import AdminOrderList from '@/pages/AdminOrderV2/sections/AdminOrderList';
+import { orderToAdminOrderRow } from '@/pages/AdminOrderV2/orderDisplayMappers';
+import { formatStatusLabel } from '@/pages/AdminOrderV2/sections/AdminOrderList';
 import { useAppSelector } from '@/store/hooks';
 import { ShipmentStatus as ShipmentStatusEnum, OrderStatus as OrderStatusEnum } from '@/types/order/order';
 import type { OrderStatus, ShipmentStatus, Order } from '@/types/order/order';
@@ -26,7 +26,7 @@ import type { AdminOrderRow } from './sections/AdminOrderList';
 
 const LIST_PAGE_SIZE = 10;
 
-export default function AdminOrderListPage(): JSX.Element {
+export default function AdminOrderV2(): JSX.Element {
   const { fetchOrdersPage, confirmOrder, markDelivered, updateOrderStatus, updateShipmentStatus } = useOrders();
   const { items, page, size, totalPages, isLoading, error } = useAppSelector((s) => s.orders);
 
