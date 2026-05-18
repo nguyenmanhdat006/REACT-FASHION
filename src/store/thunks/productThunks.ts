@@ -1,6 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { mapExploreToProductFilters } from '@/pages/UserProductV2/exploreFilters/exploreFilterModel';
+import {
+  mapExploreToProductFilters,
+  resolveSegmentCategoryIds,
+} from '@/pages/UserProductV2/exploreFilters/exploreFilterUtils';
 import { productService } from '@/services/product/productService';
 import type { RootState } from '@/store';
 import type {
@@ -82,7 +85,8 @@ export const fetchExploreProductsThunk = createAsyncThunk<
 >('products/fetchExplore', async (_, { getState, rejectWithValue }) => {
   try {
     const { exploreAppliedFilters } = getState().products;
-    const apiFilters = mapExploreToProductFilters(exploreAppliedFilters);
+    const segmentIds = resolveSegmentCategoryIds(getState().categories.items);
+    const apiFilters = mapExploreToProductFilters(exploreAppliedFilters, segmentIds);
     const res = await productService.getProducts(apiFilters);
     if (res.success === false || !Array.isArray(res.data)) {
       return rejectWithValue(apiFailureMessage(res));

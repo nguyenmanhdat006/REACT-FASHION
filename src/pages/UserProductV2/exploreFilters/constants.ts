@@ -1,3 +1,5 @@
+import { ROUTES } from '@/constants';
+
 export type ExploreQuickSegment = 'all' | 'men' | 'women';
 
 export type ExploreSortOption =
@@ -23,10 +25,10 @@ export type ExploreFilterChip = {
 
 export const ALL_OPTION = '__all__';
 
-/** Root category IDs for quick Men/Women segment (until tree filter on API). */
-export const EXPLORE_SEGMENT_CATEGORY_IDS = {
-  men: '650e8400-e29b-41d4-a716-446655440001',
-  women: '650e8400-e29b-41d4-a716-446655440002',
+/** Root category slugs for Men/Women quick filters (resolved to IDs when catalog loads). */
+export const EXPLORE_SEGMENT_CATEGORY_SLUGS = {
+  men: 'mens-fashion',
+  women: 'womens-fashion',
 } as const;
 
 export const DEFAULT_EXPLORE_FILTERS: ExploreFilters = {
@@ -39,22 +41,16 @@ export const DEFAULT_EXPLORE_FILTERS: ExploreFilters = {
   sort: 'newest',
 };
 
-/** Placeholder options until catalog APIs are wired. */
-export const EXPLORE_MOCK_CATEGORIES = [
-  { value: '', label: 'All categories' },
-  { value: '650e8400-e29b-41d4-a716-446655440001', label: "Men's Fashion" },
-  { value: '650e8400-e29b-41d4-a716-446655440002', label: "Women's Fashion" },
-  { value: '650e8400-e29b-41d4-a716-446655440011', label: "Men's Shirts" },
-  { value: '650e8400-e29b-41d4-a716-446655440021', label: "Women's Dresses" },
+export const EXPLORE_PRODUCT_PATHS = [
+  ROUTES.PRODUCTS,
+  ROUTES.PRODUCTS_CLOTHING,
+  ROUTES.PRODUCTS_DEAL,
+  ROUTES.PRODUCTS_INSPIRATIONS,
 ] as const;
 
-export const EXPLORE_MOCK_BRANDS = [
-  { value: '', label: 'All brands' },
-  { value: '550e8400-e29b-41d4-a716-446655440001', label: 'Nike' },
-  { value: '550e8400-e29b-41d4-a716-446655440002', label: 'Adidas' },
-  { value: '550e8400-e29b-41d4-a716-446655440003', label: 'Zara' },
-  { value: '550e8400-e29b-41d4-a716-446655440004', label: 'H&M' },
-] as const;
+export function isExploreProductsPath(pathname: string): boolean {
+  return (EXPLORE_PRODUCT_PATHS as readonly string[]).includes(pathname);
+}
 
 export const EXPLORE_SORT_OPTIONS: { value: ExploreSortOption; label: string }[] = [
   { value: 'newest', label: 'Newest first' },
@@ -62,13 +58,3 @@ export const EXPLORE_SORT_OPTIONS: { value: ExploreSortOption; label: string }[]
   { value: 'price-asc', label: 'Price: low to high' },
   { value: 'price-desc', label: 'Price: high to low' },
 ];
-
-export const CATEGORY_SELECT_OPTIONS = EXPLORE_MOCK_CATEGORIES.map(({ value, label }) => ({
-  value: value || ALL_OPTION,
-  label,
-}));
-
-export const BRAND_SELECT_OPTIONS = EXPLORE_MOCK_BRANDS.map(({ value, label }) => ({
-  value: value || ALL_OPTION,
-  label,
-}));

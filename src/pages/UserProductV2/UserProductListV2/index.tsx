@@ -1,7 +1,6 @@
-import { useEffect, useMemo, type JSX } from 'react';
+import { useMemo, type JSX } from 'react';
 
 import { ProductCard } from '@/components/cards/ProductCard';
-import { useProducts } from '@/hooks/product/useProducts';
 import { useAppSelector } from '@/store/hooks';
 
 import { useProductDetailsModal } from '@/pages/UserProductV2/ProductDetailsModalContext';
@@ -12,12 +11,7 @@ import type { ExploreProductTile } from './productsExploreData';
 
 export default function UserProductListV2(): JSX.Element {
   const { openProductDetails } = useProductDetailsModal();
-  const { fetchExplorePublished } = useProducts();
   const { explorePublishedProducts, exploreTilesLoading } = useAppSelector((s) => s.products);
-
-  useEffect(() => {
-    void fetchExplorePublished();
-  }, [fetchExplorePublished]);
 
   const tiles: ExploreProductTile[] = useMemo(
     () => explorePublishedProducts.map(productToExploreProductTile),

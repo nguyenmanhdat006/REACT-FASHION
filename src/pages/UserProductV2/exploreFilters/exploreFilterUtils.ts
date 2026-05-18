@@ -1,25 +1,22 @@
-import type { ProductFilters } from '@/types/product/product';
+import type { Category, ProductFilters } from '@/types/product/product';
 
 import {
+  ALL_OPTION,
   DEFAULT_EXPLORE_FILTERS,
-  EXPLORE_MOCK_BRANDS,
-  EXPLORE_MOCK_CATEGORIES,
-  EXPLORE_SEGMENT_CATEGORY_IDS,
+  EXPLORE_SEGMENT_CATEGORY_SLUGS,
 } from './constants';
 import type { ExploreFilterChip, ExploreFilters, ExploreSortOption } from './constants';
 
-export function isExploreProductsPath(pathname: string, routes: {
-  products: string;
-  productsClothing: string;
-  productsDeal: string;
-  productsInspirations: string;
-}): boolean {
-  return (
-    pathname === routes.products ||
-    pathname === routes.productsClothing ||
-    pathname === routes.productsDeal ||
-    pathname === routes.productsInspirations
-  );
+export type ExploreSegmentCategoryIds = {
+  men?: string;
+  women?: string;
+};
+
+export function resolveSegmentCategoryIds(categories: Category[]): ExploreSegmentCategoryIds {
+  return {
+    men: categories.find((c) => c.slug === EXPLORE_SEGMENT_CATEGORY_SLUGS.men)?.id,
+    women: categories.find((c) => c.slug === EXPLORE_SEGMENT_CATEGORY_SLUGS.women)?.id,
+  };
 }
 
 export function validateExploreDraft(draft: ExploreFilters): string | null {
@@ -47,7 +44,10 @@ function sortToApi(sort: ExploreSortOption): Pick<ProductFilters, 'sortBy' | 'so
   }
 }
 
-export function mapExploreToProductFilters(explore: ExploreFilters): ProductFilters {
+export function mapExploreToProductFilters(
+  explore: ExploreFilters,
+  segmentIds: ExploreSegmentCategoryIds,
+): ProductFilters {
   const filters: ProductFilters = {
     published: true,
     page: 0,
@@ -57,10 +57,10 @@ export function mapExploreToProductFilters(explore: ExploreFilters): ProductFilt
 
   if (explore.categoryId) {
     filters.categoryId = explore.categoryId;
-  } else if (explore.segment === 'men') {
-    filters.categoryId = EXPLORE_SEGMENT_CATEGORY_IDS.men;
-  } else if (explore.segment === 'women') {
-    filters.categoryId = EXPLORE_SEGMENT_CATEGORY_IDS.women;
+  } else if (explore.segment === 'men' && segmentIds.men) {
+    filters.categoryId = segmentIds.men;
+  } else if (explore.segment === 'women' && segmentIds.women) {
+    filters.categoryId = segmentIds.women;
   }
 
   if (explore.brandId) filters.brandId = explore.brandId;
@@ -74,27 +74,29 @@ export function mapExploreToProductFilters(explore: ExploreFilters): ProductFilt
   return filters;
 }
 
-function categoryLabel(categoryId: string | undefined): string | undefined {
-  if (!categoryId) return undefined;
-  return EXPLORE_MOCK_CATEGORIES.find((c) => c.value === categoryId)?.label;
-}
+export type ExploreFilterLabels = {
+  categoryName: (id: string) => string | undefined;
+  brandName: (id: string) => string | undefined;
+};
 
-function brandLabel(brandId: string | undefined): string | undefined {
-  if (!brandId) return undefined;
-  return EXPLORE_MOCK_BRANDS.find((b) => b.value === brandId)?.label;
-}
-
-export function buildExploreFilterChips(applied: ExploreFilters): ExploreFilterChip[] {
+export function buildExploreFilterChips(
+  applied: ExploreFilters,
+  labels: ExploreFilterLabels,
+): ExploreFilterChip[] {
   const chips: ExploreFilterChip[] = [];
 
   if (applied.segment === 'men') chips.push({ id: 'segment', label: 'Men' });
   else if (applied.segment === 'women') chips.push({ id: 'segment', label: 'Women' });
 
-  const category = categoryLabel(applied.categoryId);
-  if (category) chips.push({ id: 'categoryId', label: category });
+  if (applied.categoryId) {
+    const name = labels.categoryName(applied.categoryId);
+    if (name) chips.push({ id: 'categoryId', label: name });
+  }
 
-  const brand = brandLabel(applied.brandId);
-  if (brand) chips.push({ id: 'brandId', label: brand });
+  if (applied.brandId) {
+    const name = labels.brandName(applied.brandId);
+    if (name) chips.push({ id: 'brandId', label: name });
+  }
 
   const min = applied.minPrice?.trim();
   const max = applied.maxPrice?.trim();
@@ -115,10 +117,6 @@ export function buildExploreFilterChips(applied: ExploreFilters): ExploreFilterC
   }
 
   return chips;
-}
-
-export function countActiveExploreFilters(applied: ExploreFilters): number {
-  return buildExploreFilterChips(applied).length;
 }
 
 export function removeExploreFilterChip(
@@ -150,4 +148,14 @@ export function removeExploreFilterChip(
       break;
   }
   return next;
+}
+
+export function toSelectOptions(
+  items: { id: string; name: string }[],
+  allLabel = 'All',
+): { value: string; label: string }[] {
+  return [
+    { value: ALL_OPTION, label: allLabel },
+    ...items.map((item) => ({ value: item.id, label: item.name })),
+  ];
 }

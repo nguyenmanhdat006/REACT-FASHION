@@ -17,7 +17,7 @@ import { LabelButton } from '@/components/buttons/LabelButton';
 import { ROUTES } from '@/constants';
 import { useAuth } from '@/hooks/auth/useAuth';
 
-import { useExploreFilterContext } from '@/pages/UserProductV2/exploreFilters';
+import { useExploreFilters } from '@/pages/UserProductV2/exploreFilters';
 import { getCurrentRoute } from '@/routes/appShellRoutes';
 
 import { OrderStats } from './components/OrderStats';
@@ -41,13 +41,18 @@ export function HomeHeaderSection(): JSX.Element {
   const { user, isAuthenticated } = useAuth();
   const route = getCurrentRoute(location.pathname);
   const title = route?.headerTitle ?? 'Unknown';
-  const { quickSegment: quickFilter, activeFilterCount: exploreFilterCount, exploreFilterAction } =
-    useExploreFilterContext();
+  const {
+    onExploreRoute,
+    quickSegment: quickFilter,
+    activeFilterCount: exploreFilterCount,
+    openPanel,
+    setQuickSegment,
+  } = useExploreFilters();
 
   useEffect(() => {
-    if (!route?.showQuickFilter) return;
-    exploreFilterAction.quickSegment.set('all');
-    // Reset quick segment when switching between product routes.
+    if (!onExploreRoute) return;
+    setQuickSegment('all');
+    // Reset quick segment when switching between explore routes.
     // eslint-disable-next-line react-hooks/exhaustive-deps -- only on path change
   }, [location.pathname]);
 
@@ -60,7 +65,6 @@ export function HomeHeaderSection(): JSX.Element {
   const resolvedAvatar = user?.avatarUrl ?? null;
 
   const showFiltersRow = Boolean(route?.showHeaderFiltersRow);
-  const showQuickFilter = Boolean(route?.showQuickFilter);
 
   return (
     <header className="relative flex self-stretch flex-col items-center justify-center border-b border-solid border-gray-100 bg-white px-8 pb-4 pt-8">
@@ -92,7 +96,7 @@ export function HomeHeaderSection(): JSX.Element {
           </h3>
           <div id="header-actions-portal" className="flex flex-1 items-center justify-start ml-12 md:ml-24 z-[1]"></div>
 
-          {showQuickFilter ? (
+          {onExploreRoute ? (
             <div
               className="pointer-events-none absolute left-1/2 top-1/2 z-[1] flex -translate-x-1/2 -translate-y-1/2 justify-center"
               role="group"
@@ -110,7 +114,7 @@ export function HomeHeaderSection(): JSX.Element {
                     className="rounded-full px-4 py-2.5"
                     iconClassName="size-5"
                     labelClassName="text-caption-lg-regular"
-                    onClick={() => exploreFilterAction.quickSegment.set(id)}
+                    onClick={() => setQuickSegment(id)}
                   />
                 ))}
               </div>
@@ -121,14 +125,14 @@ export function HomeHeaderSection(): JSX.Element {
             <div className="relative z-[1] ml-auto flex w-[188px] shrink-0 items-center justify-end gap-2">
               <LabelButton
                 label={
-                  showQuickFilter && exploreFilterCount > 0
+                  onExploreRoute && exploreFilterCount > 0
                     ? `Filters (${exploreFilterCount})`
                     : 'Filters'
                 }
                 ariaLabel="Open filters"
                 className="min-w-0 flex-1 grow"
                 onClick={() => {
-                  if (showQuickFilter) exploreFilterAction.panel.open();
+                  if (onExploreRoute) openPanel();
                 }}
               />
               <IconButton

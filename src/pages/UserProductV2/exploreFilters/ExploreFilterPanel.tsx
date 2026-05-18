@@ -7,17 +7,14 @@ import { LabeledInputField } from '@/components/form/LabeledInputField';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 
-import {
-  ALL_OPTION,
-  BRAND_SELECT_OPTIONS,
-  CATEGORY_SELECT_OPTIONS,
-  EXPLORE_SORT_OPTIONS,
-} from './constants';
+import { ALL_OPTION, EXPLORE_SORT_OPTIONS } from './constants';
 import type { ExploreFilters, ExploreSortOption } from './constants';
 
 type ExploreFilterPanelProps = {
   open: boolean;
   draft: ExploreFilters;
+  categoryOptions: { value: string; label: string }[];
+  brandOptions: { value: string; label: string }[];
   onClose: () => void;
   onDraftChange: (patch: Partial<ExploreFilters>) => void;
   onApply: () => void;
@@ -27,6 +24,8 @@ type ExploreFilterPanelProps = {
 export function ExploreFilterPanel({
   open,
   draft,
+  categoryOptions,
+  brandOptions,
   onClose,
   onDraftChange,
   onApply,
@@ -54,7 +53,7 @@ export function ExploreFilterPanel({
           label="Category"
           variant="selection"
           placeholder="All categories"
-          options={CATEGORY_SELECT_OPTIONS}
+          options={categoryOptions}
           value={draft.categoryId ?? ALL_OPTION}
           onValueChange={(value) =>
             onDraftChange({
@@ -68,7 +67,7 @@ export function ExploreFilterPanel({
           label="Brand"
           variant="selection"
           placeholder="All brands"
-          options={BRAND_SELECT_OPTIONS}
+          options={brandOptions}
           value={draft.brandId ?? ALL_OPTION}
           onValueChange={(value) =>
             onDraftChange({
