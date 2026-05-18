@@ -202,6 +202,7 @@ export interface BrandPayload {
   slug: string;
   description?: string;
   logoUrl?: string;
+  websiteUrl?: string;
   active?: boolean;
 }
 

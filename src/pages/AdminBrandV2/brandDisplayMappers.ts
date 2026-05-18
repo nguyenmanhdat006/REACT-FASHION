@@ -1,5 +1,13 @@
-import type { AdminBrandRow } from '@/pages/AdminBrandV2/AdminBrandList/sections/AdminBrandList';
 import type { Brand } from '@/types/product/product';
+
+export type AdminBrandRow = {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  websiteUrl: string;
+  active: boolean;
+};
 
 export function brandToAdminBrandRow(brand: Brand): AdminBrandRow {
   return {

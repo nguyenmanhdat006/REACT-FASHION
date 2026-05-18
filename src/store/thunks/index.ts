@@ -16,7 +16,9 @@ export {
 
 export {
   fetchBrandsThunk,
+  fetchBrandByIdThunk,
   createBrandThunk,
+  updateBrandThunk,
   deleteBrandThunk,
 } from './brandThunks';
 
