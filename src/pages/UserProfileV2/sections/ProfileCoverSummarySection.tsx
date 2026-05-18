@@ -1,5 +1,5 @@
 import { Camera, MapPin, Pencil } from 'lucide-react';
-import type { JSX } from 'react';
+import type { ChangeEvent, JSX, RefObject } from 'react';
 
 import { IconLabelButton } from '@/components/buttons/IconLabelButton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -15,6 +15,11 @@ export type ProfileCoverSummarySectionProps = {
   addressesEditing: boolean;
   onToggleProfileEdit: () => void;
   onToggleAddressesEdit: () => void;
+  avatarFileInputRef: RefObject<HTMLInputElement>;
+  avatarAccept: string;
+  avatarUploadBusy?: boolean;
+  onAvatarUploadClick: () => void;
+  onAvatarFileChange: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
 /** Kéo block info lên chồng bìa (avatar cắm vào cover). */
@@ -29,6 +34,11 @@ export function ProfileCoverSummarySection({
   addressesEditing,
   onToggleProfileEdit,
   onToggleAddressesEdit,
+  avatarFileInputRef,
+  avatarAccept,
+  avatarUploadBusy = false,
+  onAvatarUploadClick,
+  onAvatarFileChange,
 }: ProfileCoverSummarySectionProps): JSX.Element {
   return (
     <section
@@ -46,7 +56,7 @@ export function ProfileCoverSummarySection({
           type="button"
           variant="secondary"
           size="icon"
-          className="absolute bottom-3 right-3 size-10 rounded-full bg-gray-white/90 text-gray-black shadow-md hover:bg-gray-white"
+          className="absolute bottom-3 right-3 size-10 rounded-full bg-gray-white/90 text-gray-black hover:bg-gray-white"
           aria-label="Change cover photo"
         >
           <Camera className="size-5" aria-hidden />
@@ -60,12 +70,39 @@ export function ProfileCoverSummarySection({
         )}
       >
         <div className="flex min-w-0 items-center gap-4">
-          <Avatar className="size-24 shrink-0 border-2 border-gray-white sm:size-28 md:size-32">
-            <AvatarImage src={avatarSrc} alt="" />
-            <AvatarFallback className="bg-primary-700 text-h5-semi text-primary-900">
-              {initials}
-            </AvatarFallback>
-          </Avatar>
+          <div className="relative shrink-0">
+            <input
+              ref={avatarFileInputRef}
+              type="file"
+              accept={avatarAccept}
+              className="sr-only"
+              tabIndex={-1}
+              aria-hidden
+              onChange={onAvatarFileChange}
+            />
+            <Avatar
+              className={cn(
+                'size-24 border-2 border-gray-white sm:size-28 md:size-32',
+                avatarUploadBusy && 'opacity-70',
+              )}
+            >
+              <AvatarImage src={avatarSrc} alt="" />
+              <AvatarFallback className="bg-primary-700 text-h5-semi text-primary-900">
+                {initials}
+              </AvatarFallback>
+            </Avatar>
+            <Button
+              type="button"
+              variant="secondary"
+              size="icon"
+              disabled={avatarUploadBusy}
+              className="absolute bottom-0 right-0 size-9 rounded-full border-2 border-gray-white bg-gray-white/95 text-gray-black hover:bg-gray-white sm:size-10"
+              aria-label="Upload profile photo"
+              onClick={onAvatarUploadClick}
+            >
+              <Camera className="size-4 sm:size-5" aria-hidden />
+            </Button>
+          </div>
           <p className="min-w-0 truncate text-h4-semi text-gray-black">
             {displayName}
           </p>

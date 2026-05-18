@@ -21,6 +21,7 @@ import {
 import { useAppSelector } from '@/store/hooks';
 import { dash } from '@/utils/formDisplay';
 
+import { useProfileAvatarUpload } from './hooks/useProfileAvatarUpload';
 import { ProfileAddressSection } from './sections/ProfileAddressSection';
 import { ProfileCoverSummarySection } from './sections/ProfileCoverSummarySection';
 import { ProfileSection } from './sections/ProfileSection';
@@ -36,6 +37,14 @@ export default function UserProfileV2(): JSX.Element {
     deleteAddress,
   } = useProfile();
   const { profile, addresses } = useAppSelector(s => s.user);
+
+  const {
+    fileInputRef: avatarFileInputRef,
+    avatarAccept,
+    avatarUploadBusy,
+    onAvatarUploadClick,
+    onAvatarFileChange,
+  } = useProfileAvatarUpload(updateProfile);
 
   const [editingProfile, setEditingProfile] = useState(false);
   const [editingAddresses, setEditingAddresses] = useState(false);
@@ -194,6 +203,11 @@ export default function UserProfileV2(): JSX.Element {
             addressesEditing={editingAddresses}
             onToggleProfileEdit={toggleProfileEdit}
             onToggleAddressesEdit={toggleAddressesEdit}
+            avatarFileInputRef={avatarFileInputRef}
+            avatarAccept={avatarAccept}
+            avatarUploadBusy={avatarUploadBusy}
+            onAvatarUploadClick={onAvatarUploadClick}
+            onAvatarFileChange={e => void onAvatarFileChange(e)}
           />
           <div className="flex flex-col gap-10 px-8 pb-2">
             <ProfileSection
