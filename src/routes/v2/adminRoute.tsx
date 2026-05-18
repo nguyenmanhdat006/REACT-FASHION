@@ -23,9 +23,7 @@ const AdminUserListPage = React.lazy(() => import('@/pages/AdminUserV2'));
 const AdminCategoryListPage = React.lazy(
   () => import('@/pages/AdminCategoryV2'),
 );
-const AdminBrandListPage = React.lazy(
-  () => import('@/pages/AdminBrandV2/AdminBrandList/AdminBrandListPage'),
-);
+const AdminBrandListPage = React.lazy(() => import('@/pages/AdminBrandV2'));
 
 export const adminRoute: RouteObject = {
   // element: (
