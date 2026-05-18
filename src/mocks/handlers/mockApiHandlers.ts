@@ -307,6 +307,14 @@ export const handleMockApiRequest = async <T>(
     ) as T;
   }
 
+  const userDetailMatch = cleanUrl.match(/^\/users\/([^/]+)$/);
+  if (method === 'get' && userDetailMatch) {
+    const id = userDetailMatch[1];
+    const user = mockUsersList.find((entry) => entry.id === id);
+    if (!user) return undefined;
+    return toResponse(user) as T;
+  }
+
   const userRolesMatch = cleanUrl.match(/^\/users\/([^/]+)\/roles$/);
   if (method === 'put' && userRolesMatch) {
     const id = userRolesMatch[1];

@@ -19,9 +19,7 @@ const AdminUpdateProduct = React.lazy(
 const AdminOrderListPage = React.lazy(
   () => import('@/pages/orderv2/AdminOrderList/AdminOrderListPage'),
 );
-const AdminUserListPage = React.lazy(
-  () => import('@/pages/userv2/AdminUserList/AdminUserListPage'),
-);
+const AdminUserListPage = React.lazy(() => import('@/pages/AdminUserV2'));
 const AdminCategoryListPage = React.lazy(
   () => import('@/pages/AdminCategoryV2'),
 );

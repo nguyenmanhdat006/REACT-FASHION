@@ -19,7 +19,8 @@ export type AdminListPageLayoutProps = {
   onPanelChange: (panel: AdminEntityPanelState) => void;
 
   onFiltersClick?: () => void;
-  onAddClick: () => void;
+  onAddClick?: () => void;
+  showAddButton?: boolean;
   toolbarExtra?: ReactNode;
 
   children: ReactNode;
@@ -47,6 +48,7 @@ export default function AdminListPageLayout({
   onPanelChange,
   onFiltersClick,
   onAddClick,
+  showAddButton = true,
   toolbarExtra,
   children,
   className,
@@ -102,13 +104,15 @@ export default function AdminListPageLayout({
           className="bg-gray-white hover:bg-gray-100"
           onClick={onFiltersClick}
         />
-        <IconButton
-          icon={Plus}
-          ariaLabel="Add"
-          onClick={onAddClick}
-          className="bg-primary hover:bg-primary/90"
-          iconClassName="text-white"
-        />
+        {showAddButton ? (
+          <IconButton
+            icon={Plus}
+            ariaLabel="Add"
+            onClick={onAddClick}
+            className="bg-primary hover:bg-primary/90"
+            iconClassName="text-white"
+          />
+        ) : null}
         {toolbarExtra}
       </div>
 

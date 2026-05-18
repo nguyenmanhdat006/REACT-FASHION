@@ -125,6 +125,22 @@ export const setDefaultAddressThunk = createAsyncThunk<
   }
 });
 
+export const fetchUserByIdThunk = createAsyncThunk<
+  ApiResponse<User>,
+  string,
+  { rejectValue: string }
+>('user/fetchUserById', async (id, { rejectWithValue }) => {
+  try {
+    const res = await userService.getUserById(id);
+    if (!res.success || res.data === undefined || res.data === null) {
+      return rejectWithValue(apiFailureMessage(res));
+    }
+    return { ...res, data: normalizeUser(res.data as UserInbound) };
+  } catch (error) {
+    return rejectWithValue(getErrorMessage(error, 'Failed to fetch user'));
+  }
+});
+
 export const fetchUsersThunk = createAsyncThunk<
   ApiResponse<User[], PageMeta>,
   PaginationParams | undefined,

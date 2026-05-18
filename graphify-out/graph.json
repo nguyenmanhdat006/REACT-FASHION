@@ -45,7 +45,7 @@
       "source_file": "tailwind.config.js",
       "source_location": "L1",
       "id": "tailwind_config_js",
-      "community": 75,
+      "community": 74,
       "norm_label": "tailwind.config.js"
     },
     {
@@ -99,7 +99,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/vite-env.d.ts",
       "source_location": "L1",
       "id": "home_thang_workspace_react_fashion_src_vite_env_d_ts",
-      "community": 100,
+      "community": 99,
       "norm_label": "vite-env.d.ts"
     },
     {
@@ -108,7 +108,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/vite-env.d.ts",
       "source_location": "L3",
       "id": "src_vite_env_d_importmetaenv",
-      "community": 100,
+      "community": 99,
       "norm_label": "importmetaenv"
     },
     {
@@ -117,7 +117,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/vite-env.d.ts",
       "source_location": "L11",
       "id": "src_vite_env_d_importmeta",
-      "community": 100,
+      "community": 99,
       "norm_label": "importmeta"
     },
     {
@@ -1899,7 +1899,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/constants/colors.ts",
       "source_location": "L1",
       "id": "home_thang_workspace_react_fashion_src_constants_colors_ts",
-      "community": 75,
+      "community": 74,
       "norm_label": "colors.ts"
     },
     {
@@ -1908,7 +1908,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/constants/colors.ts",
       "source_location": "L1",
       "id": "constants_colors_primary",
-      "community": 75,
+      "community": 74,
       "norm_label": "primary"
     },
     {
@@ -1917,7 +1917,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/constants/colors.ts",
       "source_location": "L14",
       "id": "constants_colors_secondary",
-      "community": 75,
+      "community": 74,
       "norm_label": "secondary"
     },
     {
@@ -1926,7 +1926,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/constants/colors.ts",
       "source_location": "L27",
       "id": "constants_colors_accent",
-      "community": 75,
+      "community": 74,
       "norm_label": "accent"
     },
     {
@@ -1935,7 +1935,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/constants/colors.ts",
       "source_location": "L40",
       "id": "constants_colors_gray",
-      "community": 75,
+      "community": 74,
       "norm_label": "gray"
     },
     {
@@ -2266,7 +2266,7 @@
       "label": "payloadMessage()",
       "file_type": "code",
       "source_file": "src/hooks/user/useAdminUsers.ts",
-      "source_location": "L8",
+      "source_location": "L13",
       "id": "user_useadminusers_payloadmessage",
       "community": 55,
       "norm_label": "payloadmessage()"
@@ -2275,7 +2275,7 @@
       "label": "useAdminUsers()",
       "file_type": "code",
       "source_file": "src/hooks/user/useAdminUsers.ts",
-      "source_location": "L11",
+      "source_location": "L16",
       "id": "user_useadminusers_useadminusers",
       "community": 55,
       "norm_label": "useadminusers()"
@@ -3483,7 +3483,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/pages/authV2/components/BannerSection.tsx",
       "source_location": "L1",
       "id": "home_thang_workspace_react_fashion_src_pages_authv2_components_bannersection_tsx",
-      "community": 101,
+      "community": 100,
       "norm_label": "bannersection.tsx"
     },
     {
@@ -3492,7 +3492,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/pages/authV2/components/BannerSection.tsx",
       "source_location": "L7",
       "id": "components_bannersection_slides",
-      "community": 101,
+      "community": 100,
       "norm_label": "slides"
     },
     {
@@ -3501,7 +3501,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/pages/authV2/components/BannerSection.tsx",
       "source_location": "L25",
       "id": "components_bannersection_bannersection",
-      "community": 101,
+      "community": 100,
       "norm_label": "bannersection()"
     },
     {
@@ -5895,7 +5895,7 @@
       "source_file": "src/routes/v2/userRoute.tsx",
       "source_location": "L1",
       "id": "src_routes_v2_userroute_tsx",
-      "community": 46,
+      "community": 44,
       "norm_label": "userroute.tsx"
     },
     {
@@ -5904,7 +5904,7 @@
       "source_file": "src/routes/v2/userRoute.tsx",
       "source_location": "L10",
       "id": "v2_userroute_userproductlistv2",
-      "community": 46,
+      "community": 44,
       "norm_label": "userproductlistv2"
     },
     {
@@ -5913,7 +5913,7 @@
       "source_file": "src/routes/v2/userRoute.tsx",
       "source_location": "L13",
       "id": "v2_userroute_cart",
-      "community": 46,
+      "community": 44,
       "norm_label": "cart"
     },
     {
@@ -5922,7 +5922,7 @@
       "source_file": "src/routes/v2/userRoute.tsx",
       "source_location": "L14",
       "id": "v2_userroute_checkout",
-      "community": 46,
+      "community": 44,
       "norm_label": "checkout"
     },
     {
@@ -5931,7 +5931,7 @@
       "source_file": "src/routes/v2/userRoute.tsx",
       "source_location": "L15",
       "id": "v2_userroute_orders",
-      "community": 46,
+      "community": 44,
       "norm_label": "orders"
     },
     {
@@ -5940,7 +5940,7 @@
       "source_file": "src/routes/v2/userRoute.tsx",
       "source_location": "L16",
       "id": "v2_userroute_orderdetail",
-      "community": 46,
+      "community": 44,
       "norm_label": "orderdetail"
     },
     {
@@ -5949,7 +5949,7 @@
       "source_file": "src/routes/v2/userRoute.tsx",
       "source_location": "L17",
       "id": "v2_userroute_orderv2",
-      "community": 46,
+      "community": 44,
       "norm_label": "orderv2"
     },
     {
@@ -5958,7 +5958,7 @@
       "source_file": "src/routes/v2/userRoute.tsx",
       "source_location": "L18",
       "id": "v2_userroute_profilev2",
-      "community": 46,
+      "community": 44,
       "norm_label": "profilev2"
     },
     {
@@ -5967,7 +5967,7 @@
       "source_file": "src/routes/v2/userRoute.tsx",
       "source_location": "L19",
       "id": "v2_userroute_cartv2",
-      "community": 46,
+      "community": 44,
       "norm_label": "cartv2"
     },
     {
@@ -5976,7 +5976,7 @@
       "source_file": "src/routes/v2/userRoute.tsx",
       "source_location": "L20",
       "id": "v2_userroute_checkoutv2",
-      "community": 46,
+      "community": 44,
       "norm_label": "checkoutv2"
     },
     {
@@ -5985,7 +5985,7 @@
       "source_file": "src/routes/v2/userRoute.tsx",
       "source_location": "L21",
       "id": "v2_userroute_vnpayreturnpage",
-      "community": 46,
+      "community": 44,
       "norm_label": "vnpayreturnpage"
     },
     {
@@ -5994,7 +5994,7 @@
       "source_file": "src/routes/v2/userRoute.tsx",
       "source_location": "L23",
       "id": "v2_userroute_userroute",
-      "community": 46,
+      "community": 44,
       "norm_label": "userroute"
     },
     {
@@ -6246,7 +6246,7 @@
       "source_file": "src/services/order/orderService.ts",
       "source_location": "L57",
       "id": "order_orderservice_orderservice",
-      "community": 39,
+      "community": 33,
       "norm_label": "orderservice"
     },
     {
@@ -6766,7 +6766,7 @@
       "label": "UserState",
       "file_type": "code",
       "source_file": "src/store/slices/userSlice.ts",
-      "source_location": "L15",
+      "source_location": "L16",
       "id": "slices_userslice_userstate",
       "community": 32,
       "norm_label": "userstate"
@@ -6775,7 +6775,7 @@
       "label": "initialState",
       "file_type": "code",
       "source_file": "src/store/slices/userSlice.ts",
-      "source_location": "L29",
+      "source_location": "L33",
       "id": "slices_userslice_initialstate",
       "community": 32,
       "norm_label": "initialstate"
@@ -6784,7 +6784,7 @@
       "label": "userSlice",
       "file_type": "code",
       "source_file": "src/store/slices/userSlice.ts",
-      "source_location": "L43",
+      "source_location": "L50",
       "id": "slices_userslice_userslice",
       "community": 32,
       "norm_label": "userslice"
@@ -6795,7 +6795,7 @@
       "source_file": "src/store/slices/ordersSlice.ts",
       "source_location": "L1",
       "id": "src_store_slices_ordersslice_ts",
-      "community": 39,
+      "community": 2,
       "norm_label": "ordersslice.ts"
     },
     {
@@ -6804,7 +6804,7 @@
       "source_file": "src/store/slices/ordersSlice.ts",
       "source_location": "L14",
       "id": "slices_ordersslice_ordersstate",
-      "community": 39,
+      "community": 2,
       "norm_label": "ordersstate"
     },
     {
@@ -6813,7 +6813,7 @@
       "source_file": "src/store/slices/ordersSlice.ts",
       "source_location": "L30",
       "id": "slices_ordersslice_initialstate",
-      "community": 39,
+      "community": 2,
       "norm_label": "initialstate"
     },
     {
@@ -6822,7 +6822,7 @@
       "source_file": "src/store/slices/ordersSlice.ts",
       "source_location": "L44",
       "id": "slices_ordersslice_ordersslice",
-      "community": 39,
+      "community": 2,
       "norm_label": "ordersslice"
     },
     {
@@ -6986,6 +6986,51 @@
       "id": "slices_categoriesslice_categoriesslice",
       "community": 51,
       "norm_label": "categoriesslice"
+    },
+    {
+      "label": "brandsSlice.ts",
+      "file_type": "code",
+      "source_file": "src/store/slices/brandsSlice.ts",
+      "source_location": "L1",
+      "id": "src_store_slices_brandsslice_ts",
+      "community": 0,
+      "norm_label": "brandsslice.ts"
+    },
+    {
+      "label": "BrandsState",
+      "file_type": "code",
+      "source_file": "src/store/slices/brandsSlice.ts",
+      "source_location": "L11",
+      "id": "slices_brandsslice_brandsstate",
+      "community": 0,
+      "norm_label": "brandsstate"
+    },
+    {
+      "label": "initialState",
+      "file_type": "code",
+      "source_file": "src/store/slices/brandsSlice.ts",
+      "source_location": "L21",
+      "id": "slices_brandsslice_initialstate",
+      "community": 0,
+      "norm_label": "initialstate"
+    },
+    {
+      "label": "applyFetchFulfilled()",
+      "file_type": "code",
+      "source_file": "src/store/slices/brandsSlice.ts",
+      "source_location": "L31",
+      "id": "slices_brandsslice_applyfetchfulfilled",
+      "community": 0,
+      "norm_label": "applyfetchfulfilled()"
+    },
+    {
+      "label": "brandsSlice",
+      "file_type": "code",
+      "source_file": "src/store/slices/brandsSlice.ts",
+      "source_location": "L47",
+      "id": "slices_brandsslice_brandsslice",
+      "community": 0,
+      "norm_label": "brandsslice"
     },
     {
       "label": "authThunks.ts",
@@ -7177,10 +7222,19 @@
       "norm_label": "setdefaultaddressthunk"
     },
     {
-      "label": "fetchUsersThunk",
+      "label": "fetchUserByIdThunk",
       "file_type": "code",
       "source_file": "src/store/thunks/userThunks.ts",
       "source_location": "L128",
+      "id": "thunks_userthunks_fetchuserbyidthunk",
+      "community": 28,
+      "norm_label": "fetchuserbyidthunk"
+    },
+    {
+      "label": "fetchUsersThunk",
+      "file_type": "code",
+      "source_file": "src/store/thunks/userThunks.ts",
+      "source_location": "L144",
       "id": "thunks_userthunks_fetchusersthunk",
       "community": 32,
       "norm_label": "fetchusersthunk"
@@ -7189,7 +7243,7 @@
       "label": "updateUserRolesThunk",
       "file_type": "code",
       "source_file": "src/store/thunks/userThunks.ts",
-      "source_location": "L145",
+      "source_location": "L161",
       "id": "thunks_userthunks_updateuserrolesthunk",
       "community": 32,
       "norm_label": "updateuserrolesthunk"
@@ -7198,7 +7252,7 @@
       "label": "deleteAddressThunk",
       "file_type": "code",
       "source_file": "src/store/thunks/userThunks.ts",
-      "source_location": "L161",
+      "source_location": "L177",
       "id": "thunks_userthunks_deleteaddressthunk",
       "community": 32,
       "norm_label": "deleteaddressthunk"
@@ -7209,7 +7263,7 @@
       "source_file": "src/store/thunks/orderThunks.ts",
       "source_location": "L1",
       "id": "src_store_thunks_orderthunks_ts",
-      "community": 39,
+      "community": 2,
       "norm_label": "orderthunks.ts"
     },
     {
@@ -7218,7 +7272,7 @@
       "source_file": "src/store/thunks/orderThunks.ts",
       "source_location": "L11",
       "id": "thunks_orderthunks_geterrormessage",
-      "community": 39,
+      "community": 2,
       "norm_label": "geterrormessage()"
     },
     {
@@ -7227,7 +7281,7 @@
       "source_file": "src/store/thunks/orderThunks.ts",
       "source_location": "L17",
       "id": "thunks_orderthunks_fetchordersthunk",
-      "community": 39,
+      "community": 2,
       "norm_label": "fetchordersthunk"
     },
     {
@@ -7236,7 +7290,7 @@
       "source_file": "src/store/thunks/orderThunks.ts",
       "source_location": "L31",
       "id": "thunks_orderthunks_fetchorderbyidthunk",
-      "community": 39,
+      "community": 2,
       "norm_label": "fetchorderbyidthunk"
     },
     {
@@ -7245,7 +7299,7 @@
       "source_file": "src/store/thunks/orderThunks.ts",
       "source_location": "L48",
       "id": "thunks_orderthunks_createorderthunk",
-      "community": 39,
+      "community": 2,
       "norm_label": "createorderthunk"
     },
     {
@@ -7254,7 +7308,7 @@
       "source_file": "src/store/thunks/orderThunks.ts",
       "source_location": "L68",
       "id": "thunks_orderthunks_confirmorderpaymentthunk",
-      "community": 39,
+      "community": 2,
       "norm_label": "confirmorderpaymentthunk"
     },
     {
@@ -7263,7 +7317,7 @@
       "source_file": "src/store/thunks/orderThunks.ts",
       "source_location": "L87",
       "id": "thunks_orderthunks_cancelorderthunk",
-      "community": 39,
+      "community": 2,
       "norm_label": "cancelorderthunk"
     },
     {
@@ -7272,7 +7326,7 @@
       "source_file": "src/store/thunks/orderThunks.ts",
       "source_location": "L106",
       "id": "thunks_orderthunks_confirmorderthunk",
-      "community": 39,
+      "community": 2,
       "norm_label": "confirmorderthunk"
     },
     {
@@ -7281,7 +7335,7 @@
       "source_file": "src/store/thunks/orderThunks.ts",
       "source_location": "L125",
       "id": "thunks_orderthunks_updateorderstatusthunk",
-      "community": 39,
+      "community": 2,
       "norm_label": "updateorderstatusthunk"
     },
     {
@@ -7290,7 +7344,7 @@
       "source_file": "src/store/thunks/orderThunks.ts",
       "source_location": "L146",
       "id": "thunks_orderthunks_markorderdeliveredthunk",
-      "community": 39,
+      "community": 2,
       "norm_label": "markorderdeliveredthunk"
     },
     {
@@ -7299,7 +7353,7 @@
       "source_file": "src/store/thunks/orderThunks.ts",
       "source_location": "L168",
       "id": "thunks_orderthunks_calculateshippingfeethunk",
-      "community": 39,
+      "community": 2,
       "norm_label": "calculateshippingfeethunk"
     },
     {
@@ -7308,7 +7362,7 @@
       "source_file": "src/store/thunks/orderThunks.ts",
       "source_location": "L185",
       "id": "thunks_orderthunks_updateshipmentstatusthunk",
-      "community": 39,
+      "community": 2,
       "norm_label": "updateshipmentstatusthunk"
     },
     {
@@ -7677,7 +7731,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/types/auth/keycloakAuth.ts",
       "source_location": "L1",
       "id": "home_thang_workspace_react_fashion_src_types_auth_keycloakauth_ts",
-      "community": 73,
+      "community": 72,
       "norm_label": "keycloakauth.ts"
     },
     {
@@ -7686,7 +7740,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/types/auth/keycloakAuth.ts",
       "source_location": "L14",
       "id": "auth_keycloakauth_keycloaklogincredentials",
-      "community": 73,
+      "community": 72,
       "norm_label": "keycloaklogincredentials"
     },
     {
@@ -7695,7 +7749,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/types/auth/keycloakAuth.ts",
       "source_location": "L22",
       "id": "auth_keycloakauth_keycloakregistercredentials",
-      "community": 73,
+      "community": 72,
       "norm_label": "keycloakregistercredentials"
     },
     {
@@ -7704,7 +7758,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/types/auth/keycloakAuth.ts",
       "source_location": "L30",
       "id": "auth_keycloakauth_keycloakloginexchangerequest",
-      "community": 73,
+      "community": 72,
       "norm_label": "keycloakloginexchangerequest"
     },
     {
@@ -7713,7 +7767,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/types/auth/keycloakAuth.ts",
       "source_location": "L37",
       "id": "auth_keycloakauth_keycloakauthsession",
-      "community": 73,
+      "community": 72,
       "norm_label": "keycloakauthsession"
     },
     {
@@ -7722,7 +7776,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/types/auth/keycloakAuth.ts",
       "source_location": "L52",
       "id": "auth_keycloakauth_keycloaktokenresponse",
-      "community": 73,
+      "community": 72,
       "norm_label": "keycloaktokenresponse"
     },
     {
@@ -7731,7 +7785,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/types/auth/keycloakAuth.ts",
       "source_location": "L68",
       "id": "auth_keycloakauth_keycloakjwtpayload",
-      "community": 73,
+      "community": 72,
       "norm_label": "keycloakjwtpayload"
     },
     {
@@ -7740,7 +7794,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/types/auth/keycloakAuth.ts",
       "source_location": "L99",
       "id": "auth_keycloakauth_keycloakuserinfo",
-      "community": 73,
+      "community": 72,
       "norm_label": "keycloakuserinfo"
     },
     {
@@ -7749,7 +7803,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/types/auth/keycloakAuth.ts",
       "source_location": "L116",
       "id": "auth_keycloakauth_keycloakerrorresponse",
-      "community": 73,
+      "community": 72,
       "norm_label": "keycloakerrorresponse"
     },
     {
@@ -8667,7 +8721,7 @@
       "source_file": "src/utils/api.ts",
       "source_location": "L24",
       "id": "utils_api_apiclient",
-      "community": 76,
+      "community": 2,
       "norm_label": "apiclient"
     },
     {
@@ -8676,7 +8730,7 @@
       "source_file": "src/utils/api.ts",
       "source_location": "L27",
       "id": "utils_api_apiclient_constructor",
-      "community": 76,
+      "community": 2,
       "norm_label": ".constructor()"
     },
     {
@@ -8685,7 +8739,7 @@
       "source_file": "src/utils/api.ts",
       "source_location": "L39",
       "id": "utils_api_apiclient_setupinterceptors",
-      "community": 76,
+      "community": 2,
       "norm_label": ".setupinterceptors()"
     },
     {
@@ -8694,7 +8748,7 @@
       "source_file": "src/utils/api.ts",
       "source_location": "L137",
       "id": "utils_api_apiclient_get",
-      "community": 76,
+      "community": 2,
       "norm_label": ".get()"
     },
     {
@@ -8703,7 +8757,7 @@
       "source_file": "src/utils/api.ts",
       "source_location": "L150",
       "id": "utils_api_apiclient_post",
-      "community": 76,
+      "community": 2,
       "norm_label": ".post()"
     },
     {
@@ -8712,7 +8766,7 @@
       "source_file": "src/utils/api.ts",
       "source_location": "L167",
       "id": "utils_api_apiclient_put",
-      "community": 76,
+      "community": 2,
       "norm_label": ".put()"
     },
     {
@@ -8721,7 +8775,7 @@
       "source_file": "src/utils/api.ts",
       "source_location": "L184",
       "id": "utils_api_apiclient_patch",
-      "community": 76,
+      "community": 2,
       "norm_label": ".patch()"
     },
     {
@@ -8730,7 +8784,7 @@
       "source_file": "src/utils/api.ts",
       "source_location": "L201",
       "id": "utils_api_apiclient_delete",
-      "community": 76,
+      "community": 2,
       "norm_label": ".delete()"
     },
     {
@@ -10512,7 +10566,7 @@
       "source_file": "flow.md",
       "source_location": "L1",
       "id": "flow_md",
-      "community": 33,
+      "community": 31,
       "norm_label": "flow.md"
     },
     {
@@ -10521,7 +10575,7 @@
       "source_file": "flow.md",
       "source_location": "L1",
       "id": "react_fashion_flow_system_flow_lu_ng_ho_t_ng_chi_ti_t_3_service",
-      "community": 33,
+      "community": 31,
       "norm_label": "system flow \u2014 luong hoat \u0111ong chi tiet 3 service"
     },
     {
@@ -10530,7 +10584,7 @@
       "source_file": "flow.md",
       "source_location": "L7",
       "id": "react_fashion_flow_t_ng_quan_ki_n_tr_c",
-      "community": 33,
+      "community": 31,
       "norm_label": "tong quan kien truc"
     },
     {
@@ -10539,7 +10593,7 @@
       "source_file": "flow.md",
       "source_location": "L9",
       "id": "react_fashion_flow_codeblock_1",
-      "community": 33,
+      "community": 31,
       "norm_label": "code:block1 (frontend (react/vue...))"
     },
     {
@@ -10548,7 +10602,7 @@
       "source_file": "flow.md",
       "source_location": "L19",
       "id": "react_fashion_flow_lu_ng_1_kh_ch_t_h_ng_cod_thanh_to_n_khi_nh_n_h_ng",
-      "community": 33,
+      "community": 31,
       "norm_label": "luong 1: khach \u0111at hang \u2014 cod (thanh toan khi nhan hang)"
     },
     {
@@ -10557,7 +10611,7 @@
       "source_file": "flow.md",
       "source_location": "L21",
       "id": "react_fashion_flow_codeblock_2",
-      "community": 33,
+      "community": 31,
       "norm_label": "code:block2 (fe \u2192 [post /api/orders] \u2192 order service)"
     },
     {
@@ -10566,7 +10620,7 @@
       "source_file": "flow.md",
       "source_location": "L45",
       "id": "react_fashion_flow_codeblock_3",
-      "community": 33,
+      "community": 31,
       "norm_label": "code:block3 (admin \u2192 [put /api/shipping/{id}/deliver] \u2192 shipping service)"
     },
     {
@@ -10575,7 +10629,7 @@
       "source_file": "flow.md",
       "source_location": "L58",
       "id": "react_fashion_flow_lu_ng_2_kh_ch_t_h_ng_vnpay_thanh_to_n_online",
-      "community": 33,
+      "community": 31,
       "norm_label": "luong 2: khach \u0111at hang \u2014 vnpay (thanh toan online)"
     },
     {
@@ -10584,7 +10638,7 @@
       "source_file": "flow.md",
       "source_location": "L60",
       "id": "react_fashion_flow_codeblock_4",
-      "community": 33,
+      "community": 31,
       "norm_label": "code:block4 (fe \u2192 [post /api/orders] \u2192 order service)"
     },
     {
@@ -10593,7 +10647,7 @@
       "source_file": "flow.md",
       "source_location": "L94",
       "id": "react_fashion_flow_lu_ng_3_x_l_v_n_chuy_n_sau_khi_n_confirmed",
-      "community": 33,
+      "community": 31,
       "norm_label": "luong 3: xu ly van chuyen (sau khi \u0111on confirmed)"
     },
     {
@@ -10602,7 +10656,7 @@
       "source_file": "flow.md",
       "source_location": "L96",
       "id": "react_fashion_flow_codeblock_5",
-      "community": 33,
+      "community": 31,
       "norm_label": "code:block5 (admin dashboard \u2192 [post /api/shipping/create] \u2192 shipping ser)"
     },
     {
@@ -10611,7 +10665,7 @@
       "source_file": "flow.md",
       "source_location": "L109",
       "id": "react_fashion_flow_codeblock_6",
-      "community": 33,
+      "community": 31,
       "norm_label": "code:block6 (admin/shipper \u2192 [put /api/shipping/{id}/status])"
     },
     {
@@ -10620,7 +10674,7 @@
       "source_file": "flow.md",
       "source_location": "L124",
       "id": "react_fashion_flow_codeblock_7",
-      "community": 33,
+      "community": 31,
       "norm_label": "code:block7 (shipper \u2192 [put /api/shipping/{id}/deliver] \u2192 shipping servic)"
     },
     {
@@ -10629,7 +10683,7 @@
       "source_file": "flow.md",
       "source_location": "L138",
       "id": "react_fashion_flow_lu_ng_4_hu_n_h_ng",
-      "community": 33,
+      "community": 31,
       "norm_label": "luong 4: huy \u0111on hang"
     },
     {
@@ -10638,7 +10692,7 @@
       "source_file": "flow.md",
       "source_location": "L140",
       "id": "react_fashion_flow_codeblock_8",
-      "community": 33,
+      "community": 31,
       "norm_label": "code:block8 (chi huy \u0111uoc khi \u0111on o trang thai pending hoac confirmed.)"
     },
     {
@@ -10647,7 +10701,7 @@
       "source_file": "flow.md",
       "source_location": "L153",
       "id": "react_fashion_flow_lu_ng_5_ki_m_tra_ph_ship_tr_c_khi_t_h_ng_fe_t_g_i",
-      "community": 33,
+      "community": 31,
       "norm_label": "luong 5: kiem tra phi ship truoc khi \u0111at hang (fe tu goi)"
     },
     {
@@ -10656,7 +10710,7 @@
       "source_file": "flow.md",
       "source_location": "L157",
       "id": "react_fashion_flow_codeblock_9",
-      "community": 33,
+      "community": 31,
       "norm_label": "code:block9 (fe \u2192 [post /api/shipping/calculate-fee] \u2192 shipping service)"
     },
     {
@@ -10665,7 +10719,7 @@
       "source_file": "flow.md",
       "source_location": "L172",
       "id": "react_fashion_flow_s_tr_ng_th_i_n_h_ng",
-      "community": 33,
+      "community": 31,
       "norm_label": "so \u0111o trang thai \u0111on hang"
     },
     {
@@ -10674,7 +10728,7 @@
       "source_file": "flow.md",
       "source_location": "L174",
       "id": "react_fashion_flow_codeblock_10",
-      "community": 33,
+      "community": 31,
       "norm_label": "code:block10 (\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510)"
     },
     {
@@ -10683,7 +10737,7 @@
       "source_file": "flow.md",
       "source_location": "L201",
       "id": "react_fashion_flow_s_tr_ng_th_i_v_n_n",
-      "community": 33,
+      "community": 31,
       "norm_label": "so \u0111o trang thai van \u0111on"
     },
     {
@@ -10692,7 +10746,7 @@
       "source_file": "flow.md",
       "source_location": "L203",
       "id": "react_fashion_flow_codeblock_11",
-      "community": 33,
+      "community": 31,
       "norm_label": "code:block11 (pending \u2192 picked_up \u2192 in_transit \u2192 out_for_delivery \u2192 delive)"
     },
     {
@@ -10701,7 +10755,7 @@
       "source_file": "flow.md",
       "source_location": "L211",
       "id": "react_fashion_flow_l_u_t_ch_h_p_cho_frontend",
-      "community": 33,
+      "community": 31,
       "norm_label": "luu y tich hop cho frontend"
     },
     {
@@ -11115,7 +11169,7 @@
       "source_file": "payment.md",
       "source_location": "L346",
       "id": "react_fashion_payment_phase_3_dtos_25_min",
-      "community": 83,
+      "community": 81,
       "norm_label": "\ud83d\udcdd phase 3: dtos (25 min)"
     },
     {
@@ -11124,7 +11178,7 @@
       "source_file": "payment.md",
       "source_location": "L348",
       "id": "react_fashion_payment_file_6_dto_request_createpaymentrequest_java",
-      "community": 83,
+      "community": 81,
       "norm_label": "file 6: `dto/request/createpaymentrequest.java`"
     },
     {
@@ -11133,7 +11187,7 @@
       "source_file": "payment.md",
       "source_location": "L351",
       "id": "react_fashion_payment_codeblock_12",
-      "community": 83,
+      "community": 81,
       "norm_label": "code:java (create createpaymentrequest dto with validation:)"
     },
     {
@@ -11142,7 +11196,7 @@
       "source_file": "payment.md",
       "source_location": "L363",
       "id": "react_fashion_payment_codeblock_13",
-      "community": 83,
+      "community": 81,
       "norm_label": "code:java (package com.ecommerce.paymentservice.dto.request;)"
     },
     {
@@ -11151,7 +11205,7 @@
       "source_file": "payment.md",
       "source_location": "L399",
       "id": "react_fashion_payment_file_7_dto_response_paymentresponse_java",
-      "community": 83,
+      "community": 81,
       "norm_label": "file 7: `dto/response/paymentresponse.java`"
     },
     {
@@ -11160,7 +11214,7 @@
       "source_file": "payment.md",
       "source_location": "L402",
       "id": "react_fashion_payment_codeblock_14",
-      "community": 83,
+      "community": 81,
       "norm_label": "code:java (create paymentresponse dto for api responses:)"
     },
     {
@@ -11169,7 +11223,7 @@
       "source_file": "payment.md",
       "source_location": "L421",
       "id": "react_fashion_payment_codeblock_15",
-      "community": 83,
+      "community": 81,
       "norm_label": "code:java (package com.ecommerce.paymentservice.dto.response;)"
     },
     {
@@ -11520,7 +11574,7 @@
       "source_file": "shipping.md",
       "source_location": "L58",
       "id": "react_fashion_shipping_phase_1_dependencies_configuration_15_min",
-      "community": 85,
+      "community": 82,
       "norm_label": "\ud83d\udd27 phase 1: dependencies & configuration (15 min)"
     },
     {
@@ -11529,7 +11583,7 @@
       "source_file": "shipping.md",
       "source_location": "L60",
       "id": "react_fashion_shipping_file_1_pom_xml",
-      "community": 85,
+      "community": 82,
       "norm_label": "file 1: `pom.xml`"
     },
     {
@@ -11538,7 +11592,7 @@
       "source_file": "shipping.md",
       "source_location": "L63",
       "id": "react_fashion_shipping_codeblock_2",
-      "community": 85,
+      "community": 82,
       "norm_label": "code:xml (add dependencies for shipping service with ghn api integrati)"
     },
     {
@@ -11547,7 +11601,7 @@
       "source_file": "shipping.md",
       "source_location": "L76",
       "id": "react_fashion_shipping_codeblock_3",
-      "community": 85,
+      "community": 82,
       "norm_label": "code:xml (<dependencies>)"
     },
     {
@@ -11556,7 +11610,7 @@
       "source_file": "shipping.md",
       "source_location": "L123",
       "id": "react_fashion_shipping_file_2_application_yml",
-      "community": 85,
+      "community": 82,
       "norm_label": "file 2: `application.yml`"
     },
     {
@@ -11565,7 +11619,7 @@
       "source_file": "shipping.md",
       "source_location": "L126",
       "id": "react_fashion_shipping_codeblock_4",
-      "community": 85,
+      "community": 82,
       "norm_label": "code:yaml (configure shipping service with:)"
     },
     {
@@ -11574,7 +11628,7 @@
       "source_file": "shipping.md",
       "source_location": "L135",
       "id": "react_fashion_shipping_codeblock_5",
-      "community": 85,
+      "community": 82,
       "norm_label": "code:yaml (server:)"
     },
     {
@@ -11583,7 +11637,7 @@
       "source_file": "shipping.md",
       "source_location": "L182",
       "id": "react_fashion_shipping_phase_2_entities_enums_20_min",
-      "community": 69,
+      "community": 68,
       "norm_label": "\ud83d\uddc4\ufe0f phase 2: entities & enums (20 min)"
     },
     {
@@ -11592,7 +11646,7 @@
       "source_file": "shipping.md",
       "source_location": "L184",
       "id": "react_fashion_shipping_file_3_entity_shippingprovider_java",
-      "community": 69,
+      "community": 68,
       "norm_label": "file 3: `entity/shippingprovider.java`"
     },
     {
@@ -11601,7 +11655,7 @@
       "source_file": "shipping.md",
       "source_location": "L187",
       "id": "react_fashion_shipping_codeblock_6",
-      "community": 69,
+      "community": 68,
       "norm_label": "code:java (create shippingprovider enum with value: ghn)"
     },
     {
@@ -11610,7 +11664,7 @@
       "source_file": "shipping.md",
       "source_location": "L192",
       "id": "react_fashion_shipping_codeblock_7",
-      "community": 69,
+      "community": 68,
       "norm_label": "code:java (package com.ecommerce.shippingservice.entity;)"
     },
     {
@@ -11619,7 +11673,7 @@
       "source_file": "shipping.md",
       "source_location": "L202",
       "id": "react_fashion_shipping_file_4_entity_shipmentstatus_java",
-      "community": 69,
+      "community": 68,
       "norm_label": "file 4: `entity/shipmentstatus.java`"
     },
     {
@@ -11628,7 +11682,7 @@
       "source_file": "shipping.md",
       "source_location": "L205",
       "id": "react_fashion_shipping_codeblock_8",
-      "community": 69,
+      "community": 68,
       "norm_label": "code:java (create shipmentstatus enum with values:)"
     },
     {
@@ -11637,7 +11691,7 @@
       "source_file": "shipping.md",
       "source_location": "L211",
       "id": "react_fashion_shipping_codeblock_9",
-      "community": 69,
+      "community": 68,
       "norm_label": "code:java (package com.ecommerce.shippingservice.entity;)"
     },
     {
@@ -11646,7 +11700,7 @@
       "source_file": "shipping.md",
       "source_location": "L227",
       "id": "react_fashion_shipping_file_5_entity_shipment_java",
-      "community": 69,
+      "community": 68,
       "norm_label": "file 5: `entity/shipment.java`"
     },
     {
@@ -11655,7 +11709,7 @@
       "source_file": "shipping.md",
       "source_location": "L230",
       "id": "react_fashion_shipping_codeblock_10",
-      "community": 69,
+      "community": 68,
       "norm_label": "code:java (create shipment entity with jpa annotations:)"
     },
     {
@@ -11664,7 +11718,7 @@
       "source_file": "shipping.md",
       "source_location": "L264",
       "id": "react_fashion_shipping_codeblock_11",
-      "community": 69,
+      "community": 68,
       "norm_label": "code:java (package com.ecommerce.shippingservice.entity;)"
     },
     {
@@ -11880,7 +11934,7 @@
       "source_file": "shipping.md",
       "source_location": "L694",
       "id": "react_fashion_shipping_phase_5_ghn_client_30_min",
-      "community": 99,
+      "community": 97,
       "norm_label": "\ud83d\udd0c phase 5: ghn client (30 min)"
     },
     {
@@ -11889,7 +11943,7 @@
       "source_file": "shipping.md",
       "source_location": "L696",
       "id": "react_fashion_shipping_file_13_client_ghnclient_java",
-      "community": 99,
+      "community": 97,
       "norm_label": "file 13: `client/ghnclient.java`"
     },
     {
@@ -11898,7 +11952,7 @@
       "source_file": "shipping.md",
       "source_location": "L699",
       "id": "react_fashion_shipping_codeblock_26",
-      "community": 99,
+      "community": 97,
       "norm_label": "code:java (create ghnclient with @component:)"
     },
     {
@@ -11907,7 +11961,7 @@
       "source_file": "shipping.md",
       "source_location": "L734",
       "id": "react_fashion_shipping_codeblock_27",
-      "community": 99,
+      "community": 97,
       "norm_label": "code:java (package com.ecommerce.shippingservice.client;)"
     },
     {
@@ -12861,7 +12915,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L131",
       "id": "docs_tailwind_design_system_heading_styles_h1_h6",
-      "community": 78,
+      "community": 75,
       "norm_label": "heading styles (h1 - h6)"
     },
     {
@@ -12870,7 +12924,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L135",
       "id": "docs_tailwind_design_system_h1_48px",
-      "community": 78,
+      "community": 75,
       "norm_label": "h1 - 48px"
     },
     {
@@ -12879,7 +12933,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L144",
       "id": "docs_tailwind_design_system_h2_40px",
-      "community": 78,
+      "community": 75,
       "norm_label": "h2 - 40px"
     },
     {
@@ -12888,7 +12942,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L153",
       "id": "docs_tailwind_design_system_h3_33px",
-      "community": 78,
+      "community": 75,
       "norm_label": "h3 - 33px"
     },
     {
@@ -12897,7 +12951,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L162",
       "id": "docs_tailwind_design_system_h4_28px",
-      "community": 78,
+      "community": 75,
       "norm_label": "h4 - 28px"
     },
     {
@@ -12906,7 +12960,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L171",
       "id": "docs_tailwind_design_system_h5_23px",
-      "community": 78,
+      "community": 75,
       "norm_label": "h5 - 23px"
     },
     {
@@ -12915,7 +12969,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L180",
       "id": "docs_tailwind_design_system_h6_19px",
-      "community": 78,
+      "community": 75,
       "norm_label": "h6 - 19px"
     },
     {
@@ -12924,7 +12978,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L191",
       "id": "docs_tailwind_design_system_codeblock_6",
-      "community": 78,
+      "community": 75,
       "norm_label": "code:jsx (<h1 classname=\"text-h1-bold text-gray-900\">)"
     },
     {
@@ -13158,7 +13212,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L385",
       "id": "docs_tailwind_design_system_component_examples",
-      "community": 87,
+      "community": 84,
       "norm_label": "\ud83d\udce6 component examples"
     },
     {
@@ -13167,7 +13221,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L387",
       "id": "docs_tailwind_design_system_card_component",
-      "community": 87,
+      "community": 84,
       "norm_label": "card component"
     },
     {
@@ -13176,7 +13230,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L389",
       "id": "docs_tailwind_design_system_codeblock_18",
-      "community": 87,
+      "community": 84,
       "norm_label": "code:jsx (<div classname=\"bg-white dark:bg-gray-800 shadow-md rounded-)"
     },
     {
@@ -13185,7 +13239,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L403",
       "id": "docs_tailwind_design_system_form_input",
-      "community": 87,
+      "community": 84,
       "norm_label": "form input"
     },
     {
@@ -13194,7 +13248,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L405",
       "id": "docs_tailwind_design_system_codeblock_19",
-      "community": 87,
+      "community": 84,
       "norm_label": "code:jsx (<div classname=\"space-y-2\">)"
     },
     {
@@ -13203,7 +13257,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L419",
       "id": "docs_tailwind_design_system_alert_component",
-      "community": 87,
+      "community": 84,
       "norm_label": "alert component"
     },
     {
@@ -13212,7 +13266,7 @@
       "source_file": "/home/thang/Workspace/REACT-FASHION/docs/TAILWIND_DESIGN_SYSTEM.md",
       "source_location": "L421",
       "id": "docs_tailwind_design_system_codeblock_20",
-      "community": 87,
+      "community": 84,
       "norm_label": "code:jsx (<div classname=\"bg-accent-700 border-l-4 border-accent-900 p)"
     },
     {
@@ -14714,7 +14768,7 @@
       "file_type": "code",
       "source_file": "src/pages/productV2/index.tsx",
       "source_location": "L1",
-      "community": 46,
+      "community": 44,
       "norm_label": "index.tsx",
       "id": "src_pages_productv2_index_tsx"
     },
@@ -15533,7 +15587,7 @@
       "file_type": "code",
       "source_file": "src/routes/v2/userRoute.tsx",
       "source_location": "L10",
-      "community": 46,
+      "community": 44,
       "norm_label": "products",
       "id": "v2_userroute_products"
     },
@@ -16010,7 +16064,7 @@
       "file_type": "code",
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/store/thunks/orderThunks.ts",
       "source_location": "L1",
-      "community": 39,
+      "community": 2,
       "norm_label": "orderthunks.ts",
       "id": "home_thang_workspace_react_fashion_src_store_thunks_orderthunks_ts"
     },
@@ -16181,7 +16235,7 @@
       "file_type": "code",
       "source_file": "/home/thang/Workspace/REACT-FASHION/src/store/slices/ordersSlice.ts",
       "source_location": "L1",
-      "community": 39,
+      "community": 2,
       "norm_label": "ordersslice.ts",
       "id": "home_thang_workspace_react_fashion_src_store_slices_ordersslice_ts"
     },
@@ -17045,7 +17099,7 @@
       "file_type": "code",
       "source_file": "tailwind.config.js",
       "source_location": "L6",
-      "community": 75,
+      "community": 74,
       "norm_label": "outlineringopacityplugin",
       "id": "react_fashion_tailwind_config_outlineringopacityplugin"
     },
@@ -17396,7 +17450,7 @@
       "file_type": "code",
       "source_file": "src/routes/v2/userRoute.tsx",
       "source_location": "L16",
-      "community": 46,
+      "community": 44,
       "norm_label": "productdetail",
       "id": "v2_userroute_productdetail"
     },
@@ -17504,7 +17558,7 @@
       "file_type": "code",
       "source_file": "src/routes/v2/authV2Routes.tsx",
       "source_location": "L1",
-      "community": 90,
+      "community": 88,
       "norm_label": "authv2routes.tsx",
       "id": "src_routes_v2_authv2routes_tsx"
     },
@@ -17513,7 +17567,7 @@
       "file_type": "code",
       "source_file": "src/routes/v2/authV2Routes.tsx",
       "source_location": "L4",
-      "community": 90,
+      "community": 88,
       "norm_label": "loginv2",
       "id": "v2_authv2routes_loginv2"
     },
@@ -17522,7 +17576,7 @@
       "file_type": "code",
       "source_file": "src/routes/v2/authV2Routes.tsx",
       "source_location": "L5",
-      "community": 90,
+      "community": 88,
       "norm_label": "signupv2",
       "id": "v2_authv2routes_signupv2"
     },
@@ -17531,7 +17585,7 @@
       "file_type": "code",
       "source_file": "src/routes/v2/authV2Routes.tsx",
       "source_location": "L6",
-      "community": 90,
+      "community": 88,
       "norm_label": "forgotpasswordv2",
       "id": "v2_authv2routes_forgotpasswordv2"
     },
@@ -17540,7 +17594,7 @@
       "file_type": "code",
       "source_file": "src/routes/v2/authV2Routes.tsx",
       "source_location": "L7",
-      "community": 90,
+      "community": 88,
       "norm_label": "forgotpasswordsentv2",
       "id": "v2_authv2routes_forgotpasswordsentv2"
     },
@@ -17549,7 +17603,7 @@
       "file_type": "code",
       "source_file": "src/routes/v2/authV2Routes.tsx",
       "source_location": "L9",
-      "community": 90,
+      "community": 88,
       "norm_label": "authv2routes",
       "id": "v2_authv2routes_authv2routes"
     },
@@ -17558,7 +17612,7 @@
       "file_type": "code",
       "source_file": "/home/thang/Workspace/REACT-FASHION/tailwind.config.js",
       "source_location": "L1",
-      "community": 75,
+      "community": 74,
       "norm_label": "tailwind.config.js",
       "id": "home_thang_workspace_react_fashion_tailwind_config_js"
     },
@@ -17576,7 +17630,7 @@
       "file_type": "code",
       "source_file": "src/routes/v2/userRoute.tsx",
       "source_location": "L16",
-      "community": 46,
+      "community": 44,
       "norm_label": "profile",
       "id": "v2_userroute_profile"
     },
@@ -19914,7 +19968,7 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/pages/userv2/AdminUserList/sections/AdminUserList.tsx",
+      "source_file": "src/pages/AdminProductV2/AdminProductList/sections/AdminProductList.tsx",
       "source_location": "L4",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -20057,7 +20111,7 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/pages/userv2/AdminUserList/sections/AdminUserList.tsx",
+      "source_file": "src/pages/AdminProductV2/AdminProductList/sections/AdminProductList.tsx",
       "source_location": "L4",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -22175,7 +22229,7 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/pages/userv2/AdminUserList/sections/AdminUserList.tsx",
+      "source_file": "src/pages/AdminProductV2/AdminProductList/sections/AdminProductList.tsx",
       "source_location": "L5",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -22197,11 +22251,11 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/pages/AdminProductV2/AdminProductList/sections/AdminProductList.tsx",
+      "source_file": "src/pages/AdminBrandV2/AdminBrandList/sections/AdminBrandList.tsx",
       "source_location": "L5",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "src_pages_adminproductv2_adminproductlist_sections_adminproductlist_tsx",
+      "source": "src_pages_adminbrandv2_adminbrandlist_sections_adminbrandlist_tsx",
       "target": "src_components_ui_badge_tsx"
     },
     {
@@ -22384,7 +22438,7 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/pages/userv2/AdminUserList/sections/AdminUserList.tsx",
+      "source_file": "src/pages/AdminProductV2/AdminProductList/sections/AdminProductList.tsx",
       "source_location": "L5",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -22406,11 +22460,11 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/pages/AdminProductV2/AdminProductList/sections/AdminProductList.tsx",
+      "source_file": "src/pages/AdminBrandV2/AdminBrandList/sections/AdminBrandList.tsx",
       "source_location": "L5",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "src_pages_adminproductv2_adminproductlist_sections_adminproductlist_tsx",
+      "source": "src_pages_adminbrandv2_adminbrandlist_sections_adminbrandlist_tsx",
       "target": "ui_badge_badge"
     },
     {
@@ -23981,6 +24035,17 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/forms/AdminUserV2/index.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_forms_adminuserv2_index_tsx",
+      "target": "src_components_ui_checkbox_tsx"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/pages/user/ProfileV2/sections/ProfileDetailsSection.tsx",
       "source_location": "L7",
       "weight": 1.0,
@@ -24041,6 +24106,17 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "src_pages_cartv2_sections_cartitemlistsection_tsx",
+      "target": "ui_checkbox_checkbox"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/forms/AdminUserV2/index.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_forms_adminuserv2_index_tsx",
       "target": "ui_checkbox_checkbox"
     },
     {
@@ -27087,6 +27163,17 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/pages/AdminBrandV2/AdminBrandList/AdminBrandListPage.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_adminbrandv2_adminbrandlist_adminbrandlistpage_tsx",
+      "target": "src_components_buttons_iconbutton_tsx"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/forms/AdminProductV2/components/AdminProductGalleryModal.tsx",
       "source_location": "L4",
       "weight": 1.0,
@@ -27279,6 +27366,17 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "src_pages_userproductv2_userproductdetailsv2_sections_productdetailsrightsection_tsx",
+      "target": "buttons_iconbutton_iconbutton"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/AdminBrandV2/AdminBrandList/AdminBrandListPage.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_adminbrandv2_adminbrandlist_adminbrandlistpage_tsx",
       "target": "buttons_iconbutton_iconbutton"
     },
     {
@@ -27599,6 +27697,17 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/pages/AdminBrandV2/AdminBrandList/AdminBrandListPage.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_adminbrandv2_adminbrandlist_adminbrandlistpage_tsx",
+      "target": "src_components_buttons_labelbutton_tsx"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/forms/AdminProductV2/components/AdminProductGalleryModal.tsx",
       "source_location": "L6",
       "weight": 1.0,
@@ -27857,6 +27966,17 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "src_pages_userproductv2_userproductdetailsv2_sections_productdetailsrightsection_tsx",
+      "target": "buttons_labelbutton_labelbutton"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/AdminBrandV2/AdminBrandList/AdminBrandListPage.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_adminbrandv2_adminbrandlist_adminbrandlistpage_tsx",
       "target": "buttons_labelbutton_labelbutton"
     },
     {
@@ -28857,6 +28977,28 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/pages/AdminUserV2/index.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "src_pages_adminuserv2_index_tsx",
+      "target": "src_components_admin_adminlistpagelayout_tsx",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/userv2/AdminUserList/AdminUserListPage.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_userv2_adminuserlist_adminuserlistpage_tsx",
+      "target": "src_components_admin_adminlistpagelayout_tsx"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/pages/AdminCategoryV2/AdminCategoryList/AdminCategoryListPage.tsx",
       "source_location": "L5",
       "weight": 1.0,
@@ -29177,17 +29319,6 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/pages/userv2/AdminUserList/userDisplayMappers.ts",
-      "source_location": "L1",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_pages_userv2_adminuserlist_userdisplaymappers_ts",
-      "target": "src_constants_images_ts"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
       "source_file": "src/pages/AdminProductV2/adminProductDisplayMappers.ts",
       "source_location": "L1",
       "weight": 1.0,
@@ -29248,6 +29379,28 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "src_pages_userproductv2_userproductlistv2_productsexploredata_ts",
+      "target": "src_constants_images_ts"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/AdminUserV2/userDisplayMappers.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "src_pages_adminuserv2_userdisplaymappers_ts",
+      "target": "src_constants_images_ts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/userv2/AdminUserList/userDisplayMappers.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_userv2_adminuserlist_userdisplaymappers_ts",
       "target": "src_constants_images_ts"
     },
     {
@@ -29430,17 +29583,6 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/pages/userv2/AdminUserList/userDisplayMappers.ts",
-      "source_location": "L1",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_pages_userv2_adminuserlist_userdisplaymappers_ts",
-      "target": "constants_images_images"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
       "source_file": "src/pages/AdminProductV2/adminProductDisplayMappers.ts",
       "source_location": "L1",
       "weight": 1.0,
@@ -29501,6 +29643,28 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "src_pages_userproductv2_userproductlistv2_productsexploredata_ts",
+      "target": "constants_images_images"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/AdminUserV2/userDisplayMappers.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "src_pages_adminuserv2_userdisplaymappers_ts",
+      "target": "constants_images_images",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/userv2/AdminUserList/userDisplayMappers.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_userv2_adminuserlist_userdisplaymappers_ts",
       "target": "constants_images_images"
     },
     {
@@ -32644,6 +32808,17 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "src_hooks_user_useadminusers_ts",
+      "target": "src_store_slices_userslice_ts"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/user/useAdminUsers.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_hooks_user_useadminusers_ts",
       "target": "src_store_thunks_index_ts"
     },
     {
@@ -32692,12 +32867,78 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/pages/AdminUserV2/index.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "src_pages_adminuserv2_index_tsx",
+      "target": "src_hooks_user_useadminusers_ts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/forms/AdminUserV2/hooks/useAdminUserV2Form.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_forms_adminuserv2_hooks_useadminuserv2form_ts",
+      "target": "src_hooks_user_useadminusers_ts"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/pages/userv2/AdminUserList/AdminUserListPage.tsx",
       "source_location": "L5",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "src_pages_userv2_adminuserlist_adminuserlistpage_tsx",
       "target": "src_hooks_user_useadminusers_ts"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/AdminUserV2/index.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "src_pages_adminuserv2_index_tsx",
+      "target": "user_useadminusers_useadminusers",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/forms/AdminUserV2/hooks/useAdminUserV2Form.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_forms_adminuserv2_hooks_useadminuserv2form_ts",
+      "target": "user_useadminusers_useadminusers"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/AdminUserV2/index.tsx",
+      "source_location": "L125",
+      "weight": 1.0,
+      "source": "adminuserv2_index_adminuserlistpage",
+      "target": "user_useadminusers_useadminusers"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/forms/AdminUserV2/hooks/useAdminUserV2Form.ts",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "hooks_useadminuserv2form_useadminuserv2form",
+      "target": "user_useadminusers_useadminusers"
     },
     {
       "relation": "imports",
@@ -40737,207 +40978,6 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/pages/userv2/AdminUserList/userDisplayMappers.ts",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_pages_userv2_adminuserlist_userdisplaymappers_ts",
-      "target": "src_pages_userv2_adminuserlist_sections_adminuserlist_tsx"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/userv2/AdminUserList/userDisplayMappers.ts",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_pages_userv2_adminuserlist_userdisplaymappers_ts",
-      "target": "sections_adminuserlist_adminuserrow"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/userv2/AdminUserList/userDisplayMappers.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_pages_userv2_adminuserlist_userdisplaymappers_ts",
-      "target": "src_types_auth_auth_ts"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/userv2/AdminUserList/userDisplayMappers.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_pages_userv2_adminuserlist_userdisplaymappers_ts",
-      "target": "auth_auth_user"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/userv2/AdminUserList/userDisplayMappers.ts",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_pages_userv2_adminuserlist_userdisplaymappers_ts",
-      "target": "utils_date_formatdatetime"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/userv2/AdminUserList/userDisplayMappers.ts",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_pages_userv2_adminuserlist_userdisplaymappers_ts",
-      "target": "adminuserlist_userdisplaymappers_formatenumlabel"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/userv2/AdminUserList/userDisplayMappers.ts",
-      "source_location": "L13",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_pages_userv2_adminuserlist_userdisplaymappers_ts",
-      "target": "adminuserlist_userdisplaymappers_usertoadminuserrow"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/userv2/AdminUserList/AdminUserListPage.tsx",
-      "source_location": "L7",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_pages_userv2_adminuserlist_adminuserlistpage_tsx",
-      "target": "src_pages_userv2_adminuserlist_userdisplaymappers_ts"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/userv2/AdminUserList/userDisplayMappers.ts",
-      "source_location": "L24",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "adminuserlist_userdisplaymappers_usertoadminuserrow",
-      "target": "adminuserlist_userdisplaymappers_formatenumlabel"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/userv2/AdminUserList/AdminUserListPage.tsx",
-      "source_location": "L7",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_pages_userv2_adminuserlist_adminuserlistpage_tsx",
-      "target": "adminuserlist_userdisplaymappers_usertoadminuserrow"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/pages/userv2/AdminUserList/userDisplayMappers.ts",
-      "source_location": "L25",
-      "weight": 1.0,
-      "source": "adminuserlist_userdisplaymappers_usertoadminuserrow",
-      "target": "utils_date_formatdatetime"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/userv2/AdminUserList/AdminUserListPage.tsx",
-      "source_location": "L10",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_pages_userv2_adminuserlist_adminuserlistpage_tsx",
-      "target": "src_pages_userv2_adminuserlist_sections_adminuserlist_tsx"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/userv2/AdminUserList/AdminUserListPage.tsx",
-      "source_location": "L10",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_pages_userv2_adminuserlist_adminuserlistpage_tsx",
-      "target": "sections_adminuserlist_adminuserrow"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/userv2/AdminUserList/AdminUserListPage.tsx",
-      "source_location": "L14",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_pages_userv2_adminuserlist_adminuserlistpage_tsx",
-      "target": "adminuserlist_adminuserlistpage_adminuserlistpage"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/userv2/AdminUserList/sections/AdminUserList.tsx",
-      "source_location": "L15",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_pages_userv2_adminuserlist_sections_adminuserlist_tsx",
-      "target": "sections_adminuserlist_adminuserrow"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/userv2/AdminUserList/sections/AdminUserList.tsx",
-      "source_location": "L29",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_pages_userv2_adminuserlist_sections_adminuserlist_tsx",
-      "target": "sections_adminuserlist_adminuserlistprops"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/userv2/AdminUserList/sections/AdminUserList.tsx",
-      "source_location": "L40",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_pages_userv2_adminuserlist_sections_adminuserlist_tsx",
-      "target": "sections_adminuserlist_status_badge"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/userv2/AdminUserList/sections/AdminUserList.tsx",
-      "source_location": "L46",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_pages_userv2_adminuserlist_sections_adminuserlist_tsx",
-      "target": "sections_adminuserlist_buildusercolumns"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/userv2/AdminUserList/sections/AdminUserList.tsx",
-      "source_location": "L142",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_pages_userv2_adminuserlist_sections_adminuserlist_tsx",
-      "target": "sections_adminuserlist_adminuserlist"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
       "source_file": "src/pages/payment/VnpayReturnPage.tsx",
       "source_location": "L19",
       "weight": 1.0,
@@ -48476,6 +48516,17 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "src_store_slices_userslice_ts",
+      "target": "thunks_userthunks_fetchuserbyidthunk"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/store/slices/userSlice.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_store_slices_userslice_ts",
       "target": "thunks_userthunks_fetchusersthunk"
     },
     {
@@ -50119,6 +50170,16 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "src_store_thunks_userthunks_ts",
+      "target": "thunks_userthunks_fetchuserbyidthunk"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/store/thunks/userThunks.ts",
+      "source_location": "L128",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_store_thunks_userthunks_ts",
       "target": "thunks_userthunks_fetchusersthunk"
     },
     {
@@ -50562,7 +50623,7 @@
       "target": "thunks_orderthunks_cancelorderthunk"
     },
     {
-      "relation": "imports_from",
+      "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/store/thunks/brandThunks.ts",
@@ -52100,6 +52161,39 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/forms/AdminUserV2/mapper.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_forms_adminuserv2_mapper_ts",
+      "target": "src_types_auth_auth_ts"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/forms/AdminUserV2/index.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_forms_adminuserv2_index_tsx",
+      "target": "src_types_auth_auth_ts"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/userv2/AdminUserList/userDisplayMappers.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_userv2_adminuserlist_userdisplaymappers_ts",
+      "target": "src_types_auth_auth_ts"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/types/order/order.ts",
       "source_location": "L1",
       "weight": 1.0,
@@ -52161,6 +52255,39 @@
       "confidence_score": 1.0,
       "source": "src_pages_auth_authcallback_tsx",
       "target": "src_types_auth_auth_ts"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/forms/AdminUserV2/mapper.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_forms_adminuserv2_mapper_ts",
+      "target": "auth_auth_user"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/forms/AdminUserV2/index.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_forms_adminuserv2_index_tsx",
+      "target": "auth_auth_user"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/userv2/AdminUserList/userDisplayMappers.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_userv2_adminuserlist_userdisplaymappers_ts",
+      "target": "auth_auth_user"
     },
     {
       "relation": "imports",
@@ -55483,6 +55610,28 @@
       "confidence_score": 1.0,
       "source": "home_thang_workspace_react_fashion_src_utils_date_ts",
       "target": "utils_date_setlocale"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/userv2/AdminUserList/userDisplayMappers.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_userv2_adminuserlist_userdisplaymappers_ts",
+      "target": "utils_date_formatdatetime"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/userv2/AdminUserList/userDisplayMappers.ts",
+      "source_location": "L25",
+      "weight": 1.0,
+      "source": "adminuserlist_userdisplaymappers_usertoadminuserrow",
+      "target": "utils_date_formatdatetime"
     },
     {
       "relation": "contains",
