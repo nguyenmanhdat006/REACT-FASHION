@@ -7,7 +7,11 @@ import {
   type ListQueryParams,
   type PageMeta,
 } from '@/types/common/common';
-import type { Category, CategoryPayload } from '@/types/product/product';
+import type {
+  Category,
+  CategoryPayload,
+  UpdateCategoryRequest,
+} from '@/types/product/product';
 import { apiFailureMessage } from '@/utils/apiEnvelope';
 
 const getErrorMessage = (error: unknown, fallback: string): string => {
@@ -68,6 +72,38 @@ export const createCategoryThunk = createAsyncThunk<
     return res;
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to create category'));
+  }
+});
+
+export const fetchCategoryByIdThunk = createAsyncThunk<
+  ApiResponse<Category>,
+  string,
+  { rejectValue: string }
+>('categories/fetchCategoryById', async (id, { rejectWithValue }) => {
+  try {
+    const res = await categoryService.getCategoryById(id);
+    if (!res.success || res.data === undefined || res.data === null) {
+      return rejectWithValue(apiFailureMessage(res));
+    }
+    return res;
+  } catch (error) {
+    return rejectWithValue(getErrorMessage(error, 'Failed to fetch category'));
+  }
+});
+
+export const updateCategoryThunk = createAsyncThunk<
+  ApiResponse<Category>,
+  { id: string; data: UpdateCategoryRequest },
+  { rejectValue: string }
+>('categories/updateCategory', async ({ id, data }, { rejectWithValue }) => {
+  try {
+    const res = await categoryService.updateCategory(id, data);
+    if (!res.success || res.data === undefined || res.data === null) {
+      return rejectWithValue(apiFailureMessage(res));
+    }
+    return res;
+  } catch (error) {
+    return rejectWithValue(getErrorMessage(error, 'Failed to update category'));
   }
 });
 

@@ -8,7 +8,9 @@ export {
 
 export {
   fetchCategoriesThunk,
+  fetchCategoryByIdThunk,
   createCategoryThunk,
+  updateCategoryThunk,
   deleteCategoryThunk,
 } from './categoryThunks';
 
