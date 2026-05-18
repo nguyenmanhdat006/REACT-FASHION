@@ -11,6 +11,7 @@ import {
   SIDEBAR_LOGOUT_ICON,
 } from '@/pages/UserHomeV2/homeDemoData';
 import { ROUTES } from '@/constants';
+import { useAuth } from '@/hooks/auth/useAuth';
 import { getSidebarNavItems } from '@/routes/appShellRoutes';
 
 import { NavButton } from './components/NavButton';
@@ -19,6 +20,7 @@ export function NavigationMenuSection(): JSX.Element {
   const LogOutIcon = SIDEBAR_LOGOUT_ICON;
   const navigate = useNavigate();
   const location = useLocation();
+  const { logout, isLoading, isAuthenticated } = useAuth();
   const isAdminShell = location.pathname.includes('/admin');
   const sidebarNavItems = getSidebarNavItems(location.pathname);
 
@@ -113,16 +115,26 @@ export function NavigationMenuSection(): JSX.Element {
       <Button
         type="button"
         variant="ghost"
+        disabled={isLoading}
+        aria-label={isAuthenticated ? 'Log out of your account' : 'Sign in to your account'}
         className={cn(
           'relative flex self-stretch items-center gap-2 overflow-hidden rounded-2xl bg-white p-4 text-left',
-          'h-auto justify-start shadow-none hover:bg-gray-50 focus-visible:ring-offset-0 hover:text-red-500',
+          'h-auto justify-start shadow-none hover:bg-gray-50 focus-visible:ring-offset-0',
+          isAuthenticated && 'hover:text-red-500',
         )}
+        onClick={() => {
+          if (isAuthenticated) {
+            void logout();
+            return;
+          }
+          navigate(ROUTES.LOGIN);
+        }}
       >
         <span className="relative flex shrink-0 items-center justify-center p-0.5">
           <LogOutIcon className="h-6 w-6" aria-hidden />
         </span>
         <span className="relative w-fit whitespace-nowrap text-body-regular">
-          Logout
+          {isAuthenticated ? 'Logout' : 'Sign in'}
         </span>
       </Button>
     </aside>
