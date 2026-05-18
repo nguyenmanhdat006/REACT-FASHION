@@ -1,4 +1,4 @@
-import { Camera, MapPin, Pencil } from 'lucide-react';
+import { Camera, MapPin, Pencil, UserRound } from 'lucide-react';
 import type { ChangeEvent, JSX, RefObject } from 'react';
 
 import { IconLabelButton } from '@/components/buttons/IconLabelButton';
@@ -7,8 +7,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 export type ProfileCoverSummarySectionProps = {
-  coverSrc: string;
-  avatarSrc: string;
+  avatarUrl?: string | null;
   displayName: string;
   initials: string;
   profileEditing: boolean;
@@ -25,9 +24,23 @@ export type ProfileCoverSummarySectionProps = {
 /** Kéo block info lên chồng bìa (avatar cắm vào cover). */
 const COVER_OVERLAP_CLASS = '-mt-10';
 
+function ProfileCoverPlaceholder(): JSX.Element {
+  return (
+    <>
+      <div
+        className="absolute inset-0 bg-gradient-to-br from-primary-100 via-gray-50 to-primary-200/70"
+        aria-hidden
+      />
+      <div
+        className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(255,255,255,0.85)_0%,transparent_45%),radial-gradient(circle_at_85%_70%,rgba(0,0,0,0.06)_0%,transparent_50%)]"
+        aria-hidden
+      />
+    </>
+  );
+}
+
 export function ProfileCoverSummarySection({
-  coverSrc,
-  avatarSrc,
+  avatarUrl,
   displayName,
   initials,
   profileEditing,
@@ -40,18 +53,16 @@ export function ProfileCoverSummarySection({
   onAvatarUploadClick,
   onAvatarFileChange,
 }: ProfileCoverSummarySectionProps): JSX.Element {
+  const hasAvatarPhoto = Boolean(avatarUrl?.trim());
+
   return (
     <section
       aria-label="Cover and account summary"
       className="flex flex-col"
     >
-      <div className="relative h-[200px] w-full shrink-0">
-        <img
-          src={coverSrc}
-          alt=""
-          className="absolute inset-0 size-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-gray-black/30 to-transparent" />
+      <div className="relative h-[200px] w-full shrink-0 overflow-hidden">
+        <ProfileCoverPlaceholder />
+        <div className="absolute inset-0 bg-gradient-to-t from-gray-black/25 to-transparent" />
         <Button
           type="button"
           variant="secondary"
@@ -86,9 +97,15 @@ export function ProfileCoverSummarySection({
                 avatarUploadBusy && 'opacity-70',
               )}
             >
-              <AvatarImage src={avatarSrc} alt="" />
-              <AvatarFallback className="bg-primary-700 text-h5-semi text-primary-900">
-                {initials}
+              {hasAvatarPhoto ? (
+                <AvatarImage src={avatarUrl!} alt="" />
+              ) : null}
+              <AvatarFallback className="bg-gray-100 text-h5-semi uppercase text-gray-700">
+                {initials ? (
+                  initials
+                ) : (
+                  <UserRound className="size-8 text-gray-500 sm:size-9" strokeWidth={1.75} />
+                )}
               </AvatarFallback>
             </Avatar>
             <Button

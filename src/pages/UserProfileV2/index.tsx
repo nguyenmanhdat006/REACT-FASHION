@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import { Helmet } from 'react-helmet-async';
 
 import { Card } from '@/components/ui/card';
-import { IMAGES } from '@/constants/images';
 import { useProfile } from '@/hooks/user/useProfile';
 import {
   addressSchema,
@@ -20,6 +19,10 @@ import {
 } from '@/pages/UserProfileV2/profileForm';
 import { useAppSelector } from '@/store/hooks';
 import { dash } from '@/utils/formDisplay';
+import {
+  initialsFromDisplayName,
+  resolveProfileDisplayName,
+} from '@/utils/displayName';
 
 import { useProfileAvatarUpload } from './hooks/useProfileAvatarUpload';
 import { ProfileAddressSection } from './sections/ProfileAddressSection';
@@ -175,28 +178,20 @@ export default function UserProfileV2(): JSX.Element {
     void deleteAddress(id);
   };
 
-  const displayName = profile?.fullName?.trim() || 'Vũ Cát Tường';
-  const avatarSrc = profile?.avatarUrl ?? IMAGES.USER_AVATAR;
-  const coverSrc = IMAGES.OFFER_BANNER;
-
-  const initials = displayName
-    .split(/\s+/)
-    .map(w => w[0])
-    .join('')
-    .slice(0, 2)
-    .toUpperCase();
+  const displayName = resolveProfileDisplayName(profile?.fullName, profile?.email);
+  const avatarUrl = profile?.avatarUrl ?? null;
+  const initials = initialsFromDisplayName(displayName);
 
   return (
     <>
       <Helmet>
-        <title>Profile - React Fashion</title>
+        <title>Profile - Cartify</title>
       </Helmet>
 
       <div className="relative mx-auto flex w-full max-w-[1212px] flex-col gap-6 self-stretch">
         <Card className="overflow-hidden rounded-xl bg-gray-white pb-8 pt-0">
           <ProfileCoverSummarySection
-            coverSrc={coverSrc}
-            avatarSrc={avatarSrc}
+            avatarUrl={avatarUrl}
             displayName={displayName}
             initials={initials}
             profileEditing={editingProfile}
