@@ -3,7 +3,7 @@ import AuthLayout from '../components/AuthLayout';
 import SocialAuthSection from '../components/SocialAuthSection';
 import AuthSwitchPrompt from '../components/AuthSwitchPrompt';
 import FormSection from './sections/FormSection';
-import { ROUTESV2 } from '@/constants';
+import { ROUTES } from '@/constants';
 
 export default function SignUpV2(): JSX.Element {
   return (
@@ -14,7 +14,7 @@ export default function SignUpV2(): JSX.Element {
     >
       <FormSection />
       <SocialAuthSection />
-      <AuthSwitchPrompt promptText="Already a member?" linkText="Login" to={ROUTESV2.LOGIN} />
+      <AuthSwitchPrompt promptText="Already a member?" linkText="Login" to={ROUTES.LOGIN} />
     </AuthLayout>
   );
 }

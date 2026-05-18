@@ -9,8 +9,9 @@ import {
   LAST_ORDERS,
   RECENTS_CHAT,
   SIDEBAR_LOGOUT_ICON,
-} from '@/pages/HomeV2/homeDemoData';
-import { getSidebarNavItems } from '@/routes/v2/appShellRoutes';
+} from '@/pages/UserHomeV2/homeDemoData';
+import { ROUTES } from '@/constants';
+import { getSidebarNavItems } from '@/routes/appShellRoutes';
 
 import { NavButton } from './components/NavButton';
 
@@ -64,13 +65,13 @@ export function NavigationMenuSection(): JSX.Element {
                   variant="compact"
                   icon={Plus}
                   label="Add Products"
-                  onClick={() => navigate('/v2/admin/products')}
+                  onClick={() => navigate(ROUTES.ADMIN_PRODUCTS)}
                 />
                 <NavButton
                   variant="compact"
                   icon={MessageCirclePlus}
                   label="Chat"
-                  onClick={() => navigate('/v2')}
+                  onClick={() => navigate(ROUTES.HOME)}
                 />
               </section>
             </>

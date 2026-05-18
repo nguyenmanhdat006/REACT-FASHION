@@ -1,7 +1,7 @@
 import { useState, type JSX } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import AuthLayout from '../components/AuthLayout';
-import { ROUTESV2 } from '@/constants';
+import { ROUTES } from '@/constants';
 import { useAuth } from '@/hooks/auth/useAuth';
 import { Check } from "lucide-react";
 
@@ -44,7 +44,7 @@ export default function ForgotPasswordSentV2(): JSX.Element {
         </p>
 
         <Link
-          to={ROUTESV2.LOGIN}
+          to={ROUTES.LOGIN}
           className="w-full h-12 rounded-[32px] bg-primary hover:bg-primary/90 text-white text-base font-medium flex items-center justify-center"
         >
           Return to Sign In

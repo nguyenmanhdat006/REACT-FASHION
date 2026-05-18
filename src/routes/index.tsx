@@ -1,37 +1,52 @@
 import React from 'react';
 import { Outlet, type RouteObject } from 'react-router-dom';
-import Layout from '@/components/layout/Layout';
+
+import LayoutV2 from '@/components/layout/LayoutV2';
 import ProtectedRoute from '@/components/navigation/ProtectedRoute';
-import { authV2Routes } from './v2/authRoutes';
-import { userRoute } from './v2/userRoute';
 
-const Home = React.lazy(() => import('@/pages/public/Home'));
-const Products = React.lazy(() => import('@/pages/product/Products'));
-const ProductDetail = React.lazy(() => import('@/pages/product/ProductDetail'));
-const Cart = React.lazy(() => import('@/pages/cart/Cart'));
-const Checkout = React.lazy(() => import('@/pages/cart/Checkout'));
-const Orders = React.lazy(() => import('@/pages/order/Orders'));
-const OrderDetail = React.lazy(() => import('@/pages/order/OrderDetail'));
-const Profile = React.lazy(() => import('@/pages/user/Profile'));
-const AdminDashboard = React.lazy(() => import('@/pages/admin/AdminDashboard'));
-const Login = React.lazy(() => import('@/pages/auth/Login'));
-const SignUp = React.lazy(() => import('@/pages/auth/SignUp'));
-const ForgotPassword = React.lazy(() => import('@/pages/auth/ForgotPassword'));
-const NotFound = React.lazy(() => import('@/pages/public/NotFound'));
+import { adminRoute } from './adminRoute';
 
+const HomeV2 = React.lazy(() => import('@/pages/UserHomeV2'));
+const UserProductListV2 = React.lazy(
+  () => import('@/pages/UserProductV2/UserProductListV2'),
+);
+const UserCartV2 = React.lazy(() => import('@/pages/UserCartV2'));
+const UserCheckoutV2 = React.lazy(() => import('@/pages/UserCheckoutV2'));
+const UserOrderV2 = React.lazy(() => import('@/pages/UserOrderV2'));
+const UserProfileV2 = React.lazy(() => import('@/pages/UserProfileV2'));
+const VnpayReturnPage = React.lazy(() => import('@/pages/VnpayReturnPage'));
+const NotFound = React.lazy(() => import('@/pages/NotFound'));
+
+const LoginV2 = React.lazy(() => import('@/pages/authV2/LoginV2/index'));
+const SignUpV2 = React.lazy(() => import('@/pages/authV2/SignUpV2/index'));
+const ForgotPasswordV2 = React.lazy(() => import('@/pages/authV2/ForgotPasswordV2/index'));
+const ForgotPasswordSentV2 = React.lazy(
+  () => import('@/pages/authV2/ForgotPasswordSentV2/index'),
+);
 const AuthCallback = React.lazy(() => import('@/pages/authV2/AuthCallback'));
 
 export const routes: RouteObject[] = [
+  { path: 'login', element: <LoginV2 /> },
+  { path: 'signup', element: <SignUpV2 /> },
+  { path: 'forgot-password', element: <ForgotPasswordV2 /> },
+  { path: 'forgot-password/sent', element: <ForgotPasswordSentV2 /> },
   {
     path: '/',
-    element: <Layout />,
+    element: (
+      <LayoutV2 aria-label="Home">
+        <Outlet />
+      </LayoutV2>
+    ),
     children: [
-      { index: true, element: <Home /> },
-      { path: 'products', element: <Products /> },
-      { path: 'products/:slug', element: <ProductDetail /> },
-      { path: 'login', element: <Login /> },
-      { path: 'signup', element: <SignUp /> },
-      { path: 'forgot-password', element: <ForgotPassword /> },
+      { index: true, element: <HomeV2 /> },
+      { path: 'products', element: <UserProductListV2 /> },
+      { path: 'products/clothing', element: <UserProductListV2 /> },
+      { path: 'products/deal', element: <UserProductListV2 /> },
+      { path: 'products/inspirations', element: <UserProductListV2 /> },
+      { path: 'cart', element: <UserCartV2 /> },
+      { path: 'checkout', element: <UserCheckoutV2 /> },
+      { path: 'payment/return', element: <VnpayReturnPage /> },
+      { path: 'orders', element: <UserOrderV2 /> },
       {
         element: (
           <ProtectedRoute>
@@ -39,19 +54,8 @@ export const routes: RouteObject[] = [
           </ProtectedRoute>
         ),
         children: [
-          { path: 'cart', element: <Cart /> },
-          { path: 'checkout', element: <Checkout /> },
-          { path: 'orders', element: <Orders /> },
-          { path: 'orders/:id', element: <OrderDetail /> },
-          { path: 'profile', element: <Profile /> },
-          {
-            element: (
-              <ProtectedRoute requiredRole="ADMIN">
-                <Outlet />
-              </ProtectedRoute>
-            ),
-            children: [{ path: 'admin', element: <AdminDashboard /> }],
-          },
+          { path: 'profile', element: <UserProfileV2 /> },
+          adminRoute,
         ],
       },
       { path: '*', element: <NotFound /> },
@@ -59,10 +63,6 @@ export const routes: RouteObject[] = [
   },
   {
     path: '/auth/callback',
-    element: <AuthCallback />
-  },
-  {
-    path: '/v2',
-    children: [...authV2Routes, userRoute, { path: '*', element: <NotFound /> }],
+    element: <AuthCallback />,
   },
 ];

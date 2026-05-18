@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { IconButton } from '@/components/buttons/IconButton';
 import { LabelButton } from '@/components/buttons/LabelButton';
 import ConfirmDialog from '@/components/ConfirmDialog';
-import { ROUTESV2 } from '@/constants';
+import { ROUTES } from '@/constants';
 import { useProducts } from '@/hooks/product/useProducts';
 import AdminProductList from '@/pages/AdminProductV2/AdminProductList/sections/AdminProductList';
 import { productToAdminProductRow } from '@/pages/AdminProductV2/adminProductDisplayMappers';
@@ -57,19 +57,19 @@ export default function AdminProductListPage(): JSX.Element {
   );
 
   const goToAddProduct = useCallback(() => {
-    navigate(ROUTESV2.ADMIN_PRODUCT_ADD);
+    navigate(ROUTES.ADMIN_PRODUCT_ADD);
   }, [navigate]);
 
   const goToProductDetail = useCallback(
     (row: AdminProductRow) => {
-      navigate(ROUTESV2.ADMIN_PRODUCT_DETAIL(row.id));
+      navigate(ROUTES.ADMIN_PRODUCT_DETAIL(row.id));
     },
     [navigate],
   );
 
   const goToEditProduct = useCallback(
     (row: AdminProductRow) => {
-      navigate(ROUTESV2.ADMIN_PRODUCT_EDIT(row.id));
+      navigate(ROUTES.ADMIN_PRODUCT_EDIT(row.id));
     },
     [navigate],
   );

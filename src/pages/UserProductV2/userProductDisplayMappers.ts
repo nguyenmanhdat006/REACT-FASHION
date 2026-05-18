@@ -1,5 +1,5 @@
 import { IMAGES } from '@/constants/images';
-import type { ProductTile } from '@/pages/HomeV2/homeDemoData';
+import type { ProductTile } from '@/pages/UserHomeV2/homeDemoData';
 import {
   formatProductPriceUsd,
   getPrimaryProductImageUrl,

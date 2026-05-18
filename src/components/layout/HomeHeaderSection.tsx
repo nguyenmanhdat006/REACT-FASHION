@@ -14,10 +14,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { IconButton } from '@/components/buttons/IconButton';
 import { IconLabelButton } from '@/components/buttons/IconLabelButton';
 import { LabelButton } from '@/components/buttons/LabelButton';
-import { ROUTESV2 } from '@/constants';
+import { ROUTES } from '@/constants';
 import { useAuth } from '@/hooks/auth/useAuth';
 
-import { getCurrentRoute } from '@/routes/v2/appShellRoutes';
+import { getCurrentRoute } from '@/routes/appShellRoutes';
 
 import { OrderStats } from './components/OrderStats';
 import { UserButton } from './components/UserButton';
@@ -69,11 +69,11 @@ export function HomeHeaderSection(): JSX.Element {
               icon={ShoppingCart}
               label="Cart"
               ariaLabel="Open cart"
-              onClick={() => navigate(ROUTESV2.CART)}
+              onClick={() => navigate(ROUTES.CART)}
             />
             <UserButton
               onClick={() =>
-                navigate(isAuthenticated ? ROUTESV2.PROFILE : ROUTESV2.LOGIN)
+                navigate(isAuthenticated ? ROUTES.PROFILE : ROUTES.LOGIN)
               }
               userName={headerDisplayName}
               avatarUrl={resolvedAvatar}
