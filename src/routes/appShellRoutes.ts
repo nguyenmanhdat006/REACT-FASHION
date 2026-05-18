@@ -126,7 +126,7 @@ export const ADMIN_SHELL_ROUTES: AppShellRoute[] = [
     icon: Tag,
     showInSidebar: true,
     sidebarOrder: 1,
-    showHeaderFiltersRow: true,
+    showHeaderFiltersRow: false,
     showQuickFilter: false,
   },
   {

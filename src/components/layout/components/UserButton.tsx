@@ -1,35 +1,38 @@
 import { UserRound } from 'lucide-react';
+import { forwardRef } from 'react';
 
 import { cn } from '@/lib/utils';
 import { initialsFromDisplayName } from '@/utils/displayName';
 
-interface UserButtonProps {
+export type UserButtonProps = {
   userName?: string;
   /** Profile image URL; omit or pass null/empty to show initials instead */
   avatarUrl?: string | null;
   onClick?: () => void;
   className?: string;
-}
+  ariaLabel?: string;
+};
 
-export const UserButton = ({
-  userName = 'Guest',
-  avatarUrl,
-  onClick,
-  className,
-}: UserButtonProps) => {
+export const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(function UserButton(
+  { userName = 'Guest', avatarUrl, onClick, className, ariaLabel },
+  ref,
+) {
   const label = userName.trim() || 'Guest';
   const hasPhoto = Boolean(avatarUrl?.trim());
   const initials = initialsFromDisplayName(label);
 
   return (
     <button
+      ref={ref}
       type="button"
       onClick={onClick}
-      aria-label={`Open profile for ${label}`}
+      aria-label={ariaLabel ?? `Open profile for ${label}`}
       className={cn(
         'relative inline-flex h-auto items-center justify-center gap-2.5 overflow-hidden rounded-[64px] bg-white p-2',
         'hover:bg-gray-50',
-        className
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+        'data-[state=open]:bg-gray-50',
+        className,
       )}
     >
       {hasPhoto ? (
@@ -55,4 +58,4 @@ export const UserButton = ({
       </span>
     </button>
   );
-};
+});

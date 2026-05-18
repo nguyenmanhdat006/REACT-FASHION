@@ -21,7 +21,7 @@ import { useExploreFilters } from '@/pages/UserProductV2/exploreFilters';
 import { getCurrentRoute } from '@/routes/appShellRoutes';
 
 import { OrderStats } from './components/OrderStats';
-import { UserButton } from './components/UserButton';
+import { UserAccountMenu } from './components/UserAccountMenu';
 
 type QuickFilterId = 'all' | 'men' | 'women';
 
@@ -80,12 +80,11 @@ export function HomeHeaderSection(): JSX.Element {
               ariaLabel="Open cart"
               onClick={() => navigate(ROUTES.CART)}
             />
-            <UserButton
-              onClick={() =>
-                navigate(isAuthenticated ? ROUTES.PROFILE : ROUTES.LOGIN)
-              }
+            <UserAccountMenu
+              isAuthenticated={isAuthenticated}
               userName={headerDisplayName}
               avatarUrl={resolvedAvatar}
+              roles={user?.roles}
             />
           </div>
         </div>
