@@ -76,14 +76,7 @@ export function useAdminCategoryV2Form({
       return;
     }
     void fetchCategoryById(categoryId);
-    return () => clearCategoryDetailState();
-  }, [
-    mode,
-    categoryId,
-    fetchCategoryById,
-    clearCategoryDetailState,
-    reset,
-  ]);
+  }, [mode, categoryId, fetchCategoryById, clearCategoryDetailState, reset]);
 
   useEffect(() => {
     if (mode === 'create' || !categoryId || !categoryDetail || categoryDetail.id !== categoryId) {

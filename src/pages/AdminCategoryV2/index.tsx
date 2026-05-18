@@ -86,7 +86,7 @@ function buildCategoryColumns(): TableColumn<AdminCategoryRow>[] {
 export default function AdminCategoryListPage(): JSX.Element {
   const [panel, setPanel] = useState<AdminEntityPanelState>({ open: false });
   const [formBusy, setFormBusy] = useState(false);
-  const { fetchCategories, deleteCategory } = useAdminCatalog();
+  const { fetchCategories, deleteCategory, clearCategoryDetailState } = useAdminCatalog();
   const {
     items: categories,
     page,
@@ -94,12 +94,17 @@ export default function AdminCategoryListPage(): JSX.Element {
     totalPages,
     isLoading: categoriesLoading,
     error: categoriesError,
-    categoryDetailLoading,
   } = useAppSelector((s) => s.categories);
 
   useEffect(() => {
     void fetchCategories({ page: 0, size: LIST_PAGE_SIZE });
   }, [fetchCategories]);
+
+  useEffect(() => {
+    if (!panel.open) {
+      clearCategoryDetailState();
+    }
+  }, [panel.open, clearCategoryDetailState]);
 
   const rows: AdminCategoryRow[] = useMemo(
     () => categories.map(categoryToAdminCategoryRow),
@@ -150,9 +155,6 @@ export default function AdminCategoryListPage(): JSX.Element {
     ? `${panel.mode}-${panel.entityId ?? 'new'}`
     : 'closed';
 
-  const panelLoading =
-    panel.open && panel.mode === 'edit' && Boolean(panel.entityId) && categoryDetailLoading;
-
   return (
     <>
       <Helmet>
@@ -167,20 +169,16 @@ export default function AdminCategoryListPage(): JSX.Element {
         loading={categoriesLoading && rows.length === 0}
         error={categoriesError}
         formId={ADMIN_CATEGORY_V2_FORM_ID}
-        busy={formBusy || panelLoading}
+        busy={formBusy}
         panelChildren={
           panel.open ? (
-            panelLoading ? (
-              <p className="text-body-regular text-muted-foreground">Loading category…</p>
-            ) : (
-              <AdminCategoryV2Form
-                key={panelFormKey}
-                mode={panelToFormMode(panel)}
-                categoryId={panel.mode === 'edit' ? panel.entityId : undefined}
-                onSuccess={onFormSuccess}
-                onBusyChange={setFormBusy}
-              />
-            )
+            <AdminCategoryV2Form
+              key={panelFormKey}
+              mode={panelToFormMode(panel)}
+              categoryId={panel.mode === 'edit' ? panel.entityId : undefined}
+              onSuccess={onFormSuccess}
+              onBusyChange={setFormBusy}
+            />
           ) : null
         }
       >
