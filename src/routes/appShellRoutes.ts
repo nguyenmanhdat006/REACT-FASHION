@@ -13,6 +13,8 @@ import {
   Users,
 } from 'lucide-react';
 
+import { ROUTES } from '@/constants';
+
 export type AppShellRoute = {
   to: string;
   label: string;
@@ -26,7 +28,7 @@ export type AppShellRoute = {
 
 export const APP_SHELL_ROUTES: AppShellRoute[] = [
   {
-    to: '/v2',
+    to: ROUTES.HOME,
     label: 'Home',
     headerTitle: 'Home',
     icon: Home,
@@ -36,7 +38,7 @@ export const APP_SHELL_ROUTES: AppShellRoute[] = [
     showQuickFilter: false,
   },
   {
-    to: '/v2/products',
+    to: ROUTES.PRODUCTS,
     label: 'Explore New',
     headerTitle: 'Explore',
     icon: Compass,
@@ -46,7 +48,7 @@ export const APP_SHELL_ROUTES: AppShellRoute[] = [
     showQuickFilter: true,
   },
   {
-    to: '/v2/products/clothing',
+    to: ROUTES.PRODUCTS_CLOTHING,
     label: 'Clothing',
     headerTitle: 'Clothing',
     icon: Shirt,
@@ -56,7 +58,7 @@ export const APP_SHELL_ROUTES: AppShellRoute[] = [
     showQuickFilter: false,
   },
   {
-    to: '/v2/products/deal',
+    to: ROUTES.PRODUCTS_DEAL,
     label: 'Deal',
     headerTitle: 'Deal',
     icon: Tag,
@@ -66,7 +68,7 @@ export const APP_SHELL_ROUTES: AppShellRoute[] = [
     showQuickFilter: false,
   },
   {
-    to: '/v2/products/inspirations',
+    to: ROUTES.PRODUCTS_INSPIRATIONS,
     label: 'Inspirations',
     headerTitle: 'Inspirations',
     icon: Lightbulb,
@@ -76,7 +78,7 @@ export const APP_SHELL_ROUTES: AppShellRoute[] = [
     showQuickFilter: false,
   },
   {
-    to: '/v2/profile',
+    to: ROUTES.PROFILE,
     label: 'Profile',
     headerTitle: 'Profile',
     icon: User,
@@ -86,7 +88,7 @@ export const APP_SHELL_ROUTES: AppShellRoute[] = [
     showQuickFilter: false,
   },
   {
-    to: '/v2/cart',
+    to: ROUTES.CART,
     label: 'Shopping Cart',
     headerTitle: 'Shopping Cart',
     icon: ShoppingCart,
@@ -96,7 +98,7 @@ export const APP_SHELL_ROUTES: AppShellRoute[] = [
     showQuickFilter: false,
   },
   {
-    to: '/v2/checkout',
+    to: ROUTES.CHECKOUT,
     label: 'Checkout',
     headerTitle: 'Checkout',
     icon: ShoppingCart,
@@ -106,7 +108,7 @@ export const APP_SHELL_ROUTES: AppShellRoute[] = [
     showQuickFilter: false,
   },
   {
-    to: '/v2/order',
+    to: ROUTES.ORDERS,
     label: 'My Orders',
     headerTitle: 'My Orders',
     icon: ShoppingBag,
@@ -119,7 +121,7 @@ export const APP_SHELL_ROUTES: AppShellRoute[] = [
 
 export const ADMIN_SHELL_ROUTES: AppShellRoute[] = [
   {
-    to: '/v2/admin',
+    to: ROUTES.ADMIN_DASHBOARD,
     label: 'Dashboard',
     headerTitle: 'Dashboard',
     icon: LayoutDashboard,
@@ -129,7 +131,7 @@ export const ADMIN_SHELL_ROUTES: AppShellRoute[] = [
     showQuickFilter: false,
   },
   {
-    to: '/v2/admin/products',
+    to: ROUTES.ADMIN_PRODUCTS,
     label: 'Products',
     headerTitle: 'Products',
     icon: Tag,
@@ -139,7 +141,7 @@ export const ADMIN_SHELL_ROUTES: AppShellRoute[] = [
     showQuickFilter: false,
   },
   {
-    to: '/v2/admin/category',
+    to: ROUTES.ADMIN_CATEGORY,
     label: 'Category',
     headerTitle: 'Category',
     icon: ShoppingBag,
@@ -149,7 +151,7 @@ export const ADMIN_SHELL_ROUTES: AppShellRoute[] = [
     showQuickFilter: false,
   },
   {
-    to: '/v2/admin/orders',
+    to: ROUTES.ADMIN_ORDERS,
     label: 'Orders',
     headerTitle: 'Orders',
     icon: ShoppingCart,
@@ -159,7 +161,7 @@ export const ADMIN_SHELL_ROUTES: AppShellRoute[] = [
     showQuickFilter: false,
   },
   {
-    to: '/v2/admin/brand',
+    to: ROUTES.ADMIN_BRAND,
     label: 'Brand',
     headerTitle: 'Brand',
     icon: Store,
@@ -169,7 +171,7 @@ export const ADMIN_SHELL_ROUTES: AppShellRoute[] = [
     showQuickFilter: false,
   },
   {
-    to: '/v2/admin/users',
+    to: ROUTES.ADMIN_USERS,
     label: 'Users',
     headerTitle: 'Users',
     icon: Users,

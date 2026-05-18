@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet, type RouteObject } from 'react-router-dom';
 
-// import ProtectedRoute from '@/components/navigation/ProtectedRoute';
+import ProtectedRoute from '@/components/navigation/ProtectedRoute';
 
 const AdminDashboard = React.lazy(() => import('@/pages/admin/AdminDashboard'));
 const AdminProductListPage = React.lazy(
@@ -26,11 +26,11 @@ const AdminCategoryListPage = React.lazy(
 const AdminBrandListPage = React.lazy(() => import('@/pages/AdminBrandV2'));
 
 export const adminRoute: RouteObject = {
-  // element: (
-  //   <ProtectedRoute requiredRole="ADMIN">
-  //     <Outlet />
-  //   </ProtectedRoute>
-  // ),
+  element: (
+    <ProtectedRoute requiredRole="ADMIN">
+      <Outlet />
+    </ProtectedRoute>
+  ),
   children: [
     {
       path: 'admin',

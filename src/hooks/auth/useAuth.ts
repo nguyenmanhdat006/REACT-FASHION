@@ -11,7 +11,7 @@ import {
 } from '@/store/thunks/authThunks';
 import toast from 'react-hot-toast';
 import { getAccessToken } from '@/utils/authStorage';
-import { ROUTESV2 } from '@/constants';
+import { ROUTES } from '@/constants';
 import type { ForgotPasswordData } from '@/types/auth/auth';
 
 export const useAuth = () => {
@@ -45,7 +45,7 @@ export const useAuth = () => {
     const result = await dispatch(loginThunk(credentials));
     if (loginThunk.fulfilled.match(result)) {
       toast.success('Login successful!');
-      navigate(ROUTESV2.HOME);
+      navigate(ROUTES.HOME);
     } else if (loginThunk.rejected.match(result)) {
       toast.error(result.payload || 'Login failed');
     }
@@ -55,7 +55,7 @@ export const useAuth = () => {
     const result = await dispatch(signUpThunk(credentials));
     if (signUpThunk.fulfilled.match(result)) {
       toast.success('Account created successfully!');
-      navigate(ROUTESV2.LOGIN);
+      navigate(ROUTES.LOGIN);
     } else if (signUpThunk.rejected.match(result)) {
       toast.error(result.payload || 'Sign up failed');
     }
@@ -65,10 +65,10 @@ export const useAuth = () => {
     const result = await dispatch(logoutThunk());
     if (logoutThunk.fulfilled.match(result)) {
       toast.success('Logged out successfully');
-      navigate(ROUTESV2.HOME);
+      navigate(ROUTES.HOME);
     } else if (logoutThunk.rejected.match(result)) {
       toast.error('Logout failed');
-      navigate(ROUTESV2.HOME);
+      navigate(ROUTES.HOME);
     }
   };
 
@@ -76,7 +76,7 @@ export const useAuth = () => {
     const result = await dispatch(forgotPasswordThunk(data));
     if (forgotPasswordThunk.fulfilled.match(result)) {
       toast.success('If the email exists, a reset link has been sent.');
-      navigate(`${ROUTESV2.FORGOT_PASSWORD_SENT}?email=${encodeURIComponent(data.email)}`);
+      navigate(`${ROUTES.FORGOT_PASSWORD_SENT}?email=${encodeURIComponent(data.email)}`);
     } else if (forgotPasswordThunk.rejected.match(result)) {
       toast.error(result.payload || 'Unable to send reset email');
     }

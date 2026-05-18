@@ -17,7 +17,7 @@ import {
   setAuthTokens,
   clearAuthTokens,
 } from './authStorage';
-import { ROUTESV2 } from '@/constants';
+import { ROUTES } from '@/constants';
 
 type RetryConfig = InternalAxiosRequestConfig & { _retry?: boolean };
 
@@ -108,7 +108,7 @@ class ApiClient {
 
                 clearAuthTokens();
               }
-              window.location.href = ROUTESV2.LOGIN;
+              window.location.href = ROUTES.LOGIN;
               toast.error('Session expired. Please login again.');
               break;
             case 403:

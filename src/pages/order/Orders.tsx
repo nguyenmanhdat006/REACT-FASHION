@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
-import { ROUTESV2 } from '@/constants';
+import { ROUTES } from '@/constants';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchOrdersThunk } from '@/store/thunks';
 
@@ -47,7 +47,7 @@ const Orders: React.FC = () => {
                     <p className="font-semibold text-primary-600">${order.total}</p>
                     <Link
                       className="text-sm text-primary-600 hover:underline"
-                      to={ROUTESV2.ORDER_DETAIL(order.id)}
+                      to={ROUTES.ORDER_DETAIL(order.id)}
                     >
                       View details
                     </Link>

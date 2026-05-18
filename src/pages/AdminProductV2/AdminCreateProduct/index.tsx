@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import type { JSX } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { ROUTESV2 } from '@/constants';
+import { ROUTES } from '@/constants';
 import AdminProductV2Form from '@/forms/AdminProductV2';
 
 export default function AdminCreateProduct(): JSX.Element {
@@ -17,7 +17,7 @@ export default function AdminCreateProduct(): JSX.Element {
       <div className="w-full text-foreground">
         <AdminProductV2Form
           mode="create"
-          onSuccess={() => navigate(ROUTESV2.ADMIN_PRODUCTS)}
+          onSuccess={() => navigate(ROUTES.ADMIN_PRODUCTS)}
         />
       </div>
     </>

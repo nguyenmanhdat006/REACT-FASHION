@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { useCart } from '../useCart';
 import { useNavigate } from 'react-router-dom';
-import { ROUTESV2 } from '@/constants';
+import { ROUTES } from '@/constants';
 
 const format = (v?: number | null) => (v == null ? '$0' : `$${v}`);
 
@@ -59,7 +59,7 @@ export const OrderSummarySection = (): JSX.Element => {
             type="button"
             aria-label="Go to checkout"
             className="h-12 w-full rounded-[32px] text-body-medium font-medium"
-            onClick={() => navigate(ROUTESV2.CHECKOUT)}
+            onClick={() => navigate(ROUTES.CHECKOUT)}
           >
             Go to Checkout
           </Button>

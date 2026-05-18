@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { ROUTES, ROUTESV2 } from '@/constants';
+import { ROUTES } from '@/constants';
 import { MOCK_PRODUCTS } from '@/mocks/ecommerce/ecommerceMockData';
 import { IS_MOCK_ENABLED } from '@/config/env';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
@@ -72,7 +72,7 @@ const ProductDetail: React.FC = () => {
               >
                 Add to Cart
               </Button>
-              <Button variant="outline" onClick={() => navigate(ROUTESV2.CART)}>
+              <Button variant="outline" onClick={() => navigate(ROUTES.CART)}>
                 Buy Now
               </Button>
             </div>

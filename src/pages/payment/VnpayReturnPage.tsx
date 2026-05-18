@@ -17,7 +17,7 @@ import { Helmet } from 'react-helmet-async';
 import toast from 'react-hot-toast';
 import { useAppDispatch } from '@/store/hooks';
 import { confirmOrderPaymentThunk } from '@/store/thunks';
-import { ROUTESV2 } from '@/constants';
+import { ROUTES } from '@/constants';
 
 const VNPAY_SUCCESS_CODE = '00';
 const PENDING_ORDER_ID_KEY = 'vnpay_pending_order_id';
@@ -53,7 +53,7 @@ export default function VnpayReturnPage(): JSX.Element {
       if (!orderId) {
         // orderId not found — try to navigate to orders list
         toast.success('Thanh toán thành công! Vui lòng kiểm tra danh sách đơn hàng.');
-        navigate(ROUTESV2.ORDERS);
+        navigate(ROUTES.ORDERS);
         return;
       }
 
@@ -69,10 +69,10 @@ export default function VnpayReturnPage(): JSX.Element {
 
       if (confirmOrderPaymentThunk.fulfilled.match(result)) {
         toast.success('Thanh toán thành công! Đơn hàng đã được xác nhận.');
-        navigate(ROUTESV2.ORDER_DETAIL(orderId));
+        navigate(ROUTES.ORDER_DETAIL(orderId));
       } else {
         toast.error('Xác nhận thanh toán thất bại. Vui lòng liên hệ hỗ trợ.');
-        navigate(ROUTESV2.ORDERS);
+        navigate(ROUTES.ORDERS);
       }
     };
 
@@ -82,7 +82,7 @@ export default function VnpayReturnPage(): JSX.Element {
       toast.error(
         `Thanh toán VNPAY thất bại (mã lỗi: ${responseCode ?? 'unknown'}). Vui lòng thử lại.`
       );
-      navigate(ROUTESV2.CHECKOUT);
+      navigate(ROUTES.CHECKOUT);
     }
   }, [dispatch, navigate, searchParams]);
 

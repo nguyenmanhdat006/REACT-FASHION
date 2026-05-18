@@ -25,7 +25,7 @@ import {
 import { useCart } from '@/hooks/cart/useCart';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { createOrderThunk, calculateShippingFeeThunk } from '@/store/thunks';
-import { ROUTESV2 } from '@/constants';
+import { ROUTES } from '@/constants';
 import type { CartSummary } from '@/types/cart/cart';
 import { cartService } from '@/services/cart/cartService';
 import { saveVnpayPendingOrderId } from '@/pages/payment/VnpayReturnPage';
@@ -148,7 +148,7 @@ export default function CheckoutV2(): JSX.Element {
       } else {
         // COD: go to order list
         toast.success('Order placed successfully!');
-        navigate(ROUTESV2.ORDERS);
+        navigate(ROUTES.ORDERS);
       }
     } else {
       const errMsg =
