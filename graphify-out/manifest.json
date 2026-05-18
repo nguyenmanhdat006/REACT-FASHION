@@ -96,8 +96,8 @@
     "hash": "522afe75070e61ecea90e4ea729bb4c0"
   },
   "/home/thang/Workspace/ecommerce-services/REACT-FASHION/src/components/layout/NavigationMenuSection.tsx": {
-    "mtime": 1779095080.452432,
-    "hash": "98fa6120e46455e84e80eb4e78507742"
+    "mtime": 1779095528.0488582,
+    "hash": "c6ecc2f141ec585bbdc00ca22000ac6d"
   },
   "/home/thang/Workspace/ecommerce-services/REACT-FASHION/src/components/layout/components/OrderStats.tsx": {
     "mtime": 1778467192.6264641,
@@ -274,6 +274,10 @@
   "/home/thang/Workspace/ecommerce-services/REACT-FASHION/src/hooks/order/useOrders.ts": {
     "mtime": 1778991575.425353,
     "hash": "cca0a871a0b02639c1df4f76a034a3c3"
+  },
+  "/home/thang/Workspace/ecommerce-services/REACT-FASHION/src/hooks/order/useRecentOrders.ts": {
+    "mtime": 1779095468.5152156,
+    "hash": "585cc8cc5d8706d407db5bef9c426c8e"
   },
   "/home/thang/Workspace/ecommerce-services/REACT-FASHION/src/lib/tailwindMergeTypography.ts": {
     "mtime": 1778687193.5659928,

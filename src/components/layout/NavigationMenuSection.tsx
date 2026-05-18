@@ -5,13 +5,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Divider } from '@/components/Divider';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import {
-  LAST_ORDERS,
-  RECENTS_CHAT,
-  SIDEBAR_LOGOUT_ICON,
-} from '@/pages/UserHomeV2/homeDemoData';
+import { RECENTS_CHAT, SIDEBAR_LOGOUT_ICON } from '@/pages/UserHomeV2/homeDemoData';
 import { ROUTES } from '@/constants';
 import { useAuth } from '@/hooks/auth/useAuth';
+import { useRecentOrders } from '@/hooks/order/useRecentOrders';
 import { getSidebarNavItems } from '@/routes/appShellRoutes';
 
 import { NavButton } from './components/NavButton';
@@ -20,9 +17,14 @@ export function NavigationMenuSection(): JSX.Element {
   const LogOutIcon = SIDEBAR_LOGOUT_ICON;
   const navigate = useNavigate();
   const location = useLocation();
-  const { logout, isLoading, isAuthenticated } = useAuth();
+  const { logout, isLoading: isAuthLoading, isAuthenticated } = useAuth();
   const isAdminShell = location.pathname.includes('/admin');
   const sidebarNavItems = getSidebarNavItems(location.pathname);
+  const {
+    items: recentOrders,
+    totalCount: recentOrdersTotal,
+    isLoading: isRecentOrdersLoading,
+  } = useRecentOrders(isAuthenticated && !isAdminShell);
 
   return (
     <aside
@@ -92,21 +94,47 @@ export function NavigationMenuSection(): JSX.Element {
               >
                 {isAdminShell ? 'Recents Chat 2' : 'Last Orders'}
               </h2>
-              {!isAdminShell ? (
+              {!isAdminShell && isAuthenticated ? (
                 <div className="relative w-fit whitespace-nowrap text-body-regular">
-                  37
+                  {isRecentOrdersLoading ? '…' : recentOrdersTotal}
                 </div>
               ) : null}
             </div>
             <div className="relative flex flex-col items-start self-stretch">
-              {(isAdminShell ? RECENTS_CHAT : LAST_ORDERS).map((order) => (
-                <NavButton
-                  key={order.label}
-                  variant="compact"
-                  label={order.label}
-                  imageUrl={order.imageUrl}
-                />
-              ))}
+              {isAdminShell
+                ? RECENTS_CHAT.map((chat) => (
+                    <NavButton
+                      key={chat.label}
+                      variant="compact"
+                      label={chat.label}
+                      imageUrl={chat.imageUrl}
+                    />
+                  ))
+                : null}
+              {!isAdminShell && isAuthenticated && isRecentOrdersLoading ? (
+                <p className="px-4 py-2 text-caption-lg-regular text-gray-500">
+                  Loading orders…
+                </p>
+              ) : null}
+              {!isAdminShell &&
+              isAuthenticated &&
+              !isRecentOrdersLoading &&
+              recentOrders.length === 0 ? (
+                <p className="px-4 py-2 text-caption-lg-regular text-gray-500">
+                  No orders yet
+                </p>
+              ) : null}
+              {!isAdminShell
+                ? recentOrders.map((order) => (
+                    <NavButton
+                      key={order.id}
+                      variant="compact"
+                      label={order.label}
+                      imageUrl={order.imageUrl}
+                      onClick={() => navigate(ROUTES.ORDERS)}
+                    />
+                  ))
+                : null}
             </div>
           </section>
         </div>
@@ -115,7 +143,7 @@ export function NavigationMenuSection(): JSX.Element {
       <Button
         type="button"
         variant="ghost"
-        disabled={isLoading}
+        disabled={isAuthLoading}
         aria-label={isAuthenticated ? 'Log out of your account' : 'Sign in to your account'}
         className={cn(
           'relative flex self-stretch items-center gap-2 overflow-hidden rounded-2xl bg-white p-4 text-left',
