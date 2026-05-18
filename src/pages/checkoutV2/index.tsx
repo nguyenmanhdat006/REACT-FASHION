@@ -28,7 +28,7 @@ import { createOrderThunk, calculateShippingFeeThunk } from '@/store/thunks';
 import { ROUTES } from '@/constants';
 import type { CartSummary } from '@/types/cart/cart';
 import { cartService } from '@/services/cart/cartService';
-import { saveVnpayPendingOrderId } from '@/pages/payment/VnpayReturnPage';
+import { saveVnpayPendingOrderId } from '@/pages/VnpayReturnPage';
 
 // Debounce helper
 function useDebounce<T>(value: T, delay: number): T {

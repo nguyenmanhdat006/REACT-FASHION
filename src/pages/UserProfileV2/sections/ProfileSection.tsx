@@ -4,7 +4,7 @@ import { Controller, type UseFormReturn } from 'react-hook-form';
 
 import { LabelButton } from '@/components/buttons/LabelButton';
 import { LabeledInputField } from '@/components/form/LabeledInputField';
-import type { ProfileAccountFormValues } from '@/pages/user/ProfileV2/profileForm';
+import type { ProfileAccountFormValues } from '@/pages/UserProfileV2/profileForm';
 
 export type ProfileReadonlyDisplay = {
   fullName: string;

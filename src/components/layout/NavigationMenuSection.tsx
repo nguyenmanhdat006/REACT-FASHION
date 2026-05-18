@@ -9,7 +9,7 @@ import {
   LAST_ORDERS,
   RECENTS_CHAT,
   SIDEBAR_LOGOUT_ICON,
-} from '@/pages/HomeV2/homeDemoData';
+} from '@/pages/UserHomeV2/homeDemoData';
 import { ROUTES } from '@/constants';
 import { getSidebarNavItems } from '@/routes/appShellRoutes';
 

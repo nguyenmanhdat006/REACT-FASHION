@@ -3,7 +3,7 @@ import { Outlet, type RouteObject } from 'react-router-dom';
 
 import ProtectedRoute from '@/components/navigation/ProtectedRoute';
 
-const AdminDashboard = React.lazy(() => import('@/pages/admin/AdminDashboard'));
+  // const AdminDashboard = React.lazy(() => import('@/pages/admin/AdminDashboard'));
 const AdminProductListPage = React.lazy(
   () => import('@/pages/AdminProductV2/AdminProductList/AdminProductListPage'),
 );
@@ -36,7 +36,7 @@ export const adminRoute: RouteObject = {
       path: 'admin',
       element: <Outlet />,
       children: [
-        { index: true, element: <AdminDashboard /> },
+        // { index: true, element: <AdminDashboard /> },
         { path: 'products', element: <AdminProductListPage /> },
         { path: 'products/add', element: <AdminCreateProduct /> },
         { path: 'products/:id/edit', element: <AdminUpdateProduct /> },

@@ -1,7 +1,7 @@
 import { type JSX } from 'react';
 
-import { PromoCard } from '@/pages/HomeV2/components/PromoCard';
-import { LEFT_BOTTOM_PROMOS, LEFT_TOP_PROMOS } from '@/pages/HomeV2/homeDemoData';
+import { PromoCard } from '@/pages/UserHomeV2/components/PromoCard';
+import { LEFT_BOTTOM_PROMOS, LEFT_TOP_PROMOS } from '@/pages/UserHomeV2/homeDemoData';
 
 export function HomePromoLeftSection(): JSX.Element {
   return (

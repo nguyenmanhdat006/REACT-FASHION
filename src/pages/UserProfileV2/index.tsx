@@ -17,7 +17,7 @@ import {
   toUpdateProfilePayload,
   type AddressFormValues,
   type ProfileAccountFormValues,
-} from '@/pages/user/ProfileV2/profileForm';
+} from '@/pages/UserProfileV2/profileForm';
 import { useAppSelector } from '@/store/hooks';
 import { dash } from '@/utils/formDisplay';
 
@@ -25,7 +25,7 @@ import { ProfileAddressSection } from './sections/ProfileAddressSection';
 import { ProfileCoverSummarySection } from './sections/ProfileCoverSummarySection';
 import { ProfileSection } from './sections/ProfileSection';
 
-export default function ProfileV2(): JSX.Element {
+export default function UserProfileV2(): JSX.Element {
   const {
     fetchProfile,
     fetchAddresses,

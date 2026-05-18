@@ -6,16 +6,16 @@ import ProtectedRoute from '@/components/navigation/ProtectedRoute';
 
 import { adminRoute } from './adminRoute';
 
-const HomeV2 = React.lazy(() => import('@/pages/HomeV2'));
+const HomeV2 = React.lazy(() => import('@/pages/UserHomeV2'));
 const UserProductListV2 = React.lazy(
   () => import('@/pages/UserProductV2/UserProductListV2'),
 );
 const CartV2 = React.lazy(() => import('@/pages/cartV2/index'));
 const CheckoutV2 = React.lazy(() => import('@/pages/checkoutV2/index'));
 const OrderV2 = React.lazy(() => import('@/pages/orderv2/index'));
-const ProfileV2 = React.lazy(() => import('@/pages/user/ProfileV2'));
-const VnpayReturnPage = React.lazy(() => import('@/pages/payment/VnpayReturnPage'));
-const NotFound = React.lazy(() => import('@/pages/public/NotFound'));
+const UserProfileV2 = React.lazy(() => import('@/pages/UserProfileV2'));
+const VnpayReturnPage = React.lazy(() => import('@/pages/VnpayReturnPage'));
+const NotFound = React.lazy(() => import('@/pages/NotFound'));
 
 const LoginV2 = React.lazy(() => import('@/pages/authV2/LoginV2/index'));
 const SignUpV2 = React.lazy(() => import('@/pages/authV2/SignUpV2/index'));
@@ -54,7 +54,7 @@ export const routes: RouteObject[] = [
           </ProtectedRoute>
         ),
         children: [
-          { path: 'profile', element: <ProfileV2 /> },
+          { path: 'profile', element: <UserProfileV2 /> },
           adminRoute,
         ],
       },

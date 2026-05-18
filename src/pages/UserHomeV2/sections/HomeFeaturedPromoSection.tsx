@@ -1,7 +1,7 @@
 import { type JSX } from 'react';
 
-import { PromoCard } from '@/pages/HomeV2/components/PromoCard';
-import { FEATURED_PROMO } from '@/pages/HomeV2/homeDemoData';
+import { PromoCard } from '@/pages/UserHomeV2/components/PromoCard';
+import { FEATURED_PROMO } from '@/pages/UserHomeV2/homeDemoData';
 
 export function HomeFeaturedPromoSection(): JSX.Element {
   return (

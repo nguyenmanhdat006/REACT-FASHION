@@ -4,7 +4,7 @@ import { Controller, type UseFormReturn } from 'react-hook-form';
 
 import { LabelButton } from '@/components/buttons/LabelButton';
 import { LabeledInputField } from '@/components/form/LabeledInputField';
-import type { AddressFormValues } from '@/pages/user/ProfileV2/profileForm';
+import type { AddressFormValues } from '@/pages/UserProfileV2/profileForm';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
