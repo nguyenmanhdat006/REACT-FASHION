@@ -328,6 +328,14 @@ Nodes (18): User, initialState, userSlice, UserState, createAddressThunk, delete
 Cohesion: 0.09
 Nodes (21): code:block1 (Frontend (React/Vue...)), code:block10 (┌──────────────────┐), code:block11 (PENDING → PICKED_UP → IN_TRANSIT → OUT_FOR_DELIVERY → DELIVE), code:block2 (FE → [POST /api/orders] → Order Service), code:block3 (Admin → [PUT /api/shipping/{id}/deliver] → Shipping Service), code:block4 (FE → [POST /api/orders] → Order Service), code:block5 (Admin Dashboard → [POST /api/shipping/create] → Shipping Ser), code:block6 (Admin/Shipper → [PUT /api/shipping/{id}/status]) (+13 more)
 
+### Community 32 - "Community 32"
+Cohesion: 0.17
+Nodes (12): AdminProductListProps, AdminProductRow, ADMIN_PRODUCT_LIST_DEMO, AdminTableColumn, AdminTableRowBase, AdminTableViewProps, Table(), TableBody() (+4 more)
+
+### Community 33 - "Community 33"
+Cohesion: 0.11
+Nodes (16): orderService, ORDER_FILTERS, OrderStatus, formatPrice(), LocationPill, locationPills, mockOrders, Order (+8 more)
+
 ### Community 34 - "Community 34"
 Cohesion: 0.11
 Nodes (22): 1. Module form thuần — schema + mapper (nguồn sự thật duy nhất), 1. Định nghĩa schema (nguồn sự thật duy nhất), 2. Khởi tạo `useForm`, 4. State ngoài RHF (media / gallery), 5. Submit handler — kết nối với thunk, 5. Submit handler — page gọi hook (toast nằm trong hook), 6. Những điều **không** nên làm, BƯỚC 1: Định nghĩa Types (TypeScript Interfaces) (+14 more)
@@ -349,8 +357,8 @@ Cohesion: 0.17
 Nodes (16): collectProductGalleryUrls(), formatProductPriceUsd(), getPrimaryProductImageUrl(), SizeOption, USD, variantsToSizeOptions(), SHIPPING_ITEMS, SIZE_OPTIONS (+8 more)
 
 ### Community 39 - "Community 39"
-Cohesion: 0.22
-Nodes (15): orderService, initialState, ordersSlice, OrdersState, calculateShippingFeeThunk, cancelOrderThunk, confirmOrderPaymentThunk, confirmOrderThunk (+7 more)
+Cohesion: 0.23
+Nodes (11): ActionIconVariant, FEATURED_PROMO, LAST_ORDERS, LastOrderItem, LEFT_BOTTOM_PROMOS, LEFT_TOP_PROMOS, PrimaryNavItem, PRODUCT_TILES (+3 more)
 
 ### Community 40 - "Community 40"
 Cohesion: 0.12
@@ -379,6 +387,14 @@ Nodes (9): AdminBrandListPage(), slugify(), brandToAdminBrandRow(), AdminBrandRo
 ### Community 46 - "Community 46"
 Cohesion: 0.12
 Nodes (14): Cart, CartV2, Checkout, CheckoutV2, OrderDetail, Orders, OrderV2, ProductDetail (+6 more)
+
+### Community 45 - "Community 45"
+Cohesion: 0.17
+Nodes (16): 1. Types (`src/types/user.ts`), 5. `index.tsx` — shell + sections, 7. Components (`src/components/UserList.tsx`), 8. Page (`src/pages/Users.tsx`), 8. Submit — trong `hooks/use*Form.ts`, không ở page, 9. Route (`src/App.tsx`), BƯỚC 10: Thêm i18n Translations (Optional), BƯỚC 5: Tạo Redux Slice (State Management) (+8 more)
+
+### Community 46 - "Community 46"
+Cohesion: 0.23
+Nodes (9): Address, CreateAddressRequest, ResetPasswordData, UpdateAddressRequest, User, MOCK_ADDRESSES, MOCK_ADMIN_USERS, MOCK_USER_PROFILE (+1 more)
 
 ### Community 47 - "Community 47"
 Cohesion: 0.23
@@ -470,7 +486,7 @@ Nodes (10): code:java (Create Payment entity with JPA annotations:), code:java (
 
 ### Community 69 - "Community 69"
 Cohesion: 0.2
-Nodes (10): code:java (Create Shipment entity with JPA annotations:), code:java (package com.ecommerce.shippingservice.entity;), code:java (Create ShippingProvider enum with value: GHN), code:java (package com.ecommerce.shippingservice.entity;), code:java (Create ShipmentStatus enum with values:), code:java (package com.ecommerce.shippingservice.entity;), File 3: `entity/ShippingProvider.java`, File 4: `entity/ShipmentStatus.java` (+2 more)
+Nodes (10): 1. **Type Safety**, 2. **Error Handling**, 3. **Code Organization**, 4. **Performance**, 5. **Testing**, 6. **Accessibility**, 7. **i18n**, 8. **Tailwind & Design System** (+2 more)
 
 ### Community 70 - "Community 70"
 Cohesion: 0.2
@@ -492,7 +508,7 @@ Nodes (8): KeycloakAuthSession, KeycloakErrorResponse, KeycloakJwtPayload, Keycl
 Cohesion: 0.25
 Nodes (5): LayoutV2Props, ProductDetailsModalContext, ProductDetailsModalContextValue, ProductDetailsModalProvider(), ProductDetailsModalProvider()
 
-### Community 75 - "Community 75"
+### Community 74 - "Community 74"
 Cohesion: 0.5
 Nodes (5): accent, gray, primary, secondary, outlineRingOpacityPlugin
 
@@ -508,19 +524,19 @@ Nodes (8): code:jsx (<h1 className="text-h1-bold text-gray-900">), H1 - 48px, H2
 Cohesion: 0.25
 Nodes (8): 1. Sử dụng màu nhất quán, 2. Sử dụng typography scale, 3. Hierarchy màu sắc, 4. Text colors, 📋 Best Practices, code:jsx (// ✅ Tốt - Sử dụng các màu đã định nghĩa), code:jsx (// ✅ Tốt - Sử dụng các class text đã định nghĩa), code:jsx (// Hierarchy của text)
 
-### Community 80 - "Community 80"
+### Community 78 - "Community 78"
 Cohesion: 0.29
 Nodes (3): ErrorBoundary, Props, State
 
-### Community 81 - "Community 81"
+### Community 79 - "Community 79"
 Cohesion: 0.29
 Nodes (7): code:java (Create VNPayConfig with @Configuration and @Getter:), code:java (package com.ecommerce.paymentservice.config;), code:java (Create WebClientConfig with @Configuration:), code:java (package com.ecommerce.paymentservice.config;), File 10: `config/WebClientConfig.java`, File 9: `config/VNPayConfig.java`, ⚙️ PHASE 5: Configuration (15 min)
 
-### Community 82 - "Community 82"
+### Community 80 - "Community 80"
 Cohesion: 0.29
 Nodes (7): code:xml (Add dependencies for Payment Service with VNPay integration:), code:xml (<dependencies>), code:yaml (Configure Payment Service with:), code:yaml (server:), File 1: `pom.xml`, File 2: `application.yml`, 🔧 PHASE 1: Dependencies & Configuration (15 min)
 
-### Community 83 - "Community 83"
+### Community 81 - "Community 81"
 Cohesion: 0.29
 Nodes (7): code:java (Create CreatePaymentRequest DTO with validation:), code:java (package com.ecommerce.paymentservice.dto.request;), code:java (Create PaymentResponse DTO for API responses:), code:java (package com.ecommerce.paymentservice.dto.response;), File 6: `dto/request/CreatePaymentRequest.java`, File 7: `dto/response/PaymentResponse.java`, 📝 PHASE 3: DTOs (25 min)
 
@@ -532,13 +548,21 @@ Nodes (7): code:java (Create PaymentController with @RestController and @Request
 Cohesion: 0.29
 Nodes (7): code:xml (Add dependencies for Shipping Service with GHN API integrati), code:xml (<dependencies>), code:yaml (Configure Shipping Service with:), code:yaml (server:), File 1: `pom.xml`, File 2: `application.yml`, 🔧 PHASE 1: Dependencies & Configuration (15 min)
 
-### Community 86 - "Community 86"
+### Community 83 - "Community 83"
+Cohesion: 0.29
+Nodes (7): code:java (Create GHNConfig with @Configuration and @Getter:), code:java (package com.ecommerce.shippingservice.config;), code:java (Create WebClientConfig with @Configuration:), code:java (package com.ecommerce.shippingservice.config;), File 11: `config/GHNConfig.java`, File 12: `config/WebClientConfig.java`, ⚙️ PHASE 4: Configuration (15 min)
+
+### Community 84 - "Community 84"
+Cohesion: 0.29
+Nodes (7): Alert Component, Card Component, code:jsx (<div className="bg-white dark:bg-gray-800 shadow-md rounded-), code:jsx (<div className="space-y-2">), code:jsx (<div className="bg-accent-700 border-l-4 border-accent-900 p), 📦 Component Examples, Form Input
+
+### Community 85 - "Community 85"
 Cohesion: 0.29
 Nodes (7): code:java (Create GHNConfig with @Configuration and @Getter:), code:java (package com.ecommerce.shippingservice.config;), code:java (Create WebClientConfig with @Configuration:), code:java (package com.ecommerce.shippingservice.config;), File 11: `config/GHNConfig.java`, File 12: `config/WebClientConfig.java`, ⚙️ PHASE 4: Configuration (15 min)
 
 ### Community 87 - "Community 87"
-Cohesion: 0.29
-Nodes (7): Alert Component, Card Component, code:jsx (<div className="bg-white dark:bg-gray-800 shadow-md rounded-), code:jsx (<div className="space-y-2">), code:jsx (<div className="bg-accent-700 border-l-4 border-accent-900 p), 📦 Component Examples, Form Input
+Cohesion: 0.33
+Nodes (5): authV2Routes, ForgotPasswordSentV2, ForgotPasswordV2, LoginV2, SignUpV2
 
 ### Community 88 - "Community 88"
 Cohesion: 0.29
@@ -556,11 +580,11 @@ Nodes (5): authV2Routes, ForgotPasswordSentV2, ForgotPasswordV2, LoginV2, SignUp
 Cohesion: 0.47
 Nodes (4): MOCK_ADDRESSES, MOCK_ADMIN_USERS, MOCK_USER_PROFILE, MOCK_USER_UPDATE_PAYLOAD
 
-### Community 94 - "Community 94"
+### Community 92 - "Community 92"
 Cohesion: 0.4
 Nodes (5): code:java (Create VNPayPaymentService with @Service:), code:java (Create PaymentService with @Service and @Transactional:), File 11: `service/VNPayPaymentService.java`, File 12: `service/PaymentService.java`, 💼 PHASE 6: Services (45 min)
 
-### Community 95 - "Community 95"
+### Community 93 - "Community 93"
 Cohesion: 0.4
 Nodes (5): code:bash (curl -X POST http://localhost:8085/api/payments/create \), code:bash (curl -X POST http://localhost:8085/api/payments/create \), **Test COD Payment:**, **Test VNPay Payment:**, 🧪 TESTING
 

@@ -69,6 +69,9 @@ export const userService = {
   getUsers: (params?: PaginationParams): Promise<ApiResponse<User[], PageMeta>> =>
     apiClient.get<ApiResponse<User[], PageMeta>>(API_ENDPOINTS.USERS.LIST, { params }),
 
+  getUserById: (id: string): Promise<ApiResponse<User>> =>
+    apiClient.get<ApiResponse<User>>(API_ENDPOINTS.USERS.DETAIL(id)),
+
   updateUserRoles: (id: string, roles: string[]): Promise<ApiResponse<User>> =>
     apiClient.put<ApiResponse<User>>(API_ENDPOINTS.USERS.ROLES(id), { roles }),
 };
