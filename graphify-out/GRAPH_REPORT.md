@@ -1,16 +1,16 @@
 # Graph Report - REACT-FASHION  (2026-05-18)
 
 ## Corpus Check
-- 251 files · ~111,434 words
+- 251 files · ~111,481 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2187 nodes · 5477 edges · 175 communities (122 shown, 53 thin omitted)
+- 2187 nodes · 5480 edges · 175 communities (121 shown, 54 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 6 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `16027a87`
+- Built from commit: `9ba5787e`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -189,8 +189,6 @@
 10. `Badge()` - 23 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `useCart()` --calls--> `Cart`  [INFERRED]
-  src/hooks/cart/useCart.ts → /home/thang/Workspace/REACT-FASHION/src/types/cart/cart.ts
 - `cn()` --calls--> `twMerge`  [INFERRED]
   /home/thang/Workspace/REACT-FASHION/src/utils/helpers.ts → src/lib/utils.ts
 - `App()` --calls--> `useTheme()`  [EXTRACTED]
@@ -199,8 +197,10 @@
   /home/thang/Workspace/REACT-FASHION/src/components/navigation/ProtectedRoute.tsx → src/hooks/auth/useAuth.ts
 - `useAuth()` --calls--> `Dashboard()`  [EXTRACTED]
   src/hooks/auth/useAuth.ts → /home/thang/Workspace/REACT-FASHION/src/pages/user/Dashboard.tsx
+- `useAuth()` --calls--> `SignUp()`  [EXTRACTED]
+  src/hooks/auth/useAuth.ts → /home/thang/Workspace/REACT-FASHION/src/pages/auth/SignUp.tsx
 
-## Communities (175 total, 53 thin omitted)
+## Communities (175 total, 54 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.05
@@ -208,442 +208,438 @@ Nodes (66): AddressType, FormFieldProps, ProfileAddressesModal(), ProfileAddress
 
 ### Community 1 - "Community 1"
 Cohesion: 0.06
-Nodes (60): AdminBrandV2Form(), adminBrandFormToCreateRequest(), adminBrandFormToUpdateRequest(), brandToAdminBrandFormValues(), adminBrandSubmitSchema, emptyAdminBrandFormValues(), optionalUrl, AdminBrandV2FormMode (+52 more)
+Nodes (61): AdminBrandV2Form(), AdminBrandV2FormProps, adminBrandFormToCreateRequest(), adminBrandFormToUpdateRequest(), brandToAdminBrandFormValues(), adminBrandSubmitSchema, emptyAdminBrandFormValues(), optionalUrl (+53 more)
 
 ### Community 2 - "Community 2"
-Cohesion: 0.05
-Nodes (49): asRecord(), clone(), createOrderFromCart(), delay(), findProductById(), handleMockApiRequest(), mockAddresses, mockBrands (+41 more)
+Cohesion: 0.07
+Nodes (51): AddToCartRequest, Cart, CartItem, CartStatus, CartSummary, UpdateCartItemRequest, MOCK_ADD_TO_CART_REQUEST, MOCK_CART_DATA (+43 more)
 
 ### Community 3 - "Community 3"
-Cohesion: 0.11
-Nodes (26): AdminRowExtraAction, AdminTableRowActionsMenuProps, AdminCategoryListPage(), slugify(), AdminCategoryRow, categoryToAdminCategoryRow(), TableRowActionsMenuTriggerProps, TableColumn (+18 more)
+Cohesion: 0.07
+Nodes (34): emptyAdminProductFormValues(), AdminProductV2FormViewProps, BRAND_OPTIONS, CATEGORY_OPTIONS, STATUS_OPTIONS, SUBCATEGORY_OPTIONS, AdminProductV2Form(), AdminProductV2FormProps (+26 more)
 
 ### Community 4 - "Community 4"
-Cohesion: 0.12
-Nodes (26): ProductDetailsAccordion(), ProductDetailsAccordionProps, ProductDetailsCloseButton(), ProductDetailsImage(), ProductDetailsImageProps, THUMB_IMAGES, ProductDetailsShippingItem(), ProductDetailsShippingItemProps (+18 more)
+Cohesion: 0.11
+Nodes (28): ProductDetailsAccordion(), ProductDetailsAccordionProps, ProductDetailsCloseButton(), ProductDetailsImage(), ProductDetailsImageProps, THUMB_IMAGES, ProductDetailsShippingItem(), ProductDetailsShippingItemProps (+20 more)
 
 ### Community 5 - "Community 5"
+Cohesion: 0.08
+Nodes (27): AdminEntitySidePanelProps, AdminBrandListPage(), slugify(), brandToAdminBrandRow(), ButtonBaseProps, IconButton(), IconButtonProps, ButtonBaseProps (+19 more)
+
+### Community 6 - "Community 6"
+Cohesion: 0.1
+Nodes (29): adminAddProductFormToCreateRequest(), AdminAddProductSubmitInput, adminAddProductSubmitSchema, buildProductImages(), optionalNonNegativeInt(), optionalUuid(), parseDiscountPercent(), parseMoney() (+21 more)
+
+### Community 7 - "Community 7"
 Cohesion: 0.05
 Nodes (41): 1. Order Service — Port `8084`, 2. Payment Service — Port `8085`, 3. Shipping Service — Port `8088`, API Contract — 3 Services Ecommerce, code:json ({), code:json ({), code:json ({), code:json ({) (+33 more)
 
-### Community 6 - "Community 6"
-Cohesion: 0.07
-Nodes (31): OrderStats(), OrderStatsProps, initialsFromDisplayName(), UserButton(), UserButtonProps, HomeHeaderSection(), QUICK_FILTERS, QuickFilterId (+23 more)
-
-### Community 7 - "Community 7"
-Cohesion: 0.08
-Nodes (21): Login(), LoginFormData, loginSchema, SignUp(), SignUpFormData, signUpSchema, useAuth(), ROUTES (+13 more)
-
 ### Community 8 - "Community 8"
-Cohesion: 0.16
-Nodes (22): ActionIconButton(), ActionIconButtonProps, ActionIconVariant, promoBg(), PromoCard(), PromoCardProps, FEATURED_PROMO, LAST_ORDERS (+14 more)
+Cohesion: 0.14
+Nodes (19): AdminRowExtraAction, AdminTableRowActionsMenuProps, TableRowActionsMenuTriggerProps, TableColumn, AdminBrandList(), AdminBrandListProps, buildBrandColumns(), AdminCategoryList() (+11 more)
 
 ### Community 9 - "Community 9"
-Cohesion: 0.11
-Nodes (16): SocialProvider, authService, AUTH_ENDPOINTS, AUTH_STORAGE_KEYS, KEYCLOAK_AUTH_ENDPOINTS, KEYCLOAK_CONFIG, SOCIAL_PROVIDER_HINTS, USER_ROLES (+8 more)
+Cohesion: 0.1
+Nodes (22): GALLERY_IMAGES, AdminCategoryV2FormProps, AdminAddProductMediaSectionProps, AdminAddProductQuickActionsSectionProps, AdminProductQuickActionsSectionProps, FormField(), AdminAddProductFormValues, BRAND_OPTIONS (+14 more)
 
 ### Community 10 - "Community 10"
-Cohesion: 0.15
-Nodes (29): BrandPayload, CategoryPayload, CreateProductRequest, Product, ProductDocument, ProductFilters, ProductImage, ProductListParams (+21 more)
+Cohesion: 0.12
+Nodes (21): AdminListPageLayout(), AdminListPageLayoutProps, AdminEntityPanelMode, AdminEntityPanelState, AdminEntityPanelSubmitContext, adminEntityPanelSubmitLabel(), adminEntityPanelTitle(), AdminBrandRow (+13 more)
 
 ### Community 11 - "Community 11"
 Cohesion: 0.06
-Nodes (33): 1. **PROJECT-STRUCTURE.md** (Complete project structure), 2. **API-CONTRACTS.md** (All API documentation), 3. **GITHUB-COPILOT-COMPLETE-GUIDE.md** ⭐ (MOST IMPORTANT!), 🔗 API INTEGRATION, Code Organization:, code:bash (# 1. Create project), code:block2 (Frontend:), code:block3 (src/) (+25 more)
+Nodes (33): AdminDashboard, adminRoute, AuthCallback, authV2Routes, Cart, CartV2, Checkout, CheckoutV2 (+25 more)
 
 ### Community 12 - "Community 12"
 Cohesion: 0.06
-Nodes (33): AdminDashboard, adminRoute, AuthCallback, authV2Routes, Cart, CartV2, Checkout, CheckoutV2 (+25 more)
+Nodes (33): 1. **PROJECT-STRUCTURE.md** (Complete project structure), 2. **API-CONTRACTS.md** (All API documentation), 3. **GITHUB-COPILOT-COMPLETE-GUIDE.md** ⭐ (MOST IMPORTANT!), 🔗 API INTEGRATION, Code Organization:, code:bash (# 1. Create project), code:block2 (Frontend:), code:block3 (src/) (+25 more)
 
 ### Community 13 - "Community 13"
-Cohesion: 0.11
-Nodes (22): emptyAdminProductFormValues(), BRAND_OPTIONS, CATEGORY_OPTIONS, STATUS_OPTIONS, SUBCATEGORY_OPTIONS, AdminProductV2Form(), AdminProductV2FormProps, ProductV2FormProps (+14 more)
+Cohesion: 0.2
+Nodes (18): ApiResponse, PageMeta, PageResponse, PaginatedListResponse, PagedPayload, MOCK_NOTIFICATION_PAGE, MOCK_NOTIFICATIONS, NotificationItem (+10 more)
 
 ### Community 14 - "Community 14"
-Cohesion: 0.11
-Nodes (19): AdminEntitySidePanelProps, ButtonBaseProps, IconButton(), IconButtonProps, ButtonBaseProps, IconLabelButton(), IconLabelButtonPillVariant, IconLabelButtonProps (+11 more)
-
-### Community 15 - "Community 15"
-Cohesion: 0.12
-Nodes (22): ADMIN_PRODUCT_LIST_MOCK, AdminProductListPage(), IMAGES, useAdminProductList(), CATEGORY_FILTERS, CategoryFilter, categoryLabel(), collectProductGalleryUrls() (+14 more)
-
-### Community 16 - "Community 16"
-Cohesion: 0.2
-Nodes (18): ApiResponse, PageMeta, PageResponse, PaginatedListResponse, PagedPayload, NotificationItem, notificationService, CreateReviewRequest (+10 more)
-
-### Community 17 - "Community 17"
 Cohesion: 0.12
 Nodes (17): AdminProductListProps, AdminProductRow, ADMIN_PRODUCT_LIST_DEMO, ADMIN_PRODUCT_LIST_MOCK, AdminTableColumn, AdminTableRowBase, AdminTableViewProps, TableRowBase (+9 more)
 
-### Community 18 - "Community 18"
+### Community 15 - "Community 15"
 Cohesion: 0.11
 Nodes (19): ADMIN_USER_ROLE_OPTIONS, AdminUserListPage(), AdminUserV2Form(), AdminUserV2FormProps, formatEnumLabel(), STATUS_BADGE, UserSummaryFields(), adminUserFormToRolesRequest() (+11 more)
 
+### Community 16 - "Community 16"
+Cohesion: 0.14
+Nodes (20): AdminOrderListPage(), AdminOrderV2(), PaymentStatus, ShipmentStatus, useOrders(), AdminOrderList(), AdminOrderListProps, AdminOrderRow (+12 more)
+
+### Community 17 - "Community 17"
+Cohesion: 0.13
+Nodes (10): Checkout(), MOCK_ORDERS, MOCK_PRODUCTS, PaymentMethod, OrderDetail(), Orders(), ProductDetail(), Products() (+2 more)
+
+### Community 18 - "Community 18"
+Cohesion: 0.08
+Nodes (24): HomeHeaderSection(), ADMIN_SHELL_ROUTES, APP_SHELL_ROUTES, AppShellRoute, getCurrentRoute(), matchAdminRoute(), SIDEBAR_NAV_ITEMS, ADMIN_SHELL_ROUTES (+16 more)
+
 ### Community 19 - "Community 19"
-Cohesion: 0.15
-Nodes (19): DEFAULT_SWATCHES, ProductCard(), ProductCardProps, ProductSwatch, ProductTile, useProducts(), useV2ProductCatalog(), PRODUCT_TILES (+11 more)
+Cohesion: 0.18
+Nodes (22): brandService, API_ENDPOINTS, BrandPayload, Category, CategoryPayload, CreateProductRequest, ProductImage, ProductListParams (+14 more)
 
 ### Community 20 - "Community 20"
-Cohesion: 0.13
-Nodes (20): emptyShippingInfo(), ShippingInfoFormValues, shippingInfoSchema, toCreateOrderRequest(), toOptionalString(), CheckoutV2(), mockCartItems, useDebounce() (+12 more)
+Cohesion: 0.19
+Nodes (16): ActionIconButton(), ActionIconButtonProps, ActionIconVariant, promoBg(), PromoCard(), PromoCardProps, FEATURED_PROMO, LAST_ORDERS (+8 more)
 
 ### Community 21 - "Community 21"
-Cohesion: 0.15
-Nodes (16): BRAND_OPTIONS, CATEGORY_OPTIONS, STATUS_OPTIONS, SUBCATEGORY_OPTIONS, AdminAddProduct(), AdminAddProductFormValues, AdminProductUploadIntent, SelectOption (+8 more)
+Cohesion: 0.1
+Nodes (17): Login(), SignUp(), SignUpFormData, signUpSchema, useAuth(), TermsAgreementProps, ForgotPasswordSentV2(), Layout() (+9 more)
 
 ### Community 22 - "Community 22"
-Cohesion: 0.17
-Nodes (16): AdminOrderListPage(), AdminOrderV2(), ShipmentStatus, useOrders(), AdminOrderListProps, AdminOrderRow, buildOrderColumns(), formatStatusLabel() (+8 more)
+Cohesion: 0.13
+Nodes (9): AuthLayoutProps, AuthSwitchPromptProps, ROUTES, ROUTESV2, USER_ROLES, LoginV2(), LoginFormData, loginSchema (+1 more)
 
 ### Community 23 - "Community 23"
 Cohesion: 0.16
 Nodes (21): User, UserInbound, initialState, userSlice, UserState, createAddressThunk, deleteAddressThunk, fetchAddressesThunk (+13 more)
 
 ### Community 24 - "Community 24"
-Cohesion: 0.14
-Nodes (18): buildGalleryPreviews(), coverIndexAfterRemove(), nonCoverIndices(), AdminProductV2FormViewProps, AdminProductGalleryPreviews, UseAdminProductFormMediaOptions, UseAdminProductFormMediaResult, AdminProductMediaSectionProps (+10 more)
+Cohesion: 0.11
+Nodes (27): asRecord(), clone(), createOrderFromCart(), delay(), findProductById(), handleMockApiRequest(), mockAddresses, mockBrands (+19 more)
 
 ### Community 25 - "Community 25"
-Cohesion: 0.11
-Nodes (18): AdminAddProductFormValues, AdminAddProductMediaInput, AdminProductUploadIntent, AdminProductV2FormValues, ProductV2FormMediaInput, ProductV2FormMode, ProductV2FormValues, ProductV2UploadIntent (+10 more)
+Cohesion: 0.16
+Nodes (23): normalizeProduct(), readOptionalString(), ProductFilters, initialState, productsSlice, ProductsState, createBrandThunk, createCategoryThunk (+15 more)
 
 ### Community 26 - "Community 26"
-Cohesion: 0.16
-Nodes (22): normalizeProduct(), readOptionalString(), initialState, productsSlice, ProductsState, createBrandThunk, createCategoryThunk, createProductThunk (+14 more)
+Cohesion: 0.12
+Nodes (17): ConfirmPaymentRequest, ConfirmPaymentRequestLegacy, CreatePaymentRequest, CreatePaymentRequestLegacy, PaymentIntent, PaymentMethodType, PaymentResponse, PaymentStatusType (+9 more)
 
 ### Community 27 - "Community 27"
-Cohesion: 0.12
-Nodes (21): adminAddProductFormToCreateRequest(), AdminAddProductSubmitInput, adminAddProductSubmitSchema, buildProductImages(), optionalNonNegativeInt(), optionalUuid(), parseDiscountPercent(), parseMoney() (+13 more)
+Cohesion: 0.09
+Nodes (14): AdminFormFooterProps, LastOrderButton(), LastOrderButtonProps, NavButton(), NavButtonCompactProps, NavButtonDefaultProps, NavButtonIconProps, NavButtonProps (+6 more)
 
 ### Community 28 - "Community 28"
-Cohesion: 0.14
-Nodes (13): HomeV2(), HomeFeaturedPromoSection(), HomeMainSection(), HomePromoLeftSection(), FEATURED_PROMO, LAST_ORDERS, LastOrderItem, LEFT_BOTTOM_PROMOS (+5 more)
+Cohesion: 0.1
+Nodes (20): AdminTab, BrandFormState, CategoryFormState, DEFAULT_BRAND_FORM, DEFAULT_CATEGORY_FORM, DEFAULT_PRODUCT_FORM, ProductFormState, categoryService (+12 more)
 
 ### Community 29 - "Community 29"
-Cohesion: 0.09
-Nodes (10): AuthHeaderProps, AuthLayoutProps, AuthSwitchPromptProps, TermsAgreementProps, ForgotPasswordFormData, forgotPasswordSchema, FormSection(), SignUpFormData (+2 more)
+Cohesion: 0.15
+Nodes (18): DEFAULT_SWATCHES, ProductCard(), ProductCardProps, ProductSwatch, ProductTile, getPrimaryProductImageUrl(), ProductTile, UserProductDetailsV2() (+10 more)
 
 ### Community 30 - "Community 30"
-Cohesion: 0.09
-Nodes (22): API CONTRACT - ORDER SERVICE, code:typescript ({), code:typescript ({), code:typescript ({), code:json ({), code:block5 (?keyword=...), code:typescript (interface OrderResponse {), GET /api/orders (+14 more)
+Cohesion: 0.14
+Nodes (19): AdminCreateProduct(), buildGalleryPreviews(), coverIndexAfterRemove(), nonCoverIndices(), AdminProductGalleryPreviews, AdminProductV2UploadIntent, UseAdminProductFormMediaOptions, UseAdminProductFormMediaResult (+11 more)
 
 ### Community 31 - "Community 31"
-Cohesion: 0.11
-Nodes (23): 1. Module form thuần — schema + mapper (nguồn sự thật duy nhất), 1. Định nghĩa schema (nguồn sự thật duy nhất), 2. Khởi tạo `useForm`, 3. Reset khi load data / đổi record, 4. State ngoài RHF (media / gallery), 5. Submit handler — kết nối với thunk, 5. Submit handler — page gọi hook (toast nằm trong hook), 6. Những điều **không** nên làm (+15 more)
+Cohesion: 0.2
+Nodes (18): PaginationParams, CreateOrderRequest, Order, orderService, initialState, ordersSlice, OrdersState, calculateShippingFeeThunk (+10 more)
 
 ### Community 32 - "Community 32"
 Cohesion: 0.17
 Nodes (11): CartItem, initialCartItems, useCart(), CartItemListSection(), CartItemListSectionProps, format(), OrderSummarySection(), summaryItems (+3 more)
 
 ### Community 33 - "Community 33"
-Cohesion: 0.12
-Nodes (17): Divider(), DividerProps, LastOrderButton(), LastOrderButtonProps, NavButton(), NavButtonCompactProps, NavButtonDefaultProps, NavButtonIconProps (+9 more)
+Cohesion: 0.09
+Nodes (22): API CONTRACT - ORDER SERVICE, code:typescript ({), code:typescript ({), code:typescript ({), code:json ({), code:block5 (?keyword=...), code:typescript (interface OrderResponse {), GET /api/orders (+14 more)
 
 ### Community 34 - "Community 34"
-Cohesion: 0.17
-Nodes (17): ForgotPasswordData, authDataWithNormalizedUser(), finalizeUserFromMeEnvelope(), normalizeUser(), authSlice, AuthState, initialAccessToken, initialRefreshToken (+9 more)
+Cohesion: 0.09
+Nodes (22): 1. **Type Safety**, 2. **Error Handling**, 3. **Code Organization**, 4. **Performance**, 5. **Testing**, 6. **Accessibility**, 7. **i18n**, 8. **Tailwind & Design System** (+14 more)
 
 ### Community 35 - "Community 35"
+Cohesion: 0.13
+Nodes (17): Divider(), DividerProps, RECENTS_CHAT, PRIMARY_NAV_ITEMS, PrimaryNavigationItem, NavigationMenuSection(), PRIMARY_NAV_ITEMS, getSidebarNavItems() (+9 more)
+
+### Community 36 - "Community 36"
 Cohesion: 0.09
 Nodes (21): code:block1 (Frontend (React/Vue...)), code:block10 (┌──────────────────┐), code:block11 (PENDING → PICKED_UP → IN_TRANSIT → OUT_FOR_DELIVERY → DELIVE), code:block2 (FE → [POST /api/orders] → Order Service), code:block3 (Admin → [PUT /api/shipping/{id}/deliver] → Shipping Service), code:block4 (FE → [POST /api/orders] → Order Service), code:block5 (Admin Dashboard → [POST /api/shipping/create] → Shipping Ser), code:block6 (Admin/Shipper → [PUT /api/shipping/{id}/status]) (+13 more)
 
-### Community 36 - "Community 36"
-Cohesion: 0.15
-Nodes (8): GALLERY_IMAGES, AdminAddProductMediaSectionProps, OrderDetail(), AdminAddProductMediaSection(), AdminAddProductMediaSectionProps, Card(), CardContent(), CardProps
-
 ### Community 37 - "Community 37"
-Cohesion: 0.2
-Nodes (16): PaginationParams, orderService, initialState, ordersSlice, OrdersState, calculateShippingFeeThunk, cancelOrderThunk, confirmOrderPaymentThunk (+8 more)
+Cohesion: 0.19
+Nodes (9): ADMIN_PRODUCT_LIST_MOCK, AdminProductListPage(), categoryLabel(), productToAdminProductRow(), sizesLabelFromVariants(), IMAGES, useAdminProductList(), useProducts() (+1 more)
 
 ### Community 38 - "Community 38"
-Cohesion: 0.15
-Nodes (14): MOCK_SHIPMENT, MOCK_SHIPMENT_RESPONSE, MOCK_SHIPPING_FEE_REQUEST, MOCK_SHIPPING_FEE_RESPONSE, CreateShipmentRequest, DeliverShipmentRequest, Shipment, ShipmentResponse (+6 more)
+Cohesion: 0.18
+Nodes (17): CATEGORY_FILTERS, CategoryFilter, categoryLabel(), collectProductGalleryUrls(), formatProductPriceUsd(), getPrimaryProductImageUrl(), inferExploreCategory(), productToAdminProductRow() (+9 more)
 
 ### Community 39 - "Community 39"
 Cohesion: 0.18
-Nodes (13): Address, AuthResponse, CreateAddressRequest, LoginCredentials, OAuthExchangeRequest, ResetPasswordData, SignUpCredentials, UpdateAddressRequest (+5 more)
+Nodes (16): ForgotPasswordData, authDataWithNormalizedUser(), finalizeUserFromMeEnvelope(), normalizeUser(), authSlice, AuthState, initialAccessToken, initialRefreshToken (+8 more)
 
 ### Community 40 - "Community 40"
-Cohesion: 0.14
-Nodes (14): AdminBrandV2FormProps, AdminCategoryV2FormProps, FormField(), FormFieldBase, FormFieldInputProps, FormFieldParagraphProps, FormFieldSelectionProps, AdminAddProductFormValues (+6 more)
+Cohesion: 0.11
+Nodes (21): 1. Module form thuần — schema + mapper (nguồn sự thật duy nhất), 1. Định nghĩa schema (nguồn sự thật duy nhất), 2. Khởi tạo `useForm`, 4. State ngoài RHF (media / gallery), 5. Submit handler — kết nối với thunk, 5. Submit handler — page gọi hook (toast nằm trong hook), 6. Những điều **không** nên làm, Bố cục file (+13 more)
 
 ### Community 41 - "Community 41"
-Cohesion: 0.12
-Nodes (15): ORDER_FILTERS, OrderStatus, formatPrice(), LocationPill, locationPills, mockOrders, Order, OrderDetailsListSection() (+7 more)
+Cohesion: 0.15
+Nodes (14): MOCK_SHIPMENT, MOCK_SHIPMENT_RESPONSE, MOCK_SHIPPING_FEE_REQUEST, MOCK_SHIPPING_FEE_RESPONSE, CreateShipmentRequest, DeliverShipmentRequest, Shipment, ShipmentResponse (+6 more)
 
 ### Community 42 - "Community 42"
-Cohesion: 0.19
-Nodes (12): AdminFormFooterProps, AdminListPageLayout(), AdminListPageLayoutProps, AdminEntityPanelMode, AdminEntityPanelState, AdminEntityPanelSubmitContext, adminEntityPanelSubmitLabel(), adminEntityPanelTitle() (+4 more)
+Cohesion: 0.14
+Nodes (8): OAuthExchangeRequest, SocialProvider, authService, LoginFormData, loginSchema, KEYCLOAK_AUTH_ENDPOINTS, KEYCLOAK_CONFIG, SOCIAL_PROVIDER_HINTS
 
 ### Community 43 - "Community 43"
-Cohesion: 0.12
-Nodes (10): LayoutV2Props, useV2ProductDetail(), ProductDetails(), ProductDetailsModalContext, ProductDetailsModalContextValue, ProductDetailsModalProvider(), UserProductDetailsV2(), ProductDetailsModalContext (+2 more)
+Cohesion: 0.16
+Nodes (14): BRAND_OPTIONS, CATEGORY_OPTIONS, STATUS_OPTIONS, SUBCATEGORY_OPTIONS, FormFieldBase, FormFieldInputProps, FormFieldParagraphProps, FormFieldSelectionProps (+6 more)
 
 ### Community 44 - "Community 44"
-Cohesion: 0.18
-Nodes (12): categoryLabel(), productToAdminProductRow(), sizesLabelFromVariants(), collectProductGalleryUrls(), getPrimaryProductImageUrl(), SizeOption, USD, variantsToSizeOptions() (+4 more)
+Cohesion: 0.2
+Nodes (11): AUTH_ENDPOINTS, AUTH_STORAGE_KEYS, CancelOrderRequest, RetryConfig, RetryConfig, clearAuthTokens(), getRefreshToken(), setAuthTokens() (+3 more)
 
 ### Community 45 - "Community 45"
-Cohesion: 0.31
-Nodes (12): useCart(), DEFAULT_LIST_QUERY, ListQueryParams, cartSlice, CartState, initialState, addToCartThunk, clearCartThunk (+4 more)
+Cohesion: 0.2
+Nodes (12): Address, AuthResponse, CreateAddressRequest, LoginCredentials, ResetPasswordData, SignUpCredentials, UpdateAddressRequest, MOCK_AUTH_RESPONSE (+4 more)
 
 ### Community 46 - "Community 46"
-Cohesion: 0.2
-Nodes (7): MOCK_CART, MOCK_ORDERS, MOCK_PRODUCTS, Orders(), ProductDetail(), Products(), Home()
-
-### Community 47 - "Community 47"
 Cohesion: 0.13
 Nodes (6): Column, TableProps, Input, InputProps, ModalProps, cn()
 
-### Community 48 - "Community 48"
-Cohesion: 0.18
-Nodes (4): Checkout(), handleClick, user, Button()
-
-### Community 49 - "Community 49"
-Cohesion: 0.16
-Nodes (12): AdminTab, BrandFormState, CategoryFormState, DEFAULT_BRAND_FORM, DEFAULT_CATEGORY_FORM, DEFAULT_PRODUCT_FORM, ProductFormState, brandService (+4 more)
-
-### Community 50 - "Community 50"
-Cohesion: 0.19
-Nodes (11): ConfirmDialogProps, TableRowActionsMenuTrigger(), AlertDialog(), AlertDialogAction(), AlertDialogCancel(), AlertDialogContent(), AlertDialogDescription(), AlertDialogFooter() (+3 more)
-
-### Community 51 - "Community 51"
+### Community 47 - "Community 47"
 Cohesion: 0.19
 Nodes (8): STORAGE_ENDPOINTS, initialState, storageSlice, StorageState, UploadCreatedData, storageService, uploadFileThunk, storageApiClient
 
-### Community 52 - "Community 52"
-Cohesion: 0.17
-Nodes (17): 10. i18n (`src/constants/locales/en.json` và `vi.json`), 1. Types (`src/types/user.ts`), 2. Constants (`src/constants/index.ts`), 3. Service (`src/services/userService.ts`), 8. Page (`src/pages/Users.tsx`), 9. Route (`src/App.tsx`), 9. Route (`src/routes/index.tsx` và khi cần `src/routes/v2/*`), BƯỚC 6: Tạo Custom Hook (bắt buộc khi có thunk + toast) (+9 more)
-
-### Community 53 - "Community 53"
-Cohesion: 0.18
-Nodes (11): categoriesSlice, CategoriesState, initialState, FetchBrandsParams, createCategoryThunk, deleteCategoryThunk, fetchActiveCategoriesThunk, FetchCategoriesParams (+3 more)
-
-### Community 54 - "Community 54"
-Cohesion: 0.23
-Nodes (9): AdminBrandListPage(), slugify(), brandToAdminBrandRow(), AdminBrandRow, brandToAdminBrandRow(), AdminBrandListPage(), panelToFormMode(), useAdminCatalog() (+1 more)
-
-### Community 55 - "Community 55"
-Cohesion: 0.3
-Nodes (11): AddToCartRequest, Cart, CartItem, CartStatus, CartSummary, UpdateCartItemRequest, MOCK_ADD_TO_CART_REQUEST, MOCK_CART_DATA (+3 more)
-
-### Community 56 - "Community 56"
+### Community 48 - "Community 48"
 Cohesion: 0.19
-Nodes (12): initialState, Theme, themeSlice, ThemeState, queryClient, AppDispatch, persistConfig, persistedReducer (+4 more)
+Nodes (11): ConfirmDialogProps, TableRowActionsMenuTrigger(), AlertDialog(), AlertDialogAction(), AlertDialogCancel(), AlertDialogContent(), AlertDialogDescription(), AlertDialogFooter() (+3 more)
 
-### Community 57 - "Community 57"
+### Community 49 - "Community 49"
+Cohesion: 0.23
+Nodes (10): initialsFromDisplayName(), UserButton(), UserButtonProps, TYPOGRAPHY_FONT_SIZE_CLASS_SUFFIXES, twMerge, ProfileCoverSummarySection(), ProfileCoverSummarySectionProps, Avatar (+2 more)
+
+### Community 50 - "Community 50"
+Cohesion: 0.22
+Nodes (6): HomeV2(), useV2ProductCatalog(), Products(), useProductDetailsModal(), HomeMainSection(), HomeProductCardsSection()
+
+### Community 51 - "Community 51"
 Cohesion: 0.12
 Nodes (14): Cart, CartV2, Checkout, CheckoutV2, OrderDetail, Orders, OrderV2, ProductDetail (+6 more)
 
-### Community 58 - "Community 58"
-Cohesion: 0.28
-Nodes (12): CreateOrderRequest, CreateOrderShippingAddress, Order, OrderAddress, OrderItem, OrderPage, OrderStatus, PaymentMethod (+4 more)
+### Community 52 - "Community 52"
+Cohesion: 0.19
+Nodes (12): initialState, Theme, themeSlice, ThemeState, queryClient, AppDispatch, persistConfig, persistedReducer (+4 more)
 
-### Community 59 - "Community 59"
-Cohesion: 0.2
-Nodes (14): adminAddProductFormToCreateRequest(), AdminAddProductSubmitInput, adminAddProductSubmitSchema, buildProductImages(), optionalNonNegativeInt(), optionalUuid(), parseDiscountPercent(), parseMoney() (+6 more)
-
-### Community 60 - "Community 60"
+### Community 53 - "Community 53"
 Cohesion: 0.26
-Nodes (8): TYPOGRAPHY_FONT_SIZE_CLASS_SUFFIXES, twMerge, ProfileCoverSummarySection(), ProfileCoverSummarySectionProps, Avatar, AvatarFallback, AvatarImage, Textarea
+Nodes (9): LAST_ORDERS, LastOrderItem, LEFT_BOTTOM_PROMOS, LEFT_TOP_PROMOS, PrimaryNavItem, PRODUCT_TILES, ProductTile, RECENTS_CHAT (+1 more)
 
-### Community 61 - "Community 61"
-Cohesion: 0.22
-Nodes (10): Brand, brandsSlice, BrandsState, initialState, createBrandThunk, deleteBrandThunk, fetchActiveBrandsThunk, fetchBrandByIdThunk (+2 more)
+### Community 54 - "Community 54"
+Cohesion: 0.19
+Nodes (15): 1. Types (`src/types/user.ts`), 5. `index.tsx` — shell + sections, 7. Components (`src/components/UserList.tsx`), 8. Page (`src/pages/Users.tsx`), 9. Route (`src/App.tsx`), BƯỚC 10: Thêm i18n Translations (Optional), BƯỚC 1: Định nghĩa Types (TypeScript Interfaces), BƯỚC 5: Tạo Redux Slice (State Management) (+7 more)
 
-### Community 62 - "Community 62"
+### Community 55 - "Community 55"
+Cohesion: 0.2
+Nodes (11): Brand, brandsSlice, BrandsState, initialState, createBrandThunk, deleteBrandThunk, fetchActiveBrandsThunk, fetchBrandByIdThunk (+3 more)
+
+### Community 56 - "Community 56"
+Cohesion: 0.18
+Nodes (9): CreateOrderShippingAddress, OrderAddress, OrderItem, OrderPage, ORDER_FILTERS, OrderStatus, formatPrice(), OrderDetailsListSection() (+1 more)
+
+### Community 57 - "Community 57"
 Cohesion: 0.15
-Nodes (12): 📡 API ENDPOINTS SUMMARY, code:block1 (shipping-service/), code:java (Create GHNShippingService with @Service and @Transactional:), code:block31 (1. POST /api/shipping/calculate-fee), code:block34 (Setup:), File 14: `service/GHNShippingService.java & ShippingService.java`, ✅ IMPLEMENTATION CHECKLIST, 💼 PHASE 6: Services (40 min) (+4 more)
+Nodes (13): code:java (Create CalculateFeeRequest DTO with validation:), code:java (package com.ecommerce.shippingservice.dto.request;), code:java (Create CreateShipmentRequest DTO with validation:), code:java (package com.ecommerce.shippingservice.dto.request;), code:java (Create CalculateFeeResponse DTO:), code:java (package com.ecommerce.shippingservice.dto.response;), code:java (Create CreateShipmentResponse DTO:), code:java (package com.ecommerce.shippingservice.dto.response;) (+5 more)
 
-### Community 63 - "Community 63"
-Cohesion: 0.15
-Nodes (13): code:java (Create CalculateFeeRequest DTO with validation:), code:java (package com.ecommerce.shippingservice.dto.request;), code:java (Create CalculateFeeResponse DTO:), code:java (package com.ecommerce.shippingservice.dto.response;), code:java (Create CreateShipmentResponse DTO:), code:java (package com.ecommerce.shippingservice.dto.response;), code:java (Create TrackingResponse DTO:), code:java (package com.ecommerce.shippingservice.dto.response;) (+5 more)
-
-### Community 64 - "Community 64"
-Cohesion: 0.15
-Nodes (12): 📋 Checklist, code:block1 (1. Types (TypeScript Interfaces)), Coding Guide - Workflow cho Feature Development, Graphify & đồ thị codebase, ⚠️ Lưu ý file `tailwind.config.js`, 📋 Mục Lục, Quy tắc cụ thể, 🔗 Tài Liệu Tham Khảo (+4 more)
-
-### Community 65 - "Community 65"
+### Community 58 - "Community 58"
 Cohesion: 0.24
 Nodes (6): formatEnumLabel(), orderToAdminOrderRow(), formatEnumLabel(), orderToAdminOrderRow(), formatProductPriceUsd(), formatDateTime()
 
-### Community 66 - "Community 66"
-Cohesion: 0.27
-Nodes (12): 4. Thunks (`src/store/thunks/userThunks.ts`), 7. Bind UI, BƯỚC 2: Thêm API Endpoints vào Constants, BƯỚC 3: Tạo Service Layer (API Calls), BƯỚC 7: Tạo Components (Reusable UI), BƯỚC 8: Tạo Page Component, 📝 Chi Tiết Từng Bước, code:tsx (<FormField) (+4 more)
-
-### Community 67 - "Community 67"
-Cohesion: 0.17
-Nodes (11): AdminBrandListPage, AdminCategoryListPage, AdminCreateProduct, AdminDashboard, AdminOrderListPage, AdminOrderV2, AdminProductListPage, AdminReadProduct (+3 more)
-
-### Community 68 - "Community 68"
+### Community 59 - "Community 59"
 Cohesion: 0.17
 Nodes (11): AdminAddProduct, AdminBrandListPage, AdminCategoryListPage, AdminCreateProduct, AdminDashboard, AdminOrderListPage, AdminProductListPage, AdminReadProduct (+3 more)
 
-### Community 69 - "Community 69"
+### Community 60 - "Community 60"
+Cohesion: 0.17
+Nodes (11): AdminBrandListPage, AdminCategoryListPage, AdminCreateProduct, AdminDashboard, AdminOrderListPage, AdminOrderV2, AdminProductListPage, AdminReadProduct (+3 more)
+
+### Community 61 - "Community 61"
+Cohesion: 0.23
+Nodes (12): 1. `schema.ts` — validation + default values, 2. `mapper.ts` — entity ↔ form ↔ API, 3. `hooks/useAdminProductV2Form.ts` — orchestration, 4. Bind UI, 8. Submit — trong `hooks/use*Form.ts`, không ở page, 9. Những điều **không** nên làm, BƯỚC 4: Tạo Redux Thunks (Async Actions), code:typescript (// hooks/useAdminProductV2Form.ts — onSubmit nội bộ, export ) (+4 more)
+
+### Community 62 - "Community 62"
+Cohesion: 0.27
+Nodes (11): adminAddProductFormToCreateRequest(), AdminAddProductSubmitInput, adminAddProductSubmitSchema, buildProductImages(), optionalNonNegativeInt(), optionalUuid(), parseDiscountPercent(), parseMoney() (+3 more)
+
+### Community 63 - "Community 63"
+Cohesion: 0.18
+Nodes (8): OrderStatus, MOCK_CREATE_ORDER_REQUEST, MOCK_ORDERS_PAGE, ORDER_FILTERS, OrderStatus, OrderItem, orderItems, OrderSummaryCardSection()
+
+### Community 64 - "Community 64"
+Cohesion: 0.27
+Nodes (10): ProductDocument, asFiniteNumber(), asOptionalNumber(), ensureProductPageShape(), ensureProductShape(), isProductStatus(), mapStatus(), normalizeVariant() (+2 more)
+
+### Community 65 - "Community 65"
 Cohesion: 0.17
 Nodes (12): Coding Guide - Feature Development Workflow, Reusable Components, Constants (API Endpoints, Routes), Custom Hooks, i18n Translations, Page Components, Protected Routes & Auth, Redux Slice (State Management) (+4 more)
 
-### Community 70 - "Community 70"
+### Community 66 - "Community 66"
+Cohesion: 0.27
+Nodes (8): collectProductGalleryUrls(), SizeOption, USD, variantsToSizeOptions(), SHIPPING_ITEMS, SIZE_OPTIONS, FALLBACK_THUMBS, UserProductDetailsV2Props
+
+### Community 67 - "Community 67"
 Cohesion: 0.18
 Nodes (11): Body Text - 16px, Caption Extra Small - 9px, Caption Large - 13px, Caption Small - 11px, code:jsx (<span className="text-caption-xs-regular text-gray-400">), code:jsx (// Mặc định đã áp dụng cho toàn bộ app), code:jsx (<p className="text-body-regular text-gray-600">), code:jsx (<span className="text-caption-lg-regular text-gray-500">) (+3 more)
 
-### Community 71 - "Community 71"
+### Community 68 - "Community 68"
 Cohesion: 0.2
-Nodes (10): code:java (Create Payment entity with JPA annotations:), code:java (package com.ecommerce.paymentservice.entity;), code:java (Create PaymentMethod enum with values: COD, VNPAY), code:java (package com.ecommerce.paymentservice.entity;), code:java (Create PaymentStatus enum with values: PENDING, SUCCESS, FAI), code:java (package com.ecommerce.paymentservice.entity;), File 3: `entity/PaymentMethod.java`, File 4: `entity/PaymentStatus.java` (+2 more)
+Nodes (9): formatPrice(), LocationPill, locationPills, mockOrders, Order, OrderDetailsListSection(), OrderDetailsListSectionProps, OrderItem (+1 more)
 
-### Community 72 - "Community 72"
+### Community 69 - "Community 69"
 Cohesion: 0.2
 Nodes (9): 📡 API ENDPOINTS SUMMARY, code:block1 (payment-service/), code:block28 (1. POST /api/payments/create), code:block31 (Setup:), ✅ IMPLEMENTATION CHECKLIST, PAYMENT SERVICE - GITHUB COPILOT IMPLEMENTATION GUIDE, 📁 PROJECT STRUCTURE, **Public Endpoints (Frontend):** (+1 more)
 
-### Community 73 - "Community 73"
+### Community 70 - "Community 70"
+Cohesion: 0.2
+Nodes (10): code:java (Create Payment entity with JPA annotations:), code:java (package com.ecommerce.paymentservice.entity;), code:java (Create PaymentMethod enum with values: COD, VNPAY), code:java (package com.ecommerce.paymentservice.entity;), code:java (Create PaymentStatus enum with values: PENDING, SUCCESS, FAI), code:java (package com.ecommerce.paymentservice.entity;), File 3: `entity/PaymentMethod.java`, File 4: `entity/PaymentStatus.java` (+2 more)
+
+### Community 71 - "Community 71"
 Cohesion: 0.2
 Nodes (10): code:java (Create Shipment entity with JPA annotations:), code:java (package com.ecommerce.shippingservice.entity;), code:java (Create ShippingProvider enum with value: GHN), code:java (package com.ecommerce.shippingservice.entity;), code:java (Create ShipmentStatus enum with values:), code:java (package com.ecommerce.shippingservice.entity;), File 3: `entity/ShippingProvider.java`, File 4: `entity/ShipmentStatus.java` (+2 more)
 
-### Community 74 - "Community 74"
+### Community 72 - "Community 72"
 Cohesion: 0.2
-Nodes (10): 1. **Type Safety**, 2. **Error Handling**, 3. **Code Organization**, 4. **Performance**, 5. **Testing**, 6. **Accessibility**, 7. **i18n**, 8. **Tailwind & Design System** (+2 more)
+Nodes (9): code:block1 (shipping-service/), code:java (Create GHNShippingService with @Service and @Transactional:), code:block34 (Setup:), File 14: `service/GHNShippingService.java & ShippingService.java`, ✅ IMPLEMENTATION CHECKLIST, 💼 PHASE 6: Services (40 min), 📁 PROJECT STRUCTURE, 📊 SERVICE OVERVIEW (+1 more)
+
+### Community 73 - "Community 73"
+Cohesion: 0.24
+Nodes (10): 3. Reset khi load data / đổi record, 3. Service (`src/services/userService.ts`), 7. Bind UI, BƯỚC 2: Thêm API Endpoints vào Constants, BƯỚC 7: Tạo Components (Reusable UI), code:tsx (<FormField), code:tsx (<Controller), code:typescript (export const API_ENDPOINTS = {) (+2 more)
+
+### Community 74 - "Community 74"
+Cohesion: 0.27
+Nodes (10): 6. Reset khi load data / đổi record, BƯỚC 3: Tạo Service Layer (API Calls), BƯỚC 6: Tạo Custom Hook (bắt buộc khi có thunk + toast), BƯỚC 6: Tạo Custom Hook (Optional), BƯỚC 8: Tạo Page Component, 📝 Chi Tiết Từng Bước, code:typescript (useEffect(() => {), code:tsx (<Controller) (+2 more)
 
 ### Community 75 - "Community 75"
 Cohesion: 0.27
-Nodes (10): 1. `schema.ts` — validation + default values, 2. `mapper.ts` — entity ↔ form ↔ API, 3. `hooks/useAdminProductV2Form.ts` — orchestration, 4. Bind UI, 9. Những điều **không** nên làm, BƯỚC 4: Tạo Redux Thunks (Async Actions), code:typescript (// src/forms/AdminProductV2/schema.ts), code:typescript (// src/forms/AdminProductV2/mapper.ts) (+2 more)
+Nodes (10): 10. i18n (`src/constants/locales/en.json` và `vi.json`), 2. Constants (`src/constants/index.ts`), 4. Thunks (`src/store/thunks/userThunks.ts`), 9. Route (`src/routes/index.tsx` và khi cần `src/routes/v2/*`), code:typescript (import { useCallback } from 'react';), code:typescript (import React, { useState } from 'react';), code:typescript (const Users = React.lazy(() => import('@/pages/Users'));), code:typescript (// src/routes/v2/userRoute.tsx — path relative tới /v2) (+2 more)
 
 ### Community 76 - "Community 76"
-Cohesion: 0.29
-Nodes (10): 5. Slice (`src/store/slices/userSlice.ts`), 6. Hook (`src/hooks/useUsers.ts`), 9a. Trang gốc (`/`, `Layout` cũ), 9b. Trang trong App Shell V2 (`/v2`, `LayoutV2`), BƯỚC 9: Thêm Route, code:tsx (<Controller), code:typescript (import { createAsyncThunk } from '@reduxjs/toolkit';), code:typescript (export * from './authThunks';) (+2 more)
-
-### Community 77 - "Community 77"
 Cohesion: 0.2
 Nodes (10): Accent Colors (Màu Nhấn), code:jsx (// Background màu xám đậm với text trắng), code:jsx (// Button primary), code:jsx (// Badge hoặc tag), code:jsx (// Warning hoặc notification), Gray Scale, 🎨 Màu Sắc (Colors), Primary Colors (Màu Chính) (+2 more)
 
-### Community 78 - "Community 78"
-Cohesion: 0.39
-Nodes (7): JwtProfilePayload, JwtRolePayload, decodeBase64Url(), extractRolesFromJwtPayload(), getProfileFieldsFromJwtToken(), getRolesFromJwtToken(), parseJwtPayload()
+### Community 77 - "Community 77"
+Cohesion: 0.25
+Nodes (5): LayoutV2Props, ProductDetailsModalContext, ProductDetailsModalContextValue, ProductDetailsModalProvider(), ProductDetailsModalProvider()
 
-### Community 79 - "Community 79"
+### Community 78 - "Community 78"
 Cohesion: 0.22
 Nodes (8): KeycloakAuthSession, KeycloakErrorResponse, KeycloakJwtPayload, KeycloakLoginCredentials, KeycloakLoginExchangeRequest, KeycloakRegisterCredentials, KeycloakTokenResponse, KeycloakUserInfo
 
+### Community 79 - "Community 79"
+Cohesion: 0.39
+Nodes (7): JwtProfilePayload, JwtRolePayload, decodeBase64Url(), extractRolesFromJwtPayload(), getProfileFieldsFromJwtToken(), getRolesFromJwtToken(), parseJwtPayload()
+
 ### Community 80 - "Community 80"
-Cohesion: 0.28
-Nodes (5): ORDER_FILTERS, OrderStatus, formatPrice(), OrderDetailsListSection(), OrderDetailsListSectionProps
+Cohesion: 0.31
+Nodes (9): 5. Slice (`src/store/slices/userSlice.ts`), 6. Hook (`src/hooks/useUsers.ts`), 9a. Trang gốc (`/`, `Layout` cũ), 9b. Trang trong App Shell V2 (`/v2`, `LayoutV2`), BƯỚC 9: Thêm Route, code:typescript (import { createAsyncThunk } from '@reduxjs/toolkit';), code:typescript (export * from './authThunks';), code:typescript (// Lazy load page) (+1 more)
 
 ### Community 81 - "Community 81"
 Cohesion: 0.39
-Nodes (7): Category, MOCK_BRANDS, MOCK_CATEGORIES, MOCK_PRODUCT_FILTERS, MOCK_PRODUCT_LIST_PARAMS, MOCK_PRODUCTS_PAGE, MOCK_SEARCH_PRODUCTS_PARAMS
+Nodes (7): Product, MOCK_BRANDS, MOCK_CATEGORIES, MOCK_PRODUCT_FILTERS, MOCK_PRODUCT_LIST_PARAMS, MOCK_PRODUCTS_PAGE, MOCK_SEARCH_PRODUCTS_PARAMS
 
 ### Community 82 - "Community 82"
 Cohesion: 0.5
 Nodes (5): accent, gray, primary, secondary, outlineRingOpacityPlugin
 
-### Community 83 - "Community 83"
-Cohesion: 0.43
-Nodes (6): CartItem, formatMoney(), formatUSD(), mockSummary, ReviewCartSection(), ReviewCartSectionProps
-
-### Community 85 - "Community 85"
-Cohesion: 0.29
-Nodes (8): 5. `index.tsx` — shell + sections, 6. Reset khi load data / đổi record, BƯỚC 1: Định nghĩa Types (TypeScript Interfaces), BƯỚC 5: Tạo Redux Slice (State Management), BƯỚC 6: Tạo Custom Hook (Optional), code:typescript (useEffect(() => {), code:typescript (// src/types/user.ts), code:tsx (export default function AdminProductV2Form({ mode, productId)
-
-### Community 86 - "Community 86"
-Cohesion: 0.25
-Nodes (8): 1. Sử dụng màu nhất quán, 2. Sử dụng typography scale, 3. Hierarchy màu sắc, 4. Text colors, 📋 Best Practices, code:jsx (// ✅ Tốt - Sử dụng các màu đã định nghĩa), code:jsx (// ✅ Tốt - Sử dụng các class text đã định nghĩa), code:jsx (// Hierarchy của text)
-
-### Community 87 - "Community 87"
+### Community 84 - "Community 84"
 Cohesion: 0.25
 Nodes (8): code:jsx (<h1 className="text-h1-bold text-gray-900">), H1 - 48px, H2 - 40px, H3 - 33px, H4 - 28px, H5 - 23px, H6 - 19px, Heading Styles (H1 - H6)
 
-### Community 88 - "Community 88"
+### Community 85 - "Community 85"
+Cohesion: 0.25
+Nodes (8): 1. Sử dụng màu nhất quán, 2. Sử dụng typography scale, 3. Hierarchy màu sắc, 4. Text colors, 📋 Best Practices, code:jsx (// ✅ Tốt - Sử dụng các màu đã định nghĩa), code:jsx (// ✅ Tốt - Sử dụng các class text đã định nghĩa), code:jsx (// Hierarchy của text)
+
+### Community 86 - "Community 86"
 Cohesion: 0.29
 Nodes (3): ErrorBoundary, Props, State
 
-### Community 89 - "Community 89"
+### Community 87 - "Community 87"
 Cohesion: 0.29
 Nodes (7): code:xml (Add dependencies for Payment Service with VNPay integration:), code:xml (<dependencies>), code:yaml (Configure Payment Service with:), code:yaml (server:), File 1: `pom.xml`, File 2: `application.yml`, 🔧 PHASE 1: Dependencies & Configuration (15 min)
 
-### Community 90 - "Community 90"
-Cohesion: 0.29
-Nodes (7): code:java (Create VNPayConfig with @Configuration and @Getter:), code:java (package com.ecommerce.paymentservice.config;), code:java (Create WebClientConfig with @Configuration:), code:java (package com.ecommerce.paymentservice.config;), File 10: `config/WebClientConfig.java`, File 9: `config/VNPayConfig.java`, ⚙️ PHASE 5: Configuration (15 min)
-
-### Community 91 - "Community 91"
+### Community 88 - "Community 88"
 Cohesion: 0.29
 Nodes (7): code:java (Create CreatePaymentRequest DTO with validation:), code:java (package com.ecommerce.paymentservice.dto.request;), code:java (Create PaymentResponse DTO for API responses:), code:java (package com.ecommerce.paymentservice.dto.response;), File 6: `dto/request/CreatePaymentRequest.java`, File 7: `dto/response/PaymentResponse.java`, 📝 PHASE 3: DTOs (25 min)
 
-### Community 92 - "Community 92"
+### Community 89 - "Community 89"
+Cohesion: 0.29
+Nodes (7): code:java (Create VNPayConfig with @Configuration and @Getter:), code:java (package com.ecommerce.paymentservice.config;), code:java (Create WebClientConfig with @Configuration:), code:java (package com.ecommerce.paymentservice.config;), File 10: `config/WebClientConfig.java`, File 9: `config/VNPayConfig.java`, ⚙️ PHASE 5: Configuration (15 min)
+
+### Community 90 - "Community 90"
 Cohesion: 0.29
 Nodes (7): code:java (Create PaymentController with @RestController and @RequestMa), code:java (package com.ecommerce.paymentservice.controller;), code:java (Create VNPayCallbackController with @Controller (not RestCon), code:java (package com.ecommerce.paymentservice.controller;), File 13: `controller/PaymentController.java`, File 14: `controller/VNPayCallbackController.java`, 🎮 PHASE 7: Controllers (30 min)
 
-### Community 93 - "Community 93"
+### Community 91 - "Community 91"
 Cohesion: 0.29
 Nodes (7): code:java (Create GHNConfig with @Configuration and @Getter:), code:java (package com.ecommerce.shippingservice.config;), code:java (Create WebClientConfig with @Configuration:), code:java (package com.ecommerce.shippingservice.config;), File 11: `config/GHNConfig.java`, File 12: `config/WebClientConfig.java`, ⚙️ PHASE 4: Configuration (15 min)
 
-### Community 94 - "Community 94"
+### Community 92 - "Community 92"
 Cohesion: 0.29
 Nodes (7): code:xml (Add dependencies for Shipping Service with GHN API integrati), code:xml (<dependencies>), code:yaml (Configure Shipping Service with:), code:yaml (server:), File 1: `pom.xml`, File 2: `application.yml`, 🔧 PHASE 1: Dependencies & Configuration (15 min)
 
-### Community 95 - "Community 95"
-Cohesion: 0.38
-Nodes (7): 7. Components (`src/components/UserList.tsx`), 8. Submit — trong `hooks/use*Form.ts`, không ở page, BƯỚC 10: Thêm i18n Translations (Optional), code:typescript (// hooks/useAdminProductV2Form.ts — onSubmit nội bộ, export ), code:tsx (// index.tsx), code:typescript (import { createSlice, PayloadAction } from '@reduxjs/toolkit), code:json (// en.json)
-
-### Community 96 - "Community 96"
-Cohesion: 0.29
-Nodes (7): Alert Component, Card Component, code:jsx (<div className="bg-white dark:bg-gray-800 shadow-md rounded-), code:jsx (<div className="space-y-2">), code:jsx (<div className="bg-accent-700 border-l-4 border-accent-900 p), 📦 Component Examples, Form Input
-
-### Community 97 - "Community 97"
+### Community 93 - "Community 93"
 Cohesion: 0.29
 Nodes (6): code:jsx (// Element thay đổi màu theo dark mode), code:jsx (<h1 className="text-h4-bold md:text-h3-bold lg:text-h2-bold"), 🎯 Dark Mode, Hướng Dẫn Sử Dụng Design System - Tailwind CSS, 📚 Resources, 🔧 Responsive Design
 
+### Community 94 - "Community 94"
+Cohesion: 0.29
+Nodes (7): Alert Component, Card Component, code:jsx (<div className="bg-white dark:bg-gray-800 shadow-md rounded-), code:jsx (<div className="space-y-2">), code:jsx (<div className="bg-accent-700 border-l-4 border-accent-900 p), 📦 Component Examples, Form Input
+
+### Community 96 - "Community 96"
+Cohesion: 0.33
+Nodes (5): authV2Routes, ForgotPasswordSentV2, ForgotPasswordV2, LoginV2, SignUpV2
+
+### Community 97 - "Community 97"
+Cohesion: 0.33
+Nodes (5): authV2Routes, ForgotPasswordSentV2, ForgotPasswordV2, LoginV2, SignUpV2
+
+### Community 98 - "Community 98"
+Cohesion: 0.47
+Nodes (4): MOCK_ADDRESSES, MOCK_ADMIN_USERS, MOCK_USER_PROFILE, MOCK_USER_UPDATE_PAYLOAD
+
 ### Community 99 - "Community 99"
-Cohesion: 0.33
-Nodes (5): authV2Routes, ForgotPasswordSentV2, ForgotPasswordV2, LoginV2, SignUpV2
-
-### Community 100 - "Community 100"
-Cohesion: 0.33
-Nodes (5): authV2Routes, ForgotPasswordSentV2, ForgotPasswordV2, LoginV2, SignUpV2
-
-### Community 101 - "Community 101"
 Cohesion: 0.4
 Nodes (5): code:bash (curl -X POST http://localhost:8085/api/payments/create \), code:bash (curl -X POST http://localhost:8085/api/payments/create \), **Test COD Payment:**, **Test VNPay Payment:**, 🧪 TESTING
 
-### Community 102 - "Community 102"
+### Community 100 - "Community 100"
 Cohesion: 0.4
 Nodes (5): code:java (Create VNPayPaymentService with @Service:), code:java (Create PaymentService with @Service and @Transactional:), File 11: `service/VNPayPaymentService.java`, File 12: `service/PaymentService.java`, 💼 PHASE 6: Services (45 min)
 
-### Community 103 - "Community 103"
+### Community 101 - "Community 101"
 Cohesion: 0.4
 Nodes (5): code:bash (curl -X POST http://localhost:8088/api/shipping/calculate-fe), code:bash (curl -X POST http://localhost:8088/api/shipping/create \), **Test Calculate Fee:**, **Test Create Shipment:**, 🧪 TESTING
 
-### Community 104 - "Community 104"
+### Community 102 - "Community 102"
 Cohesion: 0.4
 Nodes (5): Border Radius, Box Shadow, code:jsx (<div className="bg-white shadow-md rounded-lg p-4">Card with), code:jsx (// Button với bo góc medium), 🎭 Effects
 
-### Community 108 - "Community 108"
+### Community 106 - "Community 106"
 Cohesion: 0.5
 Nodes (4): code:java (Create VNPayUtil class with static methods:), code:java (package com.ecommerce.paymentservice.util;), File 8: `util/VNPayUtil.java`, 🔧 PHASE 4: VNPay Utility (30 min)
 
-### Community 109 - "Community 109"
+### Community 107 - "Community 107"
 Cohesion: 0.5
 Nodes (4): code:java (Create GHNClient with @Component:), code:java (package com.ecommerce.shippingservice.client;), File 13: `client/GHNClient.java`, 🔌 PHASE 5: GHN Client (30 min)
 
-### Community 110 - "Community 110"
+### Community 108 - "Community 108"
 Cohesion: 0.5
 Nodes (4): code:java (Create ShippingController with @RestController and @RequestM), code:java (package com.ecommerce.shippingservice.controller;), File 15: `controller/ShippingController.java`, 🎮 PHASE 7: Controller (25 min)
 
+### Community 112 - "Community 112"
+Cohesion: 0.67
+Nodes (3): code:java (Create TrackingResponse DTO:), code:java (package com.ecommerce.shippingservice.dto.response;), File 10: `dto/response/TrackingResponse.java`
+
 ### Community 113 - "Community 113"
 Cohesion: 0.67
-Nodes (3): code:java (Create CreateShipmentRequest DTO with validation:), code:java (package com.ecommerce.shippingservice.dto.request;), File 7: `dto/request/CreateShipmentRequest.java`
+Nodes (3): 📡 API ENDPOINTS SUMMARY, code:block31 (1. POST /api/shipping/calculate-fee), **Public Endpoints (Frontend & Other Services):**
 
 ## Knowledge Gaps
 - **553 isolated node(s):** `themeButton`, `ImportMetaEnv`, `ImportMeta`, `DividerProps`, `FormFieldBase` (+548 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **53 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **54 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Button()` connect `Community 48` to `Community 0`, `Community 3`, `Community 4`, `Community 7`, `Community 8`, `Community 13`, `Community 14`, `Community 15`, `Community 17`, `Community 21`, `Community 22`, `Community 25`, `Community 27`, `Community 29`, `Community 32`, `Community 33`, `Community 40`, `Community 42`, `Community 46`, `Community 49`, `Community 50`, `Community 60`, `Community 83`, `Community 88`?**
-  _High betweenness centrality (0.054) - this node is a cross-community bridge._
-- **Why does `cn()` connect `Community 4` to `Community 0`, `Community 3`, `Community 6`, `Community 8`, `Community 14`, `Community 15`, `Community 17`, `Community 18`, `Community 19`, `Community 22`, `Community 24`, `Community 33`, `Community 36`, `Community 40`, `Community 42`, `Community 43`, `Community 44`, `Community 48`, `Community 50`, `Community 54`, `Community 60`?**
-  _High betweenness centrality (0.049) - this node is a cross-community bridge._
-- **Why does `ROUTESV2` connect `Community 7` to `Community 32`, `Community 34`, `Community 6`, `Community 9`, `Community 44`, `Community 15`, `Community 48`, `Community 20`, `Community 21`, `Community 22`, `Community 27`, `Community 29`?**
-  _High betweenness centrality (0.022) - this node is a cross-community bridge._
+- **Why does `Button()` connect `Community 27` to `Community 0`, `Community 2`, `Community 3`, `Community 4`, `Community 5`, `Community 6`, `Community 8`, `Community 9`, `Community 14`, `Community 16`, `Community 17`, `Community 20`, `Community 21`, `Community 22`, `Community 28`, `Community 32`, `Community 35`, `Community 38`, `Community 42`, `Community 43`, `Community 48`, `Community 49`, `Community 86`?**
+  _High betweenness centrality (0.056) - this node is a cross-community bridge._
+- **Why does `cn()` connect `Community 4` to `Community 0`, `Community 5`, `Community 8`, `Community 9`, `Community 10`, `Community 14`, `Community 15`, `Community 16`, `Community 20`, `Community 27`, `Community 29`, `Community 30`, `Community 35`, `Community 38`, `Community 43`, `Community 48`, `Community 49`, `Community 66`, `Community 77`?**
+  _High betweenness centrality (0.048) - this node is a cross-community bridge._
+- **Why does `ROUTESV2` connect `Community 22` to `Community 32`, `Community 2`, `Community 37`, `Community 5`, `Community 39`, `Community 6`, `Community 42`, `Community 43`, `Community 44`, `Community 16`, `Community 17`, `Community 21`?**
+  _High betweenness centrality (0.021) - this node is a cross-community bridge._
 - **What connects `themeButton`, `ImportMetaEnv`, `ImportMeta` to the rest of the system?**
   _553 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
@@ -651,4 +647,4 @@ _Questions this graph is uniquely positioned to answer:_
 - **Should `Community 1` be split into smaller, more focused modules?**
   _Cohesion score 0.06 - nodes in this community are weakly interconnected._
 - **Should `Community 2` be split into smaller, more focused modules?**
-  _Cohesion score 0.05 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07 - nodes in this community are weakly interconnected._
