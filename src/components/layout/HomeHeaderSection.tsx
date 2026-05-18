@@ -3,18 +3,16 @@ import {
   Layers2,
   Mars,
   Search,
-  ShoppingCart,
   Venus,
   type LucideIcon,
 } from 'lucide-react';
 import { useEffect } from 'react';
 import type { JSX } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import { IconButton } from '@/components/buttons/IconButton';
 import { IconLabelButton } from '@/components/buttons/IconLabelButton';
 import { LabelButton } from '@/components/buttons/LabelButton';
-import { ROUTES } from '@/constants';
 import { useAuth } from '@/hooks/auth/useAuth';
 
 import { useExploreFilters } from '@/pages/UserProductV2/exploreFilters';
@@ -37,7 +35,6 @@ const QUICK_FILTERS: {
 
 export function HomeHeaderSection(): JSX.Element {
   const location = useLocation();
-  const navigate = useNavigate();
   const { user, isAuthenticated } = useAuth();
   const route = getCurrentRoute(location.pathname);
   const title = route?.headerTitle ?? 'Unknown';
@@ -74,12 +71,6 @@ export function HomeHeaderSection(): JSX.Element {
 
           <div className="relative inline-flex items-center gap-2 self-stretch justify-center">
             <IconButton icon={Bell} ariaLabel="Notifications" />
-            <IconLabelButton
-              icon={ShoppingCart}
-              label="Cart"
-              ariaLabel="Open cart"
-              onClick={() => navigate(ROUTES.CART)}
-            />
             <UserAccountMenu
               isAuthenticated={isAuthenticated || Boolean(user)}
               userName={headerDisplayName}
