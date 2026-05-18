@@ -5,6 +5,7 @@ import {
   deleteAddressThunk,
   fetchAddressesThunk,
   fetchProfileThunk,
+  fetchUserByIdThunk,
   fetchUsersThunk,
   setDefaultAddressThunk,
   updateAddressThunk,
@@ -24,6 +25,9 @@ interface UserState {
   listTotalPages: number;
   isListLoading: boolean;
   listError: string | null;
+  userDetail: User | null;
+  userDetailLoading: boolean;
+  userDetailError: string | null;
 }
 
 const initialState: UserState = {
@@ -38,12 +42,21 @@ const initialState: UserState = {
   listTotalPages: 0,
   isListLoading: false,
   listError: null,
+  userDetail: null,
+  userDetailLoading: false,
+  userDetailError: null,
 };
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    clearUserDetail: state => {
+      state.userDetail = null;
+      state.userDetailLoading = false;
+      state.userDetailError = null;
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(fetchProfileThunk.pending, state => {
@@ -102,13 +115,31 @@ const userSlice = createSlice({
         state.isListLoading = false;
         state.listError = (action.payload as string) || 'Failed to fetch users';
       })
+      .addCase(fetchUserByIdThunk.pending, state => {
+        state.userDetailLoading = true;
+        state.userDetailError = null;
+        state.userDetail = null;
+      })
+      .addCase(fetchUserByIdThunk.fulfilled, (state, action) => {
+        state.userDetailLoading = false;
+        state.userDetail = action.payload.data;
+      })
+      .addCase(fetchUserByIdThunk.rejected, (state, action) => {
+        state.userDetailLoading = false;
+        state.userDetailError = (action.payload as string) || 'Failed to fetch user';
+        state.userDetail = null;
+      })
       .addCase(updateUserRolesThunk.fulfilled, (state, action) => {
         const { data } = action.payload;
         state.listItems = state.listItems.map(user =>
           user.id === data.id ? data : user,
         );
+        if (state.userDetail?.id === data.id) {
+          state.userDetail = data;
+        }
       });
   },
 });
 
+export const { clearUserDetail } = userSlice.actions;
 export default userSlice.reducer;
