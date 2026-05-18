@@ -7,7 +7,7 @@ import {
   Venus,
   type LucideIcon,
 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import type { JSX } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -17,6 +17,7 @@ import { LabelButton } from '@/components/buttons/LabelButton';
 import { ROUTES } from '@/constants';
 import { useAuth } from '@/hooks/auth/useAuth';
 
+import { useExploreFiltersOptional } from '@/pages/UserProductV2/exploreFilters';
 import { getCurrentRoute } from '@/routes/appShellRoutes';
 
 import { OrderStats } from './components/OrderStats';
@@ -40,10 +41,15 @@ export function HomeHeaderSection(): JSX.Element {
   const { user, isAuthenticated } = useAuth();
   const route = getCurrentRoute(location.pathname);
   const title = route?.headerTitle ?? 'Unknown';
-  const [quickFilter, setQuickFilter] = useState<QuickFilterId>('all');
+  const exploreFilters = useExploreFiltersOptional();
+  const quickFilter = exploreFilters?.quickSegment ?? 'all';
+  const exploreFilterCount = exploreFilters?.activeFilterCount ?? 0;
 
   useEffect(() => {
-    setQuickFilter('all');
+    if (!route?.showQuickFilter) return;
+    exploreFilters?.setQuickSegment('all');
+    // Reset quick segment when switching between product routes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- only on path change
   }, [location.pathname]);
 
   const headerDisplayName = user
@@ -105,7 +111,7 @@ export function HomeHeaderSection(): JSX.Element {
                     className="rounded-full px-4 py-2.5"
                     iconClassName="size-5"
                     labelClassName="text-caption-lg-regular"
-                    onClick={() => setQuickFilter(id)}
+                    onClick={() => exploreFilters?.setQuickSegment(id)}
                   />
                 ))}
               </div>
@@ -115,9 +121,14 @@ export function HomeHeaderSection(): JSX.Element {
           {showFiltersRow ? (
             <div className="relative z-[1] ml-auto flex w-[188px] shrink-0 items-center justify-end gap-2">
               <LabelButton
-                label="Filters"
+                label={
+                  showQuickFilter && exploreFilterCount > 0
+                    ? `Filters (${exploreFilterCount})`
+                    : 'Filters'
+                }
                 ariaLabel="Open filters"
                 className="min-w-0 flex-1 grow"
+                onClick={() => exploreFilters?.openPanel()}
               />
               <IconButton
                 icon={Search}
