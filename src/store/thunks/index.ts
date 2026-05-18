@@ -63,6 +63,7 @@ export {
   setDefaultAddressThunk,
   deleteAddressThunk,
   fetchUsersThunk,
+  fetchUserByIdThunk,
   updateUserRolesThunk,
 } from './userThunks';
 
