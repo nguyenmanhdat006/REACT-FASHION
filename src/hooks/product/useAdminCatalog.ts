@@ -2,21 +2,25 @@ import { useCallback } from 'react';
 import toast from 'react-hot-toast';
 
 import { useAppDispatch } from '@/store/hooks';
+import { clearBrandDetail } from '@/store/slices/brandsSlice';
 import { clearCategoryDetail } from '@/store/slices/categoriesSlice';
 import {
   createBrandThunk,
   createCategoryThunk,
   deleteBrandThunk,
   deleteCategoryThunk,
+  fetchBrandByIdThunk,
   fetchBrandsThunk,
   fetchCategoriesThunk,
   fetchCategoryByIdThunk,
+  updateBrandThunk,
   updateCategoryThunk,
 } from '@/store/thunks';
 import { DEFAULT_LIST_QUERY } from '@/types/common/common';
 import type {
   BrandPayload,
   CategoryPayload,
+  UpdateBrandRequest,
   UpdateCategoryRequest,
 } from '@/types/product/product';
 import type { FetchBrandsParams } from '@/store/thunks/brandThunks';
@@ -105,6 +109,20 @@ export function useAdminCatalog() {
     [dispatch],
   );
 
+  const fetchBrandById = useCallback(
+    async (id: string) => {
+      const result = await dispatch(fetchBrandByIdThunk(id));
+      if (fetchBrandByIdThunk.rejected.match(result)) {
+        toast.error(payloadMessage(result.payload, 'Could not load brand'));
+      }
+    },
+    [dispatch],
+  );
+
+  const clearBrandDetailState = useCallback(() => {
+    dispatch(clearBrandDetail());
+  }, [dispatch]);
+
   const createBrand = useCallback(
     async (payload: BrandPayload): Promise<boolean> => {
       const result = await dispatch(createBrandThunk(payload));
@@ -113,6 +131,19 @@ export function useAdminCatalog() {
         return true;
       }
       toast.error(payloadMessage(result.payload, 'Could not create brand'));
+      return false;
+    },
+    [dispatch],
+  );
+
+  const updateBrand = useCallback(
+    async (id: string, data: UpdateBrandRequest): Promise<boolean> => {
+      const result = await dispatch(updateBrandThunk({ id, data }));
+      if (updateBrandThunk.fulfilled.match(result)) {
+        toast.success('Brand updated');
+        return true;
+      }
+      toast.error(payloadMessage(result.payload, 'Could not update brand'));
       return false;
     },
     [dispatch],
@@ -139,7 +170,10 @@ export function useAdminCatalog() {
     createCategory,
     updateCategory,
     deleteCategory,
+    fetchBrandById,
+    clearBrandDetailState,
     createBrand,
+    updateBrand,
     deleteBrand,
   };
 }
