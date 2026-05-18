@@ -1,12 +1,8 @@
 import { Helmet } from 'react-helmet-async';
 import { useCallback, useEffect, useMemo, useState, type JSX } from 'react';
 
-import AdminFormFooter from '@/components/admin/AdminFormFooter';
 import AdminListPageLayout from '@/components/admin/AdminListPageLayout';
-import {
-  adminEntityPanelTitle,
-  type AdminEntityPanelState,
-} from '@/components/admin/types';
+import type { AdminEntityPanelState } from '@/components/admin/types';
 import TableView, { type TableColumn } from '@/components/TableView';
 import { Badge } from '@/components/ui/badge';
 import { useAdminCatalog } from '@/hooks/product/useAdminCatalog';
@@ -109,10 +105,6 @@ export default function AdminCategoryListPage(): JSX.Element {
     [fetchCategories, size],
   );
 
-  const closePanel = useCallback(() => {
-    setPanel({ open: false });
-  }, []);
-
   const openCreatePanel = useCallback(() => {
     setPanel({ open: true, mode: 'create' });
   }, []);
@@ -131,10 +123,6 @@ export default function AdminCategoryListPage(): JSX.Element {
 
   const columns = useMemo(() => buildCategoryColumns(), []);
 
-  const panelTitle = adminEntityPanelTitle(RESOURCE_LABEL, panel) ?? '';
-  const submitLabel =
-    panel.open && panel.mode === 'create' ? 'Create category' : 'Save changes';
-
   return (
     <>
       <Helmet>
@@ -142,20 +130,13 @@ export default function AdminCategoryListPage(): JSX.Element {
       </Helmet>
 
       <AdminListPageLayout
+        resourceLabel={RESOURCE_LABEL}
+        panel={panel}
+        onPanelChange={setPanel}
         onAddClick={openCreatePanel}
-        panelOpen={panel.open}
-        panelTitle={panelTitle}
-        onPanelClose={closePanel}
         loading={categoriesLoading && rows.length === 0}
         error={categoriesError}
-        panelFooter={
-          <AdminFormFooter
-            cancelLabel="Cancel"
-            submitLabel={submitLabel}
-            onCancel={closePanel}
-            submitDisabled
-          />
-        }
+        submitDisabled
         panelChildren={
           <p className="text-body-regular text-muted-foreground">
             Category form will be added here.
