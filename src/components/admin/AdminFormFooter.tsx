@@ -1,6 +1,6 @@
 import type { JSX } from 'react';
 
-import { Button } from '@/components/ui/button';
+import { LabelButton } from '@/components/buttons/LabelButton';
 
 export type AdminFormFooterProps = {
   formId?: string;
@@ -23,19 +23,27 @@ export default function AdminFormFooter({
 }: AdminFormFooterProps): JSX.Element {
   const useFormSubmit = Boolean(formId);
 
+  const footerButtonClass = 'rounded-2xl px-5 py-2.5';
+
   return (
     <>
-      <Button type="button" variant="secondary" onClick={onCancel} disabled={busy}>
-        {cancelLabel}
-      </Button>
-      <Button
+      <LabelButton
+        type="button"
+        label={cancelLabel}
+        tone="default"
+        disabled={busy}
+        onClick={onCancel}
+        className={footerButtonClass}
+      />
+      <LabelButton
         type={useFormSubmit ? 'submit' : 'button'}
         form={useFormSubmit ? formId : undefined}
+        label={submitLabel}
+        tone="primary"
         disabled={submitDisabled || busy}
         onClick={useFormSubmit ? undefined : onSubmit}
-      >
-        {submitLabel}
-      </Button>
+        className={footerButtonClass}
+      />
     </>
   );
 }

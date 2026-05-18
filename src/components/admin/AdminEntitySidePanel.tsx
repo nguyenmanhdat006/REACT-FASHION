@@ -61,9 +61,9 @@ export default function AdminEntitySidePanel({
           <IconButton
             icon={X}
             ariaLabel="Close panel"
-            variant="ghost"
-            size="icon"
             onClick={onClose}
+            className="size-9 shrink-0 rounded-full p-2 hover:bg-gray-100"
+            iconClassName="size-5 text-gray-700"
           />
         </header>
 
@@ -72,7 +72,7 @@ export default function AdminEntitySidePanel({
         </div>
 
         {footer ? (
-          <footer className="flex shrink-0 justify-end gap-2 border-t border-gray-100 px-6 py-4">
+          <footer className="flex shrink-0 justify-end gap-3 border-t border-gray-100 px-6 py-4">
             {footer}
           </footer>
         ) : null}
