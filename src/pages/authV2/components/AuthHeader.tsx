@@ -20,7 +20,7 @@ export default function AuthHeader({
     <header className={headerClass}>
       <div className="flex flex-col items-center justify-center relative gap-2">
         {showIllustration ? (
-          <img src="/icons/stuck-at-home.svg" alt="" className="mb-2" />
+          <img src="/logo.svg" alt="" className="mb-2" />
         ) : null}
         <h2 className={titleClass}>{title}</h2>
         {subtitle ? <p className={subtitleClass}>{subtitle}</p> : null}

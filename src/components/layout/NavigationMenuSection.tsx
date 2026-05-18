@@ -32,8 +32,11 @@ export function NavigationMenuSection(): JSX.Element {
       className="relative flex h-screen w-[300px] flex-col items-center justify-between border-r border-solid border-gray-100 bg-white px-8 py-12"
     >
       <div className="relative flex flex-col items-start gap-8 self-stretch">
-        <div className="self-stretch text-h4-semi leading-tight text-gray-black">
-          {isAdminShell ? 'Cartify Admin' : 'Cartify'}
+        <div className="flex items-start justify-center gap-2">
+          <img src="/logo.svg" alt="Cartify" className="w-10 h-10" />
+          <div className="self-stretch text-h4-semi leading-tight text-gray-black">
+            {isAdminShell ? 'Cartify Admin' : 'Cartify'}
+          </div>
         </div>
         <div className="relative flex w-full flex-col items-center justify-center gap-5 self-stretch">
           <nav
