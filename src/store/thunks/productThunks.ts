@@ -1,6 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
+import { mapExploreToProductFilters } from '@/pages/UserProductV2/exploreFilters/exploreFilterModel';
 import { productService } from '@/services/product/productService';
+import type { RootState } from '@/store';
 import type {
   CreateProductRequest,
   Product,
@@ -72,6 +74,24 @@ export const fetchProductBySlugThunk = createAsyncThunk<
 });
 
 export type V2PublishedScope = 'home' | 'explore';
+
+export const fetchExploreProductsThunk = createAsyncThunk<
+  ApiResponse<Product[], PageMeta>,
+  void,
+  { rejectValue: string; state: RootState }
+>('products/fetchExplore', async (_, { getState, rejectWithValue }) => {
+  try {
+    const { exploreAppliedFilters } = getState().products;
+    const apiFilters = mapExploreToProductFilters(exploreAppliedFilters);
+    const res = await productService.getProducts(apiFilters);
+    if (res.success === false || !Array.isArray(res.data)) {
+      return rejectWithValue(apiFailureMessage(res));
+    }
+    return res;
+  } catch (error) {
+    return rejectWithValue(getErrorMessage(error, 'Failed to load products'));
+  }
+});
 
 export const fetchV2PublishedProductsThunk = createAsyncThunk<
   ApiResponse<Product[], PageMeta>,

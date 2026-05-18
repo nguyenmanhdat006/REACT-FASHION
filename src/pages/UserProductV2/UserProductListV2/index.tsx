@@ -5,11 +5,7 @@ import { useProducts } from '@/hooks/product/useProducts';
 import { useAppSelector } from '@/store/hooks';
 
 import { useProductDetailsModal } from '@/pages/UserProductV2/ProductDetailsModalContext';
-import {
-  clientFilterExploreProducts,
-  ExploreActiveFilterChipsRow,
-  useExploreFilters,
-} from '@/pages/UserProductV2/exploreFilters';
+import { ExploreActiveFilterChipsRow } from '@/pages/UserProductV2/exploreFilters';
 import { productToExploreProductTile } from '@/pages/UserProductV2/userProductDisplayMappers';
 
 import type { ExploreProductTile } from './productsExploreData';
@@ -18,20 +14,14 @@ export default function UserProductListV2(): JSX.Element {
   const { openProductDetails } = useProductDetailsModal();
   const { fetchExplorePublished } = useProducts();
   const { explorePublishedProducts, exploreTilesLoading } = useAppSelector((s) => s.products);
-  const { applied } = useExploreFilters();
 
   useEffect(() => {
     void fetchExplorePublished();
   }, [fetchExplorePublished]);
 
-  const filteredProducts = useMemo(
-    () => clientFilterExploreProducts(explorePublishedProducts, applied),
-    [explorePublishedProducts, applied],
-  );
-
   const tiles: ExploreProductTile[] = useMemo(
-    () => filteredProducts.map(productToExploreProductTile),
-    [filteredProducts],
+    () => explorePublishedProducts.map(productToExploreProductTile),
+    [explorePublishedProducts],
   );
 
   return (

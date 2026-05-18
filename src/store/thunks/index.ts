@@ -26,6 +26,7 @@ export {
   fetchProductsThunk,
   fetchFeaturedProductsThunk,
   fetchProductBySlugThunk,
+  fetchExploreProductsThunk,
   fetchV2PublishedProductsThunk,
   fetchProductByIdThunk,
   createProductThunk,

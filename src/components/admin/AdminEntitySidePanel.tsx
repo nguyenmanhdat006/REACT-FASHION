@@ -11,6 +11,7 @@ export type AdminEntitySidePanelProps = {
   children?: ReactNode;
   footer?: ReactNode;
   className?: string;
+  overlayClassName?: string;
 };
 
 export default function AdminEntitySidePanel({
@@ -20,6 +21,7 @@ export default function AdminEntitySidePanel({
   children,
   footer,
   className,
+  overlayClassName,
 }: AdminEntitySidePanelProps): JSX.Element | null {
   useEffect(() => {
     if (!open) return;
@@ -36,7 +38,7 @@ export default function AdminEntitySidePanel({
     <>
       <button
         type="button"
-        className="fixed inset-0 z-40 bg-black/20"
+        className={cn('fixed inset-0 z-40 bg-black/20', overlayClassName)}
         aria-label="Close panel"
         onClick={onClose}
       />

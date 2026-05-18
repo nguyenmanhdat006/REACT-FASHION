@@ -1,6 +1,35 @@
-import type { ExploreFilterState, ExploreSortOption } from './types';
+export type ExploreQuickSegment = 'all' | 'men' | 'women';
 
-export const DEFAULT_EXPLORE_FILTERS: ExploreFilterState = {
+export type ExploreSortOption =
+  | 'newest'
+  | 'oldest'
+  | 'price-asc'
+  | 'price-desc';
+
+export type ExploreFilters = {
+  segment: ExploreQuickSegment;
+  categoryId?: string;
+  brandId?: string;
+  minPrice?: string;
+  maxPrice?: string;
+  featured: boolean;
+  sort: ExploreSortOption;
+};
+
+export type ExploreFilterChip = {
+  id: string;
+  label: string;
+};
+
+export const ALL_OPTION = '__all__';
+
+/** Root category IDs for quick Men/Women segment (until tree filter on API). */
+export const EXPLORE_SEGMENT_CATEGORY_IDS = {
+  men: '650e8400-e29b-41d4-a716-446655440001',
+  women: '650e8400-e29b-41d4-a716-446655440002',
+} as const;
+
+export const DEFAULT_EXPLORE_FILTERS: ExploreFilters = {
   segment: 'all',
   categoryId: undefined,
   brandId: undefined,
@@ -33,3 +62,13 @@ export const EXPLORE_SORT_OPTIONS: { value: ExploreSortOption; label: string }[]
   { value: 'price-asc', label: 'Price: low to high' },
   { value: 'price-desc', label: 'Price: high to low' },
 ];
+
+export const CATEGORY_SELECT_OPTIONS = EXPLORE_MOCK_CATEGORIES.map(({ value, label }) => ({
+  value: value || ALL_OPTION,
+  label,
+}));
+
+export const BRAND_SELECT_OPTIONS = EXPLORE_MOCK_BRANDS.map(({ value, label }) => ({
+  value: value || ALL_OPTION,
+  label,
+}));

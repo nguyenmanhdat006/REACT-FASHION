@@ -1,9 +1,15 @@
 export {
   ExploreFilterProvider,
   ExploreActiveFilterChipsRow,
+  useExploreFilterContext,
+  useExploreFilterContextOptional,
   useExploreFilters,
   useExploreFiltersOptional,
-} from './ExploreFilterContext';
-export { clientFilterExploreProducts } from './clientFilterProducts';
-export { isExploreProductsPath } from './exploreFilterUtils';
-export type { ExploreFilterState, ExploreQuickSegment } from './types';
+} from './context';
+export { isExploreProductsPath, mapExploreToProductFilters } from './exploreFilterModel';
+export type {
+  ExploreFilters,
+  ExploreQuickSegment,
+  ExploreSortOption,
+  ExploreFilterChip,
+} from './constants';

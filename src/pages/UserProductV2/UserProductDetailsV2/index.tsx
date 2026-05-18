@@ -20,7 +20,6 @@ import { SIZE_OPTIONS, SHIPPING_ITEMS } from './constants';
 
 export type UserProductDetailsV2Props = {
   onClose?: () => void;
-  /** When set, loads product from Product Service; otherwise static demo content is shown. */
   productId?: string;
 };
 
