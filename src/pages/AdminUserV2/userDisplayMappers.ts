@@ -1,12 +1,25 @@
 import { IMAGES } from '@/constants/images';
-import type { AdminUserRow } from '@/pages/userv2/AdminUserList/sections/AdminUserList';
 import type { User } from '@/types/auth/auth';
 import { formatDateTime } from '@/utils/date';
+
+export type AdminUserRow = {
+  id: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  avatarUrl: string;
+  roles: string[];
+  rolesLabel: string;
+  status: string;
+  statusLabel: string;
+  joinedAtFormatted: string;
+  emailVerified: boolean;
+};
 
 function formatEnumLabel(value: string): string {
   return value
     .split('_')
-    .map((part) => part.charAt(0) + part.slice(1).toLowerCase())
+    .map(part => part.charAt(0) + part.slice(1).toLowerCase())
     .join(' ');
 }
 
