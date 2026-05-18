@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import toast from 'react-hot-toast';
 
 import { useAppDispatch } from '@/store/hooks';
+import { clearCategoryDetail } from '@/store/slices/categoriesSlice';
 import {
   createBrandThunk,
   createCategoryThunk,
@@ -9,9 +10,15 @@ import {
   deleteCategoryThunk,
   fetchBrandsThunk,
   fetchCategoriesThunk,
+  fetchCategoryByIdThunk,
+  updateCategoryThunk,
 } from '@/store/thunks';
 import { DEFAULT_LIST_QUERY } from '@/types/common/common';
-import type { BrandPayload, CategoryPayload } from '@/types/product/product';
+import type {
+  BrandPayload,
+  CategoryPayload,
+  UpdateCategoryRequest,
+} from '@/types/product/product';
 import type { FetchBrandsParams } from '@/store/thunks/brandThunks';
 import type { FetchCategoriesParams } from '@/store/thunks/categoryThunks';
 
@@ -45,6 +52,20 @@ export function useAdminCatalog() {
     [dispatch],
   );
 
+  const fetchCategoryById = useCallback(
+    async (id: string) => {
+      const result = await dispatch(fetchCategoryByIdThunk(id));
+      if (fetchCategoryByIdThunk.rejected.match(result)) {
+        toast.error(payloadMessage(result.payload, 'Could not load category'));
+      }
+    },
+    [dispatch],
+  );
+
+  const clearCategoryDetailState = useCallback(() => {
+    dispatch(clearCategoryDetail());
+  }, [dispatch]);
+
   const createCategory = useCallback(
     async (payload: CategoryPayload): Promise<boolean> => {
       const result = await dispatch(createCategoryThunk(payload));
@@ -53,6 +74,19 @@ export function useAdminCatalog() {
         return true;
       }
       toast.error(payloadMessage(result.payload, 'Could not create category'));
+      return false;
+    },
+    [dispatch],
+  );
+
+  const updateCategory = useCallback(
+    async (id: string, data: UpdateCategoryRequest): Promise<boolean> => {
+      const result = await dispatch(updateCategoryThunk({ id, data }));
+      if (updateCategoryThunk.fulfilled.match(result)) {
+        toast.success('Category updated');
+        return true;
+      }
+      toast.error(payloadMessage(result.payload, 'Could not update category'));
       return false;
     },
     [dispatch],
@@ -100,7 +134,10 @@ export function useAdminCatalog() {
   return {
     fetchCategories,
     fetchBrands,
+    fetchCategoryById,
+    clearCategoryDetailState,
     createCategory,
+    updateCategory,
     deleteCategory,
     createBrand,
     deleteBrand,

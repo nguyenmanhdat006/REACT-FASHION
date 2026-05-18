@@ -5,6 +5,10 @@ import AdminListPageLayout from '@/components/admin/AdminListPageLayout';
 import type { AdminEntityPanelState } from '@/components/admin/types';
 import TableView, { type TableColumn } from '@/components/TableView';
 import { Badge } from '@/components/ui/badge';
+import AdminCategoryV2Form, {
+  ADMIN_CATEGORY_V2_FORM_ID,
+} from '@/forms/AdminCategoryV2';
+import type { AdminCategoryV2FormMode } from '@/forms/AdminCategoryV2/types';
 import { useAdminCatalog } from '@/hooks/product/useAdminCatalog';
 import {
   categoryToAdminCategoryRow,
@@ -15,6 +19,11 @@ import { cn } from '@/lib/utils';
 
 const LIST_PAGE_SIZE = 10;
 const RESOURCE_LABEL = 'category';
+
+function panelToFormMode(panel: AdminEntityPanelState): AdminCategoryV2FormMode {
+  if (panel.open && panel.mode === 'edit') return 'update';
+  return 'create';
+}
 
 function buildCategoryColumns(): TableColumn<AdminCategoryRow>[] {
   return [
@@ -76,6 +85,7 @@ function buildCategoryColumns(): TableColumn<AdminCategoryRow>[] {
 
 export default function AdminCategoryListPage(): JSX.Element {
   const [panel, setPanel] = useState<AdminEntityPanelState>({ open: false });
+  const [formBusy, setFormBusy] = useState(false);
   const { fetchCategories, deleteCategory } = useAdminCatalog();
   const {
     items: categories,
@@ -84,6 +94,7 @@ export default function AdminCategoryListPage(): JSX.Element {
     totalPages,
     isLoading: categoriesLoading,
     error: categoriesError,
+    categoryDetailLoading,
   } = useAppSelector((s) => s.categories);
 
   useEffect(() => {
@@ -113,15 +124,34 @@ export default function AdminCategoryListPage(): JSX.Element {
     setPanel({ open: true, mode: 'edit', entityId: row.id });
   }, []);
 
+  const closePanel = useCallback(() => {
+    setPanel({ open: false });
+  }, []);
+
+  const onFormSuccess = useCallback(() => {
+    closePanel();
+    void fetchCategories({ page, size: size || LIST_PAGE_SIZE });
+  }, [closePanel, fetchCategories, page, size]);
+
   const onDeleteCategory = useCallback(
     async (row: AdminCategoryRow) => {
       if (!window.confirm(`Delete category “${row.name}”?`)) return;
-      await deleteCategory(row.id);
+      const ok = await deleteCategory(row.id);
+      if (ok) {
+        void fetchCategories({ page, size: size || LIST_PAGE_SIZE });
+      }
     },
-    [deleteCategory],
+    [deleteCategory, fetchCategories, page, size],
   );
 
   const columns = useMemo(() => buildCategoryColumns(), []);
+
+  const panelFormKey = panel.open
+    ? `${panel.mode}-${panel.entityId ?? 'new'}`
+    : 'closed';
+
+  const panelLoading =
+    panel.open && panel.mode === 'edit' && Boolean(panel.entityId) && categoryDetailLoading;
 
   return (
     <>
@@ -136,14 +166,22 @@ export default function AdminCategoryListPage(): JSX.Element {
         onAddClick={openCreatePanel}
         loading={categoriesLoading && rows.length === 0}
         error={categoriesError}
-        submitDisabled
+        formId={ADMIN_CATEGORY_V2_FORM_ID}
+        busy={formBusy || panelLoading}
         panelChildren={
-          <p className="text-body-regular text-muted-foreground">
-            Category form will be added here.
-            {panel.open && panel.mode === 'edit' && panel.entityId
-              ? ` (id: ${panel.entityId})`
-              : null}
-          </p>
+          panel.open ? (
+            panelLoading ? (
+              <p className="text-body-regular text-muted-foreground">Loading category…</p>
+            ) : (
+              <AdminCategoryV2Form
+                key={panelFormKey}
+                mode={panelToFormMode(panel)}
+                categoryId={panel.mode === 'edit' ? panel.entityId : undefined}
+                onSuccess={onFormSuccess}
+                onBusyChange={setFormBusy}
+              />
+            )
+          ) : null
         }
       >
         <TableView
