@@ -1,8 +1,10 @@
 import { X } from 'lucide-react';
-import { useEffect, type JSX, type ReactNode } from 'react';
+import { useEffect, useState, type JSX, type ReactNode } from 'react';
 
 import { IconButton } from '@/components/buttons/IconButton';
 import { cn } from '@/lib/utils';
+
+const PANEL_TRANSITION_MS = 300;
 
 export type AdminEntitySidePanelProps = {
   open: boolean;
@@ -23,28 +25,60 @@ export default function AdminEntitySidePanel({
   className,
   overlayClassName,
 }: AdminEntitySidePanelProps): JSX.Element | null {
+  const [mounted, setMounted] = useState(open);
+  const [visible, setVisible] = useState(false);
+
   useEffect(() => {
-    if (!open) return;
+    if (open) {
+      setMounted(true);
+      const frame = requestAnimationFrame(() => {
+        requestAnimationFrame(() => setVisible(true));
+      });
+      return () => cancelAnimationFrame(frame);
+    }
+
+    setVisible(false);
+    const timer = window.setTimeout(() => setMounted(false), PANEL_TRANSITION_MS);
+    return () => window.clearTimeout(timer);
+  }, [open]);
+
+  useEffect(() => {
+    if (!mounted) return;
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') onClose();
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [open, onClose]);
+  }, [mounted, onClose]);
 
-  if (!open) return null;
+  useEffect(() => {
+    if (!mounted) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [mounted]);
+
+  if (!mounted) return null;
 
   return (
     <>
       <button
         type="button"
-        className={cn('fixed inset-0 z-40 bg-black/20', overlayClassName)}
+        className={cn(
+          'fixed inset-0 z-40 bg-black/20 transition-opacity duration-300 ease-out',
+          visible ? 'opacity-100' : 'opacity-0',
+          overlayClassName,
+        )}
         aria-label="Close panel"
         onClick={onClose}
       />
       <aside
         className={cn(
           'fixed right-0 top-0 z-50 flex h-full w-full max-w-md flex-col border-l border-gray-100 bg-white shadow-lg',
+          'transition-transform duration-300 ease-out will-change-transform',
+          visible ? 'translate-x-0' : 'translate-x-full',
           className,
         )}
         role="dialog"
