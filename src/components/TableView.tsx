@@ -1,8 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 
+import PaginationBar from '@/components/PaginationBar';
 import TableRowActionsMenuTrigger from '@/components/TableRowActionsMenuTrigger';
-import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
   DropdownMenu,
@@ -76,22 +75,8 @@ function TableView<T extends TableRowBase>({
 }: TableViewProps<T>) {
   const [internalSelected, setInternalSelected] = useState<string[]>([]);
 
-  const safeTotalPages = Math.max(1, totalPages);
-  // Page không đuoc nhỏ hơn 1 và lớn hơn total page
-  const page = Math.max(1, Math.min(currentPage, safeTotalPages));
-
   const selectedList = controlledSelected ?? internalSelected;
   const selectedSet = useMemo(() => new Set(selectedList), [selectedList]);
-
-  const goToPage = useCallback(
-    (next: number) => {
-      const clamped = Math.max(1, Math.min(next, safeTotalPages));
-      if (clamped !== page) {
-        onPageChange(clamped);
-      }
-    },
-    [onPageChange, page, safeTotalPages],
-  );
 
   const setSelectedIds = useCallback(
     (next: string[]) => {
@@ -136,19 +121,6 @@ function TableView<T extends TableRowBase>({
       setSelectedIds([...next]);
     },
     [selectedSet, selectable, setSelectedIds],
-  );
-
-  const goPrev = useCallback(() => {
-    goToPage(page - 1);
-  }, [page, goToPage]);
-
-  const goNext = useCallback(() => {
-    goToPage(page + 1);
-  }, [page, goToPage]);
-
-  const pageNumbers = useMemo(
-    () => Array.from({ length: safeTotalPages }, (_, i) => i + 1),
-    [safeTotalPages],
   );
 
   const hasBuiltInRowActions = Boolean(
@@ -269,46 +241,11 @@ function TableView<T extends TableRowBase>({
         </Table>
       </div>
 
-      <div className="mt-6 flex justify-center">
-        <div className="inline-flex items-center gap-1 rounded-full bg-white px-2 py-1">
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon-sm"
-            className="rounded-full"
-            disabled={page <= 1}
-            onClick={goPrev}
-          >
-            <ChevronLeft className="size-4" />
-          </Button>
-          {pageNumbers.map((n) => (
-            <Button
-              key={n}
-              type="button"
-              variant={n === page ? 'default' : 'ghost'}
-              size="icon-sm"
-              className={cn(
-                'size-8 rounded-full',
-                n === page &&
-                  'bg-primary text-primary-foreground hover:bg-primary/90',
-              )}
-              onClick={() => goToPage(n)}
-            >
-              {n}
-            </Button>
-          ))}
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon-sm"
-            className="rounded-full"
-            disabled={page >= safeTotalPages}
-            onClick={goNext}
-          >
-            <ChevronRight className="size-4" />
-          </Button>
-        </div>
-      </div>
+      <PaginationBar
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={onPageChange}
+      />
     </div>
   );
 }

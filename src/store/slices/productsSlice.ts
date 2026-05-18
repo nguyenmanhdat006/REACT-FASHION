@@ -15,6 +15,7 @@ import {
   DEFAULT_EXPLORE_FILTERS,
   type ExploreFilters,
 } from '@/pages/UserProductV2/exploreFilters/constants';
+import { EXPLORE_LIST_PAGE_SIZE } from '@/pages/UserProductV2/exploreFilters/exploreFilterUtils';
 import type { Product, ProductFilters } from '@/types/product/product';
 
 interface ProductsState {
@@ -34,6 +35,10 @@ interface ProductsState {
   homeTilesError: string | null;
 
   exploreAppliedFilters: ExploreFilters;
+  explorePage: number;
+  exploreSize: number;
+  exploreTotalElements: number;
+  exploreTotalPages: number;
   explorePublishedProducts: Product[];
   exploreTilesLoading: boolean;
   exploreTilesError: string | null;
@@ -60,6 +65,10 @@ const initialState: ProductsState = {
   homeTilesError: null,
 
   exploreAppliedFilters: DEFAULT_EXPLORE_FILTERS,
+  explorePage: 0,
+  exploreSize: EXPLORE_LIST_PAGE_SIZE,
+  exploreTotalElements: 0,
+  exploreTotalPages: 0,
   explorePublishedProducts: [],
   exploreTilesLoading: false,
   exploreTilesError: null,
@@ -84,11 +93,16 @@ const productsSlice = createSlice({
       state.productDetailLoading = false;
       state.productDetailError = null;
     },
+    setExplorePage: (state, action: PayloadAction<number>) => {
+      state.explorePage = Math.max(0, action.payload);
+    },
     setExploreAppliedFilters: (state, action: PayloadAction<ExploreFilters>) => {
       state.exploreAppliedFilters = action.payload;
+      state.explorePage = 0;
     },
     resetExploreAppliedFilters: state => {
       state.exploreAppliedFilters = DEFAULT_EXPLORE_FILTERS;
+      state.explorePage = 0;
     },
   },
   extraReducers: builder => {
@@ -153,11 +167,20 @@ const productsSlice = createSlice({
       .addCase(fetchExploreProductsThunk.fulfilled, (state, action) => {
         state.exploreTilesLoading = false;
         state.explorePublishedProducts = action.payload.data;
+        const { meta } = action.payload;
+        if (meta) {
+          state.explorePage = meta.page;
+          state.exploreSize = meta.size;
+          state.exploreTotalElements = meta.totalElements;
+          state.exploreTotalPages = meta.totalPages;
+        }
       })
       .addCase(fetchExploreProductsThunk.rejected, (state, action) => {
         state.exploreTilesLoading = false;
         state.exploreTilesError = (action.payload as string) || 'Failed to load products';
         state.explorePublishedProducts = [];
+        state.exploreTotalElements = 0;
+        state.exploreTotalPages = 0;
       })
       .addCase(fetchProductByIdThunk.pending, state => {
         state.productDetailLoading = true;
@@ -202,6 +225,7 @@ export const {
   setProductFilters,
   clearSelectedProduct,
   clearProductDetail,
+  setExplorePage,
   setExploreAppliedFilters,
   resetExploreAppliedFilters,
 } = productsSlice.actions;

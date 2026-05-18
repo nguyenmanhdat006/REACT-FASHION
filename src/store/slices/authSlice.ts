@@ -8,6 +8,7 @@ import {
   getProfileThunk,
   forgotPasswordThunk,
 } from '../thunks/authThunks';
+import { updateProfileThunk } from '../thunks/userThunks';
 import { getAccessToken, getRefreshToken } from '@/utils/authStorage';
 
 const initialAccessToken = getAccessToken();
@@ -166,6 +167,12 @@ const authSlice = createSlice({
       .addCase(getProfileThunk.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload || 'Failed to load profile';
+      })
+      .addCase(updateProfileThunk.fulfilled, (state, action) => {
+        const { data } = action.payload;
+        if (state.user?.id === data.id) {
+          state.user = data;
+        }
       });
 
     builder

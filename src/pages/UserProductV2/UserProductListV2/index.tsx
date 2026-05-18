@@ -1,7 +1,9 @@
-import { useMemo, type JSX } from 'react';
+import { useCallback, useMemo, type JSX } from 'react';
 
 import { ProductCard } from '@/components/cards/ProductCard';
-import { useAppSelector } from '@/store/hooks';
+import PaginationBar from '@/components/PaginationBar';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { setExplorePage } from '@/store/slices/productsSlice';
 
 import { useProductDetailsModal } from '@/pages/UserProductV2/ProductDetailsModalContext';
 import { ExploreActiveFilterChipsRow } from '@/pages/UserProductV2/exploreFilters';
@@ -10,12 +12,28 @@ import { productToExploreProductTile } from '@/pages/UserProductV2/userProductDi
 import type { ExploreProductTile } from './productsExploreData';
 
 export default function UserProductListV2(): JSX.Element {
+  const dispatch = useAppDispatch();
   const { openProductDetails } = useProductDetailsModal();
-  const { explorePublishedProducts, exploreTilesLoading } = useAppSelector((s) => s.products);
+  const {
+    explorePublishedProducts,
+    exploreTilesLoading,
+    explorePage,
+    exploreTotalPages,
+  } = useAppSelector((s) => s.products);
 
   const tiles: ExploreProductTile[] = useMemo(
     () => explorePublishedProducts.map(productToExploreProductTile),
     [explorePublishedProducts],
+  );
+
+  const currentPage = explorePage + 1;
+  const safeTotalPages = Math.max(1, exploreTotalPages || 1);
+
+  const onPageChange = useCallback(
+    (nextPage: number) => {
+      dispatch(setExplorePage(nextPage - 1));
+    },
+    [dispatch],
   );
 
   return (
@@ -44,6 +62,12 @@ export default function UserProductListV2(): JSX.Element {
           />
         ))}
       </div>
+
+      <PaginationBar
+        currentPage={currentPage}
+        totalPages={safeTotalPages}
+        onPageChange={onPageChange}
+      />
     </main>
   );
 }

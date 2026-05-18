@@ -89,7 +89,7 @@ export default function VnpayReturnPage(): JSX.Element {
   return (
     <>
       <Helmet>
-        <title>Đang xử lý thanh toán — React Fashion</title>
+        <title>Đang xử lý thanh toán — Cartify</title>
       </Helmet>
 
       <main className="flex min-h-[60vh] items-center justify-center px-4">

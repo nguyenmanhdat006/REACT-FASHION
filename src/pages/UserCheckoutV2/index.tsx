@@ -162,7 +162,7 @@ export default function UserCheckoutV2(): JSX.Element {
   return (
     <>
       <Helmet>
-        <title>Checkout — React Fashion</title>
+        <title>Checkout — Cartify</title>
         <meta name="description" content="Complete your order" />
       </Helmet>
 
