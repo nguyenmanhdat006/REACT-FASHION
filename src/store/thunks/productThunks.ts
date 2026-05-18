@@ -84,9 +84,13 @@ export const fetchExploreProductsThunk = createAsyncThunk<
   { rejectValue: string; state: RootState }
 >('products/fetchExplore', async (_, { getState, rejectWithValue }) => {
   try {
-    const { exploreAppliedFilters } = getState().products;
+    const { exploreAppliedFilters, explorePage } = getState().products;
     const segmentIds = resolveSegmentCategoryIds(getState().categories.items);
-    const apiFilters = mapExploreToProductFilters(exploreAppliedFilters, segmentIds);
+    const apiFilters = mapExploreToProductFilters(
+      exploreAppliedFilters,
+      segmentIds,
+      explorePage,
+    );
     const res = await productService.getProducts(apiFilters);
     if (res.success === false || !Array.isArray(res.data)) {
       return rejectWithValue(apiFailureMessage(res));

@@ -34,7 +34,7 @@ export const APP_SHELL_ROUTES: AppShellRoute[] = [
     icon: Home,
     showInSidebar: true,
     sidebarOrder: 0,
-    showHeaderFiltersRow: true,
+    showHeaderFiltersRow: false,
     showQuickFilter: false,
   },
   {

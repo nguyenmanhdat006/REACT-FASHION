@@ -73,6 +73,7 @@ export function ExploreFilterProvider({ children }: { children: ReactNode }): JS
   const onExploreRoute = isExploreProductsPath(location.pathname);
 
   const applied = useAppSelector((s) => s.products.exploreAppliedFilters);
+  const explorePage = useAppSelector((s) => s.products.explorePage);
   const categories = useAppSelector((s) => s.categories.items);
   const brands = useAppSelector((s) => s.brands.items);
 
@@ -110,7 +111,7 @@ export function ExploreFilterProvider({ children }: { children: ReactNode }): JS
   useEffect(() => {
     if (!onExploreRoute) return;
     void dispatch(fetchExploreProductsThunk());
-  }, [applied, categories.length, dispatch, onExploreRoute]);
+  }, [applied, categories.length, explorePage, dispatch, onExploreRoute]);
 
   const openPanel = useCallback(() => {
     if (!onExploreRoute) return;

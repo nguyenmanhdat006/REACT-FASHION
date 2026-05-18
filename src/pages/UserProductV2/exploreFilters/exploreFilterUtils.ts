@@ -44,14 +44,17 @@ function sortToApi(sort: ExploreSortOption): Pick<ProductFilters, 'sortBy' | 'so
   }
 }
 
+export const EXPLORE_LIST_PAGE_SIZE = 12;
+
 export function mapExploreToProductFilters(
   explore: ExploreFilters,
   segmentIds: ExploreSegmentCategoryIds,
+  page = 0,
 ): ProductFilters {
   const filters: ProductFilters = {
     published: true,
-    page: 0,
-    size: 12,
+    page,
+    size: EXPLORE_LIST_PAGE_SIZE,
     ...sortToApi(explore.sort),
   };
 
