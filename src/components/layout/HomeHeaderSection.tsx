@@ -81,7 +81,7 @@ export function HomeHeaderSection(): JSX.Element {
               onClick={() => navigate(ROUTES.CART)}
             />
             <UserAccountMenu
-              isAuthenticated={isAuthenticated}
+              isAuthenticated={isAuthenticated || Boolean(user)}
               userName={headerDisplayName}
               avatarUrl={resolvedAvatar}
               roles={user?.roles}
