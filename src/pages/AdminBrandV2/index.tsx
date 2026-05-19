@@ -2,6 +2,12 @@ import { Helmet } from 'react-helmet-async';
 import { useCallback, useEffect, useMemo, useState, type JSX } from 'react';
 
 import AdminListPageLayout from '@/components/admin/AdminListPageLayout';
+import {
+  AdminListFilterPanel,
+  filterBrandRows,
+  toBrandFetchParams,
+  useAdminListFilters,
+} from '@/components/admin/filters';
 import type { AdminEntityPanelState } from '@/components/admin/types';
 import TableView, { type TableColumn } from '@/components/TableView';
 import { Badge } from '@/components/ui/badge';
@@ -78,6 +84,7 @@ function buildBrandColumns(): TableColumn<AdminBrandRow>[] {
 export default function AdminBrandListPage(): JSX.Element {
   const [panel, setPanel] = useState<AdminEntityPanelState>({ open: false });
   const [formBusy, setFormBusy] = useState(false);
+  const listFilters = useAdminListFilters('brand');
   const { fetchBrands, deleteBrand, clearBrandDetailState } = useAdminCatalog();
   const {
     items: brands,
@@ -88,9 +95,26 @@ export default function AdminBrandListPage(): JSX.Element {
     error: brandsError,
   } = useAppSelector(s => s.brands);
 
+  const listQuery = useMemo(
+    () =>
+      toBrandFetchParams(listFilters.applied, {
+        page,
+        size: size || LIST_PAGE_SIZE,
+      }),
+    [listFilters.applied, page, size],
+  );
+
   useEffect(() => {
-    void fetchBrands({ page: 0, size: LIST_PAGE_SIZE });
-  }, [fetchBrands]);
+    void fetchBrands(listQuery);
+  }, [fetchBrands, listQuery]);
+
+  const handleApplyFilters = useCallback(() => {
+    const nextApplied = listFilters.draft;
+    listFilters.applyDraft();
+    void fetchBrands(
+      toBrandFetchParams(nextApplied, { page: 0, size: size || LIST_PAGE_SIZE }),
+    );
+  }, [fetchBrands, listFilters, size]);
 
   useEffect(() => {
     if (!panel.open) {
@@ -98,16 +122,24 @@ export default function AdminBrandListPage(): JSX.Element {
     }
   }, [panel.open, clearBrandDetailState]);
 
-  const rows: AdminBrandRow[] = useMemo(() => brands.map(brandToAdminBrandRow), [brands]);
+  const rows: AdminBrandRow[] = useMemo(() => {
+    const mapped = brands.map(brandToAdminBrandRow);
+    return filterBrandRows(mapped, listFilters.applied);
+  }, [brands, listFilters.applied]);
 
   const currentPage = page + 1;
   const safeTotalPages = Math.max(1, totalPages || 1);
 
   const onPageChange = useCallback(
     (nextPage: number) => {
-      void fetchBrands({ page: nextPage - 1, size: size || LIST_PAGE_SIZE });
+      void fetchBrands(
+        toBrandFetchParams(listFilters.applied, {
+          page: nextPage - 1,
+          size: size || LIST_PAGE_SIZE,
+        }),
+      );
     },
-    [fetchBrands, size],
+    [fetchBrands, listFilters.applied, size],
   );
 
   const openCreatePanel = useCallback(() => {
@@ -124,18 +156,18 @@ export default function AdminBrandListPage(): JSX.Element {
 
   const onFormSuccess = useCallback(() => {
     closePanel();
-    void fetchBrands({ page, size: size || LIST_PAGE_SIZE });
-  }, [closePanel, fetchBrands, page, size]);
+    void fetchBrands(listQuery);
+  }, [closePanel, fetchBrands, listQuery]);
 
   const onDeleteBrand = useCallback(
     async (row: AdminBrandRow) => {
       if (!window.confirm(`Delete brand “${row.name}”?`)) return;
       const ok = await deleteBrand(row.id);
       if (ok) {
-        void fetchBrands({ page, size: size || LIST_PAGE_SIZE });
+        void fetchBrands(listQuery);
       }
     },
-    [deleteBrand, fetchBrands, page, size],
+    [deleteBrand, fetchBrands, listQuery],
   );
 
   const columns = useMemo(() => buildBrandColumns(), []);
@@ -152,6 +184,8 @@ export default function AdminBrandListPage(): JSX.Element {
         resourceLabel={RESOURCE_LABEL}
         panel={panel}
         onPanelChange={setPanel}
+        onFiltersClick={listFilters.openPanel}
+        activeFilterCount={listFilters.activeFilterCount}
         onAddClick={openCreatePanel}
         loading={brandsLoading && rows.length === 0}
         error={brandsError}
@@ -179,6 +213,19 @@ export default function AdminBrandListPage(): JSX.Element {
           onDelete={onDeleteBrand}
         />
       </AdminListPageLayout>
+
+      <AdminListFilterPanel
+        preset="brand"
+        open={listFilters.isOpen}
+        draft={listFilters.draft}
+        onClose={listFilters.closePanel}
+        onDraftChange={listFilters.patchDraft}
+        onApply={handleApplyFilters}
+        onClearAll={() => {
+          listFilters.clearAll();
+          void fetchBrands({ page: 0, size: size || LIST_PAGE_SIZE });
+        }}
+      />
     </>
   );
 }

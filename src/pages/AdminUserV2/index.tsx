@@ -2,6 +2,13 @@ import { Helmet } from 'react-helmet-async';
 import { useCallback, useEffect, useMemo, useState, type JSX } from 'react';
 
 import AdminListPageLayout from '@/components/admin/AdminListPageLayout';
+import {
+  AdminListFilterPanel,
+  filterUserRows,
+  paginateRows,
+  totalPagesForRows,
+  useAdminListFilters,
+} from '@/components/admin/filters';
 import type { AdminEntityPanelState } from '@/components/admin/types';
 import TableView, { type TableColumn } from '@/components/TableView';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -16,6 +23,7 @@ import { useAppSelector } from '@/store/hooks';
 import { cn } from '@/lib/utils';
 
 const LIST_PAGE_SIZE = 10;
+const USER_FETCH_SIZE = 500;
 const RESOURCE_LABEL = 'user';
 
 const STATUS_BADGE: Record<string, string> = {
@@ -125,18 +133,13 @@ function buildUserColumns(): TableColumn<AdminUserRow>[] {
 export default function AdminUserListPage(): JSX.Element {
   const [panel, setPanel] = useState<AdminEntityPanelState>({ open: false });
   const [formBusy, setFormBusy] = useState(false);
+  const [clientPage, setClientPage] = useState(0);
+  const listFilters = useAdminListFilters('user');
   const { fetchUsersPage, clearUserDetailState } = useAdminUsers();
-  const {
-    listItems,
-    listPage,
-    listSize,
-    listTotalPages,
-    isListLoading,
-    listError,
-  } = useAppSelector(s => s.user);
+  const { listItems, isListLoading, listError } = useAppSelector(s => s.user);
 
   useEffect(() => {
-    void fetchUsersPage({ page: 0, size: LIST_PAGE_SIZE });
+    void fetchUsersPage({ page: 0, size: USER_FETCH_SIZE });
   }, [fetchUsersPage]);
 
   useEffect(() => {
@@ -145,20 +148,27 @@ export default function AdminUserListPage(): JSX.Element {
     }
   }, [panel.open, clearUserDetailState]);
 
-  const rows: AdminUserRow[] = useMemo(
-    () => listItems.map(userToAdminUserRow),
-    [listItems],
+  const filteredRows: AdminUserRow[] = useMemo(() => {
+    const mapped = listItems.map(userToAdminUserRow);
+    return filterUserRows(mapped, listFilters.applied);
+  }, [listItems, listFilters.applied]);
+
+  const rows = useMemo(
+    () => paginateRows(filteredRows, clientPage, LIST_PAGE_SIZE),
+    [filteredRows, clientPage],
   );
 
-  const currentPage = listPage + 1;
-  const safeTotalPages = Math.max(1, listTotalPages || 1);
+  const currentPage = clientPage + 1;
+  const safeTotalPages = totalPagesForRows(filteredRows.length, LIST_PAGE_SIZE);
 
-  const onPageChange = useCallback(
-    (nextPage: number) => {
-      void fetchUsersPage({ page: nextPage - 1, size: listSize || LIST_PAGE_SIZE });
-    },
-    [fetchUsersPage, listSize],
-  );
+  const onPageChange = useCallback((nextPage: number) => {
+    setClientPage(nextPage - 1);
+  }, []);
+
+  const handleApplyFilters = useCallback(() => {
+    listFilters.applyDraft();
+    setClientPage(0);
+  }, [listFilters]);
 
   const openEditPanel = useCallback((row: AdminUserRow) => {
     setPanel({ open: true, mode: 'edit', entityId: row.id });
@@ -170,8 +180,8 @@ export default function AdminUserListPage(): JSX.Element {
 
   const onFormSuccess = useCallback(() => {
     closePanel();
-    void fetchUsersPage({ page: listPage, size: listSize || LIST_PAGE_SIZE });
-  }, [closePanel, fetchUsersPage, listPage, listSize]);
+    void fetchUsersPage({ page: 0, size: USER_FETCH_SIZE });
+  }, [closePanel, fetchUsersPage]);
 
   const columns = useMemo(() => buildUserColumns(), []);
 
@@ -189,8 +199,10 @@ export default function AdminUserListPage(): JSX.Element {
         resourceLabel={RESOURCE_LABEL}
         panel={panel}
         onPanelChange={setPanel}
+        onFiltersClick={listFilters.openPanel}
+        activeFilterCount={listFilters.activeFilterCount}
         showAddButton={false}
-        loading={isListLoading && rows.length === 0}
+        loading={isListLoading && filteredRows.length === 0}
         error={listError}
         formId={ADMIN_USER_V2_FORM_ID}
         busy={formBusy}
@@ -215,6 +227,19 @@ export default function AdminUserListPage(): JSX.Element {
           onEdit={openEditPanel}
         />
       </AdminListPageLayout>
+
+      <AdminListFilterPanel
+        preset="user"
+        open={listFilters.isOpen}
+        draft={listFilters.draft}
+        onClose={listFilters.closePanel}
+        onDraftChange={listFilters.patchDraft}
+        onApply={handleApplyFilters}
+        onClearAll={() => {
+          listFilters.clearAll();
+          setClientPage(0);
+        }}
+      />
     </>
   );
 }

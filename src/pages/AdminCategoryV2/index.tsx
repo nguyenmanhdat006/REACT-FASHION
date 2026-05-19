@@ -2,6 +2,12 @@ import { Helmet } from 'react-helmet-async';
 import { useCallback, useEffect, useMemo, useState, type JSX } from 'react';
 
 import AdminListPageLayout from '@/components/admin/AdminListPageLayout';
+import {
+  AdminListFilterPanel,
+  filterCategoryRows,
+  toCategoryFetchParams,
+  useAdminListFilters,
+} from '@/components/admin/filters';
 import type { AdminEntityPanelState } from '@/components/admin/types';
 import TableView, { type TableColumn } from '@/components/TableView';
 import { Badge } from '@/components/ui/badge';
@@ -86,6 +92,7 @@ function buildCategoryColumns(): TableColumn<AdminCategoryRow>[] {
 export default function AdminCategoryListPage(): JSX.Element {
   const [panel, setPanel] = useState<AdminEntityPanelState>({ open: false });
   const [formBusy, setFormBusy] = useState(false);
+  const listFilters = useAdminListFilters('category');
   const { fetchCategories, deleteCategory, clearCategoryDetailState } = useAdminCatalog();
   const {
     items: categories,
@@ -96,9 +103,26 @@ export default function AdminCategoryListPage(): JSX.Element {
     error: categoriesError,
   } = useAppSelector((s) => s.categories);
 
+  const listQuery = useMemo(
+    () =>
+      toCategoryFetchParams(listFilters.applied, {
+        page,
+        size: size || LIST_PAGE_SIZE,
+      }),
+    [listFilters.applied, page, size],
+  );
+
   useEffect(() => {
-    void fetchCategories({ page: 0, size: LIST_PAGE_SIZE });
-  }, [fetchCategories]);
+    void fetchCategories(listQuery);
+  }, [fetchCategories, listQuery]);
+
+  const handleApplyFilters = useCallback(() => {
+    const nextApplied = listFilters.draft;
+    listFilters.applyDraft();
+    void fetchCategories(
+      toCategoryFetchParams(nextApplied, { page: 0, size: size || LIST_PAGE_SIZE }),
+    );
+  }, [fetchCategories, listFilters, size]);
 
   useEffect(() => {
     if (!panel.open) {
@@ -106,19 +130,24 @@ export default function AdminCategoryListPage(): JSX.Element {
     }
   }, [panel.open, clearCategoryDetailState]);
 
-  const rows: AdminCategoryRow[] = useMemo(
-    () => categories.map(categoryToAdminCategoryRow),
-    [categories],
-  );
+  const rows: AdminCategoryRow[] = useMemo(() => {
+    const mapped = categories.map(categoryToAdminCategoryRow);
+    return filterCategoryRows(mapped, listFilters.applied);
+  }, [categories, listFilters.applied]);
 
   const currentPage = page + 1;
   const safeTotalPages = Math.max(1, totalPages || 1);
 
   const onPageChange = useCallback(
     (nextPage: number) => {
-      void fetchCategories({ page: nextPage - 1, size: size || LIST_PAGE_SIZE });
+      void fetchCategories(
+        toCategoryFetchParams(listFilters.applied, {
+          page: nextPage - 1,
+          size: size || LIST_PAGE_SIZE,
+        }),
+      );
     },
-    [fetchCategories, size],
+    [fetchCategories, listFilters.applied, size],
   );
 
   const openCreatePanel = useCallback(() => {
@@ -135,18 +164,18 @@ export default function AdminCategoryListPage(): JSX.Element {
 
   const onFormSuccess = useCallback(() => {
     closePanel();
-    void fetchCategories({ page, size: size || LIST_PAGE_SIZE });
-  }, [closePanel, fetchCategories, page, size]);
+    void fetchCategories(listQuery);
+  }, [closePanel, fetchCategories, listQuery]);
 
   const onDeleteCategory = useCallback(
     async (row: AdminCategoryRow) => {
       if (!window.confirm(`Delete category “${row.name}”?`)) return;
       const ok = await deleteCategory(row.id);
       if (ok) {
-        void fetchCategories({ page, size: size || LIST_PAGE_SIZE });
+        void fetchCategories(listQuery);
       }
     },
-    [deleteCategory, fetchCategories, page, size],
+    [deleteCategory, fetchCategories, listQuery],
   );
 
   const columns = useMemo(() => buildCategoryColumns(), []);
@@ -165,6 +194,8 @@ export default function AdminCategoryListPage(): JSX.Element {
         resourceLabel={RESOURCE_LABEL}
         panel={panel}
         onPanelChange={setPanel}
+        onFiltersClick={listFilters.openPanel}
+        activeFilterCount={listFilters.activeFilterCount}
         onAddClick={openCreatePanel}
         loading={categoriesLoading && rows.length === 0}
         error={categoriesError}
@@ -192,6 +223,19 @@ export default function AdminCategoryListPage(): JSX.Element {
           onDelete={onDeleteCategory}
         />
       </AdminListPageLayout>
+
+      <AdminListFilterPanel
+        preset="category"
+        open={listFilters.isOpen}
+        draft={listFilters.draft}
+        onClose={listFilters.closePanel}
+        onDraftChange={listFilters.patchDraft}
+        onApply={handleApplyFilters}
+        onClearAll={() => {
+          listFilters.clearAll();
+          void fetchCategories({ page: 0, size: size || LIST_PAGE_SIZE });
+        }}
+      />
     </>
   );
 }

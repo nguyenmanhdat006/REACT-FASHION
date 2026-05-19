@@ -3,43 +3,63 @@ import { Plus } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState, type JSX } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import {
+  AdminListFilterPanel,
+  toProductFetchParams,
+  toSelectOptions,
+  useAdminListFilters,
+} from '@/components/admin/filters';
 import { IconButton } from '@/components/buttons/IconButton';
 import { LabelButton } from '@/components/buttons/LabelButton';
 import ConfirmDialog from '@/components/ConfirmDialog';
 import { ROUTES } from '@/constants';
+import { useAdminCatalog } from '@/hooks/product/useAdminCatalog';
 import { useProducts } from '@/hooks/product/useProducts';
 import AdminProductList from '@/pages/AdminProductV2/AdminProductList/sections/AdminProductList';
 import { productToAdminProductRow } from '@/pages/AdminProductV2/adminProductDisplayMappers';
 import { useAppSelector } from '@/store/hooks';
+import { DEFAULT_LIST_QUERY } from '@/types/common/common';
 
 import type { AdminProductRow } from './sections/AdminProductList';
 
 const LIST_PAGE_SIZE = 10;
-
-const productListQuery = (page: number, size: number) => ({
-  page,
-  size,
-  sortBy: 'createdAt',
-  sortDirection: 'desc' as const,
-});
+const CATALOG_OPTIONS_QUERY = { ...DEFAULT_LIST_QUERY, page: 0, size: 200 };
 
 export default function AdminProductListPage(): JSX.Element {
+  const navigate = useNavigate();
   const [deleteTarget, setDeleteTarget] = useState<AdminProductRow | null>(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
-  const navigate = useNavigate();
+  const listFilters = useAdminListFilters('product');
   const { fetchProductsPage, deleteProduct } = useProducts();
-  const { items, page, size, totalPages, isLoading, error } = useAppSelector(
-    (s) => s.products,
+  const { fetchCategories, fetchBrands } = useAdminCatalog();
+  const { items, page, size, totalPages, isLoading, error } = useAppSelector(s => s.products);
+  const categories = useAppSelector(s => s.categories.items);
+  const brands = useAppSelector(s => s.brands.items);
+
+  const listQuery = useMemo(
+    () =>
+      toProductFetchParams(listFilters.applied, {
+        page,
+        size: size || LIST_PAGE_SIZE,
+      }),
+    [listFilters.applied, page, size],
   );
 
   useEffect(() => {
-    void fetchProductsPage(productListQuery(0, LIST_PAGE_SIZE));
-  }, [fetchProductsPage]);
+    void fetchProductsPage(listQuery);
+  }, [fetchProductsPage, listQuery]);
 
-  const listFilters = useMemo(
-    () => productListQuery(page, size || LIST_PAGE_SIZE),
-    [page, size],
+  useEffect(() => {
+    if (!listFilters.isOpen) return;
+    void fetchCategories(CATALOG_OPTIONS_QUERY);
+    void fetchBrands(CATALOG_OPTIONS_QUERY);
+  }, [listFilters.isOpen, fetchCategories, fetchBrands]);
+
+  const categoryOptions = useMemo(
+    () => toSelectOptions(categories, 'All categories'),
+    [categories],
   );
+  const brandOptions = useMemo(() => toSelectOptions(brands, 'All brands'), [brands]);
 
   const rows: AdminProductRow[] = useMemo(
     () => items.map(productToAdminProductRow),
@@ -51,10 +71,23 @@ export default function AdminProductListPage(): JSX.Element {
 
   const onPageChange = useCallback(
     (nextPage: number) => {
-      void fetchProductsPage(productListQuery(nextPage - 1, size || LIST_PAGE_SIZE));
+      void fetchProductsPage(
+        toProductFetchParams(listFilters.applied, {
+          page: nextPage - 1,
+          size: size || LIST_PAGE_SIZE,
+        }),
+      );
     },
-    [fetchProductsPage, size],
+    [fetchProductsPage, listFilters.applied, size],
   );
+
+  const handleApplyFilters = useCallback(() => {
+    const nextApplied = listFilters.draft;
+    listFilters.applyDraft();
+    void fetchProductsPage(
+      toProductFetchParams(nextApplied, { page: 0, size: size || LIST_PAGE_SIZE }),
+    );
+  }, [fetchProductsPage, listFilters, size]);
 
   const goToAddProduct = useCallback(() => {
     navigate(ROUTES.ADMIN_PRODUCT_ADD);
@@ -81,10 +114,15 @@ export default function AdminProductListPage(): JSX.Element {
   const handleConfirmDelete = useCallback(async () => {
     if (!deleteTarget) return;
     setDeleteLoading(true);
-    const ok = await deleteProduct(deleteTarget.id, listFilters);
+    const ok = await deleteProduct(deleteTarget.id, listQuery);
     setDeleteLoading(false);
     if (ok) setDeleteTarget(null);
-  }, [deleteProduct, deleteTarget, listFilters]);
+  }, [deleteProduct, deleteTarget, listQuery]);
+
+  const filterLabel =
+    listFilters.activeFilterCount > 0
+      ? `Filters (${listFilters.activeFilterCount})`
+      : 'Filters';
 
   return (
     <>
@@ -93,10 +131,11 @@ export default function AdminProductListPage(): JSX.Element {
       </Helmet>
       <div className="mb-4 flex justify-start gap-3">
         <LabelButton
-          label="Filters"
+          label={filterLabel}
           type="button"
           className="bg-gray-white hover:bg-gray-100"
           ariaLabel="Open product filters"
+          onClick={listFilters.openPanel}
         />
         <IconButton
           icon={Plus}
@@ -117,7 +156,7 @@ export default function AdminProductListPage(): JSX.Element {
       />
       <ConfirmDialog
         open={deleteTarget != null}
-        onOpenChange={(open) => {
+        onOpenChange={open => {
           if (!open && !deleteLoading) setDeleteTarget(null);
         }}
         title="Delete product"
@@ -141,6 +180,21 @@ export default function AdminProductListPage(): JSX.Element {
           {error}
         </p>
       ) : null}
+
+      <AdminListFilterPanel
+        preset="product"
+        open={listFilters.isOpen}
+        draft={listFilters.draft}
+        categoryOptions={categoryOptions}
+        brandOptions={brandOptions}
+        onClose={listFilters.closePanel}
+        onDraftChange={listFilters.patchDraft}
+        onApply={handleApplyFilters}
+        onClearAll={() => {
+          listFilters.clearAll();
+          void fetchProductsPage({ page: 0, size: size || LIST_PAGE_SIZE });
+        }}
+      />
     </>
   );
 }

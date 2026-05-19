@@ -116,6 +116,7 @@ export interface ProductFilters {
   featured?: boolean;
   published?: boolean;
   keyword?: string;
+  status?: ProductStatus;
 }
 
 export interface ProductListParams {

@@ -19,6 +19,7 @@ export type AdminListPageLayoutProps = {
   onPanelChange: (panel: AdminEntityPanelState) => void;
 
   onFiltersClick?: () => void;
+  activeFilterCount?: number;
   onAddClick?: () => void;
   showAddButton?: boolean;
   toolbarExtra?: ReactNode;
@@ -47,6 +48,7 @@ export default function AdminListPageLayout({
   panel,
   onPanelChange,
   onFiltersClick,
+  activeFilterCount = 0,
   onAddClick,
   showAddButton = true,
   toolbarExtra,
@@ -98,7 +100,9 @@ export default function AdminListPageLayout({
     <div className={cn('relative flex min-h-0 flex-1 flex-col', className)}>
       <div className="mb-4 flex justify-start gap-3">
         <LabelButton
-          label="Filters"
+          label={
+            activeFilterCount > 0 ? `Filters (${activeFilterCount})` : 'Filters'
+          }
           type="button"
           tone="default"
           className="bg-gray-white hover:bg-gray-100"
