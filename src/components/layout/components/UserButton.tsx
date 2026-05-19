@@ -35,7 +35,7 @@ export const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(functio
     >
       {hasPhoto ? (
         <span
-          className="relative h-10 w-10 shrink-0 rounded-[64px] bg-cover bg-center"
+          className="relative h-10 w-10 shrink-0 rounded-[64px] bg-cover bg-top"
           style={{ backgroundImage: `url(${avatarUrl})` }}
           aria-hidden
         />

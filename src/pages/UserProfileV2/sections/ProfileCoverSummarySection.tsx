@@ -98,7 +98,7 @@ export function ProfileCoverSummarySection({
               )}
             >
               {hasAvatarPhoto ? (
-                <AvatarImage src={avatarUrl!} alt="" />
+                <AvatarImage src={avatarUrl!} alt="" className="object-top" />
               ) : null}
               <AvatarFallback className="bg-gray-100 text-h5-semi uppercase text-gray-700">
                 {initials ? (
