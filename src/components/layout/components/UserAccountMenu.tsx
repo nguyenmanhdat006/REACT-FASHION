@@ -1,6 +1,6 @@
-import { LayoutDashboard, User } from 'lucide-react';
+import { Home, LayoutDashboard, User } from 'lucide-react';
 import type { JSX } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import {
   DropdownMenu,
@@ -27,6 +27,8 @@ export function UserAccountMenu({
   roles,
 }: UserAccountMenuProps): JSX.Element {
   const navigate = useNavigate();
+  const location = useLocation();
+  const isOnAdminRoute = location.pathname.includes('/admin');
   const isAdmin = roles?.includes(USER_ROLES.ADMIN) ?? false;
 
   if (!isAuthenticated) {
@@ -57,9 +59,17 @@ export function UserAccountMenu({
         {isAdmin ? (
           <>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onSelect={() => navigate(ROUTES.ADMIN_DASHBOARD)}>
-              <LayoutDashboard className="size-4" aria-hidden />
-              Admin Page
+            <DropdownMenuItem
+              onSelect={() =>
+                navigate(isOnAdminRoute ? ROUTES.HOME : ROUTES.ADMIN_DASHBOARD)
+              }
+            >
+              {isOnAdminRoute ? (
+                <Home className="size-4" aria-hidden />
+              ) : (
+                <LayoutDashboard className="size-4" aria-hidden />
+              )}
+              {isOnAdminRoute ? 'Home Page' : 'Admin Page'}
             </DropdownMenuItem>
           </>
         ) : null}
