@@ -1,16 +1,14 @@
 import { Helmet } from 'react-helmet-async';
-import { Plus } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState, type JSX } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { AdminListToolbar } from '@/components/admin/AdminListToolbar';
 import {
   AdminListFilterPanel,
   toProductFetchParams,
   toSelectOptions,
   useAdminListFilters,
 } from '@/components/admin/filters';
-import { IconButton } from '@/components/buttons/IconButton';
-import { LabelButton } from '@/components/buttons/LabelButton';
 import ConfirmDialog from '@/components/ConfirmDialog';
 import { ROUTES } from '@/constants';
 import { useAdminCatalog } from '@/hooks/product/useAdminCatalog';
@@ -119,32 +117,18 @@ export default function AdminProductListPage(): JSX.Element {
     if (ok) setDeleteTarget(null);
   }, [deleteProduct, deleteTarget, listQuery]);
 
-  const filterLabel =
-    listFilters.activeFilterCount > 0
-      ? `Filters (${listFilters.activeFilterCount})`
-      : 'Filters';
-
   return (
     <>
       <Helmet>
         <title>Products — Admin</title>
       </Helmet>
-      <div className="mb-4 flex justify-start gap-3">
-        <LabelButton
-          label={filterLabel}
-          type="button"
-          className="bg-gray-white hover:bg-gray-100"
-          ariaLabel="Open product filters"
-          onClick={listFilters.openPanel}
-        />
-        <IconButton
-          icon={Plus}
-          ariaLabel="Add product"
-          onClick={goToAddProduct}
-          className="bg-primary hover:bg-primary/90"
-          iconClassName="text-white"
-        />
-      </div>
+      <AdminListToolbar
+        onFiltersClick={listFilters.openPanel}
+        activeFilterCount={listFilters.activeFilterCount}
+        filtersAriaLabel="Open product filters"
+        onAddClick={goToAddProduct}
+        addAriaLabel="Add product"
+      />
       <AdminProductList
         products={rows}
         currentPage={currentPage}

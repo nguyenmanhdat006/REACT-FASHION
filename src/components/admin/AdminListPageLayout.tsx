@@ -1,6 +1,6 @@
-import { Plus } from 'lucide-react';
 import { useCallback, type JSX, type ReactNode } from 'react';
 
+import { AdminListToolbar } from '@/components/admin/AdminListToolbar';
 import AdminEntitySidePanel from '@/components/admin/AdminEntitySidePanel';
 import AdminFormFooter from '@/components/admin/AdminFormFooter';
 import {
@@ -9,8 +9,6 @@ import {
   type AdminEntityPanelState,
   type AdminEntityPanelSubmitContext,
 } from '@/components/admin/types';
-import { IconButton } from '@/components/buttons/IconButton';
-import { LabelButton } from '@/components/buttons/LabelButton';
 import { cn } from '@/lib/utils';
 
 export type AdminListPageLayoutProps = {
@@ -20,8 +18,10 @@ export type AdminListPageLayoutProps = {
 
   onFiltersClick?: () => void;
   activeFilterCount?: number;
+  filtersAriaLabel?: string;
   onAddClick?: () => void;
   showAddButton?: boolean;
+  addAriaLabel?: string;
   toolbarExtra?: ReactNode;
 
   children: ReactNode;
@@ -49,8 +49,10 @@ export default function AdminListPageLayout({
   onPanelChange,
   onFiltersClick,
   activeFilterCount = 0,
+  filtersAriaLabel,
   onAddClick,
   showAddButton = true,
+  addAriaLabel,
   toolbarExtra,
   children,
   className,
@@ -98,27 +100,15 @@ export default function AdminListPageLayout({
 
   return (
     <div className={cn('relative flex min-h-0 flex-1 flex-col', className)}>
-      <div className="mb-4 flex justify-start gap-3">
-        <LabelButton
-          label={
-            activeFilterCount > 0 ? `Filters (${activeFilterCount})` : 'Filters'
-          }
-          type="button"
-          tone="default"
-          className="bg-gray-white hover:bg-gray-100"
-          onClick={onFiltersClick}
-        />
-        {showAddButton ? (
-          <IconButton
-            icon={Plus}
-            ariaLabel="Add"
-            onClick={onAddClick}
-            className="bg-primary hover:bg-primary/90"
-            iconClassName="text-white"
-          />
-        ) : null}
-        {toolbarExtra}
-      </div>
+      <AdminListToolbar
+        onFiltersClick={onFiltersClick}
+        activeFilterCount={activeFilterCount}
+        filtersAriaLabel={filtersAriaLabel}
+        onAddClick={onAddClick}
+        showAddButton={showAddButton}
+        addAriaLabel={addAriaLabel}
+        extra={toolbarExtra}
+      />
 
       {children}
 

@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { useCallback, useEffect, useMemo, useState, type JSX } from 'react';
 
-import { LabelButton } from '@/components/buttons/LabelButton';
+import { AdminListToolbar } from '@/components/admin/AdminListToolbar';
 import Modal from '@/components/overlay/Modal';
 import { Button } from '@/components/ui/button';
 import {
@@ -166,14 +166,10 @@ export default function AdminOrderV2(): JSX.Element {
       <Helmet>
         <title>Orders — Admin</title>
       </Helmet>
-      <div className="mb-4 flex justify-start gap-3">
-        <LabelButton
-          label="Filters"
-          type="button"
-          className="bg-gray-white hover:bg-gray-100"
-          ariaLabel="Open order filters"
-        />
-      </div>
+      <AdminListToolbar
+        filtersAriaLabel="Open order filters"
+        showAddButton={false}
+      />
       <AdminOrderList
         orders={rows}
         currentPage={currentPage}
