@@ -180,9 +180,9 @@ function TableView<T extends TableRowBase>({
   );
 
   return (
-    <div className={cn('font-sans', className)}>
-      <div className="mx-auto max-w-5xl overflow-x-auto overflow-y-visible rounded-xl border border-[1px] border-gray-100 bg-white text-card-foreground">
-        <Table>
+    <div className={cn('w-full font-sans', className)}>
+      <div className="w-full overflow-x-auto overflow-y-visible rounded-xl border border-[1px] border-gray-100 bg-white text-card-foreground">
+        <Table className="w-full">
           <TableHeader>
             <TableRow className="border-none shadow-[0_1px_2px_rgba(0,0,0,0.08)]">
               {selectable ? (

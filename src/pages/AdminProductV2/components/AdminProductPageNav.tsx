@@ -41,8 +41,8 @@ export function AdminProductPageNav({
         <IconButton
           icon={Pencil}
           ariaLabel="Edit this product"
-          variant="outline"
-          className="rounded-lg px-3 py-3 bg-white [&_svg]:text-white bg-secondary-400 hover:bg-secondary-500"
+          variant="primary"
+          className="rounded-lg px-3 py-3 [&_svg]:text-white bg-primary hover:bg-primary-500/80"
           iconClassName="size-5"
           onClick={() => navigate(ROUTES.ADMIN_PRODUCT_EDIT(productId))}
         />
