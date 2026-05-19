@@ -1,13 +1,17 @@
-import { IMAGES } from '@/constants/images';
 import type { User } from '@/types/auth/auth';
 import { formatDateTime } from '@/utils/date';
+import {
+  initialsFromDisplayName,
+  resolveProfileDisplayName,
+} from '@/utils/displayName';
 
 export type AdminUserRow = {
   id: string;
   fullName: string;
   email: string;
   phone: string;
-  avatarUrl: string;
+  avatarUrl: string | null;
+  avatarInitials: string;
   roles: string[];
   rolesLabel: string;
   status: string;
@@ -29,8 +33,10 @@ export function userToAdminUserRow(user: User): AdminUserRow {
     fullName: user.fullName?.trim() || '—',
     email: user.email?.trim() || '—',
     phone: user.phone?.trim() || '—',
-    avatarUrl:
-      (user.avatarUrl?.trim() && user.avatarUrl) || IMAGES.PRODUCT_DEMO_1,
+    avatarUrl: user.avatarUrl?.trim() || null,
+    avatarInitials: initialsFromDisplayName(
+      resolveProfileDisplayName(user.fullName, user.email),
+    ),
     roles: [...(user.roles ?? [])],
     rolesLabel: (user.roles ?? []).join(', ') || '—',
     status: user.status?.trim() || 'ACTIVE',

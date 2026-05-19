@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState, type JSX } from 'react';
 import AdminListPageLayout from '@/components/admin/AdminListPageLayout';
 import type { AdminEntityPanelState } from '@/components/admin/types';
 import TableView, { type TableColumn } from '@/components/TableView';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import AdminUserV2Form, { ADMIN_USER_V2_FORM_ID } from '@/forms/AdminUserV2';
 import { useAdminUsers } from '@/hooks/user/useAdminUsers';
@@ -30,12 +31,14 @@ function buildUserColumns(): TableColumn<AdminUserRow>[] {
       header: '',
       cellClassName: 'whitespace-normal py-4',
       cell: user => (
-        <img
-          src={user.avatarUrl}
-          alt=""
-          className="size-12 shrink-0 rounded-full object-cover"
-          loading="lazy"
-        />
+        <Avatar className="size-12">
+          {user.avatarUrl ? (
+            <AvatarImage src={user.avatarUrl} alt="" loading="lazy" className="object-top" />
+          ) : null}
+          <AvatarFallback className="bg-gray-50 text-caption-lg-semibold uppercase text-gray-700">
+            {user.avatarInitials || '—'}
+          </AvatarFallback>
+        </Avatar>
       ),
     },
     {

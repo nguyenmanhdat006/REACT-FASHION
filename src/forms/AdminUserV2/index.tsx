@@ -1,11 +1,16 @@
 import { Controller } from 'react-hook-form';
 import { useEffect, type JSX } from 'react';
 
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
 import type { User } from '@/types/auth/auth';
+import {
+  initialsFromDisplayName,
+  resolveProfileDisplayName,
+} from '@/utils/displayName';
 
 import { ADMIN_USER_ROLE_OPTIONS } from './constants';
 import type { AdminUserV2FormMode } from './types';
@@ -40,17 +45,20 @@ function UserSummaryCard({ user }: { user: User }): JSX.Element {
 }
 
 function UserSummaryFields({ user }: { user: User }): JSX.Element {
+  const avatarUrl = user.avatarUrl?.trim() || null;
+  const avatarInitials = initialsFromDisplayName(
+    resolveProfileDisplayName(user.fullName, user.email),
+  );
+
   return (
     <>
       <div className="flex items-center gap-3">
-        {user.avatarUrl ? (
-          <img
-            src={user.avatarUrl}
-            alt=""
-            className="size-12 shrink-0 rounded-full object-cover"
-            loading="lazy"
-          />
-        ) : null}
+        <Avatar className="size-12">
+          {avatarUrl ? <AvatarImage src={avatarUrl} alt="" loading="lazy" /> : null}
+          <AvatarFallback className="bg-gray-100 text-caption-lg-semibold uppercase text-gray-700">
+            {avatarInitials || '—'}
+          </AvatarFallback>
+        </Avatar>
         <div>
           <p className="text-body-medium text-foreground">{user.fullName}</p>
           <p className="text-caption-sm-regular text-muted-foreground">{user.email}</p>
