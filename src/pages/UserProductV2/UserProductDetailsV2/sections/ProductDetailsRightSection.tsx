@@ -138,7 +138,7 @@ export default function ProductDetailsRightSection({
                 onClose?.();
               } catch {
               }
-              navigate(ROUTES.CART);
+                navigate(ROUTES.CHECKOUT);
             } else if (addToCartThunk.rejected.match(result)) {
               toast.error((result as any).payload || 'Unable to proceed to checkout');
             }
