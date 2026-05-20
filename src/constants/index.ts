@@ -145,6 +145,9 @@ export const API_ENDPOINTS = {
 export const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api';
 
+export const SOCKET_URL =
+  (import.meta.env.VITE_SOCKET_URL as string | undefined)?.replace(/\/+$/, '') ||
+  'http://localhost:9093';
 
 export const STORAGE_BASE_URL =
   (import.meta.env.VITE_STORAGE_BASE_URL as string | undefined)?.replace(/\/+$/, '') ||

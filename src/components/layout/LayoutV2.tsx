@@ -1,5 +1,7 @@
 import type { JSX, ReactNode } from 'react';
 
+import { ChatSocketBootstrap } from '@/components/chat/ChatSocketBootstrap';
+
 import { HomeHeaderSection } from './HomeHeaderSection';
 import { NavigationMenuSection } from './NavigationMenuSection';
 import { ExploreFilterProvider } from '@/pages/UserProductV2/exploreFilters';
@@ -19,6 +21,7 @@ export default function LayoutV2({
       className="relative flex h-screen w-screen items-start justify-center bg-gray-50"
       aria-label={ariaLabel}
     >
+      <ChatSocketBootstrap />
       <NavigationMenuSection />
 
       <ExploreFilterProvider>
