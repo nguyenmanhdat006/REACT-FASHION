@@ -4,6 +4,7 @@ import { chatService } from '@/services/chat/chatService';
 import { emitJoinConversation, emitSendMessage } from '@/services/chat/chatSocketService';
 import { getSocket } from '@/socket';
 import type { MessageRealtimePayload } from '@/socket/modules/chatModule';
+import { useChatUserId } from '@/hooks/chat/useChatUserId';
 import { useSocketConnection } from '@/hooks/socket/useSocketConnection';
 import { useAppSelector } from '@/store/hooks';
 import type { ConversationInbound, MessageInbound } from '@/types/chat/chat';
@@ -29,7 +30,7 @@ export function useSupportChatWidget() {
 
   const { status } = useSocketConnection();
   const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated);
-  const currentUserId = useAppSelector(state => state.auth.user?.id ?? null);
+  const currentUserId = useChatUserId();
   const roles = useAppSelector(state => state.auth.user?.roles ?? []);
 
   const isAdmin = useMemo(

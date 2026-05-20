@@ -6,6 +6,7 @@ export interface JwtRolePayload {
 }
 
 export interface JwtProfilePayload extends JwtRolePayload {
+  sub?: string;
   email?: string;
   name?: string;
   preferred_username?: string;

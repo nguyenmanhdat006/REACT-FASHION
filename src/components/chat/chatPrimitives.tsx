@@ -49,10 +49,14 @@ export function ChatMessageBubble({
   otherLabel?: string;
 }): React.ReactElement {
   return (
-    <div className={cn('flex w-full', isOwn ? 'justify-end' : 'justify-start')}>
+    <div className={cn('flex w-full gap-2', isOwn ? 'justify-end' : 'justify-start')}>
+      {!isOwn ? (
+        <ChatAvatar label={otherLabel} className="h-8 w-8 text-[10px] ring-1 ring-white" />
+      ) : null}
+
       <div
         className={cn(
-          'flex max-w-[88%] flex-col gap-1',
+          'flex max-w-[78%] flex-col gap-1',
           isOwn ? 'items-end' : 'items-start',
         )}
       >
@@ -63,8 +67,8 @@ export function ChatMessageBubble({
           className={cn(
             'rounded-2xl px-3.5 py-2.5 shadow-sm',
             isOwn
-              ? 'rounded-br-md bg-primary text-primary-foreground'
-              : 'rounded-bl-md border border-gray-100 bg-white text-gray-black',
+              ? 'rounded-br-sm bg-primary text-white shadow-primary/25'
+              : 'rounded-bl-sm border border-gray-200 bg-gray-50 text-gray-black',
           )}
         >
           <p className="text-body-regular whitespace-pre-wrap break-words">{content}</p>

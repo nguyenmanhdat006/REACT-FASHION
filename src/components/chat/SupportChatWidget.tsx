@@ -10,13 +10,13 @@ import {
 } from '@/components/chat/chatPrimitives';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { useChatUserId } from '@/hooks/chat/useChatUserId';
 import { useSupportChatWidget } from '@/hooks/chat/useSupportChatWidget';
-import { useAppSelector } from '@/store/hooks';
 
 export function SupportChatWidget(): JSX.Element | null {
   const [draft, setDraft] = useState('');
   const bottomRef = useRef<HTMLDivElement | null>(null);
-  const currentUserId = useAppSelector(state => state.auth.user?.id ?? null);
+  const currentUserId = useChatUserId();
   const {
     hidden,
     open,

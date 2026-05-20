@@ -20,6 +20,7 @@ import {
 } from '@/store/slices/chatSlice';
 import type { MessageInbound } from '@/types/chat/chat';
 import type { MessageRealtimePayload } from '@/socket/modules/chatModule';
+import { useChatUserId } from '@/hooks/chat/useChatUserId';
 import { useSocketConnection } from '@/hooks/socket/useSocketConnection';
 
 const MESSAGE_LIST_PARAMS = {
@@ -60,7 +61,7 @@ export function useAdminSupportChat() {
     isClaiming,
     error,
   } = useAppSelector(state => state.chat);
-  const currentUserId = useAppSelector(state => state.auth.user?.id ?? null);
+  const currentUserId = useChatUserId();
   const { status: socketStatus } = useSocketConnection();
 
   const selectedConversation = useMemo(() => {

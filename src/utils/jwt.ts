@@ -53,6 +53,13 @@ export const getRolesFromJwtToken = (token?: string): string[] => {
   return extractRolesFromJwtPayload(payload);
 };
 
+/** Keycloak subject — matches chat `senderId` on the backend. */
+export const getSubjectFromJwtToken = (token?: string): string | null => {
+  const payload = parseJwtPayload<JwtProfilePayload>(token);
+  const sub = payload?.sub?.trim();
+  return sub || null;
+};
+
 export const getProfileFieldsFromJwtToken = (
   token?: string
 ): { email: string | undefined; fullName: string | undefined } => {
