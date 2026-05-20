@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import { useStore } from 'react-redux';
 
 import { getSocket } from '@/socket';
+import { emitJoinConversation, emitSendMessage } from '@/services/chat/chatSocketService';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import type { RootState } from '@/store';
 import {
@@ -12,11 +13,14 @@ import {
   fetchSupportQueueThunk,
 } from '@/store/thunks/chatThunks';
 import {
+  appendMessage,
   clearChatError,
   selectConversation as selectConversationAction,
+  touchConversation,
 } from '@/store/slices/chatSlice';
-import { chatService } from '@/services/chat/chatService';
+import type { MessageInbound } from '@/types/chat/chat';
 import type { MessageRealtimePayload } from '@/socket/modules/chatModule';
+import { useSocketConnection } from '@/hooks/socket/useSocketConnection';
 
 const MESSAGE_LIST_PARAMS = {
   page: 0,
@@ -25,34 +29,21 @@ const MESSAGE_LIST_PARAMS = {
   sortDirection: 'desc' as const,
 };
 
-function isAckJoined(ack: unknown): boolean {
-  if (ack && typeof ack === 'object' && 'joined' in ack) {
-    return Boolean((ack as { joined?: boolean }).joined);
+function messageFromRealtimePayload(
+  payload: MessageRealtimePayload,
+  conversationId: number,
+): MessageInbound | null {
+  if (!payload.messageId || !payload.content) {
+    return null;
   }
-  if (ack && typeof ack === 'object' && 'ok' in ack) {
-    return Boolean((ack as { ok?: boolean }).ok);
-  }
-  return false;
-}
-
-function emitJoinConversation(conversationId: number): Promise<void> {
-  const socket = getSocket();
-  if (!socket?.connected) {
-    return Promise.resolve();
-  }
-  return new Promise((resolve, reject) => {
-    socket.emit('conversation:join', conversationId, (ack: unknown) => {
-      if (isAckJoined(ack)) {
-        resolve();
-        return;
-      }
-      if (ack && typeof ack === 'object' && 'error' in ack) {
-        reject(new Error(String((ack as { error?: string }).error)));
-        return;
-      }
-      reject(new Error('Failed to join conversation room'));
-    });
-  });
+  return {
+    id: payload.messageId,
+    conversationId,
+    senderId: payload.senderId ?? '',
+    content: payload.content,
+    clientMessageId: payload.clientMessageId?.trim() ? payload.clientMessageId : null,
+    createdAt: payload.createdAt ?? null,
+  };
 }
 
 export function useAdminSupportChat() {
@@ -70,6 +61,7 @@ export function useAdminSupportChat() {
     error,
   } = useAppSelector(state => state.chat);
   const currentUserId = useAppSelector(state => state.auth.user?.id ?? null);
+  const { status: socketStatus } = useSocketConnection();
 
   const selectedConversation = useMemo(() => {
     if (selectedConversationId == null) {
@@ -80,6 +72,27 @@ export function useAdminSupportChat() {
   }, [queue, mySupportThreads, selectedConversationId]);
 
   const lastJoinedId = useRef<number | null>(null);
+
+  const syncSidebarPreview = useCallback(
+    (conversationId: number, preview: string, lastMessageAt?: string | null) => {
+      dispatch(
+        touchConversation({
+          conversationId,
+          lastMessagePreview: preview,
+          lastMessageAt,
+        }),
+      );
+
+      const { chat } = store.getState();
+      const exists = [...chat.queue, ...chat.mySupportThreads].some(
+        conversation => conversation.id === conversationId,
+      );
+      if (!exists) {
+        void dispatch(fetchSupportQueueThunk());
+      }
+    },
+    [dispatch, store],
+  );
 
   const refreshAll = useCallback(async () => {
     try {
@@ -147,19 +160,27 @@ export function useAdminSupportChat() {
     }
 
     const onMessageRealtime = (payload: MessageRealtimePayload) => {
+      if (payload.conversationId == null) {
+        return;
+      }
+
       if (
-        payload.conversationId != null &&
-        payload.conversationId === selectedConversationId
+        payload.conversationId === selectedConversationId &&
+        payload.senderId !== currentUserId
       ) {
-        void dispatch(
-          fetchConversationMessagesThunk({
-            conversationId: payload.conversationId,
-            params: MESSAGE_LIST_PARAMS,
-          }),
+        const message = messageFromRealtimePayload(payload, payload.conversationId);
+        if (message) {
+          dispatch(appendMessage(message));
+        }
+      }
+
+      if (payload.content) {
+        syncSidebarPreview(
+          payload.conversationId,
+          payload.content,
+          payload.createdAt ?? null,
         );
       }
-      void dispatch(fetchSupportQueueThunk());
-      void dispatch(fetchMyConversationsThunk());
     };
 
     socket.on('message:new', onMessageRealtime);
@@ -168,7 +189,7 @@ export function useAdminSupportChat() {
       socket.off('message:new', onMessageRealtime);
       socket.off('message:created', onMessageRealtime);
     };
-  }, [dispatch, selectedConversationId]);
+  }, [dispatch, selectedConversationId, currentUserId, syncSidebarPreview]);
 
   const claimSelected = useCallback(async () => {
     if (selectedConversationId == null) {
@@ -198,26 +219,29 @@ export function useAdminSupportChat() {
       if (!trimmed) {
         return;
       }
+      if (!currentUserId) {
+        toast.error('Missing user identity');
+        return;
+      }
+      if (socketStatus !== 'connected') {
+        toast.error('Socket is not connected');
+        return;
+      }
       try {
-        const res = await chatService.sendMessage({
-          conversationId: selectedConversationId,
-          content: trimmed,
-        });
-        if (!res.success) {
-          toast.error(res.error ?? 'Failed to send');
-          return;
-        }
-        await dispatch(
-          fetchConversationMessagesThunk({
+        const saved = await emitSendMessage(
+          {
             conversationId: selectedConversationId,
-            params: MESSAGE_LIST_PARAMS,
-          }),
-        ).unwrap();
-      } catch {
-        toast.error('Failed to send message');
+            content: trimmed,
+          },
+          currentUserId,
+        );
+        dispatch(appendMessage(saved));
+        syncSidebarPreview(saved.conversationId, saved.content, saved.createdAt);
+      } catch (err) {
+        toast.error(err instanceof Error ? err.message : 'Failed to send message');
       }
     },
-    [dispatch, selectedConversationId, selectedConversation?.claimed],
+    [dispatch, selectedConversationId, selectedConversation?.claimed, currentUserId, socketStatus, syncSidebarPreview],
   );
 
   return {

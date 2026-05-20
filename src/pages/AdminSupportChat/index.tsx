@@ -1,25 +1,20 @@
 import { Helmet } from 'react-helmet-async';
-import { Loader2, MessageCircle, Search } from 'lucide-react';
-import { useMemo, useState, type FormEvent, type JSX } from 'react';
+import { BadgeCheck, Clock, Loader2, MessageCircle, Search } from 'lucide-react';
+import { useEffect, useMemo, useRef, useState, type FormEvent, type JSX, type ReactNode } from 'react';
 
+import {
+  ChatAvatar,
+  ChatComposer,
+  ChatEmptyState,
+  ChatLoadingState,
+  ChatMessageBubble,
+  formatChatTime,
+} from '@/components/chat/chatPrimitives';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { useAdminSupportChat } from '@/hooks/chat/useAdminSupportChat';
 import type { ConversationInbound } from '@/types/chat/chat';
-import type { MessageInbound } from '@/types/chat/chat';
-
-function formatShortTime(iso: string | null | undefined): string {
-  if (!iso) {
-    return '';
-  }
-  try {
-    const d = new Date(iso);
-    return d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
-  } catch {
-    return '';
-  }
-}
 
 function ConversationRow({
   conv,
@@ -31,74 +26,87 @@ function ConversationRow({
   onSelect: () => void;
 }): JSX.Element {
   const label = conv.supportCustomerUserId ?? `Conversation ${conv.id}`;
-  const subtitle = conv.claimed ? 'Assigned' : 'Unclaimed';
+  const isUnclaimed = !conv.claimed;
+
   return (
     <button
       type="button"
       onClick={onSelect}
       className={cn(
-        'flex w-full items-start gap-3 rounded-xl px-3 py-3 text-left transition-colors',
+        'flex w-full items-start gap-3 rounded-xl px-3 py-3 text-left transition-all',
         active
-          ? 'bg-gray-50 shadow-sm ring-1 ring-gray-200'
+          ? 'bg-primary-50 shadow-sm ring-1 ring-primary-200'
           : 'hover:bg-gray-50',
       )}
     >
-      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-100 text-caption-lg-semi text-gray-600">
-        {label.slice(0, 2).toUpperCase()}
-      </span>
+      <ChatAvatar label={label} />
       <span className="min-w-0 flex-1">
-        <span className="block truncate text-body-semi text-gray-black">{label}</span>
-        <span className="block truncate text-caption-lg-regular text-gray-500">{subtitle}</span>
+        <span className="flex items-center gap-2">
+          <span className="block truncate text-body-semi text-gray-black">{label}</span>
+          {isUnclaimed ? (
+            <span className="shrink-0 rounded-full bg-accent/15 px-2 py-0.5 text-caption-xs-semi text-accent-700">
+              New
+            </span>
+          ) : (
+            <BadgeCheck className="h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
+          )}
+        </span>
+        <span className="block truncate text-caption-lg-regular text-gray-500">
+          {isUnclaimed ? 'Waiting in queue' : 'Assigned to you'}
+        </span>
         {conv.lastMessagePreview ? (
           <span className="mt-0.5 block truncate text-caption-sm-regular text-gray-400">
             {conv.lastMessagePreview}
           </span>
         ) : null}
       </span>
-      <span className="shrink-0 text-caption-xs-regular text-gray-400">
-        {formatShortTime(conv.lastMessageAt ?? conv.updatedAt)}
+      <span className="flex shrink-0 flex-col items-end gap-1 text-caption-xs-regular text-gray-400">
+        <Clock className="h-3 w-3" aria-hidden />
+        {formatChatTime(conv.lastMessageAt ?? conv.updatedAt)}
       </span>
     </button>
   );
 }
 
-function MessageBubble({
-  message,
-  isOwn,
+function ConversationSection({
+  title,
+  count,
+  loading,
+  emptyText,
+  children,
 }: {
-  message: MessageInbound;
-  isOwn: boolean;
+  title: string;
+  count: number;
+  loading: boolean;
+  emptyText: string;
+  children: ReactNode;
 }): JSX.Element {
   return (
-    <div className={cn('flex w-full flex-col gap-1', isOwn ? 'items-end' : 'items-start')}>
-      <span
-        className={cn(
-          'px-1 text-caption-xs-semi uppercase tracking-wide',
-          isOwn ? 'text-primary-700' : 'text-gray-500',
-        )}
-      >
-        {isOwn ? 'You' : 'Customer'}
-      </span>
-      <div
-        className={cn(
-          'max-w-[min(520px,85%)] rounded-2xl border px-4 py-2.5 shadow-sm',
-          isOwn
-            ? 'border-primary-200 bg-white text-gray-black'
-            : 'border-gray-200 bg-white text-gray-black',
-        )}
-      >
-        <p className="text-body-regular whitespace-pre-wrap break-words">{message.content}</p>
-        <p className="mt-1 text-caption-xs-regular text-gray-500">
-          {formatShortTime(message.createdAt)}
-        </p>
+    <section className="mb-4">
+      <div className="mb-2 flex items-center justify-between px-2">
+        <p className="text-caption-lg-semi text-gray-600">{title}</p>
+        <span className="rounded-full bg-gray-100 px-2 py-0.5 text-caption-xs-semi text-gray-500">
+          {count}
+        </span>
       </div>
-    </div>
+      {loading && count === 0 ? (
+        <div className="flex justify-center py-6">
+          <Loader2 className="h-6 w-6 animate-spin text-primary" aria-label="Loading" />
+        </div>
+      ) : (
+        children
+      )}
+      {!loading && count === 0 ? (
+        <p className="px-2 py-2 text-caption-lg-regular text-gray-400">{emptyText}</p>
+      ) : null}
+    </section>
   );
 }
 
 export default function AdminSupportChatPage(): JSX.Element {
   const [search, setSearch] = useState('');
   const [draft, setDraft] = useState('');
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const {
     queue,
     mySupportThreads,
@@ -133,11 +141,17 @@ export default function AdminSupportChatPage(): JSX.Element {
 
   const orderedMessages = useMemo(() => [...messages].reverse(), [messages]);
 
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  }, [orderedMessages.length, selectedConversationId]);
+
   const onSend = async (e: FormEvent) => {
     e.preventDefault();
     await sendMessage(draft);
     setDraft('');
   };
+
+  const canReply = Boolean(selectedConversation?.claimed);
 
   return (
     <>
@@ -146,89 +160,111 @@ export default function AdminSupportChatPage(): JSX.Element {
       </Helmet>
       <div
         className={cn(
-          'relative -mx-8 flex min-h-0 w-[calc(100%+4rem)] max-w-none flex-1 flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm',
+          'relative -mx-8 flex min-h-0 w-[calc(100%+4rem)] max-w-none flex-1 flex-col overflow-hidden',
+          'rounded-2xl border border-gray-100 bg-white shadow-sm shadow-primary-900/5',
           'h-[calc(100dvh-10rem)] min-h-[420px]',
         )}
       >
-        <div className="grid min-h-0 flex-1 grid-cols-1 divide-y divide-gray-100 lg:grid-cols-[minmax(240px,280px)_1fr_minmax(200px,260px)] lg:divide-x lg:divide-y-0">
-          <aside className="flex min-h-0 flex-col border-r border-gray-100 bg-white lg:max-w-none">
-            <div className="flex items-center justify-between border-b border-gray-100 px-4 py-3">
-              <h1 className="text-h5-semi text-gray-black">Messages</h1>
-              <MessageCircle className="h-5 w-5 text-gray-400" aria-hidden />
-            </div>
-            <div className="relative px-3 py-2">
-              <Search className="pointer-events-none absolute left-6 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-              <Input
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-                placeholder="Search"
-                className="rounded-full border-gray-200 bg-white pl-9"
-                aria-label="Search conversations"
-              />
-            </div>
-            <div className="min-h-0 flex-1 overflow-y-auto px-2 pb-4">
-              <p className="px-2 py-2 text-caption-lg-semi text-gray-500">Queue</p>
-              {isQueueLoading ? (
-                <div className="flex justify-center py-6">
-                  <Loader2 className="h-6 w-6 animate-spin text-primary-900" aria-label="Loading" />
+        <div className="grid min-h-0 flex-1 grid-cols-1 divide-y divide-gray-100 lg:grid-cols-[minmax(260px,300px)_1fr] lg:divide-x lg:divide-y-0">
+          <aside className="flex min-h-0 flex-col bg-white lg:max-w-none">
+            <div className="border-b border-gray-100 px-4 py-4">
+              <div className="flex items-center justify-between gap-2">
+                <div>
+                  <h1 className="text-h5-semi text-gray-black">Inbox</h1>
+                  <p className="text-caption-lg-regular text-gray-500">Support conversations</p>
                 </div>
-              ) : filteredQueue.length === 0 ? (
-                <p className="px-2 py-2 text-caption-lg-regular text-gray-400">No unclaimed chats</p>
-              ) : (
-                <ul className="space-y-1">
-                  {filteredQueue.map(conv => (
-                    <li key={conv.id}>
-                      <ConversationRow
-                        conv={conv}
-                        active={conv.id === selectedConversationId}
-                        onSelect={() => void selectThread(conv.id)}
-                      />
-                    </li>
-                  ))}
-                </ul>
-              )}
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-50 text-primary">
+                  <MessageCircle className="h-5 w-5" aria-hidden />
+                </span>
+              </div>
+              <div className="relative mt-3">
+                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                <Input
+                  value={search}
+                  onChange={e => setSearch(e.target.value)}
+                  placeholder="Search customers…"
+                  className="rounded-full border-gray-100 bg-white pl-9 shadow-sm"
+                  aria-label="Search conversations"
+                />
+              </div>
+            </div>
 
-              <p className="mt-4 px-2 py-2 text-caption-lg-semi text-gray-500">My support</p>
-              {isMyThreadsLoading ? (
-                <div className="flex justify-center py-6">
-                  <Loader2 className="h-6 w-6 animate-spin text-primary-900" aria-label="Loading" />
-                </div>
-              ) : filteredMine.length === 0 ? (
-                <p className="px-2 py-2 text-caption-lg-regular text-gray-400">No assigned threads</p>
-              ) : (
-                <ul className="space-y-1">
-                  {filteredMine.map(conv => (
-                    <li key={conv.id}>
-                      <ConversationRow
-                        conv={conv}
-                        active={conv.id === selectedConversationId}
-                        onSelect={() => void selectThread(conv.id)}
-                      />
-                    </li>
-                  ))}
-                </ul>
-              )}
+            <div className="min-h-0 flex-1 overflow-y-auto px-2 py-3 scrollbar-hide">
+              <ConversationSection
+                title="Queue"
+                count={filteredQueue.length}
+                loading={isQueueLoading}
+                emptyText="No unclaimed chats"
+              >
+                {filteredQueue.length > 0 ? (
+                  <ul className="space-y-1">
+                    {filteredQueue.map(conv => (
+                      <li key={conv.id}>
+                        <ConversationRow
+                          conv={conv}
+                          active={conv.id === selectedConversationId}
+                          onSelect={() => void selectThread(conv.id)}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+              </ConversationSection>
+
+              <ConversationSection
+                title="My threads"
+                count={filteredMine.length}
+                loading={isMyThreadsLoading}
+                emptyText="No assigned threads"
+              >
+                {filteredMine.length > 0 ? (
+                  <ul className="space-y-1">
+                    {filteredMine.map(conv => (
+                      <li key={conv.id}>
+                        <ConversationRow
+                          conv={conv}
+                          active={conv.id === selectedConversationId}
+                          onSelect={() => void selectThread(conv.id)}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+              </ConversationSection>
             </div>
           </aside>
 
           <section className="flex min-h-0 min-w-0 flex-col bg-white">
             {selectedConversation ? (
               <>
-                <header className="flex flex-wrap items-center justify-between gap-2 border-b border-gray-100 px-4 py-3">
-                  <div>
-                    <h2 className="text-h5-semi text-gray-black">
-                      {selectedConversation.supportCustomerUserId ?? `Chat #${selectedConversation.id}`}
-                    </h2>
-                    <p className="text-caption-lg-regular text-gray-500">
-                      {selectedConversation.claimed ? 'Active' : 'Waiting for claim'}
-                    </p>
+                <header className="flex flex-wrap items-center justify-between gap-3 border-b border-gray-100 bg-white px-5 py-4">
+                  <div className="flex min-w-0 items-center gap-3">
+                    <ChatAvatar
+                      label={selectedConversation.supportCustomerUserId ?? 'CU'}
+                      className="h-11 w-11"
+                    />
+                    <div className="min-w-0">
+                      <h2 className="truncate text-h6-semi text-gray-black">
+                        {selectedConversation.supportCustomerUserId ?? `Chat #${selectedConversation.id}`}
+                      </h2>
+                      <p className="text-caption-lg-regular text-gray-500">
+                        {selectedConversation.claimed ? (
+                          <span className="inline-flex items-center gap-1 text-primary-700">
+                            <BadgeCheck className="h-3.5 w-3.5" aria-hidden />
+                            Active conversation
+                          </span>
+                        ) : (
+                          'Claim to start replying'
+                        )}
+                      </p>
+                    </div>
                   </div>
                   {!selectedConversation.claimed ? (
                     <Button
                       type="button"
                       onClick={() => void claimSelected()}
                       disabled={isClaiming}
-                      className="rounded-full"
+                      className="rounded-full px-5"
                     >
                       {isClaiming ? (
                         <>
@@ -236,92 +272,56 @@ export default function AdminSupportChatPage(): JSX.Element {
                           Claiming…
                         </>
                       ) : (
-                        'Claim'
+                        'Claim chat'
                       )}
                     </Button>
                   ) : null}
                 </header>
 
-                <div className="min-h-0 flex-1 space-y-4 overflow-y-auto bg-white px-4 py-4">
+                <div className="min-h-0 flex-1 space-y-3 overflow-y-auto bg-white px-5 py-4 scrollbar-hide">
                   {isMessagesLoading ? (
-                    <div className="flex h-full items-center justify-center">
-                      <Loader2 className="h-8 w-8 animate-spin text-primary-900" aria-label="Loading messages" />
-                    </div>
+                    <ChatLoadingState />
                   ) : orderedMessages.length === 0 ? (
-                    <p className="text-center text-caption-lg-regular text-gray-400">
-                      {selectedConversation.claimed ? 'No messages yet' : 'Claim this chat to view messages'}
-                    </p>
+                    <ChatEmptyState
+                      title={
+                        selectedConversation.claimed ? 'No messages yet' : 'Claim this conversation'
+                      }
+                      description={
+                        selectedConversation.claimed
+                          ? 'Send the first message to the customer.'
+                          : 'Claim the chat to view and reply to messages.'
+                      }
+                    />
                   ) : (
                     orderedMessages.map(m => (
-                      <MessageBubble key={m.id} message={m} isOwn={m.senderId === currentUserId} />
+                      <ChatMessageBubble
+                        key={m.id}
+                        content={m.content}
+                        createdAt={m.createdAt}
+                        isOwn={m.senderId === currentUserId}
+                        otherLabel="Customer"
+                      />
                     ))
                   )}
+                  <div ref={messagesEndRef} />
                 </div>
 
-                <form
+                <ChatComposer
+                  value={draft}
+                  onChange={setDraft}
                   onSubmit={onSend}
-                  className="flex gap-2 border-t border-gray-100 bg-white px-4 py-3"
-                >
-                  <Input
-                    value={draft}
-                    onChange={e => setDraft(e.target.value)}
-                    placeholder={
-                      selectedConversation.claimed ? 'Type a message…' : 'Claim the chat to reply'
-                    }
-                    disabled={!selectedConversation.claimed || isMessagesLoading}
-                    className="rounded-full border-gray-200"
-                    aria-label="Message text"
-                  />
-                  <Button
-                    type="submit"
-                    className="rounded-full px-6"
-                    disabled={!selectedConversation.claimed || !draft.trim()}
-                  >
-                    Send
-                  </Button>
-                </form>
+                  placeholder={canReply ? 'Type your reply…' : 'Claim the chat to reply'}
+                  disabled={!canReply || isMessagesLoading}
+                  error={null}
+                />
               </>
             ) : (
-              <div className="flex h-full flex-col items-center justify-center gap-2 px-6 text-center">
-                <MessageCircle className="h-10 w-10 text-gray-300" aria-hidden />
-                <p className="text-body-regular text-gray-500">Select a conversation</p>
-              </div>
+              <ChatEmptyState
+                title="Select a conversation"
+                description="Pick a thread from the inbox to view messages and reply."
+              />
             )}
           </section>
-
-          <aside className="hidden min-h-0 flex-col border-l border-gray-100 bg-white lg:flex">
-            <div className="border-b border-gray-100 px-4 py-3">
-              <h2 className="text-h6-semi text-gray-black">User info</h2>
-            </div>
-            <div className="space-y-4 overflow-y-auto px-4 py-4 text-caption-lg-regular text-gray-600">
-              {selectedConversation ? (
-                <>
-                  <div>
-                    <p className="text-caption-sm-semi uppercase text-gray-400">Customer id</p>
-                    <p className="mt-1 break-all text-body-regular text-gray-black">
-                      {selectedConversation.supportCustomerUserId ?? '—'}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-caption-sm-semi uppercase text-gray-400">Participants</p>
-                    <ul className="mt-1 list-disc pl-5">
-                      {selectedConversation.participantUserIds.map(id => (
-                        <li key={id} className="break-all">
-                          {id}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div>
-                    <p className="text-caption-sm-semi uppercase text-gray-400">Conversation id</p>
-                    <p className="mt-1 text-body-regular text-gray-black">{selectedConversation.id}</p>
-                  </div>
-                </>
-              ) : (
-                <p className="text-gray-400">Pick a thread to see details</p>
-              )}
-            </div>
-          </aside>
         </div>
       </div>
     </>

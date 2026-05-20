@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { chatService } from '@/services/chat/chatService';
+import { emitJoinConversation, emitSendMessage } from '@/services/chat/chatSocketService';
 import { getSocket } from '@/socket';
 import type { MessageRealtimePayload } from '@/socket/modules/chatModule';
 import { useSocketConnection } from '@/hooks/socket/useSocketConnection';
@@ -59,12 +60,13 @@ export function useSupportChatWidget() {
     if (joinedConversationIdRef.current === targetConversationId) {
       return;
     }
-    const socket = getSocket();
-    if (!socket?.connected) {
-      return;
-    }
-    socket.emit('conversation:join', targetConversationId, () => undefined);
-    joinedConversationIdRef.current = targetConversationId;
+    void emitJoinConversation(targetConversationId)
+      .then(() => {
+        joinedConversationIdRef.current = targetConversationId;
+      })
+      .catch(() => {
+        joinedConversationIdRef.current = null;
+      });
   }, []);
 
   const refresh = useCallback(async () => {
@@ -117,6 +119,9 @@ export function useSupportChatWidget() {
       if (payload.conversationId !== conversationId) {
         return;
       }
+      if (payload.senderId === currentUserId) {
+        return;
+      }
       if (!open && payload.senderId && payload.senderId !== currentUserId) {
         setUnreadCount(prev => prev + 1);
       }
@@ -147,20 +152,28 @@ export function useSupportChatWidget() {
       if (!trimmed) {
         return false;
       }
+      if (!currentUserId) {
+        setError('Missing user identity');
+        return false;
+      }
+      if (status !== 'connected') {
+        setError('Socket is not connected');
+        return false;
+      }
       try {
         setSendState('sending');
         setError(null);
         const conv = conversation ?? (await ensureConversation());
-        const res = await chatService.sendMessage({
-          conversationId: conv.id,
-          content: trimmed,
-        });
-        if (!res.success || !res.data) {
-          setError(res.error ?? 'Failed to send message');
-          return false;
-        }
+        joinConversationRoom(conv.id);
+        const saved = await emitSendMessage(
+          {
+            conversationId: conv.id,
+            content: trimmed,
+          },
+          currentUserId,
+        );
         setConversation(prev => prev ?? conv);
-        setMessages(prev => [...prev, res.data as MessageInbound]);
+        setMessages(prev => [...prev, saved]);
         return true;
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to send message');
@@ -169,7 +182,7 @@ export function useSupportChatWidget() {
         setSendState('idle');
       }
     },
-    [conversation, ensureConversation],
+    [conversation, currentUserId, ensureConversation, joinConversationRoom, status],
   );
 
   return {
