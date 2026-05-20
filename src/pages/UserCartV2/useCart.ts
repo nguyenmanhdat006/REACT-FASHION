@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
-import { removeCartItemThunk, fetchCartThunk } from '@/store/thunks/cartThunks';
+import { removeCartItemThunk } from '@/store/thunks/cartThunks';
 import type { CartItem as V2CartItem } from './cartTypes';
 import { useCart as useGlobalCart } from '@/hooks/cart/useCart';
 

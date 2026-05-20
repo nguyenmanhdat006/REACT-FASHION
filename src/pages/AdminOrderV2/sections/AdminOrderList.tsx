@@ -120,7 +120,7 @@ function buildOrderColumns(): TableColumn<AdminOrderRow>[] {
         <Badge
           variant="outline"
           className={cn(
-            'mx-auto inline-flex h-8 items-center justify-center rounded-full px-3 text-xs font-medium shadow-sm',
+            'mx-auto rounded-sm text-caption-sm-regular',
             ORDER_STATUS_BADGE[order.status] ?? 'border-primary/40 bg-primary/5 text-primary',
           )}
         >
@@ -141,7 +141,7 @@ function buildOrderColumns(): TableColumn<AdminOrderRow>[] {
         return (
           <Badge
             variant="outline"
-            className="mx-auto inline-flex h-8 items-center justify-center rounded-full border-gray-200 bg-gray-50 px-3 text-xs font-medium text-gray-800 shadow-sm"
+            className="mx-auto rounded-sm border-gray-200 bg-gray-50 text-gray-800 text-caption-sm-regular"
           >
             {formatStatusLabel(order.shipmentStatus || ShipmentStatusEnum.PENDING)}
           </Badge>
@@ -156,7 +156,7 @@ function buildOrderColumns(): TableColumn<AdminOrderRow>[] {
       cell: (order) => (
         <Badge
           variant="outline"
-          className="rounded-full px-3 h-8 inline-flex items-center justify-center text-xs font-medium border-gray-200 bg-gray-50 text-gray-800 shadow-sm"
+          className="rounded-sm border-gray-200 bg-gray-50 text-gray-800 text-caption-sm-regular"
         >
           {order.paymentStatusLabel}
         </Badge>
