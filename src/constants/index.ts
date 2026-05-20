@@ -26,6 +26,7 @@ export const ROUTES = {
   ADMIN_ORDERS: '/admin/orders',
   ADMIN_BRAND: '/admin/brand',
   ADMIN_USERS: '/admin/users',
+  ADMIN_MESSAGES: '/admin/messages',
 } as const;
 
 export const USER_ROLES = {
@@ -128,6 +129,18 @@ export const API_ENDPOINTS = {
   NOTIFICATIONS: {
     MY: '/notifications/user/me',
     MARK_READ: (id: string) => `/notifications/${id}/mark-read`,
+  },
+  CHAT: {
+    CONVERSATIONS_LIST: '/chat/conversations',
+    /** Customer: create or get single support thread */
+    SUPPORT_CONVERSATION: '/chat/conversations/support',
+    /** Admin: unclaimed support queue */
+    SUPPORT_QUEUE: '/chat/conversations/support/queue',
+    CLAIM_CONVERSATION: (conversationId: number) => `/chat/conversations/${conversationId}/claim`,
+    CONVERSATION_DETAIL: (conversationId: number) => `/chat/conversations/${conversationId}`,
+    CONVERSATION_MESSAGES: (conversationId: number) =>
+      `/chat/conversations/${conversationId}/messages`,
+    SEND_MESSAGE: '/chat/messages',
   },
   SHIPPING: {
     // All under Shipping Service (port 8088)
