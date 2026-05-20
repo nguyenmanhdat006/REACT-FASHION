@@ -1,7 +1,7 @@
 import type { JSX } from 'react';
 
 import { cn } from '@/lib/utils';
-import type { SocketConnectionStatus } from '@/lib/socket/chatSocket';
+import type { SocketConnectionStatus } from '@/socket';
 
 const STATUS_LABEL: Record<SocketConnectionStatus, string> = {
   idle: 'Socket idle',
