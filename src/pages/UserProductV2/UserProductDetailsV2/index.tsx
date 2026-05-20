@@ -104,6 +104,8 @@ export function UserProductDetailsV2({
           description={view.description}
           sizeOptions={view.sizeOptions}
           shippingItems={SHIPPING_ITEMS}
+          onClose={onClose}
+          heroUrl={view.heroUrl}
         />
       </section>
     </main>

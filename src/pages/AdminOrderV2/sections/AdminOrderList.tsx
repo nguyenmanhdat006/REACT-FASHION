@@ -70,12 +70,12 @@ function buildOrderColumns(): TableColumn<AdminOrderRow>[] {
     {
       id: 'order',
       header: 'Order',
-      headerClassName: 'text-left text-sm font-semibold text-gray-900',
+      headerClassName: 'text-left text-body-medium text-foreground',
       cellClassName: 'whitespace-normal py-4',
       cell: (order) => (
         <div className="min-w-0">
-          <p className="text-sm font-medium text-gray-900">{order.orderNumber}</p>
-          <p className="text-xs text-gray-500 mt-0.5">
+          <p className="text-body-regular text-foreground">{order.orderNumber}</p>
+          <p className="text-caption-sm-regular text-muted-foreground mt-0.5">
             {order.orderedAtFormatted}
           </p>
         </div>
@@ -84,14 +84,14 @@ function buildOrderColumns(): TableColumn<AdminOrderRow>[] {
     {
       id: 'customer',
       header: 'Customer',
-      headerClassName: 'text-left text-sm font-semibold text-gray-900',
+      headerClassName: 'text-left text-body-medium text-foreground',
       cellClassName: 'whitespace-normal py-4',
       cell: (order) => (
         <div className="min-w-0 max-w-xs">
-          <p className="line-clamp-1 text-sm font-medium text-gray-900">
+          <p className="line-clamp-1 text-body-regular text-foreground">
             {order.customerName}
           </p>
-          <p className="line-clamp-1 text-xs text-gray-500 mt-0.5">
+          <p className="line-clamp-1 text-caption-sm-regular text-muted-foreground mt-0.5">
             {order.customerEmail}
           </p>
         </div>
@@ -100,21 +100,21 @@ function buildOrderColumns(): TableColumn<AdminOrderRow>[] {
     {
       id: 'items',
       header: 'Items',
-      headerClassName: 'text-center text-sm font-semibold text-gray-900',
-      cellClassName: 'text-center text-sm text-gray-900',
+      headerClassName: 'text-center text-body-medium text-foreground',
+      cellClassName: 'text-center text-caption-lg-regular text-foreground',
       cell: (order) => order.itemsCount.toLocaleString(),
     },
     {
       id: 'total',
       header: 'Total',
-      headerClassName: 'text-center text-sm font-semibold text-gray-900',
-      cellClassName: 'text-center text-sm font-semibold text-gray-900',
+      headerClassName: 'text-center text-body-medium text-foreground',
+      cellClassName: 'text-center text-caption-lg-medium text-foreground',
       cell: (order) => order.totalFormatted,
     },
     {
       id: 'status',
       header: 'Order Status',
-      headerClassName: 'text-center text-sm font-semibold text-gray-900',
+      headerClassName: 'text-center text-body-medium text-foreground',
       cellClassName: 'text-center',
       cell: (order) => (
         <Badge
@@ -131,11 +131,11 @@ function buildOrderColumns(): TableColumn<AdminOrderRow>[] {
     {
       id: 'shippingStatus',
       header: 'Shipping Status',
-      headerClassName: 'text-center text-sm font-semibold text-gray-900',
+      headerClassName: 'text-center text-body-medium text-foreground',
       cellClassName: 'text-center',
       cell: (order) => {
         if (!order.shipmentId) {
-          return <span className="text-gray-400 text-xs">No Shipment</span>;
+          return <span className="text-caption-sm-regular text-muted-foreground">No Shipment</span>;
         }
 
         return (
@@ -151,7 +151,7 @@ function buildOrderColumns(): TableColumn<AdminOrderRow>[] {
     {
       id: 'payment',
       header: 'Payment',
-      headerClassName: 'text-center text-sm font-semibold text-gray-900',
+      headerClassName: 'text-center text-body-medium text-foreground',
       cellClassName: 'text-center',
       cell: (order) => (
         <Badge
