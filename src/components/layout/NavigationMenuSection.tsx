@@ -78,7 +78,7 @@ export function NavigationMenuSection(): JSX.Element {
                   variant="compact"
                   icon={MessageCirclePlus}
                   label="Chat"
-                  onClick={() => navigate(ROUTES.HOME)}
+                  onClick={() => navigate(ROUTES.ADMIN_MESSAGES)}
                 />
               </section>
             </>

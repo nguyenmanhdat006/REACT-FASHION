@@ -1,5 +1,8 @@
 import type { JSX, ReactNode } from 'react';
 
+import { SupportChatWidget } from '@/components/chat/SupportChatWidget';
+import { SocketConnectionBootstrap } from '@/components/socket/SocketConnectionBootstrap';
+
 import { HomeHeaderSection } from './HomeHeaderSection';
 import { NavigationMenuSection } from './NavigationMenuSection';
 import { ExploreFilterProvider } from '@/pages/UserProductV2/exploreFilters';
@@ -19,7 +22,9 @@ export default function LayoutV2({
       className="relative flex h-screen w-screen items-start justify-center bg-gray-50"
       aria-label={ariaLabel}
     >
+      <SocketConnectionBootstrap />
       <NavigationMenuSection />
+      <SupportChatWidget />
 
       <ExploreFilterProvider>
         <div className="relative flex h-screen flex-1 min-w-0 flex-col items-start overflow-hidden">

@@ -21,6 +21,7 @@ const AdminCategoryListPage = React.lazy(
   () => import('@/pages/AdminCategoryV2'),
 );
 const AdminBrandListPage = React.lazy(() => import('@/pages/AdminBrandV2'));
+const AdminSupportChatPage = React.lazy(() => import('@/pages/AdminSupportChat'));
 
 export const adminRoute: RouteObject = {
   element: (
@@ -42,6 +43,7 @@ export const adminRoute: RouteObject = {
         { path: 'orders', element: <AdminOrderV2 /> },
         { path: 'brand', element: <AdminBrandListPage /> },
         { path: 'users', element: <AdminUserListPage /> },
+        { path: 'messages', element: <AdminSupportChatPage /> },
       ],
     },
   ],

@@ -3,6 +3,7 @@ import {
   Compass,
   Home,
   LayoutDashboard,
+  MessageCircle,
   Shirt,
   ShoppingBag,
   ShoppingCart,
@@ -161,6 +162,18 @@ export const ADMIN_SHELL_ROUTES: AppShellRoute[] = [
   },
 ];
 
+/** Admin messages: reachable via Quick Actions only — not listed in primary sidebar. */
+const ADMIN_MESSAGES_ROUTE_META: AppShellRoute = {
+  to: ROUTES.ADMIN_MESSAGES,
+  label: 'Messages',
+  headerTitle: 'Messages',
+  icon: MessageCircle,
+  showInSidebar: false,
+  sidebarOrder: 99,
+  showHeaderFiltersRow: false,
+  showQuickFilter: false,
+};
+
 export const SIDEBAR_NAV_ITEMS: AppShellRoute[] = APP_SHELL_ROUTES.filter(
   (r) => r.showInSidebar,
 ).sort((a, b) => a.sidebarOrder - b.sidebarOrder);
@@ -186,6 +199,12 @@ export function getSidebarNavItems(pathname: string): AppShellRoute[] {
 
 export function getCurrentRoute(pathname: string): AppShellRoute | null {
   if (pathname.includes('/admin')) {
+    if (
+      pathname === ROUTES.ADMIN_MESSAGES ||
+      pathname.startsWith(`${ROUTES.ADMIN_MESSAGES}/`)
+    ) {
+      return ADMIN_MESSAGES_ROUTE_META;
+    }
     return matchAdminRoute(pathname);
   }
   return APP_SHELL_ROUTES.find((r) => r.to === pathname) ?? null;
