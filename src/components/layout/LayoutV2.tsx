@@ -1,6 +1,6 @@
 import type { JSX, ReactNode } from 'react';
 
-import { ChatSocketBootstrap } from '@/components/chat/ChatSocketBootstrap';
+import { SocketConnectionBootstrap } from '@/components/socket/SocketConnectionBootstrap';
 
 import { HomeHeaderSection } from './HomeHeaderSection';
 import { NavigationMenuSection } from './NavigationMenuSection';
@@ -21,7 +21,7 @@ export default function LayoutV2({
       className="relative flex h-screen w-screen items-start justify-center bg-gray-50"
       aria-label={ariaLabel}
     >
-      <ChatSocketBootstrap />
+      <SocketConnectionBootstrap />
       <NavigationMenuSection />
 
       <ExploreFilterProvider>

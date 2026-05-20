@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 
 import {
-  connectChatSocket,
-  disconnectChatSocket,
+  connectSocket,
+  disconnectSocket,
   subscribeSocketStatus,
   type SocketConnectionStatus,
-} from '@/lib/socket/chatSocket';
+} from '@/socket';
 import { useAppSelector } from '@/store/hooks';
 
-export function useChatSocket(): { status: SocketConnectionStatus } {
+export function useSocketConnection(): { status: SocketConnectionStatus } {
   const accessToken = useAppSelector(state => state.auth.accessToken);
   const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated);
   const [status, setStatus] = useState<SocketConnectionStatus>('idle');
@@ -17,11 +17,11 @@ export function useChatSocket(): { status: SocketConnectionStatus } {
 
   useEffect(() => {
     if (!isAuthenticated || !accessToken) {
-      disconnectChatSocket();
+      disconnectSocket();
       return;
     }
 
-    connectChatSocket(accessToken);
+    connectSocket(accessToken);
   }, [isAuthenticated, accessToken]);
 
   return { status };
