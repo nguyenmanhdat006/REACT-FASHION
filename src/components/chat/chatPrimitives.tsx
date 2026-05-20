@@ -68,7 +68,7 @@ export function ChatMessageBubble({
             'rounded-2xl px-3.5 py-2.5 shadow-sm',
             isOwn
               ? 'rounded-br-sm bg-primary text-white shadow-primary/25'
-              : 'rounded-bl-sm border border-gray-200 bg-gray-50 text-gray-black',
+              : 'rounded-bl-sm border-[1px] border-gray-200/80 shadow-none bg-gray-white text-gray-black',
           )}
         >
           <p className="text-body-regular whitespace-pre-wrap break-words">{content}</p>
