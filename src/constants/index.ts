@@ -119,6 +119,12 @@ export const API_ENDPOINTS = {
     ROOT: '/payments/create',
     BY_ORDER: (orderNumber: string) => `/payments/order/${orderNumber}`,
   },
+  DASHBOARD: {
+    STATS: '/dashboard/stats',
+    SALES_CHART: '/dashboard/sales-chart',
+    TOP_PRODUCTS: '/dashboard/top-products',
+    CLEAR_CACHE: '/dashboard/cache/clear',
+  },
   REVIEWS: {
     ROOT: '/reviews',
     PRODUCT: (productId: string) => `/reviews/product/${productId}`,
