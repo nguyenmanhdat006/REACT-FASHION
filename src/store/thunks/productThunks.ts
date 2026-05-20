@@ -109,7 +109,7 @@ export const fetchV2PublishedProductsThunk = createAsyncThunk<
   try {
     const merged: ProductListParams = {
       page: 0,
-      size: scope === 'home' ? 8 : 12,
+      size: scope === 'home' ? 2 : 12,
       ...params,
     };
     const res = await productService.getPublishedProducts(merged);
