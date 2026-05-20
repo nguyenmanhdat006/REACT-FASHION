@@ -38,7 +38,9 @@ function ConversationRow({
       onClick={onSelect}
       className={cn(
         'flex w-full items-start gap-3 rounded-xl px-3 py-3 text-left transition-colors',
-        active ? 'bg-primary-50' : 'hover:bg-gray-50',
+        active
+          ? 'bg-gray-50 shadow-sm ring-1 ring-gray-200'
+          : 'hover:bg-gray-50',
       )}
     >
       <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-100 text-caption-lg-semi text-gray-600">
@@ -68,20 +70,25 @@ function MessageBubble({
   isOwn: boolean;
 }): JSX.Element {
   return (
-    <div className={cn('flex w-full', isOwn ? 'justify-end' : 'justify-start')}>
+    <div className={cn('flex w-full flex-col gap-1', isOwn ? 'items-end' : 'items-start')}>
+      <span
+        className={cn(
+          'px-1 text-caption-xs-semi uppercase tracking-wide',
+          isOwn ? 'text-primary-700' : 'text-gray-500',
+        )}
+      >
+        {isOwn ? 'You' : 'Customer'}
+      </span>
       <div
         className={cn(
-          'max-w-[min(520px,85%)] rounded-2xl px-4 py-2',
-          isOwn ? 'bg-primary-900 text-gray-white' : 'border border-gray-100 bg-white text-gray-black',
+          'max-w-[min(520px,85%)] rounded-2xl border px-4 py-2.5 shadow-sm',
+          isOwn
+            ? 'border-primary-200 bg-white text-gray-black'
+            : 'border-gray-200 bg-white text-gray-black',
         )}
       >
         <p className="text-body-regular whitespace-pre-wrap break-words">{message.content}</p>
-        <p
-          className={cn(
-            'mt-1 text-caption-xs-regular',
-            isOwn ? 'text-primary-100' : 'text-gray-400',
-          )}
-        >
+        <p className="mt-1 text-caption-xs-regular text-gray-500">
           {formatShortTime(message.createdAt)}
         </p>
       </div>
@@ -139,12 +146,12 @@ export default function AdminSupportChatPage(): JSX.Element {
       </Helmet>
       <div
         className={cn(
-          'relative -mx-8 flex min-h-0 w-[calc(100%+4rem)] max-w-none flex-1 flex-col overflow-hidden rounded-xl border border-gray-100 bg-white',
+          'relative -mx-8 flex min-h-0 w-[calc(100%+4rem)] max-w-none flex-1 flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm',
           'h-[calc(100dvh-10rem)] min-h-[420px]',
         )}
       >
         <div className="grid min-h-0 flex-1 grid-cols-1 divide-y divide-gray-100 lg:grid-cols-[minmax(240px,280px)_1fr_minmax(200px,260px)] lg:divide-x lg:divide-y-0">
-          <aside className="flex min-h-0 flex-col bg-gray-50 lg:max-w-none">
+          <aside className="flex min-h-0 flex-col border-r border-gray-100 bg-white lg:max-w-none">
             <div className="flex items-center justify-between border-b border-gray-100 px-4 py-3">
               <h1 className="text-h5-semi text-gray-black">Messages</h1>
               <MessageCircle className="h-5 w-5 text-gray-400" aria-hidden />
@@ -235,7 +242,7 @@ export default function AdminSupportChatPage(): JSX.Element {
                   ) : null}
                 </header>
 
-                <div className="min-h-0 flex-1 space-y-3 overflow-y-auto px-4 py-4">
+                <div className="min-h-0 flex-1 space-y-4 overflow-y-auto bg-white px-4 py-4">
                   {isMessagesLoading ? (
                     <div className="flex h-full items-center justify-center">
                       <Loader2 className="h-8 w-8 animate-spin text-primary-900" aria-label="Loading messages" />
@@ -253,7 +260,7 @@ export default function AdminSupportChatPage(): JSX.Element {
 
                 <form
                   onSubmit={onSend}
-                  className="flex gap-2 border-t border-gray-100 px-4 py-3"
+                  className="flex gap-2 border-t border-gray-100 bg-white px-4 py-3"
                 >
                   <Input
                     value={draft}
@@ -282,7 +289,7 @@ export default function AdminSupportChatPage(): JSX.Element {
             )}
           </section>
 
-          <aside className="hidden min-h-0 flex-col bg-gray-50 lg:flex">
+          <aside className="hidden min-h-0 flex-col border-l border-gray-100 bg-white lg:flex">
             <div className="border-b border-gray-100 px-4 py-3">
               <h2 className="text-h6-semi text-gray-black">User info</h2>
             </div>

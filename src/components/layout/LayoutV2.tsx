@@ -1,5 +1,6 @@
 import type { JSX, ReactNode } from 'react';
 
+import { SupportChatWidget } from '@/components/chat/SupportChatWidget';
 import { SocketConnectionBootstrap } from '@/components/socket/SocketConnectionBootstrap';
 
 import { HomeHeaderSection } from './HomeHeaderSection';
@@ -23,6 +24,7 @@ export default function LayoutV2({
     >
       <SocketConnectionBootstrap />
       <NavigationMenuSection />
+      <SupportChatWidget />
 
       <ExploreFilterProvider>
         <div className="relative flex h-screen flex-1 min-w-0 flex-col items-start overflow-hidden">
