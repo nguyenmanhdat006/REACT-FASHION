@@ -1,10 +1,13 @@
 import { useEffect, useState, type JSX } from 'react';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import { Heart, type LucideIcon } from 'lucide-react';
 
 import { IconButton } from '@/components/buttons/IconButton';
 import { LabelButton } from '@/components/buttons/LabelButton';
 import { useAppDispatch } from '@/store/hooks';
 import { addToCartThunk } from '@/store/thunks';
+import { ROUTES } from '@/constants';
 import { useHorizontalDragScroll } from '@/hooks/useHorizontalDragScroll';
 import { cn } from '@/lib/utils';
 
@@ -23,6 +26,8 @@ export type ProductDetailsRightSectionProps = {
     value: string;
     Icon: LucideIcon;
   }[];
+  onClose?: () => void;
+  heroUrl?: string;
 };
 
 export default function ProductDetailsRightSection({
@@ -32,8 +37,11 @@ export default function ProductDetailsRightSection({
   description,
   sizeOptions,
   shippingItems,
+  onClose,
+  heroUrl,
 }: ProductDetailsRightSectionProps): JSX.Element {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [selectedSize, setSelectedSize] = useState(() => {
     const first = sizeOptions.find((s) => s.available);
     return first?.label ?? sizeOptions[0]?.label ?? 'S';
@@ -105,9 +113,14 @@ export default function ProductDetailsRightSection({
           ariaLabel="Add product to cart"
           tone="default"
           className="flex-1"
-          onClick={() => {
+          onClick={async () => {
             if (!productId) return;
-            void dispatch(addToCartThunk({ productId, quantity: 1 }));
+            const result = await dispatch(addToCartThunk({ productId, quantity: 1, productImageUrl: heroUrl } as any));
+            if (addToCartThunk.fulfilled.match(result)) {
+              toast.success('Added to cart');
+            } else if (addToCartThunk.rejected.match(result)) {
+              toast.error((result as any).payload || 'Failed to add to cart');
+            }
           }}
           disabled={!productId}
         />
@@ -117,6 +130,19 @@ export default function ProductDetailsRightSection({
           ariaLabel="Buy now"
           tone="primary"
           className="flex-1"
+          onClick={async () => {
+            if (!productId) return;
+            const result = await dispatch(addToCartThunk({ productId, quantity: 1, productImageUrl: heroUrl } as any));
+            if (addToCartThunk.fulfilled.match(result)) {
+              try {
+                onClose?.();
+              } catch {
+              }
+              navigate(ROUTES.CART);
+            } else if (addToCartThunk.rejected.match(result)) {
+              toast.error((result as any).payload || 'Unable to proceed to checkout');
+            }
+          }}
         />
 
         <IconButton

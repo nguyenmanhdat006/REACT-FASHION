@@ -572,11 +572,13 @@ export const handleMockApiRequest = async <T>(
         existing.quantity += quantity;
         existing.total = existing.quantity * unitPrice;
       } else {
+        const explicitImage = typeof payload.productImageUrl === 'string' ? String(payload.productImageUrl) : undefined;
+        const inferredImage = product.images?.[0]?.imageUrl || '';
         mockCart.items.push({
           id: `ci-${mockCart.items.length + 1}`,
           productId,
           productName: product.name,
-          productImageUrl: product.images?.[0]?.imageUrl || '',
+          productImageUrl: explicitImage ?? inferredImage,
           quantity,
           price: unitPrice,
           total: quantity * unitPrice,

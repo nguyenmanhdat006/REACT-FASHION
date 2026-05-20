@@ -70,12 +70,12 @@ function buildOrderColumns(): TableColumn<AdminOrderRow>[] {
     {
       id: 'order',
       header: 'Order',
-      headerClassName: 'text-left text-sm font-semibold text-gray-900',
+      headerClassName: 'text-left text-body-medium text-foreground',
       cellClassName: 'whitespace-normal py-4',
       cell: (order) => (
         <div className="min-w-0">
-          <p className="text-sm font-medium text-gray-900">{order.orderNumber}</p>
-          <p className="text-xs text-gray-500 mt-0.5">
+          <p className="text-body-regular text-foreground">{order.orderNumber}</p>
+          <p className="text-caption-sm-regular text-muted-foreground mt-0.5">
             {order.orderedAtFormatted}
           </p>
         </div>
@@ -84,14 +84,14 @@ function buildOrderColumns(): TableColumn<AdminOrderRow>[] {
     {
       id: 'customer',
       header: 'Customer',
-      headerClassName: 'text-left text-sm font-semibold text-gray-900',
+      headerClassName: 'text-left text-body-medium text-foreground',
       cellClassName: 'whitespace-normal py-4',
       cell: (order) => (
         <div className="min-w-0 max-w-xs">
-          <p className="line-clamp-1 text-sm font-medium text-gray-900">
+          <p className="line-clamp-1 text-body-regular text-foreground">
             {order.customerName}
           </p>
-          <p className="line-clamp-1 text-xs text-gray-500 mt-0.5">
+          <p className="line-clamp-1 text-caption-sm-regular text-muted-foreground mt-0.5">
             {order.customerEmail}
           </p>
         </div>
@@ -100,27 +100,27 @@ function buildOrderColumns(): TableColumn<AdminOrderRow>[] {
     {
       id: 'items',
       header: 'Items',
-      headerClassName: 'text-center text-sm font-semibold text-gray-900',
-      cellClassName: 'text-center text-sm text-gray-900',
+      headerClassName: 'text-center text-body-medium text-foreground',
+      cellClassName: 'text-center text-caption-lg-regular text-foreground',
       cell: (order) => order.itemsCount.toLocaleString(),
     },
     {
       id: 'total',
       header: 'Total',
-      headerClassName: 'text-center text-sm font-semibold text-gray-900',
-      cellClassName: 'text-center text-sm font-semibold text-gray-900',
+      headerClassName: 'text-center text-body-medium text-foreground',
+      cellClassName: 'text-center text-caption-lg-medium text-foreground',
       cell: (order) => order.totalFormatted,
     },
     {
       id: 'status',
       header: 'Order Status',
-      headerClassName: 'text-center text-sm font-semibold text-gray-900',
+      headerClassName: 'text-center text-body-medium text-foreground',
       cellClassName: 'text-center',
       cell: (order) => (
         <Badge
           variant="outline"
           className={cn(
-            'mx-auto inline-flex h-8 items-center justify-center rounded-full px-3 text-xs font-medium shadow-sm',
+            'mx-auto rounded-sm text-caption-sm-regular',
             ORDER_STATUS_BADGE[order.status] ?? 'border-primary/40 bg-primary/5 text-primary',
           )}
         >
@@ -131,17 +131,17 @@ function buildOrderColumns(): TableColumn<AdminOrderRow>[] {
     {
       id: 'shippingStatus',
       header: 'Shipping Status',
-      headerClassName: 'text-center text-sm font-semibold text-gray-900',
+      headerClassName: 'text-center text-body-medium text-foreground',
       cellClassName: 'text-center',
       cell: (order) => {
         if (!order.shipmentId) {
-          return <span className="text-gray-400 text-xs">No Shipment</span>;
+          return <span className="text-caption-sm-regular text-muted-foreground">No Shipment</span>;
         }
 
         return (
           <Badge
             variant="outline"
-            className="mx-auto inline-flex h-8 items-center justify-center rounded-full border-gray-200 bg-gray-50 px-3 text-xs font-medium text-gray-800 shadow-sm"
+            className="mx-auto rounded-sm border-gray-200 bg-gray-50 text-gray-800 text-caption-sm-regular"
           >
             {formatStatusLabel(order.shipmentStatus || ShipmentStatusEnum.PENDING)}
           </Badge>
@@ -151,12 +151,12 @@ function buildOrderColumns(): TableColumn<AdminOrderRow>[] {
     {
       id: 'payment',
       header: 'Payment',
-      headerClassName: 'text-center text-sm font-semibold text-gray-900',
+      headerClassName: 'text-center text-body-medium text-foreground',
       cellClassName: 'text-center',
       cell: (order) => (
         <Badge
           variant="outline"
-          className="rounded-full px-3 h-8 inline-flex items-center justify-center text-xs font-medium border-gray-200 bg-gray-50 text-gray-800 shadow-sm"
+          className="rounded-sm border-gray-200 bg-gray-50 text-gray-800 text-caption-sm-regular"
         >
           {order.paymentStatusLabel}
         </Badge>
