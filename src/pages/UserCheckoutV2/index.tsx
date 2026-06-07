@@ -110,6 +110,7 @@ export default function UserCheckoutV2(): JSX.Element {
         productName: item.productName,
         quantity: item.quantity,
         price: item.price,
+        productImageUrl: item.productImageUrl,
       })),
     [cart]
   );
