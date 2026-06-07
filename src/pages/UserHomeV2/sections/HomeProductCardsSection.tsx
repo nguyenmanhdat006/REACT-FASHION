@@ -27,7 +27,7 @@ export function HomeProductCardsSection(): JSX.Element {
       {homeTilesLoading && tiles.length === 0 ? (
         <p className="text-caption-lg-regular text-muted-foreground">Loading…</p>
       ) : null}
-      <div className="flex w-full items-center justify-center gap-4">
+      <div className="flex w-full flex-1 min-w-0 items-center justify-center gap-4 [&>*]:min-w-0">
         {tiles.map((product) => (
           <ProductCard
             key={product.id}

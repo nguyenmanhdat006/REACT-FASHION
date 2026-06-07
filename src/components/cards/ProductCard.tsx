@@ -2,12 +2,7 @@ import { type JSX, type MouseEvent } from 'react';
 
 import { ActionIconButton } from '@/components/buttons/ActionIconButton';
 import { LabelButton } from '@/components/buttons/LabelButton';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
 export interface ProductSwatch {
@@ -66,7 +61,7 @@ export function ProductCard({
   return (
     <Card
       className={cn(
-        'relative flex flex-1 grow flex-col items-center justify-center gap-0 self-stretch overflow-hidden rounded-2xl border border-solid border-gray-50 bg-white p-0',
+        'relative flex w-full min-w-0 flex-1 grow flex-col items-stretch gap-0 self-stretch overflow-hidden rounded-2xl border border-solid border-gray-50 bg-white p-0',
         CARD_HOVER,
         onOpenDetails && 'cursor-pointer',
         className,
@@ -116,17 +111,23 @@ export function ProductCard({
         </div>
       </div>
 
-      <CardContent className="relative z-10 flex flex-col gap-2.5 border-0 border-t border-transparent bg-white p-4 transition-colors duration-300 group-hover/card:border-gray-50">
-        <div className="relative flex w-full items-center justify-between self-stretch">
-          <div className="relative flex min-w-0 flex-1 flex-col items-start justify-center gap-1 pr-2">
-            <CardDescription className="w-full truncate text-caption-lg-regular text-gray-500">
+      <CardContent className="relative z-10 w-full min-w-0 overflow-hidden border-0 border-t border-transparent bg-white p-4 transition-colors duration-300 group-hover/card:border-gray-50">
+        <div className="grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
+          <div className="min-w-0 overflow-hidden">
+            <p
+              className="truncate text-caption-lg-regular text-gray-500"
+              title={description}
+            >
               {description}
-            </CardDescription>
-            <CardTitle className="w-full truncate text-body-medium text-gray-black">
+            </p>
+            <p
+              className="truncate text-body-medium text-gray-black"
+              title={title}
+            >
               {title}
-            </CardTitle>
+            </p>
           </div>
-          <div data-product-card-interactive>
+          <div className="shrink-0" data-product-card-interactive>
             <LabelButton
               tone="primary"
               label={price}

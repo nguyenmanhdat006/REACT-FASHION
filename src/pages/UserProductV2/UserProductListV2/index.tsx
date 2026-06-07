@@ -50,7 +50,7 @@ export default function UserProductListV2(): JSX.Element {
         </p>
       ) : null}
 
-      <div className="relative grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="relative grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 [&>*]:min-w-0">
         {tiles.map((product) => (
           <ProductCard
             key={product.id}
