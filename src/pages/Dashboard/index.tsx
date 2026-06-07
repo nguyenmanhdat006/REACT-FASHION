@@ -30,7 +30,7 @@ const dashboardSections: DashboardSection[] = [
 export const FrameScreen: React.FC = () => {
   return (
     <main
-      className="relative mx-auto flex w-full max-w-7xl flex-col items-start gap-4 overflow-hidden p-4 md:gap-6 md:p-8"
+      className="relative mx-auto flex w-full max-w-7xl flex-col items-start gap-4 p-4 md:gap-6 md:p-8"
       aria-label="Dashboard overview"
     >
       {dashboardSections.map(({ id, label, component: SectionComponent }) => (
