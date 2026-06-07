@@ -100,6 +100,7 @@ export const API_ENDPOINTS = {
   },
   ORDERS: {
     ROOT: '/orders',
+    MY_ORDERS: '/orders/my-orders',
     DETAIL: (id: string) => `/orders/${id}`,
     CONFIRM: (id: string) => `/orders/${id}/confirm`,
     PAYMENT_CONFIRMED: (id: string) => `/orders/${id}/payment-confirmed`,

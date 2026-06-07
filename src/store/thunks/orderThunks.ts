@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { orderService } from '@/services/order/orderService';
 import { shippingService } from '@/services/shipping/shippingService';
-import type { CreateOrderRequest } from '@/types/order/order';
+import type { CreateOrderRequest, OrderFilters } from '@/types/order/order';
 import type { ConfirmPaymentRequest } from '@/types/payment/payment';
 import type { ShippingFeeRequest, ShippingFeeResponse, ShipmentResponse } from '@/services/shipping/shippingService';
 import type { ApiResponse, PageMeta, PaginationParams } from '@/types/common/common';
@@ -14,17 +14,34 @@ const getErrorMessage = (error: unknown, fallback: string) =>
 
 // ─── Orders ───────────────────────────────────────────────────────────────────
 
-export const fetchOrdersThunk = createAsyncThunk<
+export const fetchMyOrdersThunk = createAsyncThunk<
   ApiResponse<Order[], PageMeta>,
   PaginationParams | undefined,
   { rejectValue: string }
->('orders/fetchOrders', async (params, { rejectWithValue }) => {
+>('orders/fetchMyOrders', async (params, { rejectWithValue }) => {
   try {
-    const res = await orderService.getOrders(params);
+    const res = await orderService.getMyOrders(params);
     if (!res.success) return rejectWithValue(apiFailureMessage(res));
     return res;
   } catch (error) {
     return rejectWithValue(getErrorMessage(error, 'Failed to fetch orders'));
+  }
+});
+
+/** @deprecated Use fetchMyOrdersThunk or fetchAdminOrdersThunk explicitly. */
+export const fetchOrdersThunk = fetchMyOrdersThunk;
+
+export const fetchAdminOrdersThunk = createAsyncThunk<
+  ApiResponse<Order[], PageMeta>,
+  OrderFilters | undefined,
+  { rejectValue: string }
+>('orders/fetchAdminOrders', async (filters, { rejectWithValue }) => {
+  try {
+    const res = await orderService.getOrders(filters);
+    if (!res.success) return rejectWithValue(apiFailureMessage(res));
+    return res;
+  } catch (error) {
+    return rejectWithValue(getErrorMessage(error, 'Failed to fetch admin orders'));
   }
 });
 

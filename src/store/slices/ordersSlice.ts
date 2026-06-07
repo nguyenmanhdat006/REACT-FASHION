@@ -5,7 +5,8 @@ import {
   cancelOrderThunk,
   createOrderThunk,
   fetchOrderByIdThunk,
-  fetchOrdersThunk,
+  fetchMyOrdersThunk,
+  fetchAdminOrdersThunk,
   confirmOrderPaymentThunk,
   markOrderDeliveredThunk,
   calculateShippingFeeThunk,
@@ -52,12 +53,12 @@ const ordersSlice = createSlice({
   },
   extraReducers: builder => {
     builder
-      // ── fetchOrders ──────────────────────────────────────────────────────────
-      .addCase(fetchOrdersThunk.pending, state => {
+      // ── fetchMyOrders / fetchAdminOrders ─────────────────────────────────────
+      .addCase(fetchMyOrdersThunk.pending, state => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(fetchOrdersThunk.fulfilled, (state, action) => {
+      .addCase(fetchMyOrdersThunk.fulfilled, (state, action) => {
         state.isLoading = false;
         const { data, meta } = action.payload;
         state.items = data;
@@ -68,9 +69,28 @@ const ordersSlice = createSlice({
           state.totalPages = meta.totalPages;
         }
       })
-      .addCase(fetchOrdersThunk.rejected, (state, action) => {
+      .addCase(fetchMyOrdersThunk.rejected, (state, action) => {
         state.isLoading = false;
         state.error = (action.payload as string) || 'Failed to fetch orders';
+      })
+      .addCase(fetchAdminOrdersThunk.pending, state => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchAdminOrdersThunk.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const { data, meta } = action.payload;
+        state.items = data;
+        if (meta) {
+          state.page = meta.page;
+          state.size = meta.size;
+          state.totalElements = meta.totalElements;
+          state.totalPages = meta.totalPages;
+        }
+      })
+      .addCase(fetchAdminOrdersThunk.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = (action.payload as string) || 'Failed to fetch admin orders';
       })
 
       // ── fetchOrderById ────────────────────────────────────────────────────────

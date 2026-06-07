@@ -1,11 +1,14 @@
 
 import apiClient from '@/utils/api';
 import type { ApiResponse, PageMeta, PaginationParams } from '@/types/common/common';
+import { API_ENDPOINTS } from '@/constants';
 import type {
   CreateOrderRequest,
   Order,
   CancelOrderRequest,
+  OrderFilters,
 } from '@/types/order/order';
+import { toQueryParams } from '@/utils/queryParams';
 import type { ConfirmPaymentRequest } from '@/types/payment/payment';
 
 function normalizeOrderResp(raw: unknown): ApiResponse<Order> {
@@ -60,8 +63,17 @@ export const orderService = {
     return normalizeOrderResp(raw);
   },
 
-  getOrders: async (params?: PaginationParams): Promise<ApiResponse<Order[], PageMeta>> => {
-    const raw = await apiClient.get<unknown>('/orders/my-orders', { params });
+  /** Admin: all orders with optional filters (mirrors GET /api/products). */
+  getOrders: async (filters?: OrderFilters): Promise<ApiResponse<Order[], PageMeta>> => {
+    const raw = await apiClient.get<unknown>(API_ENDPOINTS.ORDERS.ROOT, {
+      params: toQueryParams(filters),
+    });
+    return normalizeOrderListResp(raw);
+  },
+
+  /** User: current user's orders only. */
+  getMyOrders: async (params?: PaginationParams): Promise<ApiResponse<Order[], PageMeta>> => {
+    const raw = await apiClient.get<unknown>(API_ENDPOINTS.ORDERS.MY_ORDERS, { params });
     return normalizeOrderListResp(raw);
   },
 

@@ -59,7 +59,7 @@ export function useRecentOrders(enabled: boolean) {
 
     void (async () => {
       try {
-        const res = await orderService.getOrders({
+        const res = await orderService.getMyOrders({
           page: 0,
           size: RECENT_ORDERS_SIZE,
         });

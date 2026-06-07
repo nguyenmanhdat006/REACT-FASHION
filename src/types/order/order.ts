@@ -160,6 +160,19 @@ export interface CancelOrderRequest {
   notes?: string;
 }
 
+// ─── Admin list filters (GET /api/orders) ─────────────────────────────────────
+
+export interface OrderFilters {
+  page?: number;
+  size?: number;
+  keyword?: string;
+  status?: OrderStatus;
+  startDate?: string;
+  endDate?: string;
+  sortBy?: string;
+  sortDirection?: 'asc' | 'desc';
+}
+
 // ─── Paginated response helpers ───────────────────────────────────────────────
 
 export type OrderPage = ApiResponse<Order[], PageMeta>;

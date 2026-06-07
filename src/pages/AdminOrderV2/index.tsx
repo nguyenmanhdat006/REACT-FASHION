@@ -27,12 +27,12 @@ import type { AdminOrderRow } from './sections/AdminOrderList';
 const LIST_PAGE_SIZE = 10;
 
 export default function AdminOrderV2(): JSX.Element {
-  const { fetchOrdersPage, confirmOrder, markDelivered, updateOrderStatus, updateShipmentStatus } = useOrders();
+  const { fetchAdminOrdersPage, confirmOrder, markDelivered, updateOrderStatus, updateShipmentStatus } = useOrders();
   const { items, page, size, totalPages, isLoading, error } = useAppSelector((s) => s.orders);
 
   useEffect(() => {
-    void fetchOrdersPage({ page: 0, size: LIST_PAGE_SIZE });
-  }, [fetchOrdersPage]);
+    void fetchAdminOrdersPage({ page: 0, size: LIST_PAGE_SIZE, sortBy: 'orderedAt', sortDirection: 'desc' });
+  }, [fetchAdminOrdersPage]);
 
   const listParams = useMemo(
     () => ({
@@ -52,9 +52,14 @@ export default function AdminOrderV2(): JSX.Element {
 
   const onPageChange = useCallback(
     (nextPage: number) => {
-      void fetchOrdersPage({ page: nextPage - 1, size: size || LIST_PAGE_SIZE });
+      void fetchAdminOrdersPage({
+        page: nextPage - 1,
+        size: size || LIST_PAGE_SIZE,
+        sortBy: 'orderedAt',
+        sortDirection: 'desc',
+      });
     },
-    [fetchOrdersPage, size],
+    [fetchAdminOrdersPage, size],
   );
 
   const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
@@ -125,10 +130,10 @@ export default function AdminOrderV2(): JSX.Element {
 
     setSavingOrderStatus(true);
     const ok = draftOrderStatus === OrderStatusEnum.CONFIRMED
-      ? await confirmOrder(orderDetails.id, listParams)
+      ? await confirmOrder(orderDetails.id, listParams, true)
       : draftOrderStatus === OrderStatusEnum.DELIVERED
-        ? await markDelivered(orderDetails.id)
-        : await updateOrderStatus(orderDetails.id, draftOrderStatus, listParams);
+        ? await markDelivered(orderDetails.id, listParams, true)
+        : await updateOrderStatus(orderDetails.id, draftOrderStatus, listParams, true);
 
     if (ok) {
       const refreshed = await loadOrderDetails(orderDetails.id);
@@ -148,7 +153,7 @@ export default function AdminOrderV2(): JSX.Element {
     if (draftShipmentStatus === currentShipmentStatus) return;
 
     setSavingShipmentStatus(true);
-    const ok = await updateShipmentStatus(orderDetails.shipmentId, orderDetails.id, draftShipmentStatus, listParams);
+    const ok = await updateShipmentStatus(orderDetails.shipmentId, orderDetails.id, draftShipmentStatus, listParams, true);
 
     if (ok) {
       const refreshed = await loadOrderDetails(orderDetails.id);

@@ -43,6 +43,8 @@ export {
 } from './cartThunks';
 
 export {
+  fetchMyOrdersThunk,
+  fetchAdminOrdersThunk,
   fetchOrdersThunk,
   fetchOrderByIdThunk,
   createOrderThunk,

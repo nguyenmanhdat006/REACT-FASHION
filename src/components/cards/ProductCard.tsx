@@ -122,7 +122,7 @@ export function ProductCard({
             <CardDescription className="text-caption-lg-regular text-gray-500">
               {description}
             </CardDescription>
-            <CardTitle className="line-clamp-2 text-body-medium text-gray-black">
+            <CardTitle className="truncate text-body-medium text-gray-black">
               {title}
             </CardTitle>
           </div>

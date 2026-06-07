@@ -3,7 +3,8 @@ import toast from 'react-hot-toast';
 
 import {
   cancelOrderThunk,
-  fetchOrdersThunk,
+  fetchMyOrdersThunk,
+  fetchAdminOrdersThunk,
   confirmOrderPaymentThunk,
   markOrderDeliveredThunk,
   updateOrderStatusThunk,
@@ -12,6 +13,7 @@ import {
 } from '@/store/thunks';
 import { useAppDispatch } from '@/store/hooks';
 import type { PaginationParams } from '@/types/common/common';
+import type { OrderFilters } from '@/types/order/order';
 import type { ConfirmPaymentRequest } from '@/types/payment/payment';
 import type { ShipmentStatus } from '@/types/order/order';
 
@@ -21,11 +23,32 @@ const payloadMessage = (payload: unknown, fallback: string) =>
 export function useOrders() {
   const dispatch = useAppDispatch();
 
-  const fetchOrdersPage = useCallback(
+  const fetchMyOrdersPage = useCallback(
     async (params: PaginationParams) => {
-      const result = await dispatch(fetchOrdersThunk(params));
-      if (fetchOrdersThunk.rejected.match(result)) {
+      const result = await dispatch(fetchMyOrdersThunk(params));
+      if (fetchMyOrdersThunk.rejected.match(result)) {
         toast.error(payloadMessage(result.payload, 'Không thể tải danh sách đơn hàng'));
+      }
+    },
+    [dispatch],
+  );
+
+  const fetchAdminOrdersPage = useCallback(
+    async (filters: OrderFilters) => {
+      const result = await dispatch(fetchAdminOrdersThunk(filters));
+      if (fetchAdminOrdersThunk.rejected.match(result)) {
+        toast.error(payloadMessage(result.payload, 'Không thể tải danh sách đơn hàng'));
+      }
+    },
+    [dispatch],
+  );
+
+  const refetchOrders = useCallback(
+    async (params: PaginationParams, admin = false) => {
+      if (admin) {
+        await dispatch(fetchAdminOrdersThunk(params));
+      } else {
+        await dispatch(fetchMyOrdersThunk(params));
       }
     },
     [dispatch],
@@ -39,34 +62,36 @@ export function useOrders() {
       id: string,
       notes: string | undefined,
       refetchParams: PaginationParams,
+      admin = false,
     ): Promise<boolean> => {
       const result = await dispatch(cancelOrderThunk({ id, notes }));
       if (cancelOrderThunk.fulfilled.match(result)) {
         toast.success('Đơn hàng đã được huỷ');
-        await dispatch(fetchOrdersThunk(refetchParams));
+        await refetchOrders(refetchParams, admin);
         return true;
       }
       toast.error(payloadMessage(result.payload, 'Không thể huỷ đơn hàng'));
       return false;
     },
-    [dispatch],
+    [dispatch, refetchOrders],
   );
 
   const confirmOrder = useCallback(
     async (
       id: string,
       refetchParams: PaginationParams,
+      admin = false,
     ): Promise<boolean> => {
       const result = await dispatch(confirmOrderThunk(id));
       if (confirmOrderThunk.fulfilled.match(result)) {
         toast.success('Đơn hàng đã được xác nhận');
-        await dispatch(fetchOrdersThunk(refetchParams));
+        await refetchOrders(refetchParams, admin);
         return true;
       }
       toast.error(payloadMessage(result.payload, 'Không thể xác nhận đơn hàng'));
       return false;
     },
-    [dispatch],
+    [dispatch, refetchOrders],
   );
 
   const updateOrderStatus = useCallback(
@@ -74,17 +99,18 @@ export function useOrders() {
       id: string,
       status: string,
       refetchParams: PaginationParams,
+      admin = false,
     ): Promise<boolean> => {
       const result = await dispatch(updateOrderStatusThunk({ id, status }));
       if (updateOrderStatusThunk.fulfilled.match(result)) {
         toast.success(`Đã cập nhật trạng thái thành ${status}`);
-        await dispatch(fetchOrdersThunk(refetchParams));
+        await refetchOrders(refetchParams, admin);
         return true;
       }
       toast.error(payloadMessage(result.payload, 'Không thể cập nhật trạng thái đơn hàng'));
       return false;
     },
-    [dispatch],
+    [dispatch, refetchOrders],
   );
 
   const updateShipmentStatus = useCallback(
@@ -93,17 +119,18 @@ export function useOrders() {
       orderId: string,
       status: ShipmentStatus,
       refetchParams: PaginationParams,
+      admin = false,
     ): Promise<boolean> => {
       const result = await dispatch(updateShipmentStatusThunk({ id, orderId, status }));
       if (updateShipmentStatusThunk.fulfilled.match(result)) {
         toast.success(`Đã cập nhật trạng thái vận đơn thành ${status}`);
-        await dispatch(fetchOrdersThunk(refetchParams));
+        await refetchOrders(refetchParams, admin);
         return true;
       }
       toast.error(payloadMessage(result.payload, 'Không thể cập nhật trạng thái vận đơn'));
       return false;
     },
-    [dispatch],
+    [dispatch, refetchOrders],
   );
 
   /**
@@ -128,20 +155,30 @@ export function useOrders() {
    * Admin / shipper marks delivery complete. For COD, also triggers payment success.
    */
   const markDelivered = useCallback(
-    async (orderId: string): Promise<boolean> => {
+    async (
+      orderId: string,
+      refetchParams?: PaginationParams,
+      admin = false,
+    ): Promise<boolean> => {
       const result = await dispatch(markOrderDeliveredThunk(orderId));
       if (markOrderDeliveredThunk.fulfilled.match(result)) {
         toast.success('Giao hàng thành công!');
+        if (refetchParams) {
+          await refetchOrders(refetchParams, admin);
+        }
         return true;
       }
       toast.error(payloadMessage(result.payload, 'Không thể xác nhận giao hàng'));
       return false;
     },
-    [dispatch],
+    [dispatch, refetchOrders],
   );
 
   return {
-    fetchOrdersPage,
+    fetchMyOrdersPage,
+    fetchAdminOrdersPage,
+    /** @deprecated Use fetchMyOrdersPage or fetchAdminOrdersPage */
+    fetchOrdersPage: fetchMyOrdersPage,
     cancelOrder,
     confirmOrder,
     updateOrderStatus,
