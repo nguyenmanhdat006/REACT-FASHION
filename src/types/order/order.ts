@@ -135,6 +135,7 @@ export interface CreateOrderItemRequest {
   productName: string;
   quantity: number;       // ≥ 1
   price: number;          // VND
+  productImageUrl?: string;
 }
 
 export interface CreateOrderShippingAddress {
