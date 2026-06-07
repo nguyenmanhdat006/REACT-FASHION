@@ -119,10 +119,10 @@ export function ProductCard({
       <CardContent className="relative z-10 flex flex-col gap-2.5 border-0 border-t border-transparent bg-white p-4 transition-colors duration-300 group-hover/card:border-gray-50">
         <div className="relative flex w-full items-center justify-between self-stretch">
           <div className="relative flex min-w-0 flex-1 flex-col items-start justify-center gap-1 pr-2">
-            <CardDescription className="text-caption-lg-regular text-gray-500">
+            <CardDescription className="w-full truncate text-caption-lg-regular text-gray-500">
               {description}
             </CardDescription>
-            <CardTitle className="truncate text-body-medium text-gray-black">
+            <CardTitle className="w-full truncate text-body-medium text-gray-black">
               {title}
             </CardTitle>
           </div>
