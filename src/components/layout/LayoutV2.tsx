@@ -27,10 +27,10 @@ export default function LayoutV2({
       <SupportChatWidget />
 
       <ExploreFilterProvider>
-        <div className="relative flex h-screen flex-1 min-w-0 flex-col items-start overflow-hidden">
+        <div className="relative flex h-screen flex-1 min-h-0 min-w-0 flex-col items-start overflow-hidden">
           <HomeHeaderSection />
 
-          <div className="relative flex w-full max-w-[1212px] mx-auto flex-1 flex-col overflow-y-auto p-8 scrollbar-hide">
+          <div className="relative flex w-full max-w-[1212px] mx-auto flex-1 min-h-0 flex-col overflow-y-auto p-8 scrollbar-hide">
             <ProductDetailsModalProvider>{children}</ProductDetailsModalProvider>
           </div>
         </div>
