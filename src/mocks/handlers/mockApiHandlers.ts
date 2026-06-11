@@ -256,6 +256,7 @@ const createOrderFromCart = (payload: Record<string, unknown> = {}): Order => {
   const tax = Math.round(subtotal * 0.1);
   const paymentMethod = String(payload.paymentMethod || 'COD') as PaymentMethod;
   const isVnpay = paymentMethod === PaymentMethod.VNPAY || (paymentMethod as string) === 'VNPAY';
+  const shipmentId = Date.now();
 
   const order: Order = {
     id: `order-${Date.now()}`,
@@ -264,7 +265,8 @@ const createOrderFromCart = (payload: Record<string, unknown> = {}): Order => {
     paymentStatus: PaymentStatus.PENDING,
     paymentMethod: PaymentMethod[paymentMethod as keyof typeof PaymentMethod] ?? PaymentMethod.COD,
     paymentUrl: isVnpay ? 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?mock=1' : null,
-    shipmentId: null,
+    shipmentId,
+    shipmentStatus: ShipmentStatus.PENDING,
     items: orderItems,
     subtotal,
     discount: 0,
@@ -280,6 +282,22 @@ const createOrderFromCart = (payload: Record<string, unknown> = {}): Order => {
     customerPhone: getMockUser().phone || '0900000000',
     notes: typeof payload.note === 'string' ? payload.note : undefined,
     orderedAt: now,
+    updatedAt: now,
+  };
+
+  mockShipmentState = {
+    ...MOCK_SHIPMENT_RESPONSE,
+    shipmentId,
+    orderId: order.id,
+    orderNumber: order.orderNumber,
+    status: ShipmentStatus.PENDING,
+    shippingFee,
+    codAmount: paymentMethod === PaymentMethod.COD ? order.total : 0,
+    recipientName: shippingAddress.recipientName,
+    recipientPhone: shippingAddress.phone,
+    address: shippingAddress.address,
+    estimatedDelivery: new Date(Date.now() + 2 * 86400000).toISOString(),
+    createdAt: now,
     updatedAt: now,
   };
 
