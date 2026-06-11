@@ -78,8 +78,8 @@ const toEmptySuccessResponse = (): ApiResponse<null> => toResponse(null);
 
 type PagedListBody<T> = { data: T[]; meta: PageMeta };
 
-const toPage = <T>(items: T[], page = 0, size = 20): PagedListBody<T> => {
-  const safeSize = size > 0 ? size : 20;
+const toPage = <T>(items: T[], page = 0, size = 10): PagedListBody<T> => {
+  const safeSize = size > 0 ? size : 10;
   const totalElements = items.length;
   const totalPages = totalElements === 0 ? 0 : Math.ceil(totalElements / safeSize);
   const start = page * safeSize;
@@ -526,7 +526,7 @@ export const handleMockApiRequest = async <T>(
   if (method === 'get' && cleanUrl === API_ENDPOINTS.PRODUCTS.FEATURED) {
     const featuredProducts = getMockProducts().filter(product => product.featured);
     const page = toNumber(params.page, 0);
-    const size = toNumber(params.size, 20);
+    const size = toNumber(params.size, 10);
     return toPaginatedListResponse(toPage(featuredProducts, page, size)) as T;
   }
 
@@ -544,7 +544,7 @@ export const handleMockApiRequest = async <T>(
     });
 
     return toPaginatedListResponse(
-      toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 20))
+      toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 10))
     ) as T;
   }
 
@@ -565,14 +565,14 @@ export const handleMockApiRequest = async <T>(
     }
 
     return toPaginatedListResponse(
-      toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 20))
+      toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 10))
     ) as T;
   }
 
   if (method === 'get' && cleanUrl === API_ENDPOINTS.PRODUCTS.PUBLISHED) {
     const filtered = getMockProducts().filter(product => product.status === 'PUBLISHED');
     return toPaginatedListResponse(
-      toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 20))
+      toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 10))
     ) as T;
   }
 
@@ -584,7 +584,7 @@ export const handleMockApiRequest = async <T>(
       return price >= min && price <= max;
     });
     return toPaginatedListResponse(
-      toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 20))
+      toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 10))
     ) as T;
   }
 
@@ -592,7 +592,7 @@ export const handleMockApiRequest = async <T>(
     const categoryId = cleanUrl.replace('/products/category/', '');
     const filtered = getMockProducts().filter(product => product.category?.id === categoryId);
     return toPaginatedListResponse(
-      toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 20))
+      toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 10))
     ) as T;
   }
 
@@ -600,7 +600,7 @@ export const handleMockApiRequest = async <T>(
     const brandId = cleanUrl.replace('/products/brand/', '');
     const filtered = getMockProducts().filter(product => product.brand?.id === brandId);
     return toPaginatedListResponse(
-      toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 20))
+      toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 10))
     ) as T;
   }
 
@@ -1285,7 +1285,7 @@ export const handleMockApiRequest = async <T>(
     const conversationId = conversationMessagesMatch[1];
     const messages = getMockChatMessages()[conversationId] ?? [];
     const page = toNumber(params.page, 0);
-    const size = toNumber(params.size, 20);
+    const size = toNumber(params.size, 10);
     const start = page * size;
     const content = messages.slice(start, start + size);
     return toResponse({
