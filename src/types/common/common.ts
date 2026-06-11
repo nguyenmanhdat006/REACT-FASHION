@@ -26,4 +26,4 @@ export interface ListQueryParams extends PaginationParams {
   sortDirection?: 'asc' | 'desc';
 }
 
-export const DEFAULT_LIST_QUERY: ListQueryParams = { page: 0, size: 20 };
+export const DEFAULT_LIST_QUERY: ListQueryParams = { page: 0, size: 10 };

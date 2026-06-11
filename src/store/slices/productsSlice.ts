@@ -53,7 +53,7 @@ const initialState: ProductsState = {
   featured: [],
   selectedProduct: null,
   page: 0,
-  size: 20,
+  size: 10,
   totalElements: 0,
   totalPages: 0,
   filters: {},

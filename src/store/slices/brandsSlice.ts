@@ -26,7 +26,7 @@ interface BrandsState {
 const initialState: BrandsState = {
   items: [],
   page: 0,
-  size: 20,
+  size: 10,
   totalElements: 0,
   totalPages: 0,
   isLoading: false,

@@ -30,7 +30,7 @@ export default function AdminProductListPage(): JSX.Element {
   const listFilters = useAdminListFilters('product');
   const { fetchProductsPage, deleteProduct } = useProducts();
   const { fetchCategories, fetchBrands } = useAdminCatalog();
-  const { items, page, size, totalPages, isLoading, error } = useAppSelector(s => s.products);
+  const { items, page, totalPages, isLoading, error } = useAppSelector(s => s.products);
   const categories = useAppSelector(s => s.categories.items);
   const brands = useAppSelector(s => s.brands.items);
 
@@ -38,9 +38,9 @@ export default function AdminProductListPage(): JSX.Element {
     () =>
       toProductFetchParams(listFilters.applied, {
         page,
-        size: size || LIST_PAGE_SIZE,
+        size: LIST_PAGE_SIZE,
       }),
-    [listFilters.applied, page, size],
+    [listFilters.applied, page],
   );
 
   useEffect(() => {
@@ -72,20 +72,20 @@ export default function AdminProductListPage(): JSX.Element {
       void fetchProductsPage(
         toProductFetchParams(listFilters.applied, {
           page: nextPage - 1,
-          size: size || LIST_PAGE_SIZE,
+          size: LIST_PAGE_SIZE,
         }),
       );
     },
-    [fetchProductsPage, listFilters.applied, size],
+    [fetchProductsPage, listFilters.applied],
   );
 
   const handleApplyFilters = useCallback(() => {
     const nextApplied = listFilters.draft;
     listFilters.applyDraft();
     void fetchProductsPage(
-      toProductFetchParams(nextApplied, { page: 0, size: size || LIST_PAGE_SIZE }),
+      toProductFetchParams(nextApplied, { page: 0, size: LIST_PAGE_SIZE }),
     );
-  }, [fetchProductsPage, listFilters, size]);
+  }, [fetchProductsPage, listFilters]);
 
   const goToAddProduct = useCallback(() => {
     navigate(ROUTES.ADMIN_PRODUCT_ADD);
@@ -176,7 +176,7 @@ export default function AdminProductListPage(): JSX.Element {
         onApply={handleApplyFilters}
         onClearAll={() => {
           listFilters.clearAll();
-          void fetchProductsPage({ page: 0, size: size || LIST_PAGE_SIZE });
+          void fetchProductsPage({ page: 0, size: LIST_PAGE_SIZE });
         }}
       />
     </>

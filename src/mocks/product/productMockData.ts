@@ -22,9 +22,9 @@ export const MOCK_PRODUCTS_PAGE: ApiResponse<Product[], PageMeta> = {
   data: MOCK_PRODUCTS_DATA,
   meta: {
     page: 0,
-    size: 20,
+    size: 10,
     totalElements: MOCK_PRODUCTS_DATA.length,
-    totalPages: MOCK_PRODUCTS_DATA.length === 0 ? 0 : 1,
+    totalPages: Math.max(1, Math.ceil(MOCK_PRODUCTS_DATA.length / 10)),
     first: true,
     last: true,
   },
@@ -35,7 +35,7 @@ export const MOCK_PRODUCTS_PAGE: ApiResponse<Product[], PageMeta> = {
 
 export const MOCK_PRODUCT_FILTERS: ProductFilters = {
   page: 0,
-  size: 20,
+  size: 10,
   featured: true,
   sortBy: 'createdAt',
   sortDirection: 'desc',
