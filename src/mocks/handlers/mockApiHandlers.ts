@@ -144,6 +144,37 @@ const sortAddressesForList = <
 
 const delay = async () => new Promise(resolve => setTimeout(resolve, 120));
 
+const touchMockOrder = (order: Order, patch: Partial<Order>): Order => ({
+  ...order,
+  ...patch,
+  updatedAt: new Date().toISOString(),
+});
+
+const updateMockOrderById = (id: string, patch: Partial<Order>): Order | undefined => {
+  let updated: Order | undefined;
+  setMockOrders(
+    getMockOrders().map(order => {
+      if (order.id !== id) {
+        return order;
+      }
+      updated = touchMockOrder(order, patch);
+      return updated;
+    }),
+  );
+  return updated;
+};
+
+const updateMockOrdersByShipmentId = (
+  shipmentId: number,
+  patch: Partial<Order>,
+): void => {
+  setMockOrders(
+    getMockOrders().map(order =>
+      order.shipmentId === shipmentId ? touchMockOrder(order, patch) : order,
+    ),
+  );
+};
+
 const readUploadFileAsDataUrl = (payload: unknown): Promise<string | null> =>
   new Promise(resolve => {
     if (!(payload instanceof FormData)) {
@@ -784,61 +815,49 @@ export const handleMockApiRequest = async <T>(
   // PUT /orders/{id}/payment-confirmed
   if (method === 'put' && cleanUrl.match(/^\/orders\/([^/]+)\/payment-confirmed$/)) {
     const id = cleanUrl.replace('/orders/', '').replace('/payment-confirmed', '');
-    setMockOrders( getMockOrders().map(order =>
-      order.id === id
-        ? { ...order, status: OrderStatus.CONFIRMED, paymentStatus: PaymentStatus.PAID }
-        : order
-    ));
-    const confirmed = getMockOrders().find(o => o.id === id) || getMockOrders()[0];
-    return toResponse(confirmed) as T;
+    const updated = updateMockOrderById(id, {
+      status: OrderStatus.CONFIRMED,
+      paymentStatus: PaymentStatus.PAID,
+    });
+    return toResponse(updated || getMockOrders()[0]) as T;
   }
 
   // PUT /orders/{id}/delivered
   if (method === 'put' && cleanUrl.match(/^\/orders\/([^/]+)\/delivered$/)) {
     const id = cleanUrl.replace('/orders/', '').replace('/delivered', '');
-    setMockOrders( getMockOrders().map(order =>
-      order.id === id
-        ? { ...order, status: OrderStatus.DELIVERED, paymentStatus: PaymentStatus.PAID }
-        : order
-    ));
-    const delivered = getMockOrders().find(o => o.id === id) || getMockOrders()[0];
-    return toResponse(delivered) as T;
+    const updated = updateMockOrderById(id, {
+      status: OrderStatus.DELIVERED,
+      paymentStatus: PaymentStatus.PAID,
+      shipmentStatus: ShipmentStatus.DELIVERED,
+    });
+    return toResponse(updated || getMockOrders()[0]) as T;
   }
 
   // PUT /orders/{id}/confirm
   if (method === 'put' && cleanUrl.match(/^\/orders\/([^/]+)\/confirm$/)) {
     const id = cleanUrl.replace('/orders/', '').replace('/confirm', '');
-    setMockOrders( getMockOrders().map(order =>
-      order.id === id ? { ...order, status: OrderStatus.CONFIRMED } : order
-    ));
-    const confirmed = getMockOrders().find(o => o.id === id) || getMockOrders()[0];
-    return toResponse(confirmed) as T;
+    const updated = updateMockOrderById(id, { status: OrderStatus.CONFIRMED });
+    return toResponse(updated || getMockOrders()[0]) as T;
   }
 
   // PUT /orders/{id}/shipping-status
   if (method === 'put' && cleanUrl.match(/^\/orders\/([^/]+)\/shipping-status$/)) {
     const id = cleanUrl.replace('/orders/', '').replace('/shipping-status', '');
     const payload = asRecord(data);
-    const shippingStatus = String(payload.status || 'SHIPPED');
-    setMockOrders(
-      getMockOrders().map(order =>
-        order.id === id ? { ...order, status: shippingStatus as OrderStatus } : order,
-      ),
-    );
-    const updated = getMockOrders().find(o => o.id === id) || getMockOrders()[0];
-    return toResponse(updated) as T;
+    const shipmentStatus = String(
+      payload.status || ShipmentStatus.PENDING,
+    ) as ShipmentStatus;
+    const updated = updateMockOrderById(id, { shipmentStatus });
+    return toResponse(updated || getMockOrders()[0]) as T;
   }
 
-  // PUT /orders/{id}/status (cancel)
+  // PUT /orders/{id}/status (cancel / generic status)
   if (method === 'put' && cleanUrl.match(/^\/orders\/([^/]+)\/status$/)) {
     const id = cleanUrl.replace('/orders/', '').replace('/status', '');
     const payload = asRecord(data);
-    const newStatus = String(payload.status || 'CANCELLED') as OrderStatus;
-    setMockOrders( getMockOrders().map(order =>
-      order.id === id ? { ...order, status: newStatus } : order
-    ));
-    const updated = getMockOrders().find(o => o.id === id) || getMockOrders()[0];
-    return toResponse(updated) as T;
+    const newStatus = String(payload.status || OrderStatus.CANCELLED) as OrderStatus;
+    const updated = updateMockOrderById(id, { status: newStatus });
+    return toResponse(updated || getMockOrders()[0]) as T;
   }
 
   // POST /payments/create
@@ -987,21 +1006,28 @@ export const handleMockApiRequest = async <T>(
   // PUT /shipping/{id}/status
   if (method === 'put' && cleanUrl.match(/^\/shipping\/\d+\/status$/)) {
     const payload = asRecord(data);
+    const shipmentId = Number(cleanUrl.replace('/shipping/', '').replace('/status', ''));
+    const shipmentStatus = String(
+      payload.status || mockShipmentState.status,
+    ) as ShipmentStatus;
     mockShipmentState = {
       ...mockShipmentState,
-      status: String(payload.status || mockShipmentState.status) as typeof mockShipmentState.status,
+      status: shipmentStatus,
       updatedAt: new Date().toISOString(),
     };
+    updateMockOrdersByShipmentId(shipmentId, { shipmentStatus });
     return toResponse(mockShipmentState) as T;
   }
 
   // PUT /shipping/{id}/deliver
   if (method === 'put' && cleanUrl.match(/^\/shipping\/\d+\/deliver$/)) {
+    const shipmentId = Number(cleanUrl.replace('/shipping/', '').replace('/deliver', ''));
     mockShipmentState = {
       ...mockShipmentState,
       status: ShipmentStatus.DELIVERED,
       updatedAt: new Date().toISOString(),
     };
+    updateMockOrdersByShipmentId(shipmentId, { shipmentStatus: ShipmentStatus.DELIVERED });
     return toResponse(mockShipmentState) as T;
   }
 
@@ -1172,9 +1198,10 @@ export const handleMockApiRequest = async <T>(
   }
 
   if (method === 'delete' && cleanUrl.startsWith('/products/')) {
-    const id = cleanUrl.replace('/products/', '');
+    const id = cleanUrl.replace('/products/', '').split('/')[0];
+    if (!id) return undefined;
     setMockProducts(getMockProducts().filter(product => product.id !== id));
-    return undefined;
+    return toEmptySuccessResponse() as T;
   }
 
   if (method === 'post' && cleanUrl.includes('/images/upload')) {
@@ -1195,8 +1222,9 @@ export const handleMockApiRequest = async <T>(
 
   if (method === 'delete' && cleanUrl.startsWith('/categories/')) {
     const id = cleanUrl.replace('/categories/', '').split('/')[0];
+    if (!id) return undefined;
     setMockCategories(getMockCategories().filter((category) => category.id !== id));
-    return undefined;
+    return toEmptySuccessResponse() as T;
   }
 
   if (method === 'put' && cleanUrl.startsWith('/brands/')) {
@@ -1211,8 +1239,9 @@ export const handleMockApiRequest = async <T>(
 
   if (method === 'delete' && cleanUrl.startsWith('/brands/')) {
     const id = cleanUrl.replace('/brands/', '').split('/')[0];
+    if (!id) return undefined;
     setMockBrands(getMockBrands().filter((brand) => brand.id !== id));
-    return undefined;
+    return toEmptySuccessResponse() as T;
   }
 
   if (method === 'get' && cleanUrl === API_ENDPOINTS.CHAT.CONVERSATIONS_LIST) {

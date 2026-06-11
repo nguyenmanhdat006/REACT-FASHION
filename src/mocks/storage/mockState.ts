@@ -4,7 +4,7 @@ import { CartStatus } from '@/types/cart/cart';
 import type { NotificationItem } from '@/services/notification/notificationService';
 import type { PaymentResponse } from '@/types/payment/payment';
 import type { Order } from '@/types/order/order';
-import { OrderStatus, PaymentMethod, PaymentStatus } from '@/types/order/order';
+import { OrderStatus, PaymentMethod, PaymentStatus, ShipmentStatus } from '@/types/order/order';
 import type { Brand, Category, Product } from '@/types/product/product';
 import type { Review } from '@/types/review/review';
 import type { ConversationInbound, MessageInbound } from '@/types/chat/chat';
@@ -74,6 +74,7 @@ export const buildSeedOrders = (): Order[] => [
     paymentMethod: PaymentMethod.VNPAY,
     paymentUrl: null,
     shipmentId: 1,
+    shipmentStatus: ShipmentStatus.IN_TRANSIT,
     items: [
       {
         id: 'oi-1',
@@ -123,6 +124,7 @@ export const buildSeedOrders = (): Order[] => [
     paymentMethod: PaymentMethod.COD,
     paymentUrl: null,
     shipmentId: 2,
+    shipmentStatus: ShipmentStatus.DELIVERED,
     items: [
       {
         id: 'oi-3',

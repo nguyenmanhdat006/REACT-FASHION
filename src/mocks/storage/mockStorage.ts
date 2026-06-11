@@ -1,5 +1,5 @@
 const MOCK_STORAGE_PREFIX = 'react-fashion-mock';
-const MOCK_STORAGE_VERSION = '5';
+const MOCK_STORAGE_VERSION = '6';
 
 export const MOCK_STORAGE_KEYS = {
   VERSION: `${MOCK_STORAGE_PREFIX}:version`,
