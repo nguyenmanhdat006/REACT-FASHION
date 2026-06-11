@@ -5,8 +5,23 @@ import type {
   SalesChartResponse,
   TopProductsResponse,
 } from '@/types/dashboard';
+import { MOCK_PRODUCTS } from '@/mocks/product/productSeedData';
 
 const timestamp = '2026-06-07T00:00:00.000Z';
+
+const topProductsFromCatalog = MOCK_PRODUCTS.filter(product => product.featured)
+  .slice(0, 5)
+  .map((product, index) => ({
+    productId: product.id,
+    productName: product.name,
+    size: index % 2 === 0 ? 'M' : 'L',
+    imageUrl: product.images?.[0]?.imageUrl ?? '',
+    price: Math.round((product.salePrice ?? product.price) * 1000),
+    stock: product.stockQuantity ?? 0,
+    category: product.category?.name ?? 'Fashion',
+    totalSold: 28 - index * 3,
+    totalRevenue: Math.round((product.salePrice ?? product.price) * 1000 * (28 - index * 3)),
+  }));
 
 export const MOCK_DASHBOARD_STATS: ApiResponse<DashboardStatsResponse> = {
   success: true,
@@ -88,63 +103,7 @@ export const MOCK_DASHBOARD_SALES_CHART: ApiResponse<SalesChartResponse> = {
 export const MOCK_DASHBOARD_TOP_PRODUCTS: ApiResponse<TopProductsResponse> = {
   success: true,
   data: {
-    products: [
-      {
-        productId: 'dash-prod-001',
-        productName: 'Tailored Blazer Set',
-        size: 'M',
-        imageUrl: '/images/products/blazer-set.jpg',
-        price: 189000,
-        stock: 4,
-        category: 'Outerwear',
-        totalSold: 28,
-        totalRevenue: 5292000,
-      },
-      {
-        productId: 'dash-prod-002',
-        productName: 'Relaxed Linen Shirt',
-        size: 'L',
-        imageUrl: '/images/products/linen-shirt.jpg',
-        price: 79000,
-        stock: 8,
-        category: 'Shirts',
-        totalSold: 24,
-        totalRevenue: 1896000,
-      },
-      {
-        productId: 'dash-prod-003',
-        productName: 'Everyday Denim Pants',
-        size: '32',
-        imageUrl: '/images/products/denim-pants.jpg',
-        price: 119000,
-        stock: 6,
-        category: 'Bottoms',
-        totalSold: 21,
-        totalRevenue: 2499000,
-      },
-      {
-        productId: 'dash-prod-004',
-        productName: 'Minimal Leather Tote',
-        size: null,
-        imageUrl: '/images/products/leather-tote.jpg',
-        price: 149000,
-        stock: 3,
-        category: 'Accessories',
-        totalSold: 18,
-        totalRevenue: 2682000,
-      },
-      {
-        productId: 'dash-prod-005',
-        productName: 'Studio Sneakers',
-        size: '42',
-        imageUrl: '/images/products/studio-sneakers.jpg',
-        price: 165000,
-        stock: 5,
-        category: 'Footwear',
-        totalSold: 16,
-        totalRevenue: 2640000,
-      },
-    ],
+    products: topProductsFromCatalog,
   },
   meta: null,
   error: null,

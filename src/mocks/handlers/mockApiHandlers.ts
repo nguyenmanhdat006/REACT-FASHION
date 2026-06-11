@@ -1,49 +1,70 @@
-import { API_ENDPOINTS, AUTH_ENDPOINTS } from '@/constants';
-import { MOCK_ADDRESSES, MOCK_ADMIN_USERS, MOCK_USER_PROFILE } from '@/mocks/user/userMockData';
+import { API_ENDPOINTS, AUTH_ENDPOINTS, STORAGE_ENDPOINTS } from '@/constants';
+import { IMAGES } from '@/constants/images';
 import {
+  findMockLoginAccount,
   MOCK_AUTH_RESPONSE,
-  MOCK_AUTH_USER,
-  MOCK_USER_ADDRESSES,
+  mockAuthFailure,
 } from '@/mocks/auth/authMockData';
 import {
-  MOCK_BRANDS,
-  MOCK_CATEGORIES,
-  MOCK_PRODUCTS_DATA,
-} from '@/mocks/product/productMockData';
-import {
   MOCK_ADD_TO_CART_REQUEST,
-  MOCK_CART_DATA,
   MOCK_UPDATE_CART_ITEM_REQUEST,
 } from '@/mocks/cart/cartMockData';
 import {
-  MOCK_ORDERS_DATA,
-} from '@/mocks/order/orderMockData';
-import {
-  MOCK_PAYMENT_INTENT,
   MOCK_CREATE_PAYMENT_REQUEST,
+  MOCK_PAYMENT_INTENT,
 } from '@/mocks/payment/paymentMockData';
 import {
   MOCK_CREATE_REVIEW_REQUEST,
   MOCK_REVIEW_SUMMARY,
-  MOCK_REVIEWS,
 } from '@/mocks/review/reviewMockData';
 import {
-  MOCK_SHIPMENT,
+  MOCK_SHIPMENT_RESPONSE,
   MOCK_SHIPPING_FEE_REQUEST,
 } from '@/mocks/shipping/shippingMockData';
 import {
-  MOCK_NOTIFICATIONS,
-} from '@/mocks/notification/notificationMockData';
+  buildSeedCart,
+  findMockProductById,
+  getMockAddresses,
+  getMockBrands,
+  getMockCart,
+  getMockCategories,
+  getMockChatConversations,
+  getMockChatMessages,
+  getMockNotifications,
+  getMockOrders,
+  getMockPayment,
+  getMockProducts,
+  getMockReviews,
+  getMockUser,
+  getMockUsers,
+  initMockState,
+  mergeStoredMockUser,
+  recalculateMockCart,
+  setMockAddresses,
+  setMockBrands,
+  setMockCart,
+  setMockCategories,
+  setMockChatConversations,
+  setMockChatMessages,
+  setMockNotifications,
+  setMockOrders,
+  setMockPayment,
+  setMockProducts,
+  setMockReviews,
+  setMockUser,
+  setMockUsers,
+  updateMockUserProfile,
+} from '@/mocks/storage/mockState';
+import type { User } from '@/types/auth/auth';
 import type { ApiResponse, PageMeta } from '@/types/common/common';
-import { PaymentMethod, type Order, OrderStatus, PaymentStatus } from '@/types/order/order';
+import type { ConversationInbound, MessageInbound } from '@/types/chat/chat';
+import { PaymentMethod, type Order, OrderStatus, PaymentStatus, ShipmentStatus } from '@/types/order/order';
 import type { OrderShippingAddress } from '@/types/order/order';
 import type { PaymentResponse } from '@/types/payment/payment';
 import type { Product } from '@/types/product/product';
 import type { AxiosRequestConfig } from 'axios';
 
 export type MockHttpMethod = 'get' | 'post' | 'put' | 'patch' | 'delete';
-
-const clone = <T>(value: T): T => JSON.parse(JSON.stringify(value)) as T;
 
 const toResponse = <T>(data: T): ApiResponse<T> => ({
   success: true,
@@ -52,6 +73,8 @@ const toResponse = <T>(data: T): ApiResponse<T> => ({
   message: null,
   timestamp: new Date().toISOString(),
 });
+
+const toEmptySuccessResponse = (): ApiResponse<null> => toResponse(null);
 
 type PagedListBody<T> = { data: T[]; meta: PageMeta };
 
@@ -119,37 +142,30 @@ const sortAddressesForList = <
     return tb - ta;
   });
 
-let mockUser = clone(MOCK_USER_PROFILE);
-let mockUsersList = clone(MOCK_ADMIN_USERS);
-let mockAddresses = clone(MOCK_ADDRESSES.length > 0 ? MOCK_ADDRESSES : MOCK_USER_ADDRESSES);
-let mockCategories = clone(MOCK_CATEGORIES);
-let mockBrands = clone(MOCK_BRANDS);
-let mockProducts = clone(MOCK_PRODUCTS_DATA);
-let mockOrders = clone(MOCK_ORDERS_DATA);
-let mockPayment: PaymentResponse = clone(MOCK_PAYMENT_INTENT);
-let mockReviews = clone(MOCK_REVIEWS);
-let mockNotifications = clone(MOCK_NOTIFICATIONS);
-let mockCart = clone(MOCK_CART_DATA);
-
 const delay = async () => new Promise(resolve => setTimeout(resolve, 120));
 
+const readUploadFileAsDataUrl = (payload: unknown): Promise<string | null> =>
+  new Promise(resolve => {
+    if (!(payload instanceof FormData)) {
+      resolve(null);
+      return;
+    }
 
-const findProductById = (productId: string): Product | undefined =>
-  mockProducts.find(product => product.id === productId);
+    const file = payload.get('file');
+    if (!(file instanceof File)) {
+      resolve(null);
+      return;
+    }
 
-const recalculateCart = (): void => {
-  const subtotal = mockCart.items.reduce((sum, item) => sum + item.total, 0);
-  const totalItems = mockCart.items.reduce((sum, item) => sum + item.quantity, 0);
-  const discount = mockCart.discount ?? 0;
+    const reader = new FileReader();
+    reader.onload = () => {
+      resolve(typeof reader.result === 'string' ? reader.result : null);
+    };
+    reader.onerror = () => resolve(null);
+    reader.readAsDataURL(file);
+  });
 
-  mockCart = {
-    ...mockCart,
-    totalItems,
-    subtotal,
-    total: Math.max(0, subtotal - discount),
-    updatedAt: new Date().toISOString(),
-  };
-};
+let mockShipmentState = { ...MOCK_SHIPMENT_RESPONSE };
 
 
 const createOrderFromCart = (payload: Record<string, unknown> = {}): Order => {
@@ -161,10 +177,10 @@ const createOrderFromCart = (payload: Record<string, unknown> = {}): Order => {
     recipientName: String(
       payloadShipping.recipientName ||
       payloadShipping.fullName ||
-      mockUser.fullName ||
+      getMockUser().fullName ||
       'Customer'
     ),
-    phone: String(payloadShipping.phone || mockUser.phone || '0900000000'),
+    phone: String(payloadShipping.phone || getMockUser().phone || '0900000000'),
     address: String(
       payloadShipping.address ||
       payloadShipping.addressLine1 ||
@@ -181,7 +197,7 @@ const createOrderFromCart = (payload: Record<string, unknown> = {}): Order => {
     ? payloadItems.map((item: Record<string, unknown>, idx: number) => {
         const pid = String(item.productId || `PROD-${idx + 1}`);
         const explicitImage = typeof item.productImageUrl === 'string' ? String(item.productImageUrl) : undefined;
-        const productFromCatalog = findProductById(pid);
+        const productFromCatalog = findMockProductById(pid);
         const inferredImage = productFromCatalog?.images?.[0]?.imageUrl;
 
         return {
@@ -194,7 +210,7 @@ const createOrderFromCart = (payload: Record<string, unknown> = {}): Order => {
           subtotal: toNumber(item.quantity, 1) * toNumber(item.price, 0),
         };
       })
-    : mockCart.items.map(item => ({
+    : getMockCart().items.map(item => ({
         id: item.id,
         productId: item.productId,
         productName: item.productName,
@@ -212,7 +228,7 @@ const createOrderFromCart = (payload: Record<string, unknown> = {}): Order => {
 
   const order: Order = {
     id: `order-${Date.now()}`,
-    orderNumber: `ORD-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${String(mockOrders.length + 1).padStart(4, '0')}`,
+    orderNumber: `ORD-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${String(getMockOrders().length + 1).padStart(4, '0')}`,
     status: OrderStatus.PENDING,
     paymentStatus: PaymentStatus.PENDING,
     paymentMethod: PaymentMethod[paymentMethod as keyof typeof PaymentMethod] ?? PaymentMethod.COD,
@@ -227,10 +243,10 @@ const createOrderFromCart = (payload: Record<string, unknown> = {}): Order => {
     shippingAddress,
     createdAt: now,
     // legacy
-    userId: mockUser.id,
-    customerName: mockUser.fullName || mockUser.email || 'Customer',
-    customerEmail: mockUser.email,
-    customerPhone: mockUser.phone || '0900000000',
+    userId: getMockUser().id,
+    customerName: getMockUser().fullName || getMockUser().email || 'Customer',
+    customerEmail: getMockUser().email,
+    customerPhone: getMockUser().phone || '0900000000',
     notes: typeof payload.note === 'string' ? payload.note : undefined,
     orderedAt: now,
     updatedAt: now,
@@ -238,7 +254,7 @@ const createOrderFromCart = (payload: Record<string, unknown> = {}): Order => {
 
   if (!isVnpay) {
     // Only clear cart for non-VNPAY orders (VNPAY still pending until confirmed)
-    mockCart = clone(MOCK_CART_DATA);
+    setMockCart(buildSeedCart());
   }
   return order;
 };
@@ -250,6 +266,7 @@ export const handleMockApiRequest = async <T>(
   data?: unknown,
   config?: AxiosRequestConfig
 ): Promise<T | undefined> => {
+  initMockState();
   await delay();
 
   const cleanUrl = url.split('?')[0];
@@ -257,60 +274,80 @@ export const handleMockApiRequest = async <T>(
 
   if (method === 'post' && cleanUrl === AUTH_ENDPOINTS.LOGIN) {
     const credentials = asRecord(data);
-    const userEmail = String(credentials.email || MOCK_AUTH_USER.email);
+    const email = String(credentials.email || '');
+    const password = String(credentials.password || '');
+    const account = findMockLoginAccount(email, password);
+
+    if (!account) {
+      return mockAuthFailure('Invalid email or password') as T;
+    }
+
+    const user = mergeStoredMockUser(account.user);
+    setMockUser(user);
 
     return toResponse({
       ...MOCK_AUTH_RESPONSE,
-      user: {
-        ...MOCK_AUTH_USER,
-        ...mockUser,
-        email: userEmail,
-      },
+      user,
     }) as T;
+  }
+
+  if (method === 'post' && cleanUrl === AUTH_ENDPOINTS.FORGOT_PASSWORD) {
+    return toEmptySuccessResponse() as T;
   }
 
   if (method === 'post' && cleanUrl === AUTH_ENDPOINTS.REGISTER) {
     const payload = asRecord(data);
-    mockUser = {
-      ...mockUser,
-      email: String(payload.email || mockUser.email),
-      fullName: String(payload.fullName || mockUser.fullName),
-      phone: typeof payload.phone === 'string' ? payload.phone : mockUser.phone,
-    };
-    return toResponse(mockUser) as T;
+    setMockUser({
+      ...getMockUser(),
+      email: String(payload.email || getMockUser().email),
+      fullName: String(payload.fullName || getMockUser().fullName),
+      phone: typeof payload.phone === 'string' ? payload.phone : getMockUser().phone,
+    });
+    return toResponse(getMockUser()) as T;
   }
 
   if (method === 'post' && cleanUrl === AUTH_ENDPOINTS.REFRESH) {
-    return toResponse(MOCK_AUTH_RESPONSE) as T;
+    return toResponse({
+      ...MOCK_AUTH_RESPONSE,
+      user: getMockUser(),
+    }) as T;
   }
 
   if (method === 'post' && cleanUrl === AUTH_ENDPOINTS.LOGOUT) {
-    return undefined;
+    return toEmptySuccessResponse() as T;
   }
 
   if (method === 'get' && (cleanUrl === AUTH_ENDPOINTS.ME || cleanUrl === API_ENDPOINTS.USER.PROFILE)) {
-    return toResponse(mockUser) as T;
+    return toResponse(getMockUser()) as T;
   }
 
-  if (method === 'put' && cleanUrl === API_ENDPOINTS.USER.PROFILE) {
+  if (
+    (method === 'put' || method === 'patch') &&
+    cleanUrl === API_ENDPOINTS.USER.PROFILE
+  ) {
     const payload = asRecord(data);
-    mockUser = {
-      ...mockUser,
-      ...(payload as Partial<typeof mockUser>),
-    };
-    return toResponse(mockUser) as T;
+    const updated = updateMockUserProfile(payload as Partial<User>);
+    return toResponse(updated) as T;
+  }
+
+  if (method === 'post' && cleanUrl === STORAGE_ENDPOINTS.UPLOAD) {
+    const uploadedUrl = (await readUploadFileAsDataUrl(data)) ?? IMAGES.USER_AVATAR;
+    return toResponse({
+      fileId: `mock-file-${Date.now()}`,
+      url: uploadedUrl,
+    }) as T;
   }
 
   if (method === 'get' && cleanUrl === API_ENDPOINTS.USERS.LIST) {
     return toPaginatedListResponse(
-      toPage(mockUsersList, toNumber(params.page, 0), toNumber(params.size, 10)),
+      toPage(getMockUsers(), toNumber(params.page, 0), toNumber(params.size, 10)),
     ) as T;
   }
 
   const userDetailMatch = cleanUrl.match(/^\/users\/([^/]+)$/);
   if (method === 'get' && userDetailMatch) {
     const id = userDetailMatch[1];
-    const user = mockUsersList.find((entry) => entry.id === id);
+    const user = getMockUsers().find((entry) => entry.id === id);
     if (!user) return undefined;
     return toResponse(user) as T;
   }
@@ -322,24 +359,24 @@ export const handleMockApiRequest = async <T>(
     const roles = Array.isArray(payload.roles)
       ? payload.roles.map((role) => String(role))
       : [];
-    const index = mockUsersList.findIndex((user) => user.id === id);
+    const index = getMockUsers().findIndex((user) => user.id === id);
     if (index === -1) return undefined;
-    const updated = { ...mockUsersList[index], roles };
-    mockUsersList = mockUsersList.map((user, i) => (i === index ? updated : user));
+    const updated = { ...getMockUsers()[index], roles };
+    setMockUsers(getMockUsers().map((user, i) => (i === index ? updated : user)));
     return toResponse(updated) as T;
   }
 
   const addrBase = API_ENDPOINTS.USER.ADDRESSES;
 
   if (method === 'get' && cleanUrl === addrBase) {
-    return toResponse(sortAddressesForList(mockAddresses)) as T;
+    return toResponse(sortAddressesForList(getMockAddresses())) as T;
   }
 
   if (method === 'get' && cleanUrl === API_ENDPOINTS.USER.ADDRESS_DEFAULT) {
-    const def = mockAddresses.find(a => a.isDefault);
+    const def = getMockAddresses().find(a => a.isDefault);
     if (def) return toResponse(def) as T;
-    if (mockAddresses.length > 0) {
-      return toResponse({ ...mockAddresses[0], isDefault: true }) as T;
+    if (getMockAddresses().length > 0) {
+      return toResponse({ ...getMockAddresses()[0], isDefault: true }) as T;
     }
     return undefined;
   }
@@ -351,7 +388,7 @@ export const handleMockApiRequest = async <T>(
   ) {
     const id = cleanUrl.slice(addrBase.length + 1);
     if (!id || id.includes('/')) return undefined;
-    const found = mockAddresses.find(a => a.id === id);
+    const found = getMockAddresses().find(a => a.id === id);
     if (!found) return undefined;
     return toResponse(found) as T;
   }
@@ -359,18 +396,18 @@ export const handleMockApiRequest = async <T>(
   if (method === 'post' && cleanUrl === addrBase) {
     const payload = asRecord(data);
     const now = new Date().toISOString();
-    const isFirst = mockAddresses.length === 0;
+    const isFirst = getMockAddresses().length === 0;
     const wantsDefault = payload.isDefault === true || isFirst;
 
-    let list = mockAddresses.map(a => ({ ...a }));
+    let list = getMockAddresses().map(a => ({ ...a }));
     if (wantsDefault) {
       list = list.map(a => ({ ...a, isDefault: false }));
     }
 
     const newAddr = {
-      id: `addr-${mockAddresses.length + 1}-${Date.now()}`,
-      fullName: String(payload.fullName || mockUser.fullName),
-      phone: String(payload.phone || mockUser.phone || '0900000000'),
+      id: `addr-${getMockAddresses().length + 1}-${Date.now()}`,
+      fullName: String(payload.fullName || getMockUser().fullName),
+      phone: String(payload.phone || getMockUser().phone || '0900000000'),
       addressLine1: String(payload.addressLine1 || 'Mock Address'),
       addressLine2:
         typeof payload.addressLine2 === 'string' && payload.addressLine2
@@ -391,23 +428,25 @@ export const handleMockApiRequest = async <T>(
       updatedAt: now,
     };
 
-    mockAddresses = sortAddressesForList([...list, newAddr]);
-    const created = mockAddresses.find(a => a.id === newAddr.id);
+    setMockAddresses(sortAddressesForList([...list, newAddr]));
+    const created = getMockAddresses().find(a => a.id === newAddr.id);
     return toResponse(created || newAddr) as T;
   }
 
   if (method === 'put' && cleanUrl.startsWith(`${addrBase}/`) && cleanUrl.endsWith('/default')) {
     const id = cleanUrl.slice(addrBase.length + 1).replace(/\/default$/, '');
     if (!id) return undefined;
-    const idx = mockAddresses.findIndex(a => a.id === id);
+    const idx = getMockAddresses().findIndex(a => a.id === id);
     if (idx === -1) return undefined;
     const now = new Date().toISOString();
-    mockAddresses = sortAddressesForList(
-      mockAddresses.map(a =>
-        a.id === id ? { ...a, isDefault: true, updatedAt: now } : { ...a, isDefault: false }
+    setMockAddresses(
+      sortAddressesForList(
+        getMockAddresses().map(a =>
+          a.id === id ? { ...a, isDefault: true, updatedAt: now } : { ...a, isDefault: false }
+        )
       )
     );
-    const updated = mockAddresses.find(a => a.id === id);
+    const updated = getMockAddresses().find(a => a.id === id);
     if (updated) return toResponse(updated) as T;
   }
 
@@ -416,74 +455,76 @@ export const handleMockApiRequest = async <T>(
     if (!id || id.includes('/')) return undefined;
     const payload = asRecord(data);
     const now = new Date().toISOString();
-    let list = mockAddresses.map(a => ({ ...a }));
+    let list = getMockAddresses().map(a => ({ ...a }));
     if (payload.isDefault === true) {
       list = list.map(a => ({ ...a, isDefault: false }));
     }
-    mockAddresses = sortAddressesForList(
-      list.map(a => {
-        if (a.id !== id) return a;
-        return {
-          ...a,
-          fullName: typeof payload.fullName === 'string' ? payload.fullName : a.fullName,
-          phone: typeof payload.phone === 'string' ? payload.phone : a.phone,
-          addressLine1:
-            typeof payload.addressLine1 === 'string' ? payload.addressLine1 : a.addressLine1,
-          addressLine2:
-            typeof payload.addressLine2 === 'string' ? payload.addressLine2 : a.addressLine2,
-          city: typeof payload.city === 'string' ? payload.city : a.city,
-          district: typeof payload.district === 'string' ? payload.district : a.district,
-          ward: typeof payload.ward === 'string' ? payload.ward : a.ward,
-          postalCode: typeof payload.postalCode === 'string' ? payload.postalCode : a.postalCode,
-          country: typeof payload.country === 'string' ? payload.country : a.country,
-          addressType:
-            typeof payload.addressType === 'string'
-              ? (payload.addressType as 'SHIPPING' | 'BILLING' | 'BOTH')
-              : a.addressType,
-          isDefault:
-            typeof payload.isDefault === 'boolean' ? payload.isDefault : a.isDefault,
-          updatedAt: now,
-        };
-      })
+    setMockAddresses(
+      sortAddressesForList(
+        list.map(a => {
+          if (a.id !== id) return a;
+          return {
+            ...a,
+            fullName: typeof payload.fullName === 'string' ? payload.fullName : a.fullName,
+            phone: typeof payload.phone === 'string' ? payload.phone : a.phone,
+            addressLine1:
+              typeof payload.addressLine1 === 'string' ? payload.addressLine1 : a.addressLine1,
+            addressLine2:
+              typeof payload.addressLine2 === 'string' ? payload.addressLine2 : a.addressLine2,
+            city: typeof payload.city === 'string' ? payload.city : a.city,
+            district: typeof payload.district === 'string' ? payload.district : a.district,
+            ward: typeof payload.ward === 'string' ? payload.ward : a.ward,
+            postalCode: typeof payload.postalCode === 'string' ? payload.postalCode : a.postalCode,
+            country: typeof payload.country === 'string' ? payload.country : a.country,
+            addressType:
+              typeof payload.addressType === 'string'
+                ? (payload.addressType as 'SHIPPING' | 'BILLING' | 'BOTH')
+                : a.addressType,
+            isDefault:
+              typeof payload.isDefault === 'boolean' ? payload.isDefault : a.isDefault,
+            updatedAt: now,
+          };
+        })
+      )
     );
-    const updated = mockAddresses.find(a => a.id === id);
+    const updated = getMockAddresses().find(a => a.id === id);
     if (updated) return toResponse(updated) as T;
   }
 
   if (method === 'delete' && cleanUrl.startsWith(`${addrBase}/`) && !cleanUrl.endsWith('/default')) {
     const id = cleanUrl.slice(addrBase.length + 1);
     if (!id || id.includes('/')) return undefined;
-    const removed = mockAddresses.find(a => a.id === id);
+    const removed = getMockAddresses().find(a => a.id === id);
     if (!removed) return undefined;
     const wasDefault = removed.isDefault;
-    mockAddresses = mockAddresses.filter(a => a.id !== id);
-    if (wasDefault && mockAddresses.length > 0) {
-      const pickId = mockAddresses[0].id;
-      mockAddresses = sortAddressesForList(
-        mockAddresses.map(a => ({ ...a, isDefault: a.id === pickId }))
+    setMockAddresses(getMockAddresses().filter(a => a.id !== id));
+    if (wasDefault && getMockAddresses().length > 0) {
+      const pickId = getMockAddresses()[0].id;
+      setMockAddresses(
+        sortAddressesForList(getMockAddresses().map(a => ({ ...a, isDefault: a.id === pickId })))
       );
     }
     return toResponse(null) as T;
   }
 
   if (method === 'get' && cleanUrl === API_ENDPOINTS.CATEGORIES.LIST) {
-    return toResponse(mockCategories) as T;
+    return toResponse(getMockCategories()) as T;
   }
 
   if (method === 'get' && cleanUrl === API_ENDPOINTS.CATEGORIES.ACTIVE) {
-    return toResponse(mockCategories.filter((category) => category.active !== false)) as T;
+    return toResponse(getMockCategories().filter((category) => category.active !== false)) as T;
   }
 
   if (method === 'get' && cleanUrl === API_ENDPOINTS.BRANDS.LIST) {
-    return toResponse(mockBrands) as T;
+    return toResponse(getMockBrands()) as T;
   }
 
   if (method === 'get' && cleanUrl === API_ENDPOINTS.BRANDS.ACTIVE) {
-    return toResponse(mockBrands.filter((brand) => brand.active)) as T;
+    return toResponse(getMockBrands().filter((brand) => brand.active)) as T;
   }
 
   if (method === 'get' && cleanUrl === API_ENDPOINTS.PRODUCTS.FEATURED) {
-    const featuredProducts = mockProducts.filter(product => product.featured);
+    const featuredProducts = getMockProducts().filter(product => product.featured);
     const page = toNumber(params.page, 0);
     const size = toNumber(params.size, 20);
     return toPaginatedListResponse(toPage(featuredProducts, page, size)) as T;
@@ -493,7 +534,7 @@ export const handleMockApiRequest = async <T>(
     const keyword = String(params.keyword || '').toLowerCase();
     const minPrice = toNumber(params.minPrice, 0);
     const maxPrice = toNumber(params.maxPrice, Number.MAX_SAFE_INTEGER);
-    const filtered = mockProducts.filter(product => {
+    const filtered = getMockProducts().filter(product => {
       const nameMatch =
         keyword.length === 0 ||
         product.name.toLowerCase().includes(keyword) ||
@@ -508,7 +549,7 @@ export const handleMockApiRequest = async <T>(
   }
 
   if (method === 'get' && cleanUrl === API_ENDPOINTS.PRODUCTS.LIST) {
-    let filtered = [...mockProducts];
+    let filtered = [...getMockProducts()];
 
     if (params.categoryId) {
       filtered = filtered.filter(product => product.category?.id === String(params.categoryId));
@@ -528,33 +569,73 @@ export const handleMockApiRequest = async <T>(
     ) as T;
   }
 
+  if (method === 'get' && cleanUrl === API_ENDPOINTS.PRODUCTS.PUBLISHED) {
+    const filtered = getMockProducts().filter(product => product.status === 'PUBLISHED');
+    return toPaginatedListResponse(
+      toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 20))
+    ) as T;
+  }
+
+  if (method === 'get' && cleanUrl === API_ENDPOINTS.PRODUCTS.PRICE_RANGE) {
+    const min = toNumber(params.minPrice, 0);
+    const max = toNumber(params.maxPrice, Number.MAX_SAFE_INTEGER);
+    const filtered = getMockProducts().filter(product => {
+      const price = product.salePrice || product.price;
+      return price >= min && price <= max;
+    });
+    return toPaginatedListResponse(
+      toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 20))
+    ) as T;
+  }
+
+  if (method === 'get' && cleanUrl.startsWith('/products/category/')) {
+    const categoryId = cleanUrl.replace('/products/category/', '');
+    const filtered = getMockProducts().filter(product => product.category?.id === categoryId);
+    return toPaginatedListResponse(
+      toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 20))
+    ) as T;
+  }
+
+  if (method === 'get' && cleanUrl.startsWith('/products/brand/')) {
+    const brandId = cleanUrl.replace('/products/brand/', '');
+    const filtered = getMockProducts().filter(product => product.brand?.id === brandId);
+    return toPaginatedListResponse(
+      toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 20))
+    ) as T;
+  }
+
   if (method === 'get' && cleanUrl.startsWith('/products/slug/')) {
     const slug = cleanUrl.replace('/products/slug/', '');
-    const product = mockProducts.find(item => item.slug === slug) || mockProducts[0];
+    const product = getMockProducts().find(item => item.slug === slug) || getMockProducts()[0];
     return toResponse(product) as T;
   }
 
   if (
     method === 'get' &&
     cleanUrl.startsWith('/products/') &&
-    !cleanUrl.includes('/images/upload')
+    !cleanUrl.includes('/images/upload') &&
+    cleanUrl !== API_ENDPOINTS.PRODUCTS.PUBLISHED &&
+    cleanUrl !== API_ENDPOINTS.PRODUCTS.PRICE_RANGE &&
+    !cleanUrl.startsWith('/products/slug/') &&
+    !cleanUrl.startsWith('/products/category/') &&
+    !cleanUrl.startsWith('/products/brand/')
   ) {
     const id = cleanUrl.replace('/products/', '');
-    const product = mockProducts.find(item => item.id === id) || mockProducts[0];
+    const product = getMockProducts().find(item => item.id === id) || getMockProducts()[0];
     return toResponse(product) as T;
   }
 
   if (method === 'get' && cleanUrl === API_ENDPOINTS.CART.ROOT) {
-    return toResponse(mockCart) as T;
+    return toResponse(getMockCart()) as T;
   }
 
   if (method === 'get' && cleanUrl === API_ENDPOINTS.CART.SUMMARY) {
-    recalculateCart();
+    recalculateMockCart();
     return toResponse({
-      totalItems: mockCart.totalItems,
-      subtotal: mockCart.subtotal,
-      discount: mockCart.discount,
-      total: mockCart.total,
+      totalItems: getMockCart().totalItems,
+      subtotal: getMockCart().subtotal,
+      discount: getMockCart().discount,
+      total: getMockCart().total,
     }) as T;
   }
 
@@ -562,107 +643,140 @@ export const handleMockApiRequest = async <T>(
     const payload = asRecord(data);
     const productId = String(payload.productId || MOCK_ADD_TO_CART_REQUEST.productId);
     const quantity = toNumber(payload.quantity, MOCK_ADD_TO_CART_REQUEST.quantity);
-    const product = findProductById(productId);
+    const product = findMockProductById(productId);
 
     if (product) {
-      const existing = mockCart.items.find(item => item.productId === productId);
+      const cart = getMockCart();
+      const existing = cart.items.find(item => item.productId === productId);
       const unitPrice = product.salePrice || product.price;
 
       if (existing) {
-        existing.quantity += quantity;
-        existing.total = existing.quantity * unitPrice;
+        const items = cart.items.map(item =>
+          item.productId === productId
+            ? {
+                ...item,
+                quantity: item.quantity + quantity,
+                total: (item.quantity + quantity) * unitPrice,
+              }
+            : item
+        );
+        setMockCart({ ...cart, items });
       } else {
-        const explicitImage = typeof payload.productImageUrl === 'string' ? String(payload.productImageUrl) : undefined;
+        const explicitImage =
+          typeof payload.productImageUrl === 'string' ? String(payload.productImageUrl) : undefined;
         const inferredImage = product.images?.[0]?.imageUrl || '';
-        mockCart.items.push({
-          id: `ci-${mockCart.items.length + 1}`,
-          productId,
-          productName: product.name,
-          productImageUrl: explicitImage ?? inferredImage,
-          quantity,
-          price: unitPrice,
-          total: quantity * unitPrice,
-          inStock: (product.stockQuantity ?? 0) > 0,
-          createdAt: new Date().toISOString(),
+        setMockCart({
+          ...cart,
+          items: [
+            ...cart.items,
+            {
+              id: `ci-${cart.items.length + 1}-${Date.now()}`,
+              productId,
+              productName: product.name,
+              productImageUrl: explicitImage ?? inferredImage,
+              quantity,
+              price: unitPrice,
+              total: quantity * unitPrice,
+              inStock: (product.stockQuantity ?? 0) > 0,
+              createdAt: new Date().toISOString(),
+            },
+          ],
         });
       }
 
-      recalculateCart();
+      recalculateMockCart();
     }
 
-    return toResponse(mockCart) as T;
+    return toResponse(getMockCart()) as T;
   }
 
   if (method === 'put' && cleanUrl.startsWith('/cart/items/')) {
     const itemId = cleanUrl.replace('/cart/items/', '');
     const payload = asRecord(data);
     const quantity = toNumber(payload.quantity, MOCK_UPDATE_CART_ITEM_REQUEST.quantity);
+    const cart = getMockCart();
 
-    mockCart.items = mockCart.items.map(item => {
-      if (item.id !== itemId) {
-        return item;
-      }
+    setMockCart({
+      ...cart,
+      items: cart.items.map(item => {
+        if (item.id !== itemId) {
+          return item;
+        }
 
-      return {
-        ...item,
-        quantity,
-        total: item.price * quantity,
-      };
+        return {
+          ...item,
+          quantity,
+          total: item.price * quantity,
+        };
+      }),
     });
 
-    recalculateCart();
-    return toResponse(mockCart) as T;
+    recalculateMockCart();
+    return toResponse(getMockCart()) as T;
   }
 
   if (method === 'delete' && cleanUrl.startsWith('/cart/items/')) {
     const itemId = cleanUrl.replace('/cart/items/', '');
-    mockCart.items = mockCart.items.filter(item => item.id !== itemId);
-    recalculateCart();
-    return toResponse(mockCart) as T;
+    const cart = getMockCart();
+    setMockCart({
+      ...cart,
+      items: cart.items.filter(item => item.id !== itemId),
+    });
+    recalculateMockCart();
+    return toResponse(getMockCart()) as T;
   }
 
   if (method === 'delete' && cleanUrl === API_ENDPOINTS.CART.ROOT) {
-    mockCart = {
-      ...mockCart,
+    setMockCart({
+      ...getMockCart(),
       items: [],
       totalItems: 0,
       subtotal: 0,
       discount: 0,
       total: 0,
       updatedAt: new Date().toISOString(),
-    };
+    });
     return undefined;
   }
 
   if (method === 'get' && cleanUrl === API_ENDPOINTS.ORDERS.ROOT) {
     return toPaginatedListResponse(
-      toPage(mockOrders, toNumber(params.page, 0), toNumber(params.size, 10))
+      toPage(getMockOrders(), toNumber(params.page, 0), toNumber(params.size, 10))
+    ) as T;
+  }
+
+  if (method === 'get' && cleanUrl === API_ENDPOINTS.ORDERS.MY_ORDERS) {
+    const userId = getMockUser().id;
+    const userOrders = getMockOrders().filter(order => order.userId === userId);
+    return toPaginatedListResponse(
+      toPage(userOrders, toNumber(params.page, 0), toNumber(params.size, 10))
     ) as T;
   }
 
   if (method === 'get' && cleanUrl.startsWith('/orders/number/')) {
     const orderNumber = cleanUrl.replace('/orders/number/', '');
-    const order = mockOrders.find(item => item.orderNumber === orderNumber) || mockOrders[0];
+    const order = getMockOrders().find(item => item.orderNumber === orderNumber) || getMockOrders()[0];
     return toResponse(order) as T;
   }
 
   if (method === 'get' && cleanUrl.startsWith('/orders/')) {
-    const id = cleanUrl.replace('/orders/', '');
-    if (!id.includes('/')) {
-      const order = mockOrders.find(item => item.id === id) || mockOrders[0];
+    const segment = cleanUrl.replace('/orders/', '').split('/')[0];
+    const reservedOrderPaths = new Set(['my-orders', 'number', 'search', 'summary']);
+    if (segment && !segment.includes('/') && !reservedOrderPaths.has(segment)) {
+      const order = getMockOrders().find(item => item.id === segment) || getMockOrders()[0];
       return toResponse(order) as T;
     }
   }
 
   if (method === 'post' && cleanUrl === API_ENDPOINTS.ORDERS.ROOT) {
-    if (mockCart.items.length === 0 && !Array.isArray((asRecord(data)).items)) {
-      mockCart = clone(MOCK_CART_DATA);
-      recalculateCart();
+    if (getMockCart().items.length === 0 && !Array.isArray((asRecord(data)).items)) {
+      setMockCart(buildSeedCart());
+      recalculateMockCart();
     }
 
     const payload = asRecord(data);
     const created = createOrderFromCart(payload);
-    mockOrders = [created, ...mockOrders];
+    setMockOrders([created, ...getMockOrders()]);
 
     return toResponse(created) as T;
   }
@@ -670,35 +784,49 @@ export const handleMockApiRequest = async <T>(
   // PUT /orders/{id}/payment-confirmed
   if (method === 'put' && cleanUrl.match(/^\/orders\/([^/]+)\/payment-confirmed$/)) {
     const id = cleanUrl.replace('/orders/', '').replace('/payment-confirmed', '');
-    mockOrders = mockOrders.map(order =>
+    setMockOrders( getMockOrders().map(order =>
       order.id === id
         ? { ...order, status: OrderStatus.CONFIRMED, paymentStatus: PaymentStatus.PAID }
         : order
-    );
-    const confirmed = mockOrders.find(o => o.id === id) || mockOrders[0];
+    ));
+    const confirmed = getMockOrders().find(o => o.id === id) || getMockOrders()[0];
     return toResponse(confirmed) as T;
   }
 
   // PUT /orders/{id}/delivered
   if (method === 'put' && cleanUrl.match(/^\/orders\/([^/]+)\/delivered$/)) {
     const id = cleanUrl.replace('/orders/', '').replace('/delivered', '');
-    mockOrders = mockOrders.map(order =>
+    setMockOrders( getMockOrders().map(order =>
       order.id === id
         ? { ...order, status: OrderStatus.DELIVERED, paymentStatus: PaymentStatus.PAID }
         : order
-    );
-    const delivered = mockOrders.find(o => o.id === id) || mockOrders[0];
+    ));
+    const delivered = getMockOrders().find(o => o.id === id) || getMockOrders()[0];
     return toResponse(delivered) as T;
   }
 
   // PUT /orders/{id}/confirm
   if (method === 'put' && cleanUrl.match(/^\/orders\/([^/]+)\/confirm$/)) {
     const id = cleanUrl.replace('/orders/', '').replace('/confirm', '');
-    mockOrders = mockOrders.map(order =>
+    setMockOrders( getMockOrders().map(order =>
       order.id === id ? { ...order, status: OrderStatus.CONFIRMED } : order
-    );
-    const confirmed = mockOrders.find(o => o.id === id) || mockOrders[0];
+    ));
+    const confirmed = getMockOrders().find(o => o.id === id) || getMockOrders()[0];
     return toResponse(confirmed) as T;
+  }
+
+  // PUT /orders/{id}/shipping-status
+  if (method === 'put' && cleanUrl.match(/^\/orders\/([^/]+)\/shipping-status$/)) {
+    const id = cleanUrl.replace('/orders/', '').replace('/shipping-status', '');
+    const payload = asRecord(data);
+    const shippingStatus = String(payload.status || 'SHIPPED');
+    setMockOrders(
+      getMockOrders().map(order =>
+        order.id === id ? { ...order, status: shippingStatus as OrderStatus } : order,
+      ),
+    );
+    const updated = getMockOrders().find(o => o.id === id) || getMockOrders()[0];
+    return toResponse(updated) as T;
   }
 
   // PUT /orders/{id}/status (cancel)
@@ -706,22 +834,22 @@ export const handleMockApiRequest = async <T>(
     const id = cleanUrl.replace('/orders/', '').replace('/status', '');
     const payload = asRecord(data);
     const newStatus = String(payload.status || 'CANCELLED') as OrderStatus;
-    mockOrders = mockOrders.map(order =>
+    setMockOrders( getMockOrders().map(order =>
       order.id === id ? { ...order, status: newStatus } : order
-    );
-    const updated = mockOrders.find(o => o.id === id) || mockOrders[0];
+    ));
+    const updated = getMockOrders().find(o => o.id === id) || getMockOrders()[0];
     return toResponse(updated) as T;
   }
 
   // POST /payments/create
   if (method === 'post' && cleanUrl === '/payments/create') {
     const payload = asRecord(data);
-    mockPayment = {
+    setMockPayment({
       ...MOCK_PAYMENT_INTENT,
       id: Date.now(),
       paymentNumber: `PAY-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${String(Date.now()).slice(-4)}`,
-      orderId: String(payload.orderId || mockPayment.orderId),
-      orderNumber: String(payload.orderNumber || mockPayment.orderNumber),
+      orderId: String(payload.orderId || getMockPayment().orderId),
+      orderNumber: String(payload.orderNumber || getMockPayment().orderNumber),
       amount: toNumber(payload.amount, MOCK_CREATE_PAYMENT_REQUEST.amount),
       paymentMethod: (payload.paymentMethod as 'COD' | 'VNPAY') || 'COD',
       paymentUrl:
@@ -729,31 +857,31 @@ export const handleMockApiRequest = async <T>(
           ? 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?mock=1'
           : null,
       status: 'PENDING',
-    } as PaymentResponse;
-    return toResponse(mockPayment) as T;
+    } as PaymentResponse);
+    return toResponse(getMockPayment()) as T;
   }
 
   // PUT /payments/order/{orderNumber}/success
   if (method === 'put' && cleanUrl.match(/^\/payments\/order\/([^/]+)\/success$/)) {
-    mockPayment = { ...mockPayment, status: 'PAID', paymentUrl: null };
-    return toResponse(mockPayment) as T;
+    setMockPayment({ ...getMockPayment(), status: 'PAID', paymentUrl: null });
+    return toResponse(getMockPayment()) as T;
   }
 
   // GET /payments/order/{orderNumber}
   if (method === 'get' && cleanUrl.startsWith('/payments/order/')) {
-    return toResponse(mockPayment) as T;
+    return toResponse(getMockPayment()) as T;
   }
 
   // GET /payments/{id}
   if (method === 'get' && cleanUrl.startsWith('/payments/')) {
-    return toResponse(mockPayment) as T;
+    return toResponse(getMockPayment()) as T;
   }
 
   if (method === 'post' && cleanUrl === API_ENDPOINTS.REVIEWS.ROOT) {
     const payload = asRecord(data);
     const next = {
-      id: `rev-${mockReviews.length + 1}`,
-      userName: mockUser.fullName,
+      id: `rev-${getMockReviews().length + 1}`,
+      userName: getMockUser().fullName,
       rating: toNumber(payload.rating, MOCK_CREATE_REVIEW_REQUEST.rating),
       title: String(payload.title || MOCK_CREATE_REVIEW_REQUEST.title),
       comment: String(payload.comment || MOCK_CREATE_REVIEW_REQUEST.comment),
@@ -761,17 +889,17 @@ export const handleMockApiRequest = async <T>(
       helpfulCount: 0,
       createdAt: new Date().toISOString(),
     };
-    mockReviews = [next, ...mockReviews];
+    setMockReviews([next, ...getMockReviews()]);
     return toResponse(next) as T;
   }
 
   if (method === 'get' && cleanUrl.includes('/summary') && cleanUrl.startsWith('/reviews/product/')) {
-    const totalReviews = mockReviews.length;
+    const totalReviews = getMockReviews().length;
     const averageRating =
       totalReviews > 0
         ? Number(
             (
-              mockReviews.reduce((sum, review) => sum + review.rating, 0) /
+              getMockReviews().reduce((sum, review) => sum + review.rating, 0) /
               totalReviews
             ).toFixed(1)
           )
@@ -785,7 +913,7 @@ export const handleMockApiRequest = async <T>(
       '1': 0,
     };
 
-    mockReviews.forEach(review => {
+    getMockReviews().forEach(review => {
       const key = String(Math.max(1, Math.min(5, Math.round(review.rating))));
       distribution[key] = (distribution[key] || 0) + 1;
     });
@@ -799,12 +927,31 @@ export const handleMockApiRequest = async <T>(
 
   if (method === 'get' && cleanUrl.startsWith('/reviews/product/')) {
     return toPaginatedListResponse(
-      toPage(mockReviews, toNumber(params.page, 0), toNumber(params.size, 10))
+      toPage(getMockReviews(), toNumber(params.page, 0), toNumber(params.size, 10))
     ) as T;
   }
 
   if (method === 'post' && cleanUrl.startsWith('/reviews/') && cleanUrl.endsWith('/vote')) {
-    return undefined;
+    const reviewId = cleanUrl.replace('/reviews/', '').replace('/vote', '');
+    const payload = asRecord(data);
+    const helpful = payload.helpful !== false;
+    if (helpful) {
+      setMockReviews(
+        getMockReviews().map(review =>
+          review.id === reviewId
+            ? { ...review, helpfulCount: (review.helpfulCount ?? 0) + 1 }
+            : review,
+        ),
+      );
+    }
+    return toEmptySuccessResponse() as T;
+  }
+
+  if (method === 'get' && cleanUrl === API_ENDPOINTS.REVIEWS.MY_REVIEWS) {
+    const mine = getMockReviews().filter(review => review.userName === getMockUser().fullName);
+    return toPaginatedListResponse(
+      toPage(mine, toNumber(params.page, 0), toNumber(params.size, 10)),
+    ) as T;
   }
 
   // POST /shipping/calculate-fee
@@ -822,36 +969,76 @@ export const handleMockApiRequest = async <T>(
   // POST /shipping/create
   if (method === 'post' && cleanUrl === '/shipping/create') {
     const payload = asRecord(data);
-    return toResponse({
+    mockShipmentState = {
+      ...MOCK_SHIPMENT_RESPONSE,
       shipmentId: Date.now(),
       shipmentNumber: `SHIP-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-0001`,
-      orderId: String(payload.orderId || ''),
-      orderNumber: String(payload.orderNumber || ''),
-      status: 'PENDING',
+      orderId: String(payload.orderId || mockShipmentState.orderId),
+      orderNumber: String(payload.orderNumber || mockShipmentState.orderNumber),
       shippingFee: toNumber(payload.shippingFee, 30000),
       codAmount: toNumber(payload.codAmount, 0),
       estimatedDelivery: new Date(Date.now() + 2 * 86400000).toISOString(),
       createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    return toResponse(mockShipmentState) as T;
+  }
+
+  // PUT /shipping/{id}/status
+  if (method === 'put' && cleanUrl.match(/^\/shipping\/\d+\/status$/)) {
+    const payload = asRecord(data);
+    mockShipmentState = {
+      ...mockShipmentState,
+      status: String(payload.status || mockShipmentState.status) as typeof mockShipmentState.status,
+      updatedAt: new Date().toISOString(),
+    };
+    return toResponse(mockShipmentState) as T;
+  }
+
+  // PUT /shipping/{id}/deliver
+  if (method === 'put' && cleanUrl.match(/^\/shipping\/\d+\/deliver$/)) {
+    mockShipmentState = {
+      ...mockShipmentState,
+      status: ShipmentStatus.DELIVERED,
+      updatedAt: new Date().toISOString(),
+    };
+    return toResponse(mockShipmentState) as T;
+  }
+
+  // GET /shipping/order/{orderId}
+  if (method === 'get' && cleanUrl.startsWith('/shipping/order/')) {
+    const orderId = cleanUrl.replace('/shipping/order/', '');
+    return toResponse({ ...mockShipmentState, orderId }) as T;
+  }
+
+  // GET /shipping/track/{trackingNumber}
+  if (method === 'get' && cleanUrl.startsWith('/shipping/track/')) {
+    const trackingNumber = cleanUrl.replace('/shipping/track/', '');
+    return toResponse({
+      ...mockShipmentState,
+      shipmentNumber: trackingNumber || mockShipmentState.shipmentNumber,
     }) as T;
   }
 
   // GET /shipping/{id}
   if (method === 'get' && cleanUrl.match(/^\/shipping\/\d+$/)) {
-    return toResponse(MOCK_SHIPMENT) as T;
+    return toResponse(mockShipmentState) as T;
   }
 
   if (method === 'get' && cleanUrl === API_ENDPOINTS.NOTIFICATIONS.MY) {
     return toPaginatedListResponse(
-      toPage(mockNotifications, toNumber(params.page, 0), toNumber(params.size, 10))
+      toPage(getMockNotifications(), toNumber(params.page, 0), toNumber(params.size, 10))
     ) as T;
   }
 
   if (method === 'put' && cleanUrl.startsWith('/notifications/') && cleanUrl.endsWith('/mark-read')) {
     const id = cleanUrl.replace('/notifications/', '').replace('/mark-read', '');
-    mockNotifications = mockNotifications.map(notification =>
-      notification.id === id ? { ...notification, status: 'SENT' } : notification
+    setMockNotifications(
+      getMockNotifications().map(notification =>
+        notification.id === id ? { ...notification, status: 'SENT' } : notification,
+      ),
     );
-    return undefined;
+    return toEmptySuccessResponse() as T;
   }
 
   if (method === 'post' && cleanUrl === API_ENDPOINTS.PRODUCTS.SYNC_ELASTICSEARCH) {
@@ -859,33 +1046,33 @@ export const handleMockApiRequest = async <T>(
   }
 
   if (method === 'get' && cleanUrl === API_ENDPOINTS.CATEGORIES.TREE) {
-    return toResponse(mockCategories) as T;
+    return toResponse(getMockCategories()) as T;
   }
 
   if (method === 'get' && cleanUrl.startsWith('/categories/slug/')) {
     const slug = cleanUrl.replace('/categories/slug/', '');
-    const category = mockCategories.find((item) => item.slug === slug) || mockCategories[0];
+    const category = getMockCategories().find((item) => item.slug === slug) || getMockCategories()[0];
     return toResponse(category) as T;
   }
 
   if (method === 'get' && cleanUrl.startsWith('/categories/') && !cleanUrl.endsWith('/tree')) {
     const id = cleanUrl.replace('/categories/', '').split('/')[0];
     if (id && id !== 'slug') {
-      const category = mockCategories.find((item) => item.id === id) || mockCategories[0];
+      const category = getMockCategories().find((item) => item.id === id) || getMockCategories()[0];
       return toResponse(category) as T;
     }
   }
 
   if (method === 'get' && cleanUrl.startsWith('/brands/slug/')) {
     const slug = cleanUrl.replace('/brands/slug/', '');
-    const brand = mockBrands.find((item) => item.slug === slug) || mockBrands[0];
+    const brand = getMockBrands().find((item) => item.slug === slug) || getMockBrands()[0];
     return toResponse(brand) as T;
   }
 
   if (method === 'get' && cleanUrl.startsWith('/brands/')) {
     const id = cleanUrl.replace('/brands/', '').split('/')[0];
     if (id && id !== 'slug') {
-      const brand = mockBrands.find((item) => item.id === id) || mockBrands[0];
+      const brand = getMockBrands().find((item) => item.id === id) || getMockBrands()[0];
       return toResponse(brand) as T;
     }
   }
@@ -893,28 +1080,28 @@ export const handleMockApiRequest = async <T>(
   if (method === 'post' && cleanUrl === API_ENDPOINTS.CATEGORIES.LIST) {
     const payload = asRecord(data);
     const next = {
-      id: `c-${mockCategories.length + 1}`,
+      id: `c-${getMockCategories().length + 1}`,
       name: String(payload.name || 'New Category'),
       slug: String(payload.slug || `new-category-${Date.now()}`),
       description: typeof payload.description === 'string' ? payload.description : undefined,
       productCount: 0,
-      displayOrder: toNumber(payload.displayOrder, mockCategories.length + 1),
+      displayOrder: toNumber(payload.displayOrder, getMockCategories().length + 1),
       active: payload.active !== false,
     };
-    mockCategories = [next, ...mockCategories];
+    setMockCategories([next, ...getMockCategories()]);
     return toResponse(next) as T;
   }
 
   if (method === 'post' && cleanUrl === API_ENDPOINTS.BRANDS.LIST) {
     const payload = asRecord(data);
     const next = {
-      id: `b-${mockBrands.length + 1}`,
+      id: `b-${getMockBrands().length + 1}`,
       name: String(payload.name || 'New Brand'),
       slug: String(payload.slug || `new-brand-${Date.now()}`),
       description: typeof payload.description === 'string' ? payload.description : undefined,
       active: payload.active !== false,
     };
-    mockBrands = [next, ...mockBrands];
+    setMockBrands([next, ...getMockBrands()]);
     return toResponse(next) as T;
   }
 
@@ -929,8 +1116,8 @@ export const handleMockApiRequest = async <T>(
         ? payload.shortDescription.trim()
         : null;
     const next: Product = {
-      ...mockProducts[0],
-      id: `p-${mockProducts.length + 1}`,
+      ...getMockProducts()[0],
+      id: `p-${getMockProducts().length + 1}`,
       name: String(payload.name || 'New Product'),
       slug: String(payload.slug || `new-product-${Date.now()}`),
       description,
@@ -946,11 +1133,11 @@ export const handleMockApiRequest = async <T>(
       status:
         typeof payload.status === 'string'
           ? (payload.status as Product['status'])
-          : mockProducts[0].status,
+          : getMockProducts()[0].status,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
-    mockProducts = [next, ...mockProducts];
+    setMockProducts([next, ...getMockProducts()]);
     return toResponse(next) as T;
   }
 
@@ -966,7 +1153,7 @@ export const handleMockApiRequest = async <T>(
         ? payload.shortDescription.trim() || null
         : undefined;
 
-    mockProducts = mockProducts.map(product => {
+    setMockProducts( getMockProducts().map(product => {
       if (product.id !== id) {
         return product;
       }
@@ -978,89 +1165,173 @@ export const handleMockApiRequest = async <T>(
         ...(shortDescription !== undefined ? { shortDescription } : {}),
         updatedAt: new Date().toISOString(),
       };
-    });
+    }));
 
-    const updated = mockProducts.find(product => product.id === id) || mockProducts[0];
+    const updated = getMockProducts().find(product => product.id === id) || getMockProducts()[0];
     return toResponse(updated) as T;
   }
 
   if (method === 'delete' && cleanUrl.startsWith('/products/')) {
     const id = cleanUrl.replace('/products/', '');
-    mockProducts = mockProducts.filter(product => product.id !== id);
+    setMockProducts(getMockProducts().filter(product => product.id !== id));
     return undefined;
   }
 
   if (method === 'post' && cleanUrl.includes('/images/upload')) {
     const id = cleanUrl.replace('/products/', '').replace('/images/upload', '');
-    const product = mockProducts.find(item => item.id === id) || mockProducts[0];
+    const product = getMockProducts().find(item => item.id === id) || getMockProducts()[0];
     return toResponse(product) as T;
   }
 
   if (method === 'put' && cleanUrl.startsWith('/categories/')) {
     const id = cleanUrl.replace('/categories/', '').split('/')[0];
     const payload = asRecord(data);
-    mockCategories = mockCategories.map((category) =>
+    setMockCategories( getMockCategories().map((category) =>
       category.id === id ? { ...category, ...(payload as Partial<typeof category>) } : category,
-    );
-    const updated = mockCategories.find((category) => category.id === id) || mockCategories[0];
+    ));
+    const updated = getMockCategories().find((category) => category.id === id) || getMockCategories()[0];
     return toResponse(updated) as T;
   }
 
   if (method === 'delete' && cleanUrl.startsWith('/categories/')) {
     const id = cleanUrl.replace('/categories/', '').split('/')[0];
-    mockCategories = mockCategories.filter((category) => category.id !== id);
+    setMockCategories(getMockCategories().filter((category) => category.id !== id));
     return undefined;
   }
 
   if (method === 'put' && cleanUrl.startsWith('/brands/')) {
     const id = cleanUrl.replace('/brands/', '').split('/')[0];
     const payload = asRecord(data);
-    mockBrands = mockBrands.map((brand) =>
+    setMockBrands( getMockBrands().map((brand) =>
       brand.id === id ? { ...brand, ...(payload as Partial<typeof brand>) } : brand,
-    );
-    const updated = mockBrands.find((brand) => brand.id === id) || mockBrands[0];
+    ));
+    const updated = getMockBrands().find((brand) => brand.id === id) || getMockBrands()[0];
     return toResponse(updated) as T;
   }
 
   if (method === 'delete' && cleanUrl.startsWith('/brands/')) {
     const id = cleanUrl.replace('/brands/', '').split('/')[0];
-    mockBrands = mockBrands.filter((brand) => brand.id !== id);
+    setMockBrands(getMockBrands().filter((brand) => brand.id !== id));
     return undefined;
   }
 
-  if (method === 'get' && cleanUrl.startsWith('/products/category/')) {
-    const categoryId = cleanUrl.replace('/products/category/', '');
-    const filtered = mockProducts.filter(product => product.category?.id === categoryId);
-    return toPaginatedListResponse(
-      toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 20))
-    ) as T;
+  if (method === 'get' && cleanUrl === API_ENDPOINTS.CHAT.CONVERSATIONS_LIST) {
+    const conversations = getMockChatConversations().filter(
+      conversation => conversation.type === 'SUPPORT' && conversation.claimed,
+    );
+    return toResponse(conversations) as T;
   }
 
-  if (method === 'get' && cleanUrl.startsWith('/products/brand/')) {
-    const brandId = cleanUrl.replace('/products/brand/', '');
-    const filtered = mockProducts.filter(product => product.brand?.id === brandId);
-    return toPaginatedListResponse(
-      toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 20))
-    ) as T;
+  if (method === 'get' && cleanUrl === API_ENDPOINTS.CHAT.SUPPORT_QUEUE) {
+    const queue = getMockChatConversations().filter(
+      conversation => conversation.type === 'SUPPORT' && !conversation.claimed,
+    );
+    return toResponse(queue) as T;
   }
 
-  if (method === 'get' && cleanUrl === API_ENDPOINTS.PRODUCTS.PRICE_RANGE) {
-    const min = toNumber(params.minPrice, 0);
-    const max = toNumber(params.maxPrice, Number.MAX_SAFE_INTEGER);
-    const filtered = mockProducts.filter(product => {
-      const price = product.salePrice || product.price;
-      return price >= min && price <= max;
-    });
-    return toPaginatedListResponse(
-      toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 20))
-    ) as T;
+  if (method === 'post' && cleanUrl === API_ENDPOINTS.CHAT.SUPPORT_CONVERSATION) {
+    const existing = getMockChatConversations().find(
+      conversation =>
+        conversation.type === 'SUPPORT' &&
+        conversation.supportCustomerUserId === getMockUser().id,
+    );
+    if (existing) {
+      return toResponse(existing) as T;
+    }
+
+    const created: ConversationInbound = {
+      id: getMockChatConversations().length + 1,
+      type: 'SUPPORT',
+      supportCustomerUserId: getMockUser().id,
+      claimed: false,
+      lastMessagePreview: null,
+      lastMessageAt: null,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      participantUserIds: [getMockUser().id],
+    };
+    setMockChatConversations([created, ...getMockChatConversations()]);
+    setMockChatMessages({ ...getMockChatMessages(), [String(created.id)]: [] });
+    return toResponse(created) as T;
   }
 
-  if (method === 'get' && cleanUrl === API_ENDPOINTS.PRODUCTS.PUBLISHED) {
-    const filtered = mockProducts.filter(product => product.status === 'PUBLISHED');
-    return toPaginatedListResponse(
-      toPage(filtered, toNumber(params.page, 0), toNumber(params.size, 20))
-    ) as T;
+  const claimConversationMatch = cleanUrl.match(/^\/chat\/conversations\/(\d+)\/claim$/);
+  if (method === 'post' && claimConversationMatch) {
+    const conversationId = Number(claimConversationMatch[1]);
+    setMockChatConversations(
+      getMockChatConversations().map(conversation =>
+        conversation.id === conversationId
+          ? { ...conversation, claimed: true, updatedAt: new Date().toISOString() }
+          : conversation,
+      ),
+    );
+    const claimed =
+      getMockChatConversations().find(conversation => conversation.id === conversationId) ??
+      getMockChatConversations()[0];
+    return toResponse(claimed) as T;
+  }
+
+  const conversationDetailMatch = cleanUrl.match(/^\/chat\/conversations\/(\d+)$/);
+  if (method === 'get' && conversationDetailMatch) {
+    const conversationId = Number(conversationDetailMatch[1]);
+    const conversation =
+      getMockChatConversations().find(item => item.id === conversationId) ??
+      getMockChatConversations()[0];
+    return toResponse(conversation) as T;
+  }
+
+  const conversationMessagesMatch = cleanUrl.match(/^\/chat\/conversations\/(\d+)\/messages$/);
+  if (method === 'get' && conversationMessagesMatch) {
+    const conversationId = conversationMessagesMatch[1];
+    const messages = getMockChatMessages()[conversationId] ?? [];
+    const page = toNumber(params.page, 0);
+    const size = toNumber(params.size, 20);
+    const start = page * size;
+    const content = messages.slice(start, start + size);
+    return toResponse({
+      content,
+      page,
+      size,
+      totalElements: messages.length,
+      totalPages: messages.length === 0 ? 0 : Math.ceil(messages.length / size),
+      first: page === 0,
+      last: start + size >= messages.length,
+    }) as T;
+  }
+
+  if (method === 'post' && cleanUrl === API_ENDPOINTS.CHAT.SEND_MESSAGE) {
+    const payload = asRecord(data);
+    const conversationId = toNumber(payload.conversationId, 1);
+    const content = String(payload.content || '');
+    const created: MessageInbound = {
+      id: `msg-${Date.now()}`,
+      conversationId,
+      senderId: getMockUser().id,
+      content,
+      clientMessageId:
+        typeof payload.clientMessageId === 'string' ? payload.clientMessageId : null,
+      createdAt: new Date().toISOString(),
+    };
+
+    const key = String(conversationId);
+    const allMessages = getMockChatMessages();
+    const thread = allMessages[key] ?? [];
+    setMockChatMessages({ ...allMessages, [key]: [...thread, created] });
+
+    setMockChatConversations(
+      getMockChatConversations().map(conversation =>
+        conversation.id === conversationId
+          ? {
+              ...conversation,
+              lastMessagePreview: content,
+              lastMessageAt: created.createdAt,
+              updatedAt: created.createdAt ?? new Date().toISOString(),
+            }
+          : conversation,
+      ),
+    );
+
+    return toResponse(created) as T;
   }
 
   return undefined;

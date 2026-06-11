@@ -61,7 +61,7 @@ const ordersSlice = createSlice({
       .addCase(fetchMyOrdersThunk.fulfilled, (state, action) => {
         state.isLoading = false;
         const { data, meta } = action.payload;
-        state.items = data;
+        state.items = Array.isArray(data) ? data : [];
         if (meta) {
           state.page = meta.page;
           state.size = meta.size;
@@ -80,7 +80,7 @@ const ordersSlice = createSlice({
       .addCase(fetchAdminOrdersThunk.fulfilled, (state, action) => {
         state.isLoading = false;
         const { data, meta } = action.payload;
-        state.items = data;
+        state.items = Array.isArray(data) ? data : [];
         if (meta) {
           state.page = meta.page;
           state.size = meta.size;

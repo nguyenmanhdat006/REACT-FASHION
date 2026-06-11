@@ -49,7 +49,13 @@ export function NavigationMenuSection(): JSX.Element {
                 icon={item.icon}
                 label={item.label}
                 active={location.pathname === item.to}
-                onClick={() => navigate(item.to)}
+                onClick={() => {
+                  if (item.to === ROUTES.ORDERS && !isAuthenticated) {
+                    navigate(ROUTES.LOGIN);
+                    return;
+                  }
+                  navigate(item.to);
+                }}
               />
             ))}
           </nav>

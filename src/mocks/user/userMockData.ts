@@ -1,18 +1,12 @@
 import type { Address, User } from '@/types/auth/auth';
+import {
+  MOCK_ADMIN_ACCOUNT,
+  MOCK_USER_ACCOUNT,
+} from '@/mocks/auth/authMockData';
 
 export const MOCK_ADMIN_USERS: User[] = [
-  {
-    id: 'user-1',
-    email: 'dat@example.com',
-    fullName: 'Nguyen Dat',
-    phone: '0901234567',
-    avatarUrl:
-      'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=400&auto=format&fit=crop',
-    roles: ['ADMIN', 'USER'],
-    status: 'ACTIVE',
-    emailVerified: true,
-    createdAt: '2026-01-10T08:00:00Z',
-  },
+  MOCK_ADMIN_ACCOUNT,
+  MOCK_USER_ACCOUNT,
   {
     id: 'user-2',
     email: 'anna.shop@example.com',
@@ -20,92 +14,25 @@ export const MOCK_ADMIN_USERS: User[] = [
     phone: '0912345678',
     avatarUrl:
       'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop',
-    roles: ['USER'],
+    roles: ['CUSTOMER'],
     status: 'ACTIVE',
     emailVerified: true,
     createdAt: '2026-02-01T10:00:00Z',
   },
-  {
-    id: 'user-3',
-    email: 'minh.le@example.com',
-    fullName: 'Minh Le',
-    phone: '0923456789',
-    roles: ['USER'],
-    status: 'ACTIVE',
-    emailVerified: false,
-    createdAt: '2026-02-10T14:30:00Z',
-  },
-  {
-    id: 'user-4',
-    email: 'support@fashionco.com',
-    fullName: 'Support Team',
-    phone: '19001234',
-    roles: ['ADMIN'],
-    status: 'ACTIVE',
-    emailVerified: true,
-    createdAt: '2025-12-01T08:00:00Z',
-  },
-  {
-    id: 'user-5',
-    email: 'blocked.user@example.com',
-    fullName: 'Blocked User',
-    phone: '0934567890',
-    roles: ['USER'],
-    status: 'INACTIVE',
-    emailVerified: true,
-    createdAt: '2026-01-20T09:15:00Z',
-  },
-  {
-    id: 'user-6',
-    email: 'linh.pham@example.com',
-    fullName: 'Linh Pham',
-    phone: '0945678901',
-    roles: ['USER'],
-    status: 'ACTIVE',
-    emailVerified: true,
-    createdAt: '2026-03-05T11:00:00Z',
-  },
-  {
-    id: 'user-7',
-    email: 'hoang.vu@example.com',
-    fullName: 'Hoang Vu',
-    phone: '0956789012',
-    roles: ['USER'],
-    status: 'PENDING',
-    emailVerified: false,
-    createdAt: '2026-03-12T16:45:00Z',
-  },
-  {
-    id: 'user-8',
-    email: 'staff.ops@example.com',
-    fullName: 'Ops Staff',
-    roles: ['ADMIN', 'USER'],
-    status: 'ACTIVE',
-    emailVerified: true,
-    createdAt: '2026-01-05T07:30:00Z',
-  },
 ];
 
-export const MOCK_USER_PROFILE: User = {
-  id: 'user-1',
-  email: 'dat@example.com',
-  fullName: 'Nguyen Dat',
-  phone: '0901234567',
-  avatarUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=400&auto=format&fit=crop',
-  roles: ['USER'],
-  createdAt: '2026-01-10T08:00:00Z',
-};
+export const MOCK_USER_PROFILE: User = MOCK_USER_ACCOUNT;
 
 export const MOCK_USER_UPDATE_PAYLOAD: Partial<User> = {
-  fullName: 'Nguyen Dat Updated',
+  fullName: 'Demo User Updated',
   phone: '0911002200',
 };
 
 export const MOCK_ADDRESSES: Address[] = [
   {
     id: 'addr-1',
-    fullName: 'Nguyen Dat',
-    phone: '0901234567',
+    fullName: MOCK_USER_ACCOUNT.fullName,
+    phone: MOCK_USER_ACCOUNT.phone ?? '0901111111',
     addressLine1: '123 Le Loi',
     addressLine2: null,
     city: 'Ho Chi Minh City',
@@ -120,8 +47,8 @@ export const MOCK_ADDRESSES: Address[] = [
   },
   {
     id: 'addr-2',
-    fullName: 'Nguyen Dat',
-    phone: '0901234567',
+    fullName: MOCK_USER_ACCOUNT.fullName,
+    phone: MOCK_USER_ACCOUNT.phone ?? '0901111111',
     addressLine1: '56 Nguyen Hue',
     addressLine2: null,
     city: 'Ho Chi Minh City',

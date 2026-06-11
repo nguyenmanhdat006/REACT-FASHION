@@ -46,7 +46,6 @@ export const routes: RouteObject[] = [
       { path: 'cart', element: <UserCartV2 /> },
       { path: 'checkout', element: <UserCheckoutV2 /> },
       { path: 'payment/return', element: <VnpayReturnPage /> },
-      { path: 'orders', element: <UserOrderV2 /> },
       {
         element: (
           <ProtectedRoute>
@@ -54,6 +53,7 @@ export const routes: RouteObject[] = [
           </ProtectedRoute>
         ),
         children: [
+          { path: 'orders', element: <UserOrderV2 /> },
           { path: 'profile', element: <UserProfileV2 /> },
           adminRoute,
         ],

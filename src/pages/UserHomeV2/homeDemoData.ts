@@ -51,13 +51,13 @@ export type ProductTile = {
 };
 
 export const LAST_ORDERS: LastOrderItem[] = [
-  { label: 'Thang dep c...', imageUrl: IMAGES.PRODUCT_DEMO_1 },
-  { label: 'Huddie', imageUrl: IMAGES.PRODUCT_DEMO_2 },
+  { label: 'Work Jacket', imageUrl: '/images/2825461b70687c7f9268ba26f3f19e97.jpg' },
+  { label: 'Coach Jacket', imageUrl: '/images/88fbb11204d0000bc6cd7aa314030b3a.jpg' },
 ];
 
 export const RECENTS_CHAT: LastOrderItem[] = [
   { label: 'Cát Tường', imageUrl: IMAGES.USER_AVATAR },
-  { label: 'Thắng', imageUrl: IMAGES.PRODUCT_DEMO_1 },
+  { label: 'Thắng', imageUrl: '/images/da9cf868f77fd66605aa1d4067949c3e.jpg' },
 ];
 
 export const SIDEBAR_LOGOUT_ICON = LogOut;
